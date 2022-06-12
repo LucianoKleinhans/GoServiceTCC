@@ -7,132 +7,132 @@ import javax.persistence.*;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long ID;
-    private String ID_Prestador;
-    private String Nome;
-    private String CPFCNPJ;
-    private String Endereco;
-    private String Telefone;
-    private String Email;
-    private String Login;
-    private String Senha;
-    private Double AvaliacaoPrestador;
-    private Double AvaliacaoCliente;
-    private Character Prestador;
-    private Boolean Ativo;
+    private Long id;
+    private String id_Prestador;
+    private String nome;
+    private String cpfcnpj;
+    private String endereco;
+    private String telefone;
+    private String email;
+    private String login;
+    private String senha;
+    private Double avaliacaoPrestador;
+    private Double avaliacaoCliente;
+    private Character prestador;
+    private Boolean ativo;
 
     @OneToMany
-    private Servico ID_CadServico;
+    private Servico id_CadServico;
 
-    public Long getID() {
-        return ID;
+    public Long getId() {
+        return id;
     }
 
-    public void setID(Long ID) {
-        this.ID = ID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getID_Prestador() {
-        return ID_Prestador;
+    public String getId_Prestador() {
+        return id_Prestador;
     }
 
-    public void setID_Prestador(String ID_Prestador) {
-        this.ID_Prestador = ID_Prestador;
+    public void setId_Prestador(String id_Prestador) {
+        this.id_Prestador = id_Prestador;
     }
 
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
 
-    public String getCPFCNPJ() {
-        return CPFCNPJ;
+    public String getCpfcnpj() {
+        return cpfcnpj;
     }
 
-    public void setCPFCNPJ(String CPFCNPJ) {
-        this.CPFCNPJ = CPFCNPJ;
+    public void setCpfcnpj(String cpfcnpj) {
+        this.cpfcnpj = cpfcnpj;
     }
 
     public String getEndereco() {
-        return Endereco;
+        return endereco;
     }
 
     public void setEndereco(String endereco) {
-        Endereco = endereco;
+        this.endereco = endereco;
     }
 
     public String getTelefone() {
-        return Telefone;
+        return telefone;
     }
 
     public void setTelefone(String telefone) {
-        Telefone = telefone;
+        this.telefone = telefone;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public String getLogin() {
-        return Login;
+        return login;
     }
 
     public void setLogin(String login) {
-        Login = login;
+        this.login = login;
     }
 
     public String getSenha() {
-        return Senha;
+        return senha;
     }
 
     public void setSenha(String senha) {
-        Senha = senha;
+        this.senha = senha;
     }
 
     public Double getAvaliacaoPrestador() {
-        return AvaliacaoPrestador;
+        return avaliacaoPrestador;
     }
 
     public void setAvaliacaoPrestador(Double avaliacaoPrestador) {
-        AvaliacaoPrestador = avaliacaoPrestador;
+        this.avaliacaoPrestador = avaliacaoPrestador;
     }
 
     public Double getAvaliacaoCliente() {
-        return AvaliacaoCliente;
+        return avaliacaoCliente;
     }
 
     public void setAvaliacaoCliente(Double avaliacaoCliente) {
-        AvaliacaoCliente = avaliacaoCliente;
+        this.avaliacaoCliente = avaliacaoCliente;
     }
 
     public Character getPrestador() {
-        return Prestador;
+        return prestador;
     }
 
     public void setPrestador(Character prestador) {
-        Prestador = prestador;
+        this.prestador = prestador;
     }
 
     public Boolean getAtivo() {
-        return Ativo;
+        return ativo;
     }
 
     public void setAtivo(Boolean ativo) {
-        Ativo = ativo;
+        this.ativo = ativo;
     }
 
-    public Servico getID_Servico() {
-        return ID_CadServico;
+    public Servico getId_CadServico() {
+        return id_CadServico;
     }
 
-    public void setID_CadServico(Servico ID_CadServico) {
-        this.ID_CadServico = ID_CadServico;
+    public void setId_CadServico(Servico id_CadServico) {
+        this.id_CadServico = id_CadServico;
     }
 }

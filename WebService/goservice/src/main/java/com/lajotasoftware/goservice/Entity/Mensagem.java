@@ -1,20 +1,20 @@
 package com.lajotasoftware.goservice.Entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
-public class SolicitaServico {
-
+public class Mensagem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String categoria;
-    private String descricaoSolicitacao;
-    private Double valor;
+    private String mensagem;
+    private Date dataHoraMsg;
 
-    @ManyToOne
+    @OneToOne
     private Integer id_Cliente;
-
+    @OneToOne
+    private String id_Prestador;
     @OneToMany
     private Integer id_Proposta;
 
@@ -26,28 +26,20 @@ public class SolicitaServico {
         this.id = id;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getMensagem() {
+        return mensagem;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
     }
 
-    public String getDescricaoSolicitacao() {
-        return descricaoSolicitacao;
+    public Date getDataHoraMsg() {
+        return dataHoraMsg;
     }
 
-    public void setDescricaoSolicitacao(String descricaoSolicitacao) {
-        this.descricaoSolicitacao = descricaoSolicitacao;
-    }
-
-    public Double getValor() {
-        return valor;
-    }
-
-    public void setValor(Double valor) {
-        this.valor = valor;
+    public void setDataHoraMsg(Date dataHoraMsg) {
+        this.dataHoraMsg = dataHoraMsg;
     }
 
     public Integer getId_Cliente() {
@@ -56,6 +48,14 @@ public class SolicitaServico {
 
     public void setId_Cliente(Integer id_Cliente) {
         this.id_Cliente = id_Cliente;
+    }
+
+    public String getId_Prestador() {
+        return id_Prestador;
+    }
+
+    public void setId_Prestador(String id_Prestador) {
+        this.id_Prestador = id_Prestador;
     }
 
     public Integer getId_Proposta() {

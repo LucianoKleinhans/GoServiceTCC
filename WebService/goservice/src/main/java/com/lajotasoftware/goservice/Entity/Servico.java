@@ -9,58 +9,58 @@ import javax.persistence.Id;
 public class Servico {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer ID;
-    private String Nome;
-    private String Categoria;
-    private String SubCategoria;
-    private Double Valor;
-    private String ObsServico;
+    private Integer id;
+    private String nome;
+    private String categoria;
+    private String subCategoria;
+    private Double valor;
+    private String obsServico;
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
 
     public String getCategoria() {
-        return Categoria;
+        return categoria;
     }
 
     public void setCategoria(String categoria) {
-        Categoria = categoria;
+        this.categoria = categoria;
     }
 
     public String getSubCategoria() {
-        return SubCategoria;
+        return subCategoria;
     }
 
     public void setSubCategoria(String subCategoria) {
-        SubCategoria = subCategoria;
+        this.subCategoria = subCategoria;
     }
 
     public Double getValor() {
-        return Valor;
+        return valor;
     }
 
     public void setValor(Double valor) {
-        Valor = valor;
+        this.valor = valor;
     }
 
     public String getObsServico() {
-        return ObsServico;
+        return obsServico;
     }
 
     public void setObsServico(String obsServico) {
-        ObsServico = obsServico;
+        this.obsServico = obsServico;
     }
 }
