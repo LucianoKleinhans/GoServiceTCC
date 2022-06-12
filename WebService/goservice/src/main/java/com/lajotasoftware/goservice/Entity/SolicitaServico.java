@@ -12,11 +12,11 @@ public class SolicitaServico {
     private String descricaoSolicitacao;
     private Double valor;
 
-    @ManyToOne
-    private Integer id_Cliente;
+    @OneToOne
+    private Usuario id_Cliente;
 
     @OneToMany
-    private Integer id_Proposta;
+    private Proposta id_Proposta;
 
     public Integer getId() {
         return id;
@@ -50,19 +50,19 @@ public class SolicitaServico {
         this.valor = valor;
     }
 
-    public Integer getId_Cliente() {
+    public Usuario getId_Cliente() {
         return id_Cliente;
     }
 
-    public void setId_Cliente(Integer id_Cliente) {
+    public void setId_Cliente(Usuario id_Cliente) {
         this.id_Cliente = id_Cliente;
     }
 
-    public Integer getId_Proposta() {
+    public Proposta getId_Proposta() {
         return id_Proposta;
     }
 
-    public void setId_Proposta(Integer id_Proposta) {
+    public void setId_Proposta(Proposta id_Proposta) {
         this.id_Proposta = id_Proposta;
     }
 }

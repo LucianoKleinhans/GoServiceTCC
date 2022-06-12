@@ -1,9 +1,6 @@
 package com.lajotasoftware.goservice.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Servico {
@@ -15,6 +12,17 @@ public class Servico {
     private String subCategoria;
     private Double valor;
     private String obsServico;
+
+    @OneToOne
+    private Usuario id_Prestador;
+
+    public Usuario getId_Prestador() {
+        return id_Prestador;
+    }
+
+    public void setId_Prestador(Usuario id_Prestador) {
+        this.id_Prestador = id_Prestador;
+    }
 
     public Integer getId() {
         return id;

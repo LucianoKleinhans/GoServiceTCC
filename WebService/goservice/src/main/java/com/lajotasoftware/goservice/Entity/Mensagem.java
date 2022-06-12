@@ -11,11 +11,8 @@ public class Mensagem {
     private String mensagem;
     private Date dataHoraMsg;
 
-    @OneToOne
     private Integer id_Cliente;
-    @OneToOne
     private String id_Prestador;
-    @OneToMany
     private Integer id_Proposta;
 
     public Integer getId() {

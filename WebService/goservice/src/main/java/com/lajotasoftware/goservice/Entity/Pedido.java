@@ -17,13 +17,13 @@ public class Pedido {
     private Date dataFinalizacao;
 
     @OneToOne
-    private Integer id_Cliente;
+    private Usuario id_Cliente;
     @OneToOne
-    private String id_Prestador;
+    private Usuario id_Prestador;
     @OneToOne
-    private Integer id_ServicoSolicitado;
+    private SolicitaServico id_ServicoSolicitado;
     @OneToOne
-    private Integer id_Servico;
+    private Servico id_Servico;
 
     public Integer getId() {
         return id;
@@ -81,35 +81,35 @@ public class Pedido {
         this.dataFinalizacao = dataFinalizacao;
     }
 
-    public Integer getId_Cliente() {
+    public Usuario getId_Cliente() {
         return id_Cliente;
     }
 
-    public void setId_Cliente(Integer id_Cliente) {
+    public void setId_Cliente(Usuario id_Cliente) {
         this.id_Cliente = id_Cliente;
     }
 
-    public String getId_Prestador() {
+    public Usuario getId_Prestador() {
         return id_Prestador;
     }
 
-    public void setId_Prestador(String id_Prestador) {
+    public void setId_Prestador(Usuario id_Prestador) {
         this.id_Prestador = id_Prestador;
     }
 
-    public Integer getId_ServicoSolicitado() {
+    public SolicitaServico getId_ServicoSolicitado() {
         return id_ServicoSolicitado;
     }
 
-    public void setId_ServicoSolicitado(Integer id_ServicoSolicitado) {
+    public void setId_ServicoSolicitado(SolicitaServico id_ServicoSolicitado) {
         this.id_ServicoSolicitado = id_ServicoSolicitado;
     }
 
-    public Integer getId_Servico() {
+    public Servico getId_Servico() {
         return id_Servico;
     }
 
-    public void setId_Servico(Integer id_Servico) {
+    public void setId_Servico(Servico id_Servico) {
         this.id_Servico = id_Servico;
     }
 }

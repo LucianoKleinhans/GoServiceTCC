@@ -13,9 +13,9 @@ public class Proposta {
     private Integer propostaMensagem;
 
     @ManyToOne
-    private String id_Prestador;
+    private Usuario id_Prestador;
     @ManyToOne
-    private Integer id_Cliente;
+    private Usuario id_Cliente;
 
     public Integer getId() {
         return id;
@@ -57,19 +57,19 @@ public class Proposta {
         this.propostaMensagem = propostaMensagem;
     }
 
-    public String getId_Prestador() {
+    public Usuario getId_Prestador() {
         return id_Prestador;
     }
 
-    public void setId_Prestador(String id_Prestador) {
+    public void setId_Prestador(Usuario id_Prestador) {
         this.id_Prestador = id_Prestador;
     }
 
-    public Integer getId_Cliente() {
+    public Usuario getId_Cliente() {
         return id_Cliente;
     }
 
-    public void setId_Cliente(Integer id_Cliente) {
+    public void setId_Cliente(Usuario id_Cliente) {
         this.id_Cliente = id_Cliente;
     }
 }
