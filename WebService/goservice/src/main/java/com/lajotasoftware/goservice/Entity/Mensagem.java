@@ -9,11 +9,15 @@ public class Mensagem {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String mensagem;
+
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataHoraMsg;
 
     private Integer id_Cliente;
     private String id_Prestador;
-    private Integer id_Proposta;
+
+    @ManyToOne
+    private Proposta id_Proposta;
 
     public Integer getId() {
         return id;
@@ -55,11 +59,11 @@ public class Mensagem {
         this.id_Prestador = id_Prestador;
     }
 
-    public Integer getId_Proposta() {
+    public Proposta getId_Proposta() {
         return id_Proposta;
     }
 
-    public void setId_Proposta(Integer id_Proposta) {
+    public void setId_Proposta(Proposta id_Proposta) {
         this.id_Proposta = id_Proposta;
     }
 }

@@ -12,11 +12,8 @@ public class SolicitaServico {
     private String descricaoSolicitacao;
     private Double valor;
 
-    @OneToOne
+    @ManyToOne
     private Usuario id_Cliente;
-
-    @OneToMany
-    private Proposta id_Proposta;
 
     public Integer getId() {
         return id;
@@ -56,13 +53,5 @@ public class SolicitaServico {
 
     public void setId_Cliente(Usuario id_Cliente) {
         this.id_Cliente = id_Cliente;
-    }
-
-    public Proposta getId_Proposta() {
-        return id_Proposta;
-    }
-
-    public void setId_Proposta(Proposta id_Proposta) {
-        this.id_Proposta = id_Proposta;
     }
 }

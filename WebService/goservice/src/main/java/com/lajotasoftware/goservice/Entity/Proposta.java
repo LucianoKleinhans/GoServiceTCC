@@ -7,6 +7,7 @@ public class Proposta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    private Integer id_Cliente;
     private Double valor;
     private String observacao;
     private Character propostaAceita;
@@ -14,8 +15,9 @@ public class Proposta {
 
     @ManyToOne
     private Usuario id_Prestador;
+
     @ManyToOne
-    private Usuario id_Cliente;
+    private SolicitaServico id_SolicitaServico;
 
     public Integer getId() {
         return id;
@@ -23,6 +25,14 @@ public class Proposta {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getId_Cliente() {
+        return id_Cliente;
+    }
+
+    public void setId_Cliente(Integer id_Cliente) {
+        this.id_Cliente = id_Cliente;
     }
 
     public Double getValor() {
@@ -65,11 +75,11 @@ public class Proposta {
         this.id_Prestador = id_Prestador;
     }
 
-    public Usuario getId_Cliente() {
-        return id_Cliente;
+    public SolicitaServico getId_SolicitaServico() {
+        return id_SolicitaServico;
     }
 
-    public void setId_Cliente(Usuario id_Cliente) {
-        this.id_Cliente = id_Cliente;
+    public void setId_SolicitaServico(SolicitaServico id_SolicitaServico) {
+        this.id_SolicitaServico = id_SolicitaServico;
     }
 }

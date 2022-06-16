@@ -13,16 +13,8 @@ public class Servico {
     private Double valor;
     private String obsServico;
 
-    @OneToOne
+    @ManyToOne
     private Usuario id_Prestador;
-
-    public Usuario getId_Prestador() {
-        return id_Prestador;
-    }
-
-    public void setId_Prestador(Usuario id_Prestador) {
-        this.id_Prestador = id_Prestador;
-    }
 
     public Integer getId() {
         return id;
@@ -70,5 +62,13 @@ public class Servico {
 
     public void setObsServico(String obsServico) {
         this.obsServico = obsServico;
+    }
+
+    public Usuario getId_Prestador() {
+        return id_Prestador;
+    }
+
+    public void setId_Prestador(Usuario id_Prestador) {
+        this.id_Prestador = id_Prestador;
     }
 }

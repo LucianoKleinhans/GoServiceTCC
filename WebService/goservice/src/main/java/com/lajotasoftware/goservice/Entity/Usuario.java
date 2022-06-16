@@ -1,9 +1,14 @@
 package com.lajotasoftware.goservice.Entity;
 
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,8 +26,6 @@ public class Usuario {
     private Character prestador;
     private Boolean ativo;
 
-    @OneToMany
-    private Servico id_CadServico;
 
     public Long getId() {
         return id;
@@ -125,14 +128,17 @@ public class Usuario {
     }
 
     public void setAtivo(Boolean ativo) {
-        this.ativo = ativo;
+
+        this.ativo = ativo==null?false:ativo;
     }
 
-    public Servico getId_CadServico() {
-        return id_CadServico;
-    }
-
-    public void setId_CadServico(Servico id_CadServico) {
-        this.id_CadServico = id_CadServico;
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", id_Prestador='" + id_Prestador + '\'' +
+                ", nome='" + nome + '\'' +
+                ", prestador=" + prestador +
+                '}';
     }
 }

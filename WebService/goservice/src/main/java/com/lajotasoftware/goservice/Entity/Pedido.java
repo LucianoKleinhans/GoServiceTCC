@@ -13,16 +13,18 @@ public class Pedido {
     private Double avaliacaoPrestador;
     private Double avaliacaoCliente;
     private Character servicoSolicitado;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataEmissao;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dataFinalizacao;
 
-    @OneToOne
+    @ManyToOne
     private Usuario id_Cliente;
-    @OneToOne
+    @ManyToOne
     private Usuario id_Prestador;
     @OneToOne
     private SolicitaServico id_ServicoSolicitado;
-    @OneToOne
+    @ManyToOne
     private Servico id_Servico;
 
     public Integer getId() {
