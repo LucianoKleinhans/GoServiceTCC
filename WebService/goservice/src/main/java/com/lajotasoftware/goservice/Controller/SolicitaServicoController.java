@@ -22,7 +22,7 @@ public class SolicitaServicoController {
     public SolicitaServico getSolicitaServicoById(@PathVariable Long id){ return repository.getById(id);
     }
 
-    @PostMapping("/soliticaServico")
+    @PostMapping("/solicitaServico")
     public SolicitaServico salvarSolicitaServico(@RequestBody SolicitaServico solicitaServico){ return repository.save(solicitaServico);
     }
 

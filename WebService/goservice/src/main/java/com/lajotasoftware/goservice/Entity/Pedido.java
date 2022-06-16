@@ -1,14 +1,19 @@
 package com.lajotasoftware.goservice.Entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     private Character status;
     private Double avaliacaoPrestador;
     private Double avaliacaoCliente;
@@ -27,11 +32,11 @@ public class Pedido {
     @ManyToOne
     private Servico id_Servico;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

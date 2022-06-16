@@ -1,29 +1,35 @@
 package com.lajotasoftware.goservice.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Mensagem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     private String mensagem;
 
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dataHoraMsg;
+    private Long dataHoraMsg;
 
-    private Integer id_Cliente;
+    private Long id_Cliente;
     private String id_Prestador;
 
+    @JsonIgnore
     @ManyToOne
     private Proposta id_Proposta;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -35,19 +41,19 @@ public class Mensagem {
         this.mensagem = mensagem;
     }
 
-    public Date getDataHoraMsg() {
+    public Long getDataHoraMsg() {
         return dataHoraMsg;
     }
 
-    public void setDataHoraMsg(Date dataHoraMsg) {
+    public void setDataHoraMsg(Long dataHoraMsg) {
         this.dataHoraMsg = dataHoraMsg;
     }
 
-    public Integer getId_Cliente() {
+    public Long getId_Cliente() {
         return id_Cliente;
     }
 
-    public void setId_Cliente(Integer id_Cliente) {
+    public void setId_Cliente(Long id_Cliente) {
         this.id_Cliente = id_Cliente;
     }
 

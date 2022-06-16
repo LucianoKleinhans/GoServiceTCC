@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @EnableJpaRepositories(basePackages = "com.lajotasoftware.goservice.DAO")
 @RestController
 @AllArgsConstructor

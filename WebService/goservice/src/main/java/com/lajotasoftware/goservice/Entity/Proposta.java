@@ -1,17 +1,22 @@
 package com.lajotasoftware.goservice.Entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Proposta {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    private Integer id_Cliente;
+    private Long id;
+    private Long id_Cliente;
     private Double valor;
     private String observacao;
     private Character propostaAceita;
-    private Integer propostaMensagem;
+    private Long propostaMensagem;
 
     @ManyToOne
     private Usuario id_Prestador;
@@ -19,19 +24,19 @@ public class Proposta {
     @ManyToOne
     private SolicitaServico id_SolicitaServico;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getId_Cliente() {
+    public Long getId_Cliente() {
         return id_Cliente;
     }
 
-    public void setId_Cliente(Integer id_Cliente) {
+    public void setId_Cliente(Long id_Cliente) {
         this.id_Cliente = id_Cliente;
     }
 
@@ -59,11 +64,11 @@ public class Proposta {
         this.propostaAceita = propostaAceita;
     }
 
-    public Integer getPropostaMensagem() {
+    public Long getPropostaMensagem() {
         return propostaMensagem;
     }
 
-    public void setPropostaMensagem(Integer propostaMensagem) {
+    public void setPropostaMensagem(Long propostaMensagem) {
         this.propostaMensagem = propostaMensagem;
     }
 
