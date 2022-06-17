@@ -1,21 +1,26 @@
 package com.lajotasoftware.goservice.Entity;
 
 
+import com.lajotasoftware.goservice.sources.Validacao;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class Usuario {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String id_Prestador;
     private String nome;
-    private String cpfcnpj;
+    private String cpf;
+    private String cnpj;
     private String endereco;
     private String telefone;
     private String email;
@@ -23,9 +28,8 @@ public class Usuario {
     private String senha;
     private Double avaliacaoPrestador;
     private Double avaliacaoCliente;
-    private Character prestador;
+    private Boolean prestador;
     private Boolean ativo;
-
 
     public Long getId() {
         return id;
@@ -40,7 +44,9 @@ public class Usuario {
     }
 
     public void setId_Prestador(String id_Prestador) {
-        this.id_Prestador = id_Prestador;
+        if(id_Prestador!=null){
+            this.id_Prestador = id_Prestador;
+        }
     }
 
     public String getNome() {
@@ -48,15 +54,30 @@ public class Usuario {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        if(nome!=null){
+            this.nome = nome;
+        }
     }
 
-    public String getCpfcnpj() {
-        return cpfcnpj;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setCpfcnpj(String cpfcnpj) {
-        this.cpfcnpj = cpfcnpj;
+    public void setCpf(String cpf) {
+        Validacao validacao = new Validacao();
+        if(validacao.isCPF(cpf)){
+            this.cpf = cpf;
+        }
+    }
+    public String getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(String cnpj) {
+        Validacao validacao = new Validacao();
+        if(validacao.isCNPJ(cnpj)){
+            this.cnpj = cnpj;
+        }
     }
 
     public String getEndereco() {
@@ -72,7 +93,10 @@ public class Usuario {
     }
 
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
+        Validacao validacao = new Validacao();
+        if(validacao.validarTelefone(telefone)){
+            this.telefone = telefone;
+        }
     }
 
     public String getEmail() {
@@ -80,7 +104,9 @@ public class Usuario {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (EmailValidator.getInstance().isValid(email)){
+            this.email = email;
+        }
     }
 
     public String getLogin() {
@@ -88,7 +114,9 @@ public class Usuario {
     }
 
     public void setLogin(String login) {
-        this.login = login;
+        if(login.length()>=10){
+            this.login = login;
+        }
     }
 
     public String getSenha() {
@@ -96,7 +124,9 @@ public class Usuario {
     }
 
     public void setSenha(String senha) {
-        this.senha = senha;
+        if(senha.length()>=11){
+            this.senha = senha;
+        }
     }
 
     public Double getAvaliacaoPrestador() {
@@ -104,7 +134,9 @@ public class Usuario {
     }
 
     public void setAvaliacaoPrestador(Double avaliacaoPrestador) {
-        this.avaliacaoPrestador = avaliacaoPrestador;
+        if(avaliacaoPrestador >= 0.0 && avaliacaoPrestador <= 5.0){
+            this.avaliacaoPrestador = avaliacaoPrestador;
+        }
     }
 
     public Double getAvaliacaoCliente() {
@@ -112,15 +144,21 @@ public class Usuario {
     }
 
     public void setAvaliacaoCliente(Double avaliacaoCliente) {
-        this.avaliacaoCliente = avaliacaoCliente;
+        if(avaliacaoCliente >= 0.0 && avaliacaoCliente <= 5.0){
+            this.avaliacaoCliente = avaliacaoCliente;
+        }
     }
 
-    public Character getPrestador() {
+    public Boolean getPrestador() {
         return prestador;
     }
 
-    public void setPrestador(Character prestador) {
-        this.prestador = prestador;
+    public void setPrestador(Boolean prestador) {
+        if(prestador == null|| prestador == false){
+            this.prestador = false;
+        }else{
+            this.prestador = true;
+        }
     }
 
     public Boolean getAtivo() {
@@ -128,17 +166,6 @@ public class Usuario {
     }
 
     public void setAtivo(Boolean ativo) {
-
         this.ativo = ativo==null?false:ativo;
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", id_Prestador='" + id_Prestador + '\'' +
-                ", nome='" + nome + '\'' +
-                ", prestador=" + prestador +
-                '}';
     }
 }

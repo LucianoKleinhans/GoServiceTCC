@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @EntityScan(basePackages = { "com.lajotasoftware.goservice.Entity" })
 @EnableJpaRepositories(basePackages = {	"com.lajotsoftware.goservice.DAO"})
 @RestController
+
+//spring.jpa.hibernate.ddl-auto=create-drop
 public class GoserviceApplication {
 
 
