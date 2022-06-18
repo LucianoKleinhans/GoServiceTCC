@@ -85,8 +85,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
 
-		Antes de fazer o teste de integração -- se caso der errado pode apagar tudo ai em baixo
-
 	</dependencies>
 
 	<build>

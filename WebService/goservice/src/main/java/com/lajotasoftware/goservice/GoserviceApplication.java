@@ -9,6 +9,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 @SpringBootApplication
 @EntityScan(basePackages = { "com.lajotasoftware.goservice.Entity" })
 @EnableJpaRepositories(basePackages = {	"com.lajotsoftware.goservice.DAO"})
@@ -16,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 //spring.jpa.hibernate.ddl-auto=create-drop
 public class GoserviceApplication {
-
-
 
 /*	public void salvar(Object O){
 		UsuarioUC uc = new UsuarioUC();
