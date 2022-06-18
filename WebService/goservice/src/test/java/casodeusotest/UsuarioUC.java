@@ -1,44 +1,35 @@
 package casodeusotest;
 
-import com.lajotasoftware.goservice.DAO.DAOUsuario;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.sources.Validacao;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.apache.commons.validator.routines.EmailValidator;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.Locale;
 
  public class UsuarioUC {
      Validacao validacao = new Validacao();
     @Test
     public void criaUsuario(){//test unitario
         Usuario usuario = new Usuario();
-        String regexPattern = "^(.+)@(\\S+)$";
         usuario.setId(99L);
-        usuario.setId_Prestador("45656");
-        usuario.setNome("Ricardo Milos");
-        usuario.setCpf("07464993101");
+        usuario.setId_Prestador("123abc");
+        usuario.setNome("Bruno Formiga");
+        usuario.setCpf("04902773147");
         Assertions.assertNotNull(usuario.getCpf(),"CPF INVALIDO");//
-        usuario.setCnpj("11.162.692/0001-90");
+        usuario.setCnpj("11162692000190");
         Assertions.assertNotNull(usuario.getCnpj(),"CNPJ INVALIDO");
         usuario.setEndereco("Bom dia ao lado do boa noite");
         usuario.setTelefone("67996002604");
         Assertions.assertNotNull(usuario.getTelefone(),"Telefone Invalido");
-        usuario.setEmail("ricadola@gmail.com");
+        usuario.setEmail("eobrunoformiga@gmail.com");
         Assertions.assertNotNull(usuario.getEmail(),"Email Invalido");
-        usuario.setLogin("alojorgeemateus");
+        usuario.setLogin("formigabruno");
         Assertions.assertNotNull(usuario.getLogin(),"Login Invalido");
-        usuario.setSenha("123asdqwe123");
+        usuario.setSenha("beemovieee");
         Assertions.assertNotNull(usuario.getSenha(),"Senha Invalido");
-        usuario.setAvaliacaoPrestador(4.0);//Sem necessidade de testar pois vai ser feito o controle no front
+        usuario.setAvaliacaoPrestador(5.0);//Sem necessidade de testar pois vai ser feito o controle no front
         Assertions.assertNotNull(usuario.getAvaliacaoPrestador(),"Avaliacao invalida");
-        usuario.setAvaliacaoCliente(4.0);//Sem necessidade de testar pois vai ser feito o controle no front
+        usuario.setAvaliacaoCliente(4.5);//Sem necessidade de testar pois vai ser feito o controle no front
         Assertions.assertNotNull(usuario.getAvaliacaoCliente(),"Avaliacao invalida");
         usuario.setPrestador(true);
         Assertions.assertNotNull(usuario.getPrestador(),"teste bolean prestador ativo");

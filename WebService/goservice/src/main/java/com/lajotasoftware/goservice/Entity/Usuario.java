@@ -17,6 +17,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String id_Prestador;
     private String nome;
     private String cpf;
@@ -124,7 +125,7 @@ public class Usuario {
     }
 
     public void setSenha(String senha) {
-        if(senha.length()>=11){
+        if(senha.length()>=10){
             this.senha = senha;
         }
     }
