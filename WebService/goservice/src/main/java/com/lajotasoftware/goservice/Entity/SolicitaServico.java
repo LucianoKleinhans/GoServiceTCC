@@ -16,6 +16,7 @@ public class SolicitaServico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String categoria;
+    private String subCategoria;
     private String descricaoSolicitacao;
     private Double valor;
 

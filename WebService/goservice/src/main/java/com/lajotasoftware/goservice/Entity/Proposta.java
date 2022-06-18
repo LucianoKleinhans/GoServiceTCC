@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @AllArgsConstructor
@@ -28,11 +29,15 @@ public class Proposta {
     private SolicitaServico id_SolicitaServico;
 
     public void setId(Long id) {
-        this.id = id;
+        if(id != null){
+            this.id = id;
+        }
     }
 
     public void setId_Cliente(Usuario id_Cliente) {
-        this.id_Cliente = id_Cliente;
+        if(id_Cliente != null){
+            this.id_Cliente = id_Cliente;
+        }
     }
 
     public void setValor(Double valor) {
@@ -44,7 +49,9 @@ public class Proposta {
     }
 
     public void setObservacao(String observacao) {
-        this.observacao = observacao;
+        if (observacao != "" || observacao != null){
+            this.observacao = observacao;
+        }
     }
 
     public void setPropostaAceita(Character propostaAceita) {
@@ -52,10 +59,12 @@ public class Proposta {
     }
 
     public void setId_Prestador(Usuario id_Prestador) {
-        this.id_Prestador = id_Prestador;
+        if(id_Prestador != null){
+            this.id_Prestador = id_Prestador;
+        }
     }
 
     public void setId_SolicitaServico(SolicitaServico id_SolicitaServico) {
-        this.id_SolicitaServico = id_SolicitaServico;
+            this.id_SolicitaServico = id_SolicitaServico;
     }
 }

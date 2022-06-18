@@ -23,4 +23,33 @@ public class Servico {
     @ManyToOne
     private Usuario id_Prestador;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNome(String nome) {
+        if (nome != null && nome != ""){
+            this.nome = nome;
+        }
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public void setSubCategoria(String subCategoria) {
+        this.subCategoria = subCategoria;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    public void setObsServico(String obsServico) {
+        this.obsServico = obsServico;
+    }
+
+    public void setId_Prestador(Usuario id_Prestador) {
+        this.id_Prestador = id_Prestador;
+    }
 }

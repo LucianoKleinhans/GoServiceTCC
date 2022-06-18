@@ -1,6 +1,6 @@
 package com.lajotasoftware.goservice;
 
-import casodeusotest.UsuarioUC;
+import testes.UsuarioUC;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

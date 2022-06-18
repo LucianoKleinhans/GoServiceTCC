@@ -20,10 +20,45 @@ public class Mensagem {
 
     private Long dataHoraMsg;
 
-    private Long id_Cliente;
-    private String id_Prestador;
+    @ManyToOne
+    private Usuario id_Cliente;
+    @ManyToOne
+    private Usuario id_Prestador;
 
-    @JsonIgnore
     @ManyToOne
     private Proposta id_Proposta;
+
+    public void setId(Long id) {
+        if(id != null){
+            this.id = id;
+        }
+    }
+
+    public void setMensagem(String mensagem) {
+        if(mensagem != null && mensagem != ""){
+            this.mensagem = mensagem;
+        }
+    }
+
+    public void setDataHoraMsg(Long dataHoraMsg) {
+        this.dataHoraMsg = dataHoraMsg;
+    }
+
+    public void setId_Cliente(Usuario id_Cliente) {
+        if(id_Cliente != null){
+        this.id_Cliente = id_Cliente;
+        }
+    }
+
+    public void setId_Prestador(Usuario id_Prestador) {
+        if(id_Prestador != null){
+            this.id_Prestador = id_Prestador;
+        }
+    }
+
+    public void setId_Proposta(Proposta id_Proposta) {
+        if(id_Proposta != null){
+            this.id_Proposta = id_Proposta;
+        }
+    }
 }

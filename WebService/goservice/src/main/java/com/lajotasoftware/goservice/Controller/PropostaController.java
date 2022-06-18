@@ -2,8 +2,10 @@ package com.lajotasoftware.goservice.Controller;
 
 import com.lajotasoftware.goservice.DAO.DAOProposta;
 import com.lajotasoftware.goservice.Entity.Proposta;
+import com.lajotasoftware.goservice.Entity.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,5 +36,20 @@ public class PropostaController {
         repository.deleteById(id);
     }
 
-
+    @PutMapping(value = "/proposta/{id}")
+    public ResponseEntity update(@PathVariable("id") long id,
+                                 @RequestBody Proposta proposta) {
+        return repository.findById(id)
+                .map(record -> {
+                    if(proposta.getId_Prestador()!=null){record.setId_Prestador(proposta.getId_Prestador());}
+                    if(proposta.getId_SolicitaServico()!=null){record.setId_SolicitaServico(proposta.getId_SolicitaServico());}
+                    if(proposta.getId_Cliente()!=null){record.setId_Cliente(proposta.getId_Cliente());}
+                    if(proposta.getId()!=null){record.setId(proposta.getId());}
+                    if(proposta.getValor()!=null){record.setValor(proposta.getValor());}
+                    if(proposta.getObservacao()!=null){record.setObservacao(proposta.getObservacao());}
+                    if(proposta.getPropostaAceita()!=null){record.setPropostaAceita(proposta.getPropostaAceita());}
+                    Proposta updated = repository.save(record);
+                    return ResponseEntity.ok().body(updated);
+                }).orElse(ResponseEntity.notFound().build());
+    }
 }

@@ -2,8 +2,10 @@ package com.lajotasoftware.goservice.Controller;
 
 import com.lajotasoftware.goservice.DAO.DAOServico;
 import com.lajotasoftware.goservice.Entity.Servico;
+import com.lajotasoftware.goservice.Entity.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,5 +35,20 @@ public class ServicoController {
         repository.deleteById(id);
     }
 
-
+    @PutMapping(value = "/servico/{id}")
+    public ResponseEntity update(@PathVariable("id") long id,
+                                 @RequestBody Servico servico) {
+        return repository.findById(id)
+                .map(record -> {
+                    if(servico.getId_Prestador()!=null){record.setId_Prestador(servico.getId_Prestador());}
+                    if(servico.getId()!=null){record.setId(servico.getId());}
+                    if(servico.getNome()!=null){record.setNome(servico.getNome());}
+                    if(servico.getCategoria()!=null){record.setCategoria(servico.getCategoria());}
+                    if(servico.getSubCategoria()!=null){record.setSubCategoria(servico.getSubCategoria());}
+                    if(servico.getValor()!=null){record.setValor(servico.getValor());}
+                    if(servico.getObsServico()!=null){record.setObsServico(servico.getObsServico());}
+                    Servico updated = repository.save(record);
+                    return ResponseEntity.ok().body(updated);
+                }).orElse(ResponseEntity.notFound().build());
+    }
 }
