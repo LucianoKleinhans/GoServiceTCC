@@ -21,12 +21,8 @@ import java.net.URL;
 //spring.jpa.hibernate.ddl-auto=create-drop
 public class GoserviceApplication {
 
-/*	public void salvar(Object O){
-		UsuarioUC uc = new UsuarioUC();
-		uc.salvar((JSONPObject) O);
-	}*/
-
 	public static void main(String[] args) {
 		SpringApplication.run(GoserviceApplication.class, args);
 	}
+
 }

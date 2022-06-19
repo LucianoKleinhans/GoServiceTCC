@@ -13,12 +13,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Table(name="Usuario")
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String id_Prestador;
+    private Long id_Prestador;
     private String nome;
     private String cpf;
     private String cnpj;
@@ -42,11 +43,11 @@ public class Usuario {
         }
     }
 
-    public String getId_Prestador() {
+    public Long getId_Prestador() {
         return id_Prestador;
     }
 
-    public void setId_Prestador(String id_Prestador) {
+    public void setId_Prestador(Long id_Prestador) {
         if(id_Prestador!=null){
             this.id_Prestador = id_Prestador;
         }

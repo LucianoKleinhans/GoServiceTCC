@@ -27,7 +27,7 @@ public class ServicoController {
     }
 
     @PostMapping("/servico")
-    public Servico salvarUsuario(@RequestBody Servico servico){ return repository.save(servico);
+    public Servico salvarServico(@RequestBody Servico servico){ return repository.save(servico);
     }
 
     @DeleteMapping("/servico/{id}")

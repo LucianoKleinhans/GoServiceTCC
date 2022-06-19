@@ -1,10 +1,13 @@
 package testes;
 
-import com.lajotasoftware.goservice.Entity.Mensagem;
-import com.lajotasoftware.goservice.Entity.Proposta;
-import com.lajotasoftware.goservice.Entity.Usuario;
+import com.lajotasoftware.goservice.Controller.MensagemController;
+import com.lajotasoftware.goservice.Controller.PedidoController;
+import com.lajotasoftware.goservice.Controller.PropostaController;
+import com.lajotasoftware.goservice.Controller.UsuarioController;
+import com.lajotasoftware.goservice.Entity.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class MensagemUC {
     @Test
@@ -24,7 +27,7 @@ public class MensagemUC {
         mensagem.setId_Cliente(usuario);
         mensagem.getId_Cliente().getId();
         //Fk
-        usuario.setId_Prestador("123abc");
+        usuario.setId_Prestador(null);
         mensagem.setId_Prestador(usuario);
         mensagem.getId_Prestador().getId_Prestador();
 
@@ -60,7 +63,7 @@ public class MensagemUC {
         mensagem.setId_Cliente(usuario);
         mensagem.getId_Cliente().getId();
         //Fk
-        usuario.setId_Prestador("123abc");
+        usuario.setId_Prestador(null);
         mensagem.setId_Prestador(usuario);
         mensagem.getId_Prestador().getId_Prestador();
 
@@ -75,5 +78,29 @@ public class MensagemUC {
         Assertions.assertNotNull(mensagem.getId_Proposta().getObservacao(),"Observacao vazia");
         Assertions.assertNotNull(mensagem.getId_Cliente().getId(),"ID de cliente invalido");
         Assertions.assertNotNull(mensagem.getId_Prestador().getId(),"ID de prestador invalido");
+    }
+
+    /*TESTE INTEGRAÇÃO*/
+    @Autowired
+    public MensagemController mensagemController;
+    @Autowired
+    public UsuarioController usuarioController;
+    @Autowired
+    public PropostaController propostaController;
+    @Test
+    public void casoUsoSalva() {//teste integracao
+        Mensagem mensagem = new Mensagem();
+        Usuario usuario = new Usuario();
+        Proposta proposta = new Proposta();
+
+        mensagem.setId(1L);
+        mensagem.setMensagem("abc1123123213");
+        mensagem.setDataHoraMsg(1231232312L);
+
+        mensagem.setId_Cliente(usuarioController.getUsuarioById(1L));
+        mensagem.setId_Prestador((Usuario) usuarioController.getPrestador(1L));
+        mensagem.setId_Proposta(propostaController.getPropostaById(1L));
+
+        mensagemController.salvarMensagem(mensagem);
     }
 }
