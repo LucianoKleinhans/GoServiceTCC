@@ -11,12 +11,13 @@
         android:layout_width="380dp"
         android:layout_height="150dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
+        android:onClick="btn_main_to_gerenciacard"
         android:text="Gerencia Cards"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/btnGerenciaPerfilMain" />
 
     <Button
         android:id="@+id/btnPrestadoresMain"
@@ -25,6 +26,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
+        android:onClick="btn_main_to_prestadores"
         android:text="Prestadores"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,8 +39,22 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
+        android:onClick="btn_main_to_solicitacoes"
         android:text="Solicitações"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnPrestadoresMain" />
+
+    <Button
+        android:id="@+id/btnGerenciaPerfilMain"
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="150dp"
+        android:onClick="btn_main_to_perfil"
+        android:text="Perfil"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

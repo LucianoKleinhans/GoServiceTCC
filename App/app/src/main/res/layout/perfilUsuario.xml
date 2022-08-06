@@ -73,4 +73,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvAvaliaPerfilUser" />
 
+    <Button
+        android:id="@+id/btnCadastroProv"
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="75dp"
+        android:onClick="btn_perfil_to_cad"
+        android:text="Botao provisorio para cad"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
