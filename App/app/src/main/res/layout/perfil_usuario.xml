@@ -7,22 +7,12 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TextView
-        android:id="@+id/ttvBioPerfilUser"
-        android:layout_width="380dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="100dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvEmailPerfilUser" />
-
-    <TextView
         android:id="@+id/ttvUsernamePerfilUser"
         android:layout_width="150dp"
         android:layout_height="30dp"
         android:layout_marginStart="200dp"
         android:layout_marginTop="30dp"
-        android:text="user name"
+        android:text="@string/user_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,7 +21,7 @@
         android:layout_width="150dp"
         android:layout_height="30dp"
         android:layout_marginStart="200dp"
-        android:text="cidade uf"
+        android:text="@string/cidade_uf"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvUsernamePerfilUser" />
 
@@ -40,7 +30,7 @@
         android:layout_width="150dp"
         android:layout_height="30dp"
         android:layout_marginStart="200dp"
-        android:text="seu site"
+        android:text="@string/seu_site"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvCidadePerfilUser" />
 
@@ -49,29 +39,19 @@
         android:layout_width="150dp"
         android:layout_height="30dp"
         android:layout_marginStart="200dp"
-        android:text="seu email"
+        android:text="@string/seu_email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvSitePerfilUser" />
-
-    <TextView
-        android:id="@+id/ttvAvaliaPerfilUser"
-        android:layout_width="380dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvBioPerfilUser" />
 
     <Button
         android:id="@+id/btnTornarPresPerfilUser"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="290dp"
         android:layout_marginEnd="15dp"
-        android:text="Torne-se Prestador"
+        android:text="@string/torne_se_prestador"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvAvaliaPerfilUser" />
+        app:layout_constraintTop_toBottomOf="@+id/ttvEmailPerfilUser" />
 
     <Button
         android:id="@+id/btnCadastroProv"
@@ -81,7 +61,7 @@
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="75dp"
         android:onClick="btn_perfil_to_cad"
-        android:text="Botao provisorio para cad"
+        android:text="@string/botao_provisorio_para_cad"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

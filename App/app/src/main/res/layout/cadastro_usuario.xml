@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -12,9 +11,11 @@
         android:layout_height="50dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Segundo Nome"
+        android:hint="@string/segundo_nome"
         android:inputType="textPersonName"
+        android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtPrimeiroNome" />
@@ -24,9 +25,11 @@
         android:layout_width="80dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Numero"
-        android:inputType="textPersonName"
+        android:hint="@string/numero"
+        android:inputType="textPostalAddress"
+        android:textColorHint="#757575"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtRuaAvenida" />
 
@@ -35,9 +38,11 @@
         android:layout_width="80dp"
         android:layout_height="50dp"
         android:layout_marginStart="1dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="UF"
+        android:hint="@string/uf"
         android:inputType="textPersonName"
+        android:textColorHint="#757575"
         app:layout_constraintStart_toEndOf="@+id/edtCidade"
         app:layout_constraintTop_toBottomOf="@+id/edtCEP" />
 
@@ -46,9 +51,10 @@
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginStart="1dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Bairro"
-        android:inputType="textPersonName"
+        android:hint="@string/bairro"
+        android:inputType="textPersonName|textPostalAddress"
         app:layout_constraintStart_toEndOf="@+id/edtNumero"
         app:layout_constraintTop_toBottomOf="@+id/edtRuaAvenida" />
 
@@ -59,9 +65,11 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Primeiro Nome"
+        android:hint="@string/primeiro_nome"
         android:inputType="textPersonName"
+        android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -72,9 +80,10 @@
         android:layout_height="50dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="CEP"
-        android:inputType="textPersonName"
+        android:hint="@string/cep"
+        android:inputType="textPostalAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtNumero" />
@@ -86,11 +95,12 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:ems="10"
-        android:hint="E-Mail"
-        android:inputType="textPersonName"
+        android:hint="@string/email"
+        android:inputType="textWebEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtTelefone" />
+        app:layout_constraintTop_toBottomOf="@+id/edtTelefone"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/edtSite"
@@ -98,9 +108,10 @@
         android:layout_height="50dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Site"
-        android:inputType="textPersonName"
+        android:hint="@string/site"
+        android:inputType="textWebEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
@@ -112,11 +123,12 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:ems="10"
-        android:hint="Telefone"
+        android:hint="@string/telefone"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtCNPJCPF" />
+        app:layout_constraintTop_toBottomOf="@+id/edtCNPJCPF"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/btnCancelarCadUser"
@@ -124,7 +136,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="25dp"
         android:layout_marginBottom="20dp"
-        android:text="Cancelar"
+        android:text="@string/cancelar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -135,7 +147,7 @@
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="20dp"
         android:onClick="btn_gravar_usuario"
-        android:text="Gravar"
+        android:text="@string/gravar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -145,10 +157,11 @@
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:ems="10"
-        android:hint="Cidade"
+        android:hint="@string/cidade"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtCEP" />
+        app:layout_constraintTop_toBottomOf="@+id/edtCEP"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/edtRuaAvenida"
@@ -156,9 +169,11 @@
         android:layout_height="50dp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Rua / Avenida"
-        android:inputType="textPersonName"
+        android:hint="@string/rua_avenida"
+        android:inputType="textPostalAddress"
+        android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtSite" />
@@ -170,11 +185,12 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:ems="10"
-        android:hint="CNPJ / CPF"
+        android:hint="@string/cpf"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtSegundoNome" />
+        app:layout_constraintTop_toBottomOf="@+id/edtSegundoNome"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/textView"
@@ -183,7 +199,7 @@
         android:layout_marginStart="100dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="100dp"
-        android:text="Cadastro"
+        android:text="@string/cadastro"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -193,9 +209,11 @@
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Usuario Prov"
+        android:hint="@string/usuario"
         android:inputType="textPersonName"
+        android:textColorHint="#757575"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtCidade" />
 
@@ -203,9 +221,11 @@
         android:id="@+id/edtSenhaProv"
         android:layout_width="150dp"
         android:layout_height="50dp"
+        android:autofillHints=""
         android:ems="10"
-        android:hint="Senha Prov"
-        android:inputType="textPersonName"
+        android:hint="@string/senha"
+        android:inputType="textPassword"
+        android:textColorHint="#757575"
         app:layout_constraintStart_toEndOf="@+id/edtUsuarioProv"
         app:layout_constraintTop_toBottomOf="@+id/edtUF" />
 

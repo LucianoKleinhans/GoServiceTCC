@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.R;
 
+import org.json.JSONObject;
+
 public class Cadastro extends AppCompatActivity {
 
     private Usuario usuario;
@@ -25,7 +27,7 @@ public class Cadastro extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cadastroUsuario);
+        setContentView(R.layout.cadastro_usuario);
 
         Intent i = getIntent();
         nomeCad = findViewById(R.id.edtPrimeiroNome);
@@ -38,6 +40,7 @@ public class Cadastro extends AppCompatActivity {
     }
 
     public void btn_gravar_usuario (View view){
+        Usuario usuario = new Usuario();
         usuario.setNome(nomeCad.getText().toString());
         usuario.setCpf(cpfcnpjCad.getText().toString());
         usuario.setEndereco(enderecoCad.getText().toString());
@@ -45,5 +48,7 @@ public class Cadastro extends AppCompatActivity {
         usuario.setEmail(emailCad.getText().toString());
         usuario.setLogin(loginCad.getText().toString());
         usuario.setSenha(senhaCad.getText().toString());
+
+        Object json = JSONObject();
     }
 }

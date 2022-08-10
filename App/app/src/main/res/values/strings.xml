@@ -9,4 +9,32 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="segundo_nome">Segundo Nome</string>
+    <string name="numero">Numero</string>
+    <string name="uf">UF</string>
+    <string name="bairro">Bairro</string>
+    <string name="cep">CEP</string>
+    <string name="email">Email</string>
+    <string name="site">Site</string>
+    <string name="telefone">Telefone</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="gravar">Gravar</string>
+    <string name="cidade">Cidade</string>
+    <string name="rua_avenida">Rua / Avenida</string>
+    <string name="cpf">CPF</string>
+    <string name="cadastro">Cadastro</string>
+    <string name="usuario">Usuario</string>
+    <string name="senha">Senha</string>
+    <string name="primeiro_nome">Primeiro Nome</string>
+    <string name="gerencia_cards">Gerencia Cards</string>
+    <string name="prestadores">Prestadores</string>
+    <string name="solicita_es">Solicitações</string>
+    <string name="perfil">Perfil</string>
+    <string name="textview">TextView</string>
+    <string name="user_name">user name</string>
+    <string name="cidade_uf">cidade uf</string>
+    <string name="seu_site">seu site</string>
+    <string name="seu_email">seu email</string>
+    <string name="torne_se_prestador">Torne-se Prestador</string>
+    <string name="botao_provisorio_para_cad">Botao provisorio para cad</string>
 </resources>

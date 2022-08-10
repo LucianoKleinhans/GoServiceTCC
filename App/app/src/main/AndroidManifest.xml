@@ -24,6 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Frames.Perfil"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
+        <activity android:name=".Frames.Cadastro"
+        android:windowSoftInputMode="stateHidden">
+    </activity>
     </application>
 
 </manifest>
