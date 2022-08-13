@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <EditText
+
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtSegundoNome"
         android:layout_width="380dp"
         android:layout_height="50dp"
@@ -20,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtPrimeiroNome" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtNumero"
         android:layout_width="80dp"
         android:layout_height="50dp"
@@ -33,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtRuaAvenida" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtUF"
         android:layout_width="80dp"
         android:layout_height="50dp"
@@ -46,7 +47,7 @@
         app:layout_constraintStart_toEndOf="@+id/edtCidade"
         app:layout_constraintTop_toBottomOf="@+id/edtCEP" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtBairro"
         android:layout_width="300dp"
         android:layout_height="50dp"
@@ -58,7 +59,7 @@
         app:layout_constraintStart_toEndOf="@+id/edtNumero"
         app:layout_constraintTop_toBottomOf="@+id/edtRuaAvenida" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtPrimeiroNome"
         android:layout_width="380dp"
         android:layout_height="50dp"
@@ -74,7 +75,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtCEP"
         android:layout_width="380dp"
         android:layout_height="50dp"
@@ -88,7 +89,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtNumero" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtEmail"
         android:layout_width="380dp"
         android:layout_height="50dp"
@@ -102,7 +103,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edtTelefone"
         android:autofillHints="" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtSite"
         android:layout_width="380dp"
         android:layout_height="50dp"
@@ -116,7 +117,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtTelefone"
         android:layout_width="380dp"
         android:layout_height="50dp"
@@ -130,7 +131,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edtCNPJCPF"
         android:autofillHints="" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCancelarCadUser"
         android:layout_width="150dp"
         android:layout_height="50dp"
@@ -140,7 +141,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGravarCadUser"
         android:layout_width="150dp"
         android:layout_height="50dp"
@@ -151,7 +152,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtCidade"
         android:layout_width="300dp"
         android:layout_height="50dp"
@@ -163,7 +164,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edtCEP"
         android:autofillHints="" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtRuaAvenida"
         android:layout_width="380dp"
         android:layout_height="50dp"
@@ -178,7 +179,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtSite" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtCNPJCPF"
         android:layout_width="380dp"
         android:layout_height="50dp"
@@ -204,8 +205,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/edtUsuarioProv"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtLoginUsuario"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
@@ -217,8 +218,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtCidade" />
 
-    <EditText
-        android:id="@+id/edtSenhaProv"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtLoginSenha"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:autofillHints=""
@@ -226,7 +227,7 @@
         android:hint="@string/senha"
         android:inputType="textPassword"
         android:textColorHint="#757575"
-        app:layout_constraintStart_toEndOf="@+id/edtUsuarioProv"
+        app:layout_constraintStart_toEndOf="@+id/edtLoginUsuario"
         app:layout_constraintTop_toBottomOf="@+id/edtUF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

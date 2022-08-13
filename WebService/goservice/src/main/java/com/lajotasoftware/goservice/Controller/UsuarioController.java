@@ -55,12 +55,19 @@ public class UsuarioController {
         return repository.findById(id)
             .map(record -> {
                 if(usuario.getId_Prestador()!=null){record.setId_Prestador(usuario.getId_Prestador());}
-                if(usuario.getNome()!=null){record.setNome(usuario.getNome());}
+                if(usuario.getPrimeiroNome()!=null){record.setPrimeiroNome(usuario.getPrimeiroNome());}
+                if(usuario.getSegundoNome()!=null){record.setSegundoNome(usuario.getSegundoNome());}
                 if(usuario.getCpf()!=null){record.setCpf(usuario.getCpf());}
                 if(usuario.getCnpj()!=null){record.setCnpj(usuario.getCnpj());}
-                if(usuario.getEndereco()!=null){record.setEndereco(usuario.getEndereco());}
+                if(usuario.getRuaAvenida()!=null){record.setRuaAvenida(usuario.getRuaAvenida());}
+                if(usuario.getBairro()!=null){record.setBairro(usuario.getBairro());}
+                if(usuario.getNumero()!=null){record.setNumero(usuario.getNumero());}
+                if(usuario.getCidade()!=null){record.setCidade(usuario.getCidade());}
+                if(usuario.getCep()!=null){record.setCep(usuario.getCep());}
+                if(usuario.getUf()!=null){record.setUf(usuario.getUf());}
                 if(usuario.getTelefone()!=null){record.setTelefone(usuario.getTelefone());}
                 if(usuario.getEmail()!=null){record.setEmail(usuario.getEmail());}
+                if(usuario.getSite()!=null){record.setSite(usuario.getSite());}
                 if(usuario.getLogin()!=null){record.setLogin(usuario.getLogin());}
                 if(usuario.getSenha()!=null){record.setSenha(usuario.getSenha());}
                 if(usuario.getAvaliacaoPrestador()!=null){record.setAvaliacaoPrestador(usuario.getAvaliacaoPrestador());}

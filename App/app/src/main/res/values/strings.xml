@@ -37,4 +37,9 @@
     <string name="seu_email">seu email</string>
     <string name="torne_se_prestador">Torne-se Prestador</string>
     <string name="botao_provisorio_para_cad">Botao provisorio para cad</string>
+    <string name="entrar">entrar</string>
+    <string name="loginPass">Senha</string>
+    <string name="loginUser">Usuario</string>
+    <string name="logo">LogoGoServiceLogin</string>
+    <string name="cadastre_agora">Cadastre agora</string>
 </resources>

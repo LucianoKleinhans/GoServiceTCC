@@ -31,10 +31,10 @@ public class UsuarioUC {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setId_Prestador(1L);
-        usuario.setNome("Bruno Formiga");
+       // usuario.setNome("Bruno Formiga");
         usuario.setCpf("04902773147");
         usuario.setCnpj("11162692000190");
-        usuario.setEndereco("Bom dia ao lado do boa noite");
+     //   usuario.setEndereco("Bom dia ao lado do boa noite");
         usuario.setTelefone("67996002604");
         usuario.setEmail("eobrunoformiga@gmail.com");
         usuario.setLogin("formigabruno");
@@ -61,10 +61,10 @@ public class UsuarioUC {
         Usuario usuario = new Usuario();
         usuario.setId(99L);
         usuario.setId_Prestador(1L);
-        usuario.setNome("Ricardo Milos");
+       // usuario.setNome("Ricardo Milos");
         usuario.setCpf("000.000.000-00");
         usuario.setCnpj("00.000.000/0000-00");
-        usuario.setEndereco("Bom dia ao lado do boa noite");
+       /// usuario.setEndereco("Bom dia ao lado do boa noite");
         usuario.setTelefone("67 67894-5465");
         usuario.setEmail("eobrunoformigagmail.com");
         usuario.setLogin("formigao");
@@ -94,10 +94,10 @@ public class UsuarioUC {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setId_Prestador(1L);
-        usuario.setNome("Bruno Formiga");
+        //usuario.setNome("Bruno Formiga");
         usuario.setCpf("07464993101");
         usuario.setCnpj("11162692000190");
-        usuario.setEndereco("Bom dia ao lado do boa noite");
+        //usuario.setEndereco("Bom dia ao lado do boa noite");
         usuario.setTelefone("67996002604");
         usuario.setEmail("eobrunoformiga@gmail.com");
         usuario.setLogin("formigabruno");
