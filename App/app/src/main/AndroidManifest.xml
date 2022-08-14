@@ -18,7 +18,7 @@
         android:theme="@style/Theme.GoService"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".Frames.Login"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.GoService.NoActionBar">
@@ -28,7 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Frames.Login"
+        <activity android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden">
         </activity>
         <activity android:name=".Frames.Perfil"

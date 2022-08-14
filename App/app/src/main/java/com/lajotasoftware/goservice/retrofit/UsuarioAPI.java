@@ -14,6 +14,9 @@ public interface UsuarioAPI {
     @GET("/usuario")
     Call<List<Usuario>> getAllUsuarios();
 
-    @POST("/usuario")
-    Call<Usuario> save(@Body Usuario usuario);
+    @POST("/usuario/update/{id}")
+    Call<Usuario> update(@Body Usuario usuario);
+
+    @POST("/usuario/validation")
+    Call<Usuario> authentication(@Body Usuario usuario);
 }

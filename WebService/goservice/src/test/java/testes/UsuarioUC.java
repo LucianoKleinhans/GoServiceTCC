@@ -107,7 +107,7 @@ public class UsuarioUC {
         usuario.setPrestador(true);
         usuario.setAtivo(true);
 
-        usuarioController.salvarUsuario(usuario);
+        //usuarioController.salvarUsuario(usuario);
     }
 
     @Test

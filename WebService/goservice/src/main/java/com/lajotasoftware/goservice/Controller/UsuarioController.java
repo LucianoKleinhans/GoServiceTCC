@@ -2,15 +2,20 @@ package com.lajotasoftware.goservice.Controller;
 
 import com.lajotasoftware.goservice.DAO.DAOUsuario;
 import com.lajotasoftware.goservice.Entity.Usuario;
+import com.lajotasoftware.goservice.Services.CreateUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @EnableJpaRepositories(basePackages = "com.lajotasoftware.goservice.DAO")
 @RestController
@@ -18,6 +23,9 @@ import java.util.List;
 public class UsuarioController {
 
     DAOUsuario repository;
+
+    @Autowired
+    CreateUserService createUserService;
 
     @GetMapping("/usuario")
     public List<Usuario> getAllUsuarios() {
@@ -29,6 +37,8 @@ public class UsuarioController {
         return repository.findById(id).get();
     }
 
+    //autenticação do login do usuario
+
     @GetMapping("/usuarioPrestador")
     public List<Usuario> getAllUsuariosPrestador() {
         return repository.findAllPrestadores();
@@ -39,17 +49,25 @@ public class UsuarioController {
         return repository.findPrestadorById(id);
     }
 
-    @PostMapping("/usuario")
+    /*@PostMapping("/usuario/create")
     public Usuario salvarUsuario(@RequestBody Usuario usuario) {
         return repository.save(usuario);
+    }*/
+    @PostMapping("/usuario/create")
+    public Usuario createUser(@RequestBody Usuario usuario) {
+        return createUserService.execute(usuario);
+    }
+    @PostMapping("/usuario/validation")
+    public Usuario validateUser(@RequestBody Usuario usuario) {
+        return createUserService.validation(usuario);
     }
 
-    @DeleteMapping("/usuario/{id}")
+    @DeleteMapping("/usuario/delete/{id}")
     public void deleteUsuario(@PathVariable Long id) {
         repository.deleteById(id);
     }
 
-    @PutMapping(value = "/usuario/{id}")
+    @PutMapping(value = "/usuario/update/{id}")
     public ResponseEntity update(@PathVariable("id") long id,
                                  @RequestBody Usuario usuario) {
         return repository.findById(id)

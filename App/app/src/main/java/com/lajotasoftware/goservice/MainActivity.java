@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.entry_login);
+        setContentView(R.layout.activity_main);
     }
 
     public void btn_main_to_perfil (View view){

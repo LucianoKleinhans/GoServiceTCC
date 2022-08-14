@@ -3,6 +3,7 @@ package com.lajotasoftware.goservice.Frames;
 import android.content.Intent;
 import android.hardware.usb.UsbInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import retrofit2.Response;
 
 public class Cadastro extends AppCompatActivity {
 
+    Login login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +72,7 @@ public class Cadastro extends AppCompatActivity {
             String loginSenha = String.valueOf(inputEditTextLoginSenha.getText());
 
             Usuario usuario = new Usuario();
+            usuario.setId(login.idUsuario);
             usuario.setPrimeiroNome(primeiroNome);
             usuario.setSegundoNome(segundoNome);
             usuario.setCpf(CNPJCPF);
@@ -86,7 +89,7 @@ public class Cadastro extends AppCompatActivity {
             usuario.setLogin(loginUsuario);
             usuario.setSenha(loginSenha);
 
-            usuarioAPI.save(usuario).enqueue(new Callback<Usuario>(){
+            usuarioAPI.update(usuario).enqueue(new Callback<Usuario>(){
                 @Override
                 public void onResponse(Call<Usuario> call, Response<Usuario> response){
                     Toast.makeText(Cadastro.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
@@ -97,7 +100,8 @@ public class Cadastro extends AppCompatActivity {
                     Toast.makeText(Cadastro.this, "Falha no salvamento!", Toast.LENGTH_SHORT).show();
                 }
             });
-        onBackPressed();
+            Intent it = new Intent(this, Login.class);
+            startActivity(it);
         });
     }
 
