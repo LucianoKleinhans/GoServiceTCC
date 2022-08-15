@@ -26,12 +26,12 @@ public class Cadastro extends AppCompatActivity {
         Intent it  = getIntent();
         Bundle paramentros = it.getExtras();
         String status = paramentros.getString("status_usuario");
-        idUsuario = paramentros.getLong("id_usuario");
         if (status.equals("CADASTRAR_USUARIO")) {
             setContentView(R.layout.entry_cadastro_login);
             initializeComponentsCadastroLogin();
         } else if (status.equals("LOGIN_CRIADO")) {
             setContentView(R.layout.cadastro_usuario);
+            idUsuario = paramentros.getLong("id_usuario");
             initializeComponentsCadastro();
         }
     }
@@ -52,47 +52,27 @@ public class Cadastro extends AppCompatActivity {
             usuario.setLogin(username);
             usuario.setSenha(password);
 
-
+            Intent it = new Intent(this, Cadastro.class);
 
             usuarioAPI.createNewUser(usuario).enqueue(new Callback<Usuario>(){
                 @Override
                 public void onResponse(Call<Usuario> call, Response<Usuario> response){
                     Toast.makeText(Cadastro.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
-            }
+                    efetuarLogin(response.body().getId());
 
+                    Bundle parametros = new Bundle();
+                    String status = "LOGIN_CRIADO";
+                    parametros.putString("status_usuario", status);
+                    parametros.putLong("id_usuario", idUsuario);
+                    it.putExtras(parametros);
+                    startActivity(it);
+                }
                 @Override
                 public void onFailure(Call<Usuario> call, Throwable t){
-                    Toast.makeText(Cadastro.this, "Falha no salvamento!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
                 }
             });
-            efetuarLogin(30L);
-            /*if (!(username.equals("") || password.equals(""))) {
-                usuarioAPI.authentication(usuario).enqueue(new Callback<Usuario>() {
-                    @Override
-                    public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                        if (response.body().getId() != 0) {
-                            Toast.makeText(Cadastro.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
-                            efetuarLogin(response.body().getId());
-                        } else {
-                            Toast.makeText(Cadastro.this, "Falha no Login!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<Usuario> call, Throwable t) {
-                        Toast.makeText(Cadastro.this, "Falha no Login!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }else{
-                Toast.makeText(Cadastro.this, "Login ou Senha Inválido!", Toast.LENGTH_SHORT).show();
-            }*/
-            Intent it = new Intent(this, Cadastro.class);
-            Bundle parametros = new Bundle();
-            String status = "LOGIN_CRIADO";
-            parametros.putString("status_usuario", status);
-            parametros.putLong("id_usuario", idUsuario);
-            it.putExtras(parametros);
-            startActivity(it);
         });
     }
 
@@ -115,6 +95,7 @@ public class Cadastro extends AppCompatActivity {
         TextInputEditText inputEditTextUF = findViewById(R.id.edtUF);
 
         MaterialButton btn_gravar_usuario = findViewById(R.id.btnGravarCadUser);
+        MaterialButton btn_cancelar_usuario = findViewById(R.id.btnCancelarCadUser);
 
         RetrofitService retrofitService = new RetrofitService();
         UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
@@ -133,46 +114,95 @@ public class Cadastro extends AppCompatActivity {
             String email = String.valueOf(inputEditTextEmail.getText());
             String site = String.valueOf(inputEditTextSite.getText());
 
-            Usuario usuario = new Usuario();
-            usuario.setPrimeiroNome(primeiroNome);
-            usuario.setSegundoNome(segundoNome);
-            usuario.setCpf(CNPJCPF);
-            usuario.setCnpj(CNPJCPF);
-            usuario.setRuaAvenida(ruaAvenida);
-            usuario.setBairro(bairro);
-            usuario.setNumero(numero);
-            usuario.setCep(cep);
-            usuario.setCidade(cidade);
-            usuario.setUf(uf);
-            usuario.setTelefone(telefone);
-            usuario.setEmail(email);
-            usuario.setSite(site);
+            //validacao dos campos
+            if (!(primeiroNome.equals(""))){
+            if (!(segundoNome.equals(""))){
+            if (!(CNPJCPF.equals(""))){
+            if (!(ruaAvenida.equals(""))){
+            if (!(bairro.equals(""))){
+            if (!(numero.equals(""))){
+            if (!(cep.equals(""))){
+            if (!(cidade.equals(""))){
+            if (!(uf.equals(""))){
+            if (!(telefone.equals(""))){
+            if (!(email.equals(""))){
+                Usuario usuario = new Usuario();
+                usuario.setPrimeiroNome(primeiroNome);
+                usuario.setSegundoNome(segundoNome);
+                usuario.setCpf(CNPJCPF);
+                //usuario.setCnpj(CNPJCPF);
+                usuario.setRuaAvenida(ruaAvenida);
+                usuario.setBairro(bairro);
+                usuario.setNumero(numero);
+                usuario.setCep(cep);
+                usuario.setCidade(cidade);
+                usuario.setUf(uf);
+                usuario.setTelefone(telefone);
+                usuario.setEmail(email);
+                usuario.setSite(site);
 
-            usuarioAPI.update(idUsuario, usuario).enqueue(new Callback<Usuario>(){
+                Intent it = new Intent(this, Login.class);
+
+                usuarioAPI.update(idUsuario, usuario).enqueue(new Callback<Usuario>(){
+                    @Override
+                    public void onResponse(Call<Usuario> call, Response<Usuario> response){
+                        Toast.makeText(Cadastro.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+                        startActivity(it);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Usuario> call, Throwable t){
+                        Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else{
+                Toast.makeText(Cadastro.this, "Campo E-mail está vazio!", Toast.LENGTH_SHORT).show();
+            }
+            }else{
+                Toast.makeText(Cadastro.this, "Campo Telefone está vazio!", Toast.LENGTH_SHORT).show();
+            }
+            }else{
+                Toast.makeText(Cadastro.this, "Campo UF está vazio!", Toast.LENGTH_SHORT).show();
+            }
+            }else{
+                Toast.makeText(Cadastro.this, "Campo CIDADE está vazio!", Toast.LENGTH_SHORT).show();
+            }
+            }else{
+                Toast.makeText(Cadastro.this, "Campo CEP está vazio!", Toast.LENGTH_SHORT).show();
+            }
+            }else{
+                Toast.makeText(Cadastro.this, "Campo Numero está vazio!", Toast.LENGTH_SHORT).show();
+            }
+            }else{
+                Toast.makeText(Cadastro.this, "Campo Bairro está vazio!", Toast.LENGTH_SHORT).show();
+            }
+            }else{
+                Toast.makeText(Cadastro.this, "Campo Rua/Avenida está vazio!", Toast.LENGTH_SHORT).show();
+            }
+            }else{
+                Toast.makeText(Cadastro.this, "Campo do CNPJ/CPF está vazio!", Toast.LENGTH_SHORT).show();
+            }
+            }else{
+                Toast.makeText(Cadastro.this, "Segundo nome inválido!", Toast.LENGTH_SHORT).show();
+            }
+            }else{
+                Toast.makeText(Cadastro.this, "Nome inválido!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btn_cancelar_usuario.setOnClickListener(view -> {
+            Intent it = new Intent(this, Login.class);
+            usuarioAPI.deleteUser(idUsuario).enqueue(new Callback<Usuario>(){
                 @Override
                 public void onResponse(Call<Usuario> call, Response<Usuario> response){
-                    Toast.makeText(Cadastro.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Cadastro.this, "Cadastro cancelado", Toast.LENGTH_SHORT).show();
+                    startActivity(it);
                 }
 
                 @Override
                 public void onFailure(Call<Usuario> call, Throwable t){
-                    Toast.makeText(Cadastro.this, "Falha no salvamento!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Cadastro.this, "Falha no cancelamento! \n Tente novamente.", Toast.LENGTH_SHORT).show();
                 }
             });
-            Intent it = new Intent(this, Login.class);
-            startActivity(it);
         });
     }
-
- /*   public void btn_gravar_usuario (View view){
-        Usuario usuario = new Usuario();
-        usuario.setNome(nomeCad.getText().toString());
-        usuario.setCpf(cpfcnpjCad.getText().toString());
-        usuario.setEndereco(enderecoCad.getText().toString());
-        usuario.setTelefone(telefoneCad.getText().toString());
-        usuario.setEmail(emailCad.getText().toString());
-        usuario.setLogin(loginCad.getText().toString());
-        usuario.setSenha(senhaCad.getText().toString());
-
-    }*/
 }

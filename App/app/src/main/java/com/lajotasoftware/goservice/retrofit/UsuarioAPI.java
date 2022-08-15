@@ -27,4 +27,7 @@ public interface UsuarioAPI {
 
     @POST("/usuario/create")
     Call<Usuario> createNewUser(@Body Usuario usuario);
+
+    @POST ("/usuario/delete/{id}")
+    Call<Usuario> deleteUser(@Path("id")Long id);
 }

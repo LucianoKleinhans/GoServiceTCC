@@ -87,6 +87,9 @@ public class Usuario {
         if(validacao.isCPF(cpf)){
             this.cpf = cpf;
         }
+//        else{
+//            throw new Error("CPF INVÁLIDO!");
+//        }
     }
     public String getCnpj() {
         return cnpj;
@@ -97,6 +100,9 @@ public class Usuario {
         if(validacao.isCNPJ(cnpj)){
             this.cnpj = cnpj;
         }
+//        else{
+//            throw new Error("CNPJ INVÁLIDO!");
+//        }
     }
 
     public String getRuaAvenida() {
@@ -193,6 +199,8 @@ public class Usuario {
     public void setSenha(String senha) {
         if(senha.length()>=10){
             this.senha = senha;
+        }else{
+            throw new Error("Senha Inválida!");
         }
     }
 
