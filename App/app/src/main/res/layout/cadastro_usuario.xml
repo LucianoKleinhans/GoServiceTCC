@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -204,30 +205,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtLoginUsuario"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/usuario"
-        android:inputType="textPersonName"
-        android:textColorHint="#757575"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtCidade" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtLoginSenha"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/senha"
-        android:inputType="textPassword"
-        android:textColorHint="#757575"
-        app:layout_constraintStart_toEndOf="@+id/edtLoginUsuario"
-        app:layout_constraintTop_toBottomOf="@+id/edtUF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,4 +42,7 @@
     <string name="loginUser">Usuario</string>
     <string name="logo">LogoGoServiceLogin</string>
     <string name="cadastre_agora">Cadastre agora</string>
+    <string name="gravarCadLogin">Gravar</string>
+    <string name="insira_seu_usuario">Insira seu Usuário</string>
+    <string name="insira_sua_senha">Insira sua Senha</string>
 </resources>

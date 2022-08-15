@@ -1,11 +1,7 @@
 package com.lajotasoftware.goservice.Frames;
 
 import android.content.Intent;
-import android.hardware.usb.UsbInterface;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,28 +9,98 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.lajotasoftware.goservice.Entity.Usuario;
+import com.lajotasoftware.goservice.MainActivity;
 import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
 import com.lajotasoftware.goservice.retrofit.UsuarioAPI;
-
-import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Cadastro extends AppCompatActivity {
-
-    Login login;
+    Long idUsuario;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cadastro_usuario);
-
-        initializeComponents();
+        Intent it  = getIntent();
+        Bundle paramentros = it.getExtras();
+        String status = paramentros.getString("status_usuario");
+        idUsuario = paramentros.getLong("id_usuario");
+        if (status.equals("CADASTRAR_USUARIO")) {
+            setContentView(R.layout.entry_cadastro_login);
+            initializeComponentsCadastroLogin();
+        } else if (status.equals("LOGIN_CRIADO")) {
+            setContentView(R.layout.cadastro_usuario);
+            initializeComponentsCadastro();
+        }
     }
 
-    private void initializeComponents() {
+    private void initializeComponentsCadastroLogin() {
+        TextInputEditText inputEditTextUsuario = findViewById(R.id.edtCadLoginUser);
+        TextInputEditText inputEditTextSenha = findViewById(R.id.edtCadLoginPass);
+        MaterialButton btnGravarUserAndPass = findViewById(R.id.btnCadLoginGravar);
+
+        RetrofitService retrofitService = new RetrofitService();
+        UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+
+        btnGravarUserAndPass.setOnClickListener(view -> {
+            String username = String.valueOf(inputEditTextUsuario.getText());
+            String password = String.valueOf(inputEditTextSenha.getText());
+
+            Usuario usuario = new Usuario();
+            usuario.setLogin(username);
+            usuario.setSenha(password);
+
+
+
+            usuarioAPI.createNewUser(usuario).enqueue(new Callback<Usuario>(){
+                @Override
+                public void onResponse(Call<Usuario> call, Response<Usuario> response){
+                    Toast.makeText(Cadastro.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+            }
+
+                @Override
+                public void onFailure(Call<Usuario> call, Throwable t){
+                    Toast.makeText(Cadastro.this, "Falha no salvamento!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            efetuarLogin(30L);
+            /*if (!(username.equals("") || password.equals(""))) {
+                usuarioAPI.authentication(usuario).enqueue(new Callback<Usuario>() {
+                    @Override
+                    public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                        if (response.body().getId() != 0) {
+                            Toast.makeText(Cadastro.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                            efetuarLogin(response.body().getId());
+                        } else {
+                            Toast.makeText(Cadastro.this, "Falha no Login!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Usuario> call, Throwable t) {
+                        Toast.makeText(Cadastro.this, "Falha no Login!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else{
+                Toast.makeText(Cadastro.this, "Login ou Senha Inválido!", Toast.LENGTH_SHORT).show();
+            }*/
+            Intent it = new Intent(this, Cadastro.class);
+            Bundle parametros = new Bundle();
+            String status = "LOGIN_CRIADO";
+            parametros.putString("status_usuario", status);
+            parametros.putLong("id_usuario", idUsuario);
+            it.putExtras(parametros);
+            startActivity(it);
+        });
+    }
+
+    private void efetuarLogin(Long id) {
+        idUsuario = id;
+    }
+
+    private void initializeComponentsCadastro() {
         TextInputEditText inputEditTextPrimeiroNome = findViewById(R.id.edtPrimeiroNome);
         TextInputEditText inputEditTextSegundoNome = findViewById(R.id.edtSegundoNome);
         TextInputEditText inputEditTextCNPJCPF = findViewById(R.id.edtCNPJCPF);
@@ -47,8 +113,6 @@ public class Cadastro extends AppCompatActivity {
         TextInputEditText inputEditTextCEP = findViewById(R.id.edtCEP);
         TextInputEditText inputEditTextCidade = findViewById(R.id.edtCidade);
         TextInputEditText inputEditTextUF = findViewById(R.id.edtUF);
-        TextInputEditText inputEditTextLoginUsuario = findViewById(R.id.edtLoginUsuario);
-        TextInputEditText inputEditTextLoginSenha = findViewById(R.id.edtLoginSenha);
 
         MaterialButton btn_gravar_usuario = findViewById(R.id.btnGravarCadUser);
 
@@ -68,11 +132,8 @@ public class Cadastro extends AppCompatActivity {
             String telefone = String.valueOf(inputEditTextTelefone.getText());
             String email = String.valueOf(inputEditTextEmail.getText());
             String site = String.valueOf(inputEditTextSite.getText());
-            String loginUsuario = String.valueOf(inputEditTextLoginUsuario.getText());
-            String loginSenha = String.valueOf(inputEditTextLoginSenha.getText());
 
             Usuario usuario = new Usuario();
-            usuario.setId(login.idUsuario);
             usuario.setPrimeiroNome(primeiroNome);
             usuario.setSegundoNome(segundoNome);
             usuario.setCpf(CNPJCPF);
@@ -86,10 +147,8 @@ public class Cadastro extends AppCompatActivity {
             usuario.setTelefone(telefone);
             usuario.setEmail(email);
             usuario.setSite(site);
-            usuario.setLogin(loginUsuario);
-            usuario.setSenha(loginSenha);
 
-            usuarioAPI.update(usuario).enqueue(new Callback<Usuario>(){
+            usuarioAPI.update(idUsuario, usuario).enqueue(new Callback<Usuario>(){
                 @Override
                 public void onResponse(Call<Usuario> call, Response<Usuario> response){
                     Toast.makeText(Cadastro.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();

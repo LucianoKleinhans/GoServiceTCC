@@ -13,8 +13,12 @@ public class RetrofitService {
     }
 
     private void initializeRetrofit() {
-        retrofit = new Retrofit.Builder()
+       /*retrofit = new Retrofit.Builder()
         .baseUrl("http://192.168.0.100:9090")
+        .addConverterFactory(GsonConverterFactory.create(new Gson()))
+        .build();*/
+        retrofit = new Retrofit.Builder()
+        .baseUrl("http://0.tcp.sa.ngrok.io:10944")
         .addConverterFactory(GsonConverterFactory.create(new Gson()))
         .build();
     }

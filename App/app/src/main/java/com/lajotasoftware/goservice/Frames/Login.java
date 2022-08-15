@@ -20,9 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
-
     public Long idUsuario; // usuario logado no aplicativo
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,10 +31,10 @@ public class Login extends AppCompatActivity {
 
     private void initializeComponents() {
         idUsuario = 0L;
-        TextInputEditText inputEditTextLoginUsuario = findViewById(R.id.edtLoginUser);
-        TextInputEditText inputEditTextLoginSenha = findViewById(R.id.edtLoginPass);
+        TextInputEditText inputEditTextLoginUsuario = findViewById(R.id.edtCadLoginUser);
+        TextInputEditText inputEditTextLoginSenha = findViewById(R.id.edtCadLoginPass);
 
-        MaterialButton btnEntrar = findViewById(R.id.btnEntrar);
+        MaterialButton btnEntrar = findViewById(R.id.btnCadLoginGravar);
         MaterialButton btnCadastrar = findViewById(R.id.btnCadastrar);
 
         RetrofitService retrofitService = new RetrofitService();
@@ -51,7 +49,7 @@ public class Login extends AppCompatActivity {
             usuario.setLogin(loginUsuario);
             usuario.setSenha(loginSenha);
 
-            if (!(usuario.getLogin().equals("")||usuario.getSenha().equals(""))) {
+            if (!(usuario.getLogin().equals("") || usuario.getSenha().equals(""))) {
                 usuarioAPI.authentication(usuario).enqueue(new Callback<Usuario>() {
                     @Override
                     public void onResponse(Call<Usuario> call, Response<Usuario> response) {
@@ -86,6 +84,11 @@ public class Login extends AppCompatActivity {
 
     public void btnCadastrar (View view){
         Intent it = new Intent(this, Cadastro.class);
+        Bundle parametros = new Bundle();
+        String status = "CADASTRAR_USUARIO";
+        parametros.putLong("id_usuario", idUsuario);
+        parametros.putString("status_usuario", status);
+        it.putExtras(parametros);
         startActivity(it);
     }
 }
