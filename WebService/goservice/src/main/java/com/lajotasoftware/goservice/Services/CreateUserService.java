@@ -1,6 +1,5 @@
 package com.lajotasoftware.goservice.Services;
 
-import antlr.BaseAST;
 import com.lajotasoftware.goservice.DAO.DAOUsuario;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class CreateUserService {
@@ -41,7 +40,8 @@ public class CreateUserService {
             boolean valid = false;
             valid = BCrypt.checkpw(senha, senhaBanco);
             if (valid) {
-                user.setId(existUser.getId());
+                return existUser;
+                //user.setId(existUser.getId());
             } else {
                 user.setId(0L);
             }
@@ -49,5 +49,10 @@ public class CreateUserService {
             user.setId(0L);
         }
         return user;
+    }
+
+    public Usuario getAtualUser (Usuario id){
+        Usuario userAtual = daoUsuario.findById(id.getId()).get();
+        return userAtual;
     }
 }

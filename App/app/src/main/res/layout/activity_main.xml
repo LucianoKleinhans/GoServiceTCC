@@ -4,7 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#071219"
     tools:context=".MainActivity">
+
+    <View
+        android:id="@+id/myRectangleView"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:background="@drawable/retangle_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnGerenciaCardsMain"
@@ -16,7 +26,7 @@
         android:text="@string/gerencia_cards"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGerenciaPerfilMain" />
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView" />
 
     <Button
         android:id="@+id/btnPrestadoresMain"
@@ -42,16 +52,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnPrestadoresMain" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btnGerenciaPerfilMain"
-        android:layout_width="120dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="150dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/round_button"
         android:onClick="btn_main_to_perfil"
-        android:text="@string/perfil"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_logogoservice" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

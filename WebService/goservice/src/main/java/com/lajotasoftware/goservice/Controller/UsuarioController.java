@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.*;
 
@@ -27,17 +28,19 @@ public class UsuarioController {
     @Autowired
     CreateUserService createUserService;
 
+    public BCryptPasswordEncoder passwordEnconder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @GetMapping("/usuario")
     public List<Usuario> getAllUsuarios() {
         return repository.findAll();
     }
 
-    @GetMapping("/usuario/{id}")
-    public Usuario getUsuarioById(@PathVariable Long id) {
-        return repository.findById(id).get();
+    @PostMapping("/usuario/getatualuser")
+    public Usuario getAtualUser(@RequestBody Usuario id) {
+        return createUserService.getAtualUser(id);
     }
-
-    //autenticação do login do usuario
 
     @GetMapping("/usuarioPrestador")
     public List<Usuario> getAllUsuariosPrestador() {
@@ -49,10 +52,6 @@ public class UsuarioController {
         return repository.findPrestadorById(id);
     }
 
-    /*@PostMapping("/usuario/create")
-    public Usuario salvarUsuario(@RequestBody Usuario usuario) {
-        return repository.save(usuario);
-    }*/
     @PostMapping("/usuario/create")
     public Usuario createUser(@RequestBody Usuario usuario) {
         return createUserService.execute(usuario);

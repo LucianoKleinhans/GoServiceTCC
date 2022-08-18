@@ -48,26 +48,33 @@ public class Login extends AppCompatActivity {
             Usuario usuario = new Usuario();
             usuario.setLogin(loginUsuario);
             usuario.setSenha(loginSenha);
+            if (usuario.getLogin().length()>=5){
+                if (usuario.getSenha().length()>=10){
+                    if (!(usuario.getLogin().equals("") || usuario.getSenha().equals(""))) {
+                        usuarioAPI.authentication(usuario).enqueue(new Callback<Usuario>() {
+                            @Override
+                            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                                if (response.body().getId() != 0) {
+                                    Toast.makeText(Login.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                                    efetuarLogin(response.body().getId());
+                                } else {
+                                    Toast.makeText(Login.this, "Falha no Login!", Toast.LENGTH_SHORT).show();
+                                }
+                            }
 
-            if (!(usuario.getLogin().equals("") || usuario.getSenha().equals(""))) {
-                usuarioAPI.authentication(usuario).enqueue(new Callback<Usuario>() {
-                    @Override
-                    public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                        if (response.body().getId() != 0) {
-                            Toast.makeText(Login.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
-                            efetuarLogin(response.body().getId());
-                        } else {
-                            Toast.makeText(Login.this, "Falha no Login!", Toast.LENGTH_SHORT).show();
-                        }
+                            @Override
+                            public void onFailure(Call<Usuario> call, Throwable t) {
+                                Toast.makeText(Login.this, "Falha no Login!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }else{
+                        Toast.makeText(Login.this, "Login ou Senha Inválido!", Toast.LENGTH_SHORT).show();
                     }
-
-                    @Override
-                    public void onFailure(Call<Usuario> call, Throwable t) {
-                        Toast.makeText(Login.this, "Falha no Login!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                }else{
+                    Toast.makeText(Login.this, "Tamanho da Senha do Usuário deve ser maior ou igual a 10", Toast.LENGTH_SHORT).show();
+                }
             }else{
-                Toast.makeText(Login.this, "Login ou Senha Inválido!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Login.this, "Tamanho do Nome de Usuário deve ser maior ou igual a 5", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -76,6 +83,9 @@ public class Login extends AppCompatActivity {
         idUsuario = id;
         if (idUsuario != 0L){
             Intent it = new Intent(this, MainActivity.class);
+            Bundle parametros = new Bundle();
+            parametros.putLong("id_usuario", idUsuario);
+            it.putExtras(parametros);
             startActivity(it);
         }else{
             Toast.makeText(Login.this, "Falha no Login!", Toast.LENGTH_SHORT).show();

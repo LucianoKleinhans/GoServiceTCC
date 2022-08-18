@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#071219"
     tools:context=".Frames.Login">
 
     <com.google.android.material.textfield.TextInputEditText
@@ -17,7 +18,7 @@
         android:ems="10"
         android:hint="@string/insira_seu_usuario"
         android:inputType="textPersonName"
-        android:textColorHint="#757575"
+        android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +35,7 @@
         android:ems="10"
         android:hint="@string/insira_sua_senha"
         android:inputType="textPassword"
-        android:textColorHint="#757575"
+        android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

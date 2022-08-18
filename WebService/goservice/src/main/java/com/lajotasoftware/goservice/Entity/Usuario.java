@@ -84,12 +84,13 @@ public class Usuario {
 
     public void setCpf(String cpf) {
         Validacao validacao = new Validacao();
-        if(validacao.isCPF(cpf)){
-            this.cpf = cpf;
+        if (cpf != null) {
+            if (validacao.isCPF(cpf)) {
+                this.cpf = cpf;
+            } else {
+                throw new Error("CPF INVÁLIDO!");
+            }
         }
-//        else{
-//            throw new Error("CPF INVÁLIDO!");
-//        }
     }
     public String getCnpj() {
         return cnpj;
@@ -97,12 +98,13 @@ public class Usuario {
 
     public void setCnpj(String cnpj) {
         Validacao validacao = new Validacao();
-        if(validacao.isCNPJ(cnpj)){
-            this.cnpj = cnpj;
+        if (cnpj != null) {
+            if (validacao.isCNPJ(cnpj)) {
+                this.cnpj = cnpj;
+            } else {
+                throw new Error("CNPJ INVÁLIDO!");
+            }
         }
-//        else{
-//            throw new Error("CNPJ INVÁLIDO!");
-//        }
     }
 
     public String getRuaAvenida() {
@@ -159,8 +161,12 @@ public class Usuario {
 
     public void setTelefone(String telefone) {
         Validacao validacao = new Validacao();
-        if(validacao.validarTelefone(telefone)){
-            this.telefone = telefone;
+        if (telefone != null) {
+            if (validacao.validarTelefone(telefone)) {
+                this.telefone = telefone;
+            } else {
+                throw new Error("Telefone Invalido");
+            }
         }
     }
 
@@ -169,8 +175,12 @@ public class Usuario {
     }
 
     public void setEmail(String email) {
-        if (EmailValidator.getInstance().isValid(email)){
-            this.email = email;
+        if (email != null) {
+            if (EmailValidator.getInstance().isValid(email)) {
+                this.email = email;
+            } else {
+                throw new Error("Email Invalido");
+            }
         }
     }
 
@@ -187,8 +197,10 @@ public class Usuario {
     }
 
     public void setLogin(String login) {
-        if(login.length()>=10){
+        if(login.length()>=5){
             this.login = login;
+        }else {
+            throw new Error("Tamanho de login inválido");
         }
     }
 

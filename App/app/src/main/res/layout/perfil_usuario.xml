@@ -4,66 +4,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#071219"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
-        android:id="@+id/ttvUsernamePerfilUser"
-        android:layout_width="150dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="200dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/user_name"
+    <View
+        android:id="@+id/myRectangleView3"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:background="@drawable/retangle_view"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ttvUsernamePerfilUser"
+        android:layout_width="0dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:text="@string/user_name"
+        android:textColor="#DDDDDD"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/ttvCidadePerfilUser"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_marginStart="200dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="5dp"
         android:text="@string/cidade_uf"
+        android:textColor="#DDDDDD"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvUsernamePerfilUser" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/ttvSitePerfilUser"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_marginStart="200dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="5dp"
         android:text="@string/seu_site"
+        android:textColor="#DDDDDD"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvCidadePerfilUser" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/ttvEmailPerfilUser"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="30dp"
-        android:layout_marginStart="200dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="5dp"
         android:text="@string/seu_email"
+        android:textColor="#DDDDDD"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvSitePerfilUser" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnTornarPresPerfilUser"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        android:layout_marginTop="290dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginTop="292dp"
+        android:layout_marginEnd="36dp"
         android:text="@string/torne_se_prestador"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvEmailPerfilUser" />
 
-    <Button
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/btnCadastroProv"
-        android:layout_width="300dp"
-        android:layout_height="80dp"
+        android:layout_width="307dp"
+        android:layout_height="48dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="75dp"
+        android:layout_marginBottom="76dp"
         android:onClick="btn_perfil_to_cad"
         android:text="@string/botao_provisorio_para_cad"
+        android:textColor="#DDDDDD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_logogoservice" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

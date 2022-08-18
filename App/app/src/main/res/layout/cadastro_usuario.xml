@@ -4,66 +4,192 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#071219"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
+    <View
+        android:id="@+id/myRectangleView2"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView4" />
+
+    <View
+        android:id="@+id/myRectangleView5"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView2" />
+
+    <View
+        android:id="@+id/myRectangleView6"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView5" />
+
+    <View
+        android:id="@+id/myRectangleView10"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView6" />
+
+    <View
+        android:id="@+id/myRectangleView11"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView10" />
+
+    <View
+        android:id="@+id/myRectangleView12"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView11" />
+
+    <View
+        android:id="@+id/myRectangleView13"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView12" />
+
+    <View
+        android:id="@+id/myRectangleView14"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView13" />
+
+    <View
+        android:id="@+id/myRectangleView17"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView16" />
+
+    <View
+        android:id="@+id/myRectangleView16"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/myRectangleView15"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView14" />
+
+    <View
+        android:id="@+id/myRectangleView19"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toStartOf="@+id/myRectangleView18"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView17" />
+
+    <View
+        android:id="@+id/myRectangleView15"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView14" />
+
+    <View
+        android:id="@+id/myRectangleView18"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView17" />
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtSegundoNome"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
         android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="15dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/segundo_nome"
         android:inputType="textPersonName"
-        android:textColorHint="#757575"
+        android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtPrimeiroNome" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtNumero"
-        android:layout_width="80dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/numero"
-        android:inputType="textPostalAddress"
-        android:textColorHint="#757575"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtRuaAvenida" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtUF"
-        android:layout_width="80dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="1dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/uf"
-        android:inputType="textPersonName"
-        android:textColorHint="#757575"
-        app:layout_constraintStart_toEndOf="@+id/edtCidade"
-        app:layout_constraintTop_toBottomOf="@+id/edtCEP" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtBairro"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="1dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/bairro"
-        android:inputType="textPersonName|textPostalAddress"
-        app:layout_constraintStart_toEndOf="@+id/edtNumero"
-        app:layout_constraintTop_toBottomOf="@+id/edtRuaAvenida" />
-
-    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtPrimeiroNome"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
@@ -71,66 +197,11 @@
         android:ems="10"
         android:hint="@string/primeiro_nome"
         android:inputType="textPersonName"
-        android:textColorHint="#757575"
+        android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtCEP"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/cep"
-        android:inputType="textPostalAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtNumero" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtEmail"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:ems="10"
-        android:hint="@string/email"
-        android:inputType="textWebEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtTelefone"
-        android:autofillHints="" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtSite"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/site"
-        android:inputType="textWebEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtTelefone"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:ems="10"
-        android:hint="@string/telefone"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtCNPJCPF"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView4" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCancelarCadUser"
@@ -139,6 +210,7 @@
         android:layout_marginStart="25dp"
         android:layout_marginBottom="20dp"
         android:text="@string/cancelar"
+        android:backgroundTint="#750709"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -150,59 +222,215 @@
         android:layout_marginBottom="20dp"
         android:onClick="btn_gravar_usuario"
         android:text="@string/gravar"
+        android:backgroundTint="#009f10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtCidade"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="16dp"
+        android:id="@+id/edtTelefone"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:autofillHints=""
+        android:digits="+() 1234567890-"
         android:ems="10"
-        android:hint="@string/cidade"
-        android:inputType="textPersonName"
+        android:hint="@string/telefone"
+        android:inputType="textPersonName|phone"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtCEP"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/edtCNPJ" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtSite"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/site"
+        android:inputType="textWebEmailAddress"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtRuaAvenida"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
         android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="15dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/rua_avenida"
         android:inputType="textPostalAddress"
-        android:textColorHint="#757575"
+        android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtSite" />
 
+    <View
+        android:id="@+id/myRectangleView4"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:background="@drawable/retangle_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtCNPJCPF"
-        android:layout_width="380dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="15dp"
+        android:id="@+id/edtBairro"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/bairro"
+        android:inputType="textPersonName|textPostalAddress"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/edtNumero"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView14" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtNumero"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/numero"
+        android:inputType="textPostalAddress"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtRuaAvenida" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtCEP"
+        android:layout_width="381dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/cep"
+        android:inputType="textPostalAddress"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtBairro" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtCidade"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="30dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/cidade"
+        android:inputType="textPersonName"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintEnd_toStartOf="@+id/edtUF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtCEP" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtUF"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/uf"
+        android:inputType="textPersonName"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtCEP" />
+
+    <!--app:mask="###.###.###-##"-->
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtEmail"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textWebEmailAddress"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtTelefone" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtCPF"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/cpf"
         android:inputType="textPersonName"
+        android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtSegundoNome"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/edtSegundoNome" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtCNPJ"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/cnpj"
+        android:inputType="textPersonName"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtCPF" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="100dp"
         android:layout_height="30dp"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="100dp"
         android:text="@string/cadastro"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="15dp"
+        android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

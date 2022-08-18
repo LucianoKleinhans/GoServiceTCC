@@ -45,4 +45,5 @@
     <string name="gravarCadLogin">Gravar</string>
     <string name="insira_seu_usuario">Insira seu Usuário</string>
     <string name="insira_sua_senha">Insira sua Senha</string>
+    <string name="cnpj">CNPJ</string>
 </resources>

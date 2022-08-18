@@ -23,6 +23,30 @@ public class Usuario {
     private Boolean prestador;
     private Boolean ativo;
 
+    public void setUsuario(Usuario usuario){
+        this.id = usuario.getId();
+        this.id_Prestador = usuario.getId_Prestador();
+        this.primeiroNome = usuario.getPrimeiroNome();
+        this.segundoNome = usuario.getSegundoNome();
+        this.cpf = usuario.getCpf();
+        this.cnpj = usuario.getCnpj();
+        this.ruaAvenida = usuario.getRuaAvenida();
+        this.bairro = usuario.getBairro();
+        this.numero = usuario.getNumero();
+        this.cep = usuario.getCep();
+        this.cidade = usuario.getCidade();
+        this.uf = usuario.getUf();
+        this.telefone = usuario.getTelefone();
+        this.email = usuario.getEmail();
+        this.site = usuario.getSite();
+        this.login = usuario.getLogin();
+        this.senha = usuario.getSenha();
+        this.avaliacaoPrestador = usuario.getAvaliacaoPrestador();
+        this.avaliacaoCliente = usuario.getAvaliacaoCliente();
+        this.prestador = usuario.getPrestador();
+        this.ativo = usuario.getAtivo();
+    };
+
     public Long getId() {
         return id;
     }
