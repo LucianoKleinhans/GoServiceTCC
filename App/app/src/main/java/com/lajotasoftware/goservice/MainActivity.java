@@ -7,6 +7,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.Frames.Login;
 import com.lajotasoftware.goservice.R;
@@ -26,6 +27,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     long idUsuario;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         Intent it = getIntent();
         Bundle parametros = it.getExtras();
         idUsuario = parametros.getLong("id_usuario");
+        //username = parametros.getString("username");
+        MaterialTextView textViewNomeUsuario = findViewById(R.id.ttvUsernamePerfilUser);
+        //textViewNomeUsuario.setText(username);
         setContentView(R.layout.activity_main);
         initializeComponents();
     }

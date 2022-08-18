@@ -84,11 +84,13 @@ public class Usuario {
 
     public void setCpf(String cpf) {
         Validacao validacao = new Validacao();
-        if (cpf != null) {
-            if (validacao.isCPF(cpf)) {
-                this.cpf = cpf;
-            } else {
-                throw new Error("CPF INVÁLIDO!");
+        if (!cpf.equals("")) {
+            if (cpf != null) {
+                if (validacao.isCPF(cpf)) {
+                    this.cpf = cpf;
+                } else {
+                    throw new Error("CPF INVÁLIDO!");
+                }
             }
         }
     }
@@ -98,11 +100,13 @@ public class Usuario {
 
     public void setCnpj(String cnpj) {
         Validacao validacao = new Validacao();
-        if (cnpj != null) {
-            if (validacao.isCNPJ(cnpj)) {
-                this.cnpj = cnpj;
-            } else {
-                throw new Error("CNPJ INVÁLIDO!");
+        if (!cnpj.equals("")){
+            if (cnpj != null) {
+                if (validacao.isCNPJ(cnpj)) {
+                    this.cnpj = cnpj;
+                } else {
+                    throw new Error("CNPJ INVÁLIDO!");
+                }
             }
         }
     }

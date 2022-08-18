@@ -24,9 +24,24 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:text="@string/gerencia_cards"
+        android:background="@drawable/retangle_border_view_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ttvUsernamePerfilUser2"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:text="@string/user_name"
+        android:textColor="#d5d5d5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnPrestadoresMain"
@@ -36,6 +51,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:text="@string/prestadores"
+        android:background="@drawable/retangle_border_view_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnGerenciaCardsMain" />
@@ -48,6 +64,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:text="@string/solicita_es"
+        android:background="@drawable/retangle_border_view_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnPrestadoresMain" />
@@ -63,7 +80,8 @@
         android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_logogoservice" />
+        app:srcCompat="@drawable/ic_logogoservice"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

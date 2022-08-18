@@ -21,6 +21,7 @@ import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
     public Long idUsuario; // usuario logado no aplicativo
+    public String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +86,7 @@ public class Login extends AppCompatActivity {
             Intent it = new Intent(this, MainActivity.class);
             Bundle parametros = new Bundle();
             parametros.putLong("id_usuario", idUsuario);
+            //parametros.putString("username",username);
             it.putExtras(parametros);
             startActivity(it);
         }else{

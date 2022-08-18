@@ -31,6 +31,7 @@ public class Perfil extends AppCompatActivity {
 
     private Long idUsuario;
     Usuario usuario = new Usuario();
+    private Boolean prestador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +65,15 @@ public class Perfil extends AppCompatActivity {
                     assert usuarioResponse.body() != null;
                     user.setUsuario(usuarioResponse.body());
 
+                    /*Deixar botao prestador visivel*/
+                    if (user.getPrestador()){
+                        btnTornarUserPrestador.setVisibility(View.INVISIBLE);
+                    }else{
+                        btnTornarUserPrestador.setVisibility(View.VISIBLE);
+                    }
+
                     textViewNomeUsuario.setText(user.getPrimeiroNome());
-                    textViewCidadeUsuario.setText("Cidade:" + user.getCidade() + ", UF:" + user.getUf());
+                    textViewCidadeUsuario.setText("Cidade:" + user.getCidade() + " - " + user.getUf());
                     textViewEmailUsuario.setText("E-mail:" + user.getEmail());
                     textViewSiteUsuario.setText("Site:" + user.getEmail());
                 }

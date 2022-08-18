@@ -7,74 +7,104 @@
     android:background="#071219"
     tools:context=".Frames.Login">
 
+    <View
+        android:id="@+id/myRectangleView9"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView20" />
+
+    <View
+        android:id="@+id/myRectangleView20"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtCadLoginUser"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="15dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/loginUser"
         android:inputType="textPersonName"
+        android:textColor="#d5d5d5"
         android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtCadLoginPass"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/loginPass"
         android:inputType="textPassword"
+        android:textColor="#d5d5d5"
         android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtCadLoginUser" />
+        app:layout_constraintTop_toBottomOf="@+id/edtCadLoginUser"
+        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCadLoginGravar"
-        android:layout_width="180dp"
+        android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="128dp"
+        android:layout_marginTop="50dp"
         android:text="@string/entrar"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView9"
         tools:ignore="OnClick" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCadastrar"
-        android:layout_width="180dp"
+        android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginTop="5dp"
         android:onClick="btnCadastrar"
-        android:text="@string/cadastre_agora"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/cadastre_se_agora"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCadLoginGravar" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="408dp"
         android:layout_height="276dp"
-        android:layout_marginTop="28dp"
         android:contentDescription="@string/logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_logogoservice" />
+        app:srcCompat="@drawable/ic_logogoservice"
+        tools:ignore="ImageContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,6 +26,8 @@ public class CreateUserService {
                 throw new Error("Usuario inválido!");
         }
         usuario.setSenha(passwordEnconder().encode(usuario.getSenha()));
+        usuario.setPrestador(false);
+        usuario.setAtivo(false);
         Usuario createdUser = daoUsuario.save(usuario);
 
         return createdUser;

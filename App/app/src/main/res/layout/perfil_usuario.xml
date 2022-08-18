@@ -8,11 +8,39 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <View
-        android:id="@+id/myRectangleView3"
+        android:id="@+id/myRectangleView21"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/retangle_border_view_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangle0View3" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:text="Avaliacao"
+        android:textAlignment="center"
+        android:textColor="#d5d5d5"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/myRectangleView21"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView21" />
+
+    <View
+        android:id="@+id/myRectangle0View3"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         android:background="@drawable/retangle_view"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,7 +52,8 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="5dp"
         android:text="@string/user_name"
-        android:textColor="#DDDDDD"
+        android:textColor="#d5d5d5"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,11 +61,13 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/ttvCidadePerfilUser"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="20dp"
         android:layout_marginStart="150dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
         android:text="@string/cidade_uf"
-        android:textColor="#DDDDDD"
+        android:textAlignment="viewStart"
+        android:textColor="#A8A8A8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvUsernamePerfilUser" />
@@ -44,11 +75,12 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/ttvSitePerfilUser"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="20dp"
         android:layout_marginStart="150dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="5dp"
         android:text="@string/seu_site"
-        android:textColor="#DDDDDD"
+        android:textColor="#A8A8A8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvCidadePerfilUser" />
@@ -56,39 +88,25 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/ttvEmailPerfilUser"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="20dp"
         android:layout_marginStart="150dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="5dp"
         android:text="@string/seu_email"
-        android:textColor="#DDDDDD"
+        android:textColor="#A8A8A8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvSitePerfilUser" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnTornarPresPerfilUser"
-        android:layout_width="200dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="292dp"
-        android:layout_marginEnd="36dp"
+        android:layout_width="230dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
         android:text="@string/torne_se_prestador"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvEmailPerfilUser" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/btnCadastroProv"
-        android:layout_width="307dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="76dp"
-        android:onClick="btn_perfil_to_cad"
-        android:text="@string/botao_provisorio_para_cad"
-        android:textColor="#DDDDDD"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView21" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -96,6 +114,7 @@
         android:layout_height="125dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
+        android:onClick="btn_perfil_to_cad"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_logogoservice" />
