@@ -22,6 +22,7 @@ public class Usuario {
     private Double avaliacaoCliente;
     private Boolean prestador;
     private Boolean ativo;
+    private String bio;
 
     public void setUsuario(Usuario usuario){
         this.id = usuario.getId();
@@ -45,6 +46,7 @@ public class Usuario {
         this.avaliacaoCliente = usuario.getAvaliacaoCliente();
         this.prestador = usuario.getPrestador();
         this.ativo = usuario.getAtivo();
+        this.bio = usuario.getBio();
     };
 
     public Long getId() {
@@ -213,5 +215,13 @@ public class Usuario {
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }

@@ -40,6 +40,8 @@ public class Usuario {
     private Boolean prestador;
     private Boolean ativo;
 
+    private String Bio;
+
     public Long getId() {
         return id;
     }
@@ -258,5 +260,13 @@ public class Usuario {
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo==null?false:ativo;
+    }
+
+    public String getBio() {
+        return Bio;
+    }
+
+    public void setBio(String bio) {
+        Bio = bio;
     }
 }

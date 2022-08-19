@@ -86,7 +86,6 @@ public class Login extends AppCompatActivity {
             Intent it = new Intent(this, MainActivity.class);
             Bundle parametros = new Bundle();
             parametros.putLong("id_usuario", idUsuario);
-            //parametros.putString("username",username);
             it.putExtras(parametros);
             startActivity(it);
         }else{

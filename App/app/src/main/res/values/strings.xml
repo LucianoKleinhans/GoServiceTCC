@@ -47,7 +47,11 @@
     <string name="insira_sua_senha">Insira sua Senha</string>
     <string name="cnpj">CNPJ</string>
     <string name="cadastre_se_agora">Cadastre-se agora</string>
-    
+    <string name="ufbr">UF</string>
+    <string name="bio">Bio</string>
+    <string name="avaliacao">Avaliacao</string>
+    <string name="bio_desc">Bio</string>
+
     <string-array name="uf">
         <item>AC</item>
         <item>AL</item>

@@ -108,11 +108,7 @@ public class Cadastro extends AppCompatActivity {
         TextInputEditText inputEditTextCEP = findViewById(R.id.edtCEP);
         TextInputEditText inputEditTextCidade = findViewById(R.id.edtCidade);
 
-        /*ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.uf, android.R.layout.simple_spinner_item);
-        uf.setAdapter(adapter);
-        Spinner spinnerUF = findViewById(R.id.spinner_uf);*/
-
-        //TextInputEditText inputEditTextUF = findViewById(R.id.edtUF);
+        Spinner spinnerUF = findViewById(R.id.spinner_uf);
 
         MaterialButton btn_gravar_usuario = findViewById(R.id.btnGravarCadUser);
         MaterialButton btn_cancelar_usuario = findViewById(R.id.btnCancelarCadUser);
@@ -142,9 +138,13 @@ public class Cadastro extends AppCompatActivity {
                         inputEditTextBairro.setText(user.getBairro());
                         inputEditTextCEP.setText(user.getCep());
                         inputEditTextCidade.setText(user.getCidade());
-                        //inputEditTextUF.setText(user.getUf());
-                        //int ufPosition = adapter.getPosition(user.getUf());
-                        //spinnerUF.setSelection(ufPosition);
+                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Cadastro.this, R.array.uf, android.R.layout.simple_spinner_item);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinnerUF.setAdapter(adapter);
+                        if (!user.getUf().equals(null)) {
+                            int spinnerPosition = adapter.getPosition(user.getUf());
+                            spinnerUF.setSelection(spinnerPosition);
+                        }
                     }
                 }
 
@@ -164,8 +164,7 @@ public class Cadastro extends AppCompatActivity {
             String numero = String.valueOf(inputEditTextNumero.getText());
             String cep = String.valueOf(inputEditTextCEP.getText());
             String cidade = String.valueOf(inputEditTextCidade.getText());
-            //String uf = String.valueOf(inputEditTextUF.getText());
-            //String uf = spinnerUF.getSelectedItem().toString();
+            String uf = spinnerUF.getSelectedItem().toString();
             String telefone = String.valueOf(inputEditTextTelefone.getText());
             String email = String.valueOf(inputEditTextEmail.getText());
             String site = String.valueOf(inputEditTextSite.getText());
@@ -206,7 +205,7 @@ public class Cadastro extends AppCompatActivity {
                                                         usuario.setNumero(numero);
                                                         usuario.setCep(cep);
                                                         usuario.setCidade(cidade);
-                                                        //usuario.setUf(uf);
+                                                        usuario.setUf(uf);
                                                         usuario.setTelefone(telefone);
                                                         usuario.setEmail(email);
                                                         usuario.setSite(site);

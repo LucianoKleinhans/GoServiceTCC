@@ -91,6 +91,7 @@ public class UsuarioController {
                 if(usuario.getAvaliacaoCliente()!=null){record.setAvaliacaoCliente(usuario.getAvaliacaoCliente());}
                 if(usuario.getPrestador()!=null){record.setPrestador(usuario.getPrestador());}
                 if(usuario.getAtivo()!=null){record.setAtivo(usuario.getAtivo());}
+                if(usuario.getBio()!=null){record.setBio(usuario.getBio());}
                 Usuario updated = repository.save(record);
                 return ResponseEntity.ok().body(updated);
             }).orElse(ResponseEntity.notFound().build());

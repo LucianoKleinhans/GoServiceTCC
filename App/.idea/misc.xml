@@ -14,18 +14,28 @@
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3635" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/btn_cancelar.xml" value="0.3635" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/btn_gravar.xml" value="0.3635" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/check-48px.xml" value="0.2755" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/edit_note.xml" value="0.2745" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/ic_close.xml" value="0.2755" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/ic_done.xml" value="0.2755" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/ic_edit.xml" value="0.2755" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/ic_edit_note_fill0_wght400_grad0_opsz48.xml" value="0.2755" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/ic_home.xml" value="0.2655" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3635" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/ic_settings.xml" value="0.2755" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/ic_star.xml" value="0.3635" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/more_vert-48px.xml" value="0.3635" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/retangle_border_view.xml" value="0.3635" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/retangle_border_view_2.xml" value="0.3635" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/retangle_view.xml" value="0.3635" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/round_button.xml" value="0.231" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/activity_main.xml" value="0.3625" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/cadastroUsuario.xml" value="0.3625" />
-        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/cadastro_usuario.xml" value="0.33" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/cadastro_usuario.xml" value="0.1" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/entry_cadastro_login.xml" value="0.33" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/entry_login.xml" value="0.33" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/perfilUsuario.xml" value="0.3625" />
-        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/perfil_usuario.xml" value="0.33" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/perfil_usuario.xml" value="0.3909191583610188" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/menu/menu_main.xml" value="0.3625" />
       </map>
     </option>

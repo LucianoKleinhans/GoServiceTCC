@@ -375,20 +375,6 @@
     <!--app:mask="###.###.###-##"-->
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtUF"
-        android:layout_width="100dp"
-        android:layout_height="45dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/uf"
-        android:inputType="textPersonName"
-        android:textColor="#d5d5d5"
-        android:textColorHint="#6b6b6b"
-        tools:ignore="TouchTargetSizeCheck"
-        tools:layout_editor_absoluteX="125dp"
-        tools:layout_editor_absoluteY="605dp" />
-
-    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtEmail"
         android:layout_width="0dp"
         android:layout_height="45dp"
@@ -468,8 +454,9 @@
         android:layout_height="45dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
-        android:hint="UF"
+        android:hint="@string/ufbr"
         android:textColor="#d5d5d5"
+        android:backgroundTint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView17" />
 

@@ -75,7 +75,9 @@ public class Perfil extends AppCompatActivity {
                     textViewNomeUsuario.setText(user.getPrimeiroNome());
                     textViewCidadeUsuario.setText("Cidade:" + user.getCidade() + " - " + user.getUf());
                     textViewEmailUsuario.setText("E-mail:" + user.getEmail());
-                    textViewSiteUsuario.setText("Site:" + user.getEmail());
+                    if(user.getSite() == null){
+                        textViewSiteUsuario.setVisibility(View.INVISIBLE);
+                    }else{textViewSiteUsuario.setText("Site:" + user.getSite());}
                 }
             }
 
@@ -143,6 +145,13 @@ public class Perfil extends AppCompatActivity {
         Bundle parametros = new Bundle();
         String status = "MODIFICA_CADASTRO";
         parametros.putString("status_usuario", status);
+        parametros.putLong("id_usuario", idUsuario);
+        it.putExtras(parametros);
+        startActivity(it);
+    }
+    public void btn_perfil_to_main (View view){
+        Intent it = new Intent(this, MainActivity.class);
+        Bundle parametros = new Bundle();
         parametros.putLong("id_usuario", idUsuario);
         it.putExtras(parametros);
         startActivity(it);
