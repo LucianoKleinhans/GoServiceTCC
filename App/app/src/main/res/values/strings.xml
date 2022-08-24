@@ -22,7 +22,6 @@
     <string name="cidade">Cidade</string>
     <string name="rua_avenida">Rua / Avenida</string>
     <string name="cpf">CPF</string>
-    <string name="cadastro">Cadastro</string>
     <string name="usuario">Usuario</string>
     <string name="senha">Senha</string>
     <string name="primeiro_nome">Primeiro Nome</string>
@@ -51,6 +50,15 @@
     <string name="bio">Bio</string>
     <string name="avaliacao">Avaliacao</string>
     <string name="bio_desc">Bio</string>
+    <string name="nome_do_servico">Nome do Serviço</string>
+    <string name="valor_servico">R$</string>
+    <string name="descricao_servico">Descrição</string>
+    <string name="sub_categoria">Sub Categoria</string>
+    <string name="categoria">Categoria</string>
+    <string name="cadastro_servico">Cadastro Servico</string>
+    <string name="cadastro">Cadastro</string>
+    <string name="sem_conexao">Sem Conexão</string>
+    <string name="todo">TODO</string>
 
     <string-array name="uf">
         <item>AC</item>
@@ -80,5 +88,24 @@
         <item>SP</item>
         <item>SE</item>
         <item>TO</item>
+    </string-array>
+    <string-array name="categoria_servico">
+        <item>Informática</item>
+        <item>Marcenaria</item>
+    </string-array>
+    <string-array name="sub_categoria_servico_Informática">
+        <item>Geral</item>
+        <item>Formatação</item>
+        <item>Instalçao de Programa</item>
+        <item>Remoção de vírus</item>
+        <item>Configuração de rede</item>
+        <item>Intalação de disposítivo</item>
+    </string-array>
+    <string-array name="sub_categoria_servico_Marcenaria">
+        <item>Geral</item>
+        <item>Instalação de prateleira</item>
+        <item>Montagem de móvel</item>
+        <item>Desmontagem de móvel</item>
+        <item>Montagem/Desmontagem de móvel</item>
     </string-array>
 </resources>

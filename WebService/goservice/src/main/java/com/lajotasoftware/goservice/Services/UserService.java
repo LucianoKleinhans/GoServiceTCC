@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CreateUserService {
+public class UserService {
     @Autowired
     DAOUsuario daoUsuario;
     private String senha, senhaBanco, login;
@@ -56,5 +56,9 @@ public class CreateUserService {
     public Usuario getAtualUser (Usuario id){
         Usuario userAtual = daoUsuario.findById(id.getId()).get();
         return userAtual;
+    }
+
+    public Boolean getConnection (){
+        return true;
     }
 }

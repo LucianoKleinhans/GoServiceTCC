@@ -3,6 +3,7 @@ package com.lajotasoftware.goservice.Frames;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,9 +26,22 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.entry_login);
-        idUsuario = 0L;
-        initializeComponents();
+        RetrofitService retrofitService = new RetrofitService();
+        UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+        usuarioAPI.testConnection().enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                setContentView(R.layout.entry_login);
+                idUsuario = 0L;
+                initializeComponents();
+            }
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                setContentView(R.layout.without_connection);
+                ImageView btnRefresh = findViewById(R.id.btnRefresh);
+            }
+        });
+
     }
 
     private void initializeComponents() {
@@ -101,5 +115,21 @@ public class Login extends AppCompatActivity {
         parametros.putString("status_usuario", status);
         it.putExtras(parametros);
         startActivity(it);
+    }
+
+    public void refresh(View view) {
+        RetrofitService retrofitService = new RetrofitService();
+        UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+        usuarioAPI.testConnection().enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                setContentView(R.layout.entry_login);
+                idUsuario = 0L;
+                initializeComponents();
+            }
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+            }
+        });
     }
 }

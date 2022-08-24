@@ -2,7 +2,7 @@ package com.lajotasoftware.goservice.Controller;
 
 import com.lajotasoftware.goservice.DAO.DAOUsuario;
 import com.lajotasoftware.goservice.Entity.Usuario;
-import com.lajotasoftware.goservice.Services.CreateUserService;
+import com.lajotasoftware.goservice.Services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -26,11 +26,14 @@ public class UsuarioController {
     DAOUsuario repository;
 
     @Autowired
-    CreateUserService createUserService;
+    UserService userService;
 
     public BCryptPasswordEncoder passwordEnconder() {
         return new BCryptPasswordEncoder();
     }
+
+    @PostMapping("/connection")
+    public Boolean connection(){return userService.getConnection();}
 
     @GetMapping("/usuario")
     public List<Usuario> getAllUsuarios() {
@@ -39,7 +42,7 @@ public class UsuarioController {
 
     @PostMapping("/usuario/getatualuser")
     public Usuario getAtualUser(@RequestBody Usuario id) {
-        return createUserService.getAtualUser(id);
+        return userService.getAtualUser(id);
     }
 
     @GetMapping("/usuarioPrestador")
@@ -54,11 +57,11 @@ public class UsuarioController {
 
     @PostMapping("/usuario/create")
     public Usuario createUser(@RequestBody Usuario usuario) {
-        return createUserService.execute(usuario);
+        return userService.execute(usuario);
     }
     @PostMapping("/usuario/validation")
     public Usuario validateUser(@RequestBody Usuario usuario) {
-        return createUserService.validation(usuario);
+        return userService.validation(usuario);
     }
 
     @DeleteMapping("/usuario/delete/{id}")

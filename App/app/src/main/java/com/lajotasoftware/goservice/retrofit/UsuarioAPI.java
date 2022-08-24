@@ -32,4 +32,7 @@ public interface UsuarioAPI {
 
     @POST ("/usuario/delete/{id}")
     Call<Usuario> deleteUser(@Path("id")Long id);
+
+    @POST ("/connection")
+    Call<Boolean> testConnection();
 }

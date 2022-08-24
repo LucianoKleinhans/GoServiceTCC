@@ -1,5 +1,6 @@
 package com.lajotasoftware.goservice.Frames;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -24,7 +25,7 @@ public class Cadastro extends AppCompatActivity {
     Long idUsuario;
     String status;
     Intent it;
-    Spinner uf;
+    Spinner uf, categoria_servico, sub_categoria_servico;
     private Function function = new Function();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,10 @@ public class Cadastro extends AppCompatActivity {
             setContentView(R.layout.cadastro_usuario);
             idUsuario = paramentros.getLong("id_usuario");
             initializeComponentsCadastro();
+        }else if (status.equals("CADASTRO_SERVICO")){
+            setContentView(R.layout.cadastro_servico);
+            idUsuario = paramentros.getLong("id_usuario");
+            initializeComponentsCadastroServico();
         }
     }
 
@@ -268,5 +273,22 @@ public class Cadastro extends AppCompatActivity {
                 }
             });
         });
+    }
+    @SuppressLint("CutPasteId")
+    private void initializeComponentsCadastroServico() {
+
+        TextInputEditText inputEditTextNomeServico = findViewById(R.id.edtNomeServico);
+        TextInputEditText inputEditTextValorServico= findViewById(R.id.edtValorServico);
+        TextInputEditText inputEditTextDescricaoServico = findViewById(R.id.edtDescricaoServico);
+
+        Spinner spinnerCategoriaServico = findViewById(R.id.spinner_categoria);
+        Spinner spinnerSubCategoriaServico = findViewById(R.id.spinner_sub_categoria);
+
+        MaterialButton btn_gravar_usuario = findViewById(R.id.btnGravarCadUser);
+        MaterialButton btn_cancelar_usuario = findViewById(R.id.btnCancelarCadUser);
+
+        categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.categoria_servico, android.R.layout.simple_spinner_item);
+        categoria_servico.setAdapter(adapter);
     }
 }
