@@ -156,4 +156,13 @@ public class Perfil extends AppCompatActivity {
         it.putExtras(parametros);
         startActivity(it);
     }
+    public void btn_perfil_to_cadservico(View view) {
+        Intent it = new Intent(this, Cadastro.class);
+        Bundle parametros = new Bundle();
+        String status = "CADASTRO_SERVICO";
+        parametros.putLong("id_usuario", idUsuario);
+        parametros.putString("status_usuario", status);
+        it.putExtras(parametros);
+        startActivity(it);
+    }
 }

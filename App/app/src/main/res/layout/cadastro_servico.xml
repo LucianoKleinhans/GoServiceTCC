@@ -81,14 +81,14 @@
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/valor_servico"
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         android:textColor="#d5d5d5"
         android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtNomeServico"
-        tools:ignore="TouchTargetSizeCheck" />
+        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtNomeServico"
@@ -107,7 +107,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView4"
-        tools:ignore="TouchTargetSizeCheck" />
+        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCancelarCadServico"
@@ -130,7 +130,8 @@
         android:onClick="btn_gravar_servico"
         android:text="@string/gravar"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="TextContrastCheck" />
 
     <View
         android:id="@+id/myRectangleView4"
@@ -197,17 +198,20 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
+        android:autofillHints=""
+        android:backgroundTint="#6b6b6b"
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/descricao_servico"
-        android:textColor="#d5d5d5"
-        android:backgroundTint="#6b6b6b"
-        android:textColorHint="#6b6b6b"
         android:inputType="textMultiLine"
+        android:textColor="#d5d5d5"
+        android:textColorHint="#6b6b6b"
         app:layout_constraintBottom_toBottomOf="@+id/myRectangleView23"
         app:layout_constraintEnd_toEndOf="@+id/myRectangleView23"
         app:layout_constraintStart_toStartOf="@+id/myRectangleView23"
         app:layout_constraintTop_toTopOf="@+id/myRectangleView23"
-        android:autofillHints="" />
+        tools:ignore="TextContrastCheck" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

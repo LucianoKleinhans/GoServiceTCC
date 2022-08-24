@@ -1,5 +1,6 @@
 package com.lajotasoftware.goservice.retrofit;
 
+import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.Usuario;
 
 import java.util.List;
@@ -35,4 +36,7 @@ public interface UsuarioAPI {
 
     @POST ("/connection")
     Call<Boolean> testConnection();
+
+    @POST ("/servico/create")
+    Call<Servico> createNewService(@Body Servico servico);
 }

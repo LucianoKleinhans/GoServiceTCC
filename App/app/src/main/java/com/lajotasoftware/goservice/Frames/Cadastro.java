@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.Functions.Function;
 import com.lajotasoftware.goservice.R;
@@ -22,7 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Cadastro extends AppCompatActivity {
-    Long idUsuario;
+    Long idUsuario, idPrestador;
     String status;
     Intent it;
     Spinner uf, categoria_servico, sub_categoria_servico;
@@ -276,7 +277,27 @@ public class Cadastro extends AppCompatActivity {
     }
     @SuppressLint("CutPasteId")
     private void initializeComponentsCadastroServico() {
+        RetrofitService retrofitService = new RetrofitService();
+        UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+        Usuario usuario = new Usuario();
+        Usuario user = new Usuario();
+        usuario.setId(idUsuario);
+        usuarioAPI.getAtualUser(usuario).enqueue(new Callback<Usuario>() {
+            @Override
+            public void onResponse(Call<Usuario> call, Response<Usuario> usuarioResponse) {
+                if (usuarioResponse.isSuccessful()) {
+                    assert usuarioResponse.body() != null;
+                    user.setUsuario(usuarioResponse.body());
+                    idPrestador = user.getId_Prestador();
 
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Usuario> call, Throwable t) {
+                throw new Error("USUARIO INVALIDO");
+            }
+        });
         TextInputEditText inputEditTextNomeServico = findViewById(R.id.edtNomeServico);
         TextInputEditText inputEditTextValorServico= findViewById(R.id.edtValorServico);
         TextInputEditText inputEditTextDescricaoServico = findViewById(R.id.edtDescricaoServico);
@@ -284,11 +305,68 @@ public class Cadastro extends AppCompatActivity {
         Spinner spinnerCategoriaServico = findViewById(R.id.spinner_categoria);
         Spinner spinnerSubCategoriaServico = findViewById(R.id.spinner_sub_categoria);
 
-        MaterialButton btn_gravar_usuario = findViewById(R.id.btnGravarCadUser);
-        MaterialButton btn_cancelar_usuario = findViewById(R.id.btnCancelarCadUser);
+        MaterialButton btn_gravar_usuario = findViewById(R.id.btnGravarCadServico);
+        MaterialButton btn_cancelar_usuario = findViewById(R.id.btnCancelarCadServico);
 
         categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.categoria_servico, android.R.layout.simple_spinner_item);
         categoria_servico.setAdapter(adapter);
+        String catServ = spinnerCategoriaServico.getSelectedItem().toString();
+        if (catServ.equals("Informática")){
+            sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
+            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.sub_categoria_servico_Informática, android.R.layout.simple_spinner_item);
+            sub_categoria_servico.setAdapter(adapter1);
+        } else if (catServ.equals("Marcenaria")) {
+            sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
+            ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,R.array.sub_categoria_servico_Marcenaria, android.R.layout.simple_spinner_item);
+            sub_categoria_servico.setAdapter(adapter2);
+        }
+        btn_gravar_usuario.setOnClickListener(view -> {
+            String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
+            Double valorServico = Double.valueOf(inputEditTextValorServico.toString());
+            String descServico = String.valueOf(inputEditTextDescricaoServico.getText());
+            String catServico = categoria_servico.getSelectedItem().toString();
+            String subcatServico = sub_categoria_servico.getSelectedItem().toString();
+            if (!nomeServico.equals("") && nomeServico.length()>=5){
+                if (valorServico>0 && valorServico<100000) {
+                    if (!descServico.equals("") && descServico.length()>15) {
+                        if (!catServico.equals("")) {
+                            if (!subcatServico.equals("")) {
+                                Servico servico = new Servico();
+                                //Usuario usuarioServico = new Usuario();
+                                servico.setNome(nomeServico);
+                                servico.setValor(valorServico);
+                                servico.setObsServico(descServico);
+                                servico.setCategoria(catServico);
+                                servico.setSubCategoria(subcatServico);
+                                //usuarioServico.setId_Prestador(idPrestador);
+                                servico.setId_Prestador(user);
+
+                                it = new Intent(this, Perfil.class);
+                                Bundle parametros = new Bundle();
+                                parametros.putLong("id_usuario", idUsuario);
+                                it.putExtras(parametros);
+
+                                usuarioAPI.createNewService(servico).enqueue(new Callback<Servico>() {
+                                    @Override
+                                    public void onResponse(Call<Servico> call, Response<Servico> response) {
+                                        if (response.code() == 200) {
+                                            Toast.makeText(Cadastro.this, "Cadastro cancelado", Toast.LENGTH_SHORT).show();
+                                            startActivity(it);
+                                        } else {
+                                            Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    @Override
+                                    public void onFailure(Call<Servico> call, Throwable t) {
+                                        Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else {Toast.makeText(Cadastro.this, "Sub-Categoria não selecionada!", Toast.LENGTH_SHORT).show();}
+                        } else {Toast.makeText(Cadastro.this, "Categoria não selecionada!", Toast.LENGTH_SHORT).show();}
+                    } else {Toast.makeText(Cadastro.this, "Observação vazio!", Toast.LENGTH_SHORT).show();}
+                } else {Toast.makeText(Cadastro.this, "Valor vazio!", Toast.LENGTH_SHORT).show();}
+            } else {Toast.makeText(Cadastro.this, "Nome invalido!", Toast.LENGTH_SHORT).show();}
+        });
     }
 }

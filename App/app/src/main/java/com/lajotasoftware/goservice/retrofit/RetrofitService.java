@@ -14,7 +14,7 @@ public class RetrofitService {
     }
 
     private void initializeRetrofit() {
-        i = 0;
+        i = 1;
         if (i==0){
             retrofit = new Retrofit.Builder()
             .baseUrl("http://192.168.0.103:9090")
@@ -22,7 +22,7 @@ public class RetrofitService {
             .build();
         }else if (i==1){
             retrofit = new Retrofit.Builder()
-            .baseUrl("http://0.tcp.sa.ngrok.io:15440")
+            .baseUrl("http://0.tcp.sa.ngrok.io:18185")
             .addConverterFactory(GsonConverterFactory.create(new Gson()))
             .build();
         }
