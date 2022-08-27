@@ -123,10 +123,10 @@ public class PedidoUC {
         pedido.setDataEmissao(12312321321L);
         pedido.setDataFinalizacao(12312312344L);
 
-        pedido.setId_Cliente(usuarioController.getUsuarioById(1L));
+        //pedido.setId_Cliente(usuarioController.getUsuarioById(1L));
         pedido.setId_Prestador((Usuario) usuarioController.getPrestador(1L));
         pedido.setId_ServicoSolicitado(solicitaServicoController.getSolicitaServicoById(1L));
-        pedido.setId_Servico(servicoController.getServicoById(1L));
+        //pedido.setId_Servico(servicoController.getServicoById(1L));
 
         pedidoController.salvarPedido(pedido);
     }

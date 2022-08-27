@@ -2,7 +2,6 @@ package com.lajotasoftware.goservice.Controller;
 
 import com.lajotasoftware.goservice.DAO.DAOServico;
 import com.lajotasoftware.goservice.Entity.Servico;
-import com.lajotasoftware.goservice.Entity.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,7 @@ public class ServicoController {
         return repository.getById(id);
     }
 
-    @PostMapping("/servico")
+    @PostMapping("/servico/create")
     public Servico salvarServico(@RequestBody Servico servico){ return repository.save(servico);
     }
 
@@ -50,5 +49,10 @@ public class ServicoController {
                     Servico updated = repository.save(record);
                     return ResponseEntity.ok().body(updated);
                 }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("/usuario/servico/{idPrestador}")
+    public List<Servico> getServicosPrestador(@PathVariable Long idPrestador){
+        return repository.getServicosPrestador(idPrestador);
     }
 }

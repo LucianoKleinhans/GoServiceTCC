@@ -93,8 +93,8 @@ public class PropostaUC {
         SolicitaServico solicitaServico = new SolicitaServico();
 
         proposta.setId(1L);
-        proposta.setId_Cliente(usuarioController.getUsuarioById(1L));
-        proposta.setId_Prestador(usuarioController.getUsuarioById(1L));
+        //proposta.setId_Cliente(usuarioController.getUsuarioById(1L));
+        //proposta.setId_Prestador(usuarioController.getUsuarioById(1L));
         proposta.setValor(100.00);
         proposta.setObservacao("Formatação sem backup");
         solicitaServico.setId(1234L);

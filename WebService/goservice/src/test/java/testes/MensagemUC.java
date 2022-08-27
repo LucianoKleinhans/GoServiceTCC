@@ -97,7 +97,7 @@ public class MensagemUC {
         mensagem.setMensagem("abc1123123213");
         mensagem.setDataHoraMsg(1231232312L);
 
-        mensagem.setId_Cliente(usuarioController.getUsuarioById(1L));
+        //mensagem.setId_Cliente(usuarioController.getUsuarioById(1L));
         mensagem.setId_Prestador((Usuario) usuarioController.getPrestador(1L));
         mensagem.setId_Proposta(propostaController.getPropostaById(1L));
 

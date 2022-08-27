@@ -39,4 +39,7 @@ public interface UsuarioAPI {
 
     @POST ("/servico/create")
     Call<Servico> createNewService(@Body Servico servico);
+
+    @POST ("/usuario/servico/{idPrestador}")
+    Call<List<Servico>> getServicosPrestador(@Path("idPrestador")Long id);
 }

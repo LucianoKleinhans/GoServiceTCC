@@ -224,4 +224,6 @@ public class Usuario {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
+
 }

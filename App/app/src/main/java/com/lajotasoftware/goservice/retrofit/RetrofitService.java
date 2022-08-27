@@ -14,15 +14,15 @@ public class RetrofitService {
     }
 
     private void initializeRetrofit() {
-        i = 1;
+        i = 0;
         if (i==0){
             retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.0.103:9090")
+            .baseUrl("http://192.168.0.111:9090")
             .addConverterFactory(GsonConverterFactory.create(new Gson()))
             .build();
         }else if (i==1){
             retrofit = new Retrofit.Builder()
-            .baseUrl("http://0.tcp.sa.ngrok.io:18185")
+            .baseUrl("http://138.97.217.167:9090")
             .addConverterFactory(GsonConverterFactory.create(new Gson()))
             .build();
         }

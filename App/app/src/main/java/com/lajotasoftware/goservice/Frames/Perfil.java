@@ -1,27 +1,27 @@
 package com.lajotasoftware.goservice.Frames;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
+import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.MainActivity;
 import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
 import com.lajotasoftware.goservice.retrofit.UsuarioAPI;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.transform.Result;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +31,12 @@ public class Perfil extends AppCompatActivity {
 
     private Long idUsuario;
     Usuario usuario = new Usuario();
+    Usuario user = new Usuario();
     private Boolean prestador;
+    Servico servico = new Servico();
+
+    ListView listView;
+    List<Servico> stringList = new ArrayList<Servico>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +55,19 @@ public class Perfil extends AppCompatActivity {
         MaterialTextView textViewEmailUsuario = findViewById(R.id.ttvEmailPerfilUser);
         MaterialTextView textViewSiteUsuario = findViewById(R.id.ttvSitePerfilUser);
 
+        listView = (ListView) findViewById(R.id.listServicosPrestador);
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, stringList);
+        listView.setAdapter(stringArrayAdapter);
+
         MaterialButton btnTornarUserPrestador = findViewById(R.id.btnTornarPresPerfilUser);
 
         RetrofitService retrofitService = new RetrofitService();
         UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
-        Usuario usuario = new Usuario();
         usuario.setId(idUsuario);
         usuarioAPI.getAtualUser(usuario).enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> usuarioResponse) {
                 if (usuarioResponse.isSuccessful()) {
-                    Usuario user = new Usuario();
 
                     assert usuarioResponse.body() != null;
                     user.setUsuario(usuarioResponse.body());
@@ -122,11 +129,6 @@ public class Perfil extends AppCompatActivity {
                                     Toast.makeText(Perfil.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
                                 }
                             });
-
-
-                            //moveTaskToBack(true);
-                            //android.os.Process.killProcess(android.os.Process.myPid());
-                            //System.exit(1);
                         }
                     })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -137,6 +139,23 @@ public class Perfil extends AppCompatActivity {
                 });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
+        });
+
+        RetrofitService retrofitServiceListService = new RetrofitService();
+        UsuarioAPI usuarioAPIListService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
+        usuarioAPIListService.getServicosPrestador(idUsuario).enqueue(new Callback<List<Servico>>() {
+            @Override
+            public void onResponse(Call<List<Servico>> call, Response<List<Servico>> response) {
+                Toast.makeText(Perfil.this, "Sucesso!", Toast.LENGTH_SHORT).show();
+                stringList = response.body();
+                stringList.add((Servico) response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Servico>> call, Throwable t) {
+                Toast.makeText(Perfil.this, "Sem Sucesso!", Toast.LENGTH_SHORT).show();
+
+            }
         });
     }
 
@@ -165,4 +184,5 @@ public class Perfil extends AppCompatActivity {
         it.putExtras(parametros);
         startActivity(it);
     }
+
 }

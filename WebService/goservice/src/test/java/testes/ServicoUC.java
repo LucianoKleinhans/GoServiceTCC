@@ -73,7 +73,7 @@ public class ServicoUC {
         Servico servico = new Servico();
         Usuario usuario = new Usuario();
 
-        usuarioController.getUsuarioById(1L);
+        //usuarioController.getUsuarioById(1L);
 
         servico.setId_Prestador((Usuario) usuarioController.getPrestador(1L));
         servico.setId(1L);

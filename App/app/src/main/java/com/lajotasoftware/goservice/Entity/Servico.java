@@ -1,5 +1,7 @@
 package com.lajotasoftware.goservice.Entity;
 
+import java.util.List;
+
 public class Servico {
     private Long id;
     private String nome;
@@ -9,6 +11,18 @@ public class Servico {
     private String obsServico;
     private Usuario id_Prestador;
 
+    List<Servico> servicos;
+
+    public void setServico(Servico servico){
+        this.id = servico.getId();
+        this.nome = servico.getNome();
+        this.categoria = servico.getCategoria();
+        this.subCategoria = servico.getSubCategoria();
+        this.valor = servico.getValor();
+        this.obsServico = servico.getObsServico();
+        this.id_Prestador = servico.getId_Prestador();
+    };
+    
     public Long getId() {
         return id;
     }
@@ -63,5 +77,22 @@ public class Servico {
 
     public void setId_Prestador(Usuario id_Prestador) {
         this.id_Prestador = id_Prestador;
+    }
+
+    @Override
+    public String toString() {
+        return "Servico{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", categoria='" + categoria + '\'' +
+                ", subCategoria='" + subCategoria + '\'' +
+                ", valor=" + valor +
+                ", obsServico='" + obsServico + '\'' +
+                ", id_Prestador=" + id_Prestador +
+                '}';
+    }
+
+    public List<Servico> listServicos() {
+        return servicos;
     }
 }

@@ -8,6 +8,19 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <View
+        android:id="@+id/myRectangleView24"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/retangle_border_view_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView22" />
+
+    <View
         android:id="@+id/myRectangleView22"
         android:layout_width="0dp"
         android:layout_height="100dp"
@@ -145,22 +158,23 @@
         android:id="@+id/btnTornarPresPerfilUser"
         android:layout_width="230dp"
         android:layout_height="50dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="12dp"
         android:text="@string/torne_se_prestador"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myRectangleView22" />
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView24" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnServicos"
-        android:layout_width="230dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="12dp"
-        android:text="serviços"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
         android:onClick="btn_perfil_to_cadservico"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnTornarPresPerfilUser" />
+        android:backgroundTint="#204c6a"
+        android:text="serviços"
+        app:layout_constraintEnd_toEndOf="@+id/myRectangleView24"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView24" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -265,5 +279,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_home"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <ListView
+        android:id="@+id/listServicosPrestador"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView24"
+        app:layout_constraintEnd_toEndOf="@+id/myRectangleView24"
+        app:layout_constraintStart_toStartOf="@+id/myRectangleView24"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

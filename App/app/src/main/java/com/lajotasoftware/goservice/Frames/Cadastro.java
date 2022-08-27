@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -299,7 +300,7 @@ public class Cadastro extends AppCompatActivity {
             }
         });
         TextInputEditText inputEditTextNomeServico = findViewById(R.id.edtNomeServico);
-        TextInputEditText inputEditTextValorServico= findViewById(R.id.edtValorServico);
+        EditText inputEditTextValorServico = findViewById(R.id.edtValorServico);
         TextInputEditText inputEditTextDescricaoServico = findViewById(R.id.edtDescricaoServico);
 
         Spinner spinnerCategoriaServico = findViewById(R.id.spinner_categoria);
@@ -323,7 +324,7 @@ public class Cadastro extends AppCompatActivity {
         }
         btn_gravar_usuario.setOnClickListener(view -> {
             String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
-            Double valorServico = Double.valueOf(inputEditTextValorServico.toString());
+            Double valorServico = Double.parseDouble(inputEditTextValorServico.getText().toString());
             String descServico = String.valueOf(inputEditTextDescricaoServico.getText());
             String catServico = categoria_servico.getSelectedItem().toString();
             String subcatServico = sub_categoria_servico.getSelectedItem().toString();

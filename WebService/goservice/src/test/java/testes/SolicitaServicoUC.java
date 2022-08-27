@@ -72,7 +72,7 @@ public class SolicitaServicoUC {
         SolicitaServico solicitaServico = new SolicitaServico();
         Usuario usuario = new Usuario();
         solicitaServico.setId(1L);
-        solicitaServico.setId_Cliente(usuarioController.getUsuarioById(3L));
+        //solicitaServico.setId_Cliente(usuarioController.getUsuarioById(3L));
         solicitaServico.setCategoria("Computacao");
         solicitaServico.setSubCategoria("Notebook asus");
         solicitaServico.setDescricaoSolicitacao("Formata ai meu chegado");
