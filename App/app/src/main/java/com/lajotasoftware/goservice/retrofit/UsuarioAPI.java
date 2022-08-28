@@ -42,4 +42,14 @@ public interface UsuarioAPI {
 
     @POST ("/usuario/servico/{idPrestador}")
     Call<List<Servico>> getServicosPrestador(@Path("idPrestador")Long id);
+
+    @PUT("/servico/update/{id}")
+    Call<Servico> update(@Path("id")Long id,@Body Servico servico);
+
+    @POST("/servico/{nomeServ}/{descServ}/{valorServ}")
+    Call<Servico> getServicoByNDV(@Path("nomeServ") String nomeServ,
+                                  @Path("descServ") String descServ,
+                                  @Path("valorServ") Double valorServ);
+
+
 }

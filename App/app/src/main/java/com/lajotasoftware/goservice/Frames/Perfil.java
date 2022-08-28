@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -21,7 +22,6 @@ import com.lajotasoftware.goservice.retrofit.RetrofitService;
 import com.lajotasoftware.goservice.retrofit.UsuarioAPI;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -160,6 +160,14 @@ public class Perfil extends AppCompatActivity {
                 Toast.makeText(Perfil.this, "Sem Sucesso!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long l) {
+                createDialog(view, position);
+                return true;
+            }
+        });
     }
 
     private void listaServico(List<String> servicos) {
@@ -189,6 +197,46 @@ public class Perfil extends AppCompatActivity {
         String status = "CADASTRO_SERVICO";
         parametros.putLong("id_usuario", idUsuario);
         parametros.putString("status_usuario", status);
+        it.putExtras(parametros);
+        startActivity(it);
+    }
+
+    public void createDialog(View view,int position){
+        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+        adb.setTitle("O que deseja fazer?");
+        /*adb.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Servico finalizado", Toast.LENGTH_LONG).show();
+                String sv = servicos.get(position);
+                finalizarServico(sv);
+                //databaseReference.child("CadServico").child(sv.getId()).removeValue();
+            } });*/
+        adb.setNegativeButton("Editar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Editar", Toast.LENGTH_LONG).show();
+                String sv = servicos.get(position);
+                editar(sv);
+            } });
+        adb.setNeutralButton("Excluir", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Servico Excluido", Toast.LENGTH_LONG).show();
+                String sv = servicos.get(position);
+                excluir(sv);
+            } });
+        AlertDialog alertDialog = adb.create();
+        alertDialog.show();
+    }
+
+    private void excluir(String sv) {
+    }
+
+    private void editar(String sv) {
+        Intent it = new Intent(this,Cadastro.class);
+        Bundle parametros = new Bundle();
+        String status = "EDITAR_SERVICO";
+        parametros.putLong("id_usuario", idUsuario);
+        parametros.putString("status_usuario", status);
+        parametros.putString("servico_str",sv);
         it.putExtras(parametros);
         startActivity(it);
     }

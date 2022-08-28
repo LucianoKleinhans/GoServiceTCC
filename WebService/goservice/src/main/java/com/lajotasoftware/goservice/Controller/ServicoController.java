@@ -55,4 +55,11 @@ public class ServicoController {
     public List<Servico> getServicosPrestador(@PathVariable Long idPrestador){
         return repository.getServicosPrestador(idPrestador);
     }
+
+    @PostMapping("/servico/{nomeServ}/{descServ}/{valorServ}")
+    public Servico getServicoByNDV(@PathVariable String nomeServ,
+                                   @PathVariable String descServ,
+                                   @PathVariable Double valorServ){
+        return repository.getServicoByNDV(nomeServ, descServ, valorServ);
+    }
 }

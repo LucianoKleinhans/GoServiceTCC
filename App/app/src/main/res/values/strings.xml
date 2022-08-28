@@ -90,8 +90,12 @@
         <item>TO</item>
     </string-array>
     <string-array name="categoria_servico">
+        <item> </item>
         <item>Informática</item>
         <item>Marcenaria</item>
+    </string-array>
+    <string-array name="sub_categoria_servico">
+        <item> </item>
     </string-array>
     <string-array name="sub_categoria_servico_Informática">
         <item>Geral</item>

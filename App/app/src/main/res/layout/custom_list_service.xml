@@ -7,5 +7,5 @@
         android:layout_height="wrap_content"
         android:textAlignment="inherit"
         android:textColor="#d5d5d5"
-        android:layout_marginTop="5dp"
+        android:paddingTop="5dp"
         android:background="@drawable/retangle_border_view_3" />
