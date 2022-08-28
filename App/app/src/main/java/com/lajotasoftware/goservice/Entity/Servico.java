@@ -1,5 +1,7 @@
 package com.lajotasoftware.goservice.Entity;
 
+import android.annotation.SuppressLint;
+
 import java.util.List;
 
 public class Servico {
@@ -79,20 +81,16 @@ public class Servico {
         this.id_Prestador = id_Prestador;
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public String toString() {
-        return "Servico{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", categoria='" + categoria + '\'' +
-                ", subCategoria='" + subCategoria + '\'' +
-                ", valor=" + valor +
-                ", obsServico='" + obsServico + '\'' +
-                ", id_Prestador=" + id_Prestador +
-                '}';
+        return  nome + '\n' +
+                obsServico + '\n' +
+                "R$"+valor;
     }
 
     public List<Servico> listServicos() {
         return servicos;
     }
+
 }

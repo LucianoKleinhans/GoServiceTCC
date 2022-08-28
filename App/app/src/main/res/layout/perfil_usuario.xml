@@ -167,11 +167,11 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnServicos"
         android:layout_width="120dp"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:onClick="btn_perfil_to_cadservico"
         android:backgroundTint="#204c6a"
+        android:onClick="btn_perfil_to_cadservico"
         android:text="serviços"
         app:layout_constraintEnd_toEndOf="@+id/myRectangleView24"
         app:layout_constraintTop_toTopOf="@+id/myRectangleView24" />
@@ -285,12 +285,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="6dp"
         android:layout_marginBottom="5dp"
+        android:textColor="#d5d5d5"
         app:layout_constraintBottom_toBottomOf="@+id/myRectangleView24"
         app:layout_constraintEnd_toEndOf="@+id/myRectangleView24"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/myRectangleView24"
-        app:layout_constraintTop_toTopOf="@+id/myRectangleView24" />
+        app:layout_constraintTop_toBottomOf="@+id/btnServicos" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

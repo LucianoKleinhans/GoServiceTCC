@@ -21,6 +21,7 @@ import com.lajotasoftware.goservice.retrofit.RetrofitService;
 import com.lajotasoftware.goservice.retrofit.UsuarioAPI;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,7 +37,8 @@ public class Perfil extends AppCompatActivity {
     Servico servico = new Servico();
 
     ListView listView;
-    List<Servico> stringList = new ArrayList<Servico>();
+    List<String> servicos = new ArrayList<String>();
+    ArrayAdapter<String> stringArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class Perfil extends AppCompatActivity {
         idUsuario = parametros.getLong("id_usuario");
         setContentView(R.layout.perfil_usuario);
         initializeComponents();
+
     }
 
     private void initializeComponents() {
@@ -56,8 +59,6 @@ public class Perfil extends AppCompatActivity {
         MaterialTextView textViewSiteUsuario = findViewById(R.id.ttvSitePerfilUser);
 
         listView = (ListView) findViewById(R.id.listServicosPrestador);
-        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, stringList);
-        listView.setAdapter(stringArrayAdapter);
 
         MaterialButton btnTornarUserPrestador = findViewById(R.id.btnTornarPresPerfilUser);
 
@@ -147,16 +148,23 @@ public class Perfil extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Servico>> call, Response<List<Servico>> response) {
                 Toast.makeText(Perfil.this, "Sucesso!", Toast.LENGTH_SHORT).show();
-                stringList = response.body();
-                stringList.add((Servico) response.body());
+                int aux = response.body().size();
+                for (int i=1; i<=aux;i++){
+                    servicos.add(response.body().get(i-1).toString());
+                }
+                listaServico(servicos);
             }
 
             @Override
             public void onFailure(Call<List<Servico>> call, Throwable t) {
                 Toast.makeText(Perfil.this, "Sem Sucesso!", Toast.LENGTH_SHORT).show();
-
             }
         });
+    }
+
+    private void listaServico(List<String> servicos) {
+        stringArrayAdapter = new ArrayAdapter(this, R.layout.custom_list_service, servicos);
+        listView.setAdapter(stringArrayAdapter);
     }
 
     public void btn_perfil_to_cad (View view){
