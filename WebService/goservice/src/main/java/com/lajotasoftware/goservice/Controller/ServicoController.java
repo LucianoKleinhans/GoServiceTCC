@@ -29,12 +29,12 @@ public class ServicoController {
     public Servico salvarServico(@RequestBody Servico servico){ return repository.save(servico);
     }
 
-    @DeleteMapping("/servico/{id}")
+    @DeleteMapping("/servico/delete/{id}")
     public void deleteServico(@PathVariable Long id){
         repository.deleteById(id);
     }
 
-    @PutMapping(value = "/servico/{id}")
+    @PutMapping(value = "/servico/update/{id}")
     public ResponseEntity update(@PathVariable("id") long id,
                                  @RequestBody Servico servico) {
         return repository.findById(id)

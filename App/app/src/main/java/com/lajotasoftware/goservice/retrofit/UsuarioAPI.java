@@ -9,6 +9,7 @@ import javax.xml.transform.Result;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -31,7 +32,7 @@ public interface UsuarioAPI {
     @POST("/usuario/create")
     Call<Usuario> createNewUser(@Body Usuario usuario);
 
-    @POST ("/usuario/delete/{id}")
+    @DELETE ("/usuario/delete/{id}")
     Call<Usuario> deleteUser(@Path("id")Long id);
 
     @POST ("/connection")
@@ -44,12 +45,13 @@ public interface UsuarioAPI {
     Call<List<Servico>> getServicosPrestador(@Path("idPrestador")Long id);
 
     @PUT("/servico/update/{id}")
-    Call<Servico> update(@Path("id")Long id,@Body Servico servico);
+    Call<Servico> updateServico(@Path("id")Long id,@Body Servico servico);
 
     @POST("/servico/{nomeServ}/{descServ}/{valorServ}")
     Call<Servico> getServicoByNDV(@Path("nomeServ") String nomeServ,
                                   @Path("descServ") String descServ,
                                   @Path("valorServ") Double valorServ);
 
-
+    @DELETE("/servico/delete/{id}")
+    Call<Servico> deleteServico(@Path("id")Long id);
 }

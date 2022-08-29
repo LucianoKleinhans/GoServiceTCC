@@ -219,7 +219,6 @@ public class Perfil extends AppCompatActivity {
             } });
         adb.setNeutralButton("Excluir", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Servico Excluido", Toast.LENGTH_LONG).show();
                 String sv = servicos.get(position);
                 excluir(sv);
             } });
@@ -228,6 +227,39 @@ public class Perfil extends AppCompatActivity {
     }
 
     private void excluir(String sv) {
+        String nomeServico, descServico;
+        Double valorServico;
+        RetrofitService retrofitEditService = new RetrofitService();
+        UsuarioAPI usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
+        int espaco;
+        espaco = sv.indexOf("\n");
+        nomeServico = sv.substring(0, espaco);
+        sv = sv.substring(espaco + 1, sv.length());
+        espaco = sv.indexOf("\n");
+        descServico = sv.substring(0, espaco);
+        sv = sv.substring(espaco + 1, sv.length());
+        valorServico = Double.parseDouble(sv.substring(2, sv.length()));
+        usuarioAPI.getServicoByNDV(nomeServico, descServico, valorServico).enqueue(new Callback<Servico>() {
+            @Override
+            public void onResponse(Call<Servico> call, Response<Servico> response) {
+                Servico serv = new Servico();
+                assert response.body() != null;
+                serv.setServico(response.body());
+                Long idServico = serv.getId();
+                usuarioAPI.deleteServico(idServico).enqueue(new Callback<Servico>() {
+                    @Override
+                    public void onResponse(Call<Servico> call, Response<Servico> response) {}
+
+                    @Override
+                    public void onFailure(Call<Servico> call, Throwable t) {}
+                });
+            }
+
+            @Override
+            public void onFailure(Call<Servico> call, Throwable t) {
+                Toast.makeText(Perfil.this, "Não foi possível excluir!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void editar(String sv) {
