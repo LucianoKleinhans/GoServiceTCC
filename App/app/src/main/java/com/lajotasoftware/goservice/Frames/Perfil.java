@@ -147,7 +147,7 @@ public class Perfil extends AppCompatActivity {
         usuarioAPIListService.getServicosPrestador(idUsuario).enqueue(new Callback<List<Servico>>() {
             @Override
             public void onResponse(Call<List<Servico>> call, Response<List<Servico>> response) {
-                Toast.makeText(Perfil.this, "Sucesso!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(Perfil.this, "Sucesso!", Toast.LENGTH_SHORT).show();
                 int aux = response.body().size();
                 for (int i=1; i<=aux;i++){
                     servicos.add(response.body().get(i-1).toString());
@@ -157,7 +157,7 @@ public class Perfil extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Servico>> call, Throwable t) {
-                Toast.makeText(Perfil.this, "Sem Sucesso!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Perfil.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -258,6 +258,25 @@ public class Perfil extends AppCompatActivity {
             @Override
             public void onFailure(Call<Servico> call, Throwable t) {
                 Toast.makeText(Perfil.this, "Não foi possível excluir!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        RetrofitService retrofitServiceListService = new RetrofitService();
+        UsuarioAPI usuarioAPIListService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
+        usuarioAPIListService.getServicosPrestador(idUsuario).enqueue(new Callback<List<Servico>>() {
+            @Override
+            public void onResponse(Call<List<Servico>> call, Response<List<Servico>> response) {
+                //Toast.makeText(Perfil.this, "Sucesso!", Toast.LENGTH_SHORT).show();
+                int aux = response.body().size();
+                servicos.clear();
+                for (int i=1; i<=aux;i++){
+                    servicos.add(response.body().get(i-1).toString());
+                }
+                listaServico(servicos);
+            }
+
+            @Override
+            public void onFailure(Call<List<Servico>> call, Throwable t) {
+                Toast.makeText(Perfil.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
             }
         });
     }

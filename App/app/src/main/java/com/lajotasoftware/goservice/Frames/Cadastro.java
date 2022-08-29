@@ -147,9 +147,15 @@ public class Cadastro extends AppCompatActivity {
                         user.setUsuario(usuarioResponse.body());
                         inputEditTextPrimeiroNome.setText(user.getPrimeiroNome());
                         inputEditTextSegundoNome.setText(user.getSegundoNome());
-                        inputEditTextCPF.setText(user.getCpf());
-                        inputEditTextCNPJ.setText(user.getCnpj());
-                        inputEditTextTelefone.setText(user.getTelefone());
+                        if (user.getCpf()!=null){
+                            inputEditTextCPF.setText(function.imprimeCPF(user.getCpf()));
+                        }
+                        if (user.getCnpj()!=null){
+                            inputEditTextCNPJ.setText(function.imprimeCNPJ(user.getCnpj()));
+                        }
+                        if (user.getTelefone()!=null){
+                            inputEditTextTelefone.setText(function.imprimeTelefone(user.getTelefone()));
+                        }
                         inputEditTextEmail.setText(user.getEmail());
                         inputEditTextSite.setText(user.getSite());
                         inputEditTextRuaAvenida.setText(user.getRuaAvenida());
@@ -217,15 +223,15 @@ public class Cadastro extends AppCompatActivity {
                                                         Usuario usuario = new Usuario();
                                                         usuario.setPrimeiroNome(primeiroNome);
                                                         usuario.setSegundoNome(segundoNome);
-                                                        usuario.setCpf(CPF);
-                                                        usuario.setCnpj(CNPJ);
+                                                        usuario.setCpf(function.removeCaracteresEspeciais(CPF));
+                                                        usuario.setCnpj(function.removeCaracteresEspeciais(CNPJ));
                                                         usuario.setRuaAvenida(ruaAvenida);
                                                         usuario.setBairro(bairro);
                                                         usuario.setNumero(numero);
                                                         usuario.setCep(cep);
                                                         usuario.setCidade(cidade);
                                                         usuario.setUf(uf);
-                                                        usuario.setTelefone(telefone);
+                                                        usuario.setTelefone(function.removeCaracteresEspeciais(telefone));
                                                         usuario.setEmail(email);
                                                         usuario.setSite(site);
                                                         usuario.setAtivo(true);
@@ -324,40 +330,39 @@ public class Cadastro extends AppCompatActivity {
             categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.categoria_servico, android.R.layout.simple_spinner_item);
             categoria_servico.setAdapter(adapter);
-            String catServ = spinnerCategoriaServico.getSelectedItem().toString();
-            if (catServ.equals(" ")) {
-                sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
-                ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.sub_categoria_servico, android.R.layout.simple_spinner_item);
-                sub_categoria_servico.setAdapter(adapter1);
-            }
+            //String catServ = spinnerCategoriaServico.getSelectedItem().toString();
+
+            sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
+            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.sub_categoria_servico, android.R.layout.simple_spinner_item);
+            sub_categoria_servico.setAdapter(adapter1);
+
         }
+        spinnerCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String catSelected = spinnerCategoriaServico.getSelectedItem().toString();
+                if (catSelected.equals(" ")) {
+                    sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
+                    ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(Cadastro.this, R.array.sub_categoria_servico, android.R.layout.simple_spinner_item);
+                    spinnerSubCategoriaServico.setAdapter(adapter1);
+                }
+                if (catSelected.equals("Informática")) {
+                    sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
+                    ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(Cadastro.this, R.array.sub_categoria_servico_Informática, android.R.layout.simple_spinner_item);
+                    spinnerSubCategoriaServico.setAdapter(adapter1);
+                } else if (catSelected.equals("Marcenaria")) {
+                    sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
+                    ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(Cadastro.this, R.array.sub_categoria_servico_Marcenaria, android.R.layout.simple_spinner_item);
+                    spinnerSubCategoriaServico.setAdapter(adapter2);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Toast.makeText(Cadastro.this, "Nada Selecionado!", Toast.LENGTH_SHORT).show();
+            }
+        });
         if (status.equals("EDITAR_SERVICO")) {
-            spinnerCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    String catSelected = spinnerCategoriaServico.getSelectedItem().toString();
-                    if (catSelected.equals(" ")) {
-                        sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
-                        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(Cadastro.this, R.array.sub_categoria_servico, android.R.layout.simple_spinner_item);
-                        sub_categoria_servico.setAdapter(adapter1);
-                    }
-                    if (catSelected.equals("Informática")) {
-                        sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
-                        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(Cadastro.this, R.array.sub_categoria_servico_Informática, android.R.layout.simple_spinner_item);
-                        sub_categoria_servico.setAdapter(adapter1);
-                    } else if (catSelected.equals("Marcenaria")) {
-                        sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
-                        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(Cadastro.this, R.array.sub_categoria_servico_Marcenaria, android.R.layout.simple_spinner_item);
-                        sub_categoria_servico.setAdapter(adapter2);
-                    }
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                    Toast.makeText(Cadastro.this, "Nada Selecionado!", Toast.LENGTH_SHORT).show();
-                }
-            });
-
             RetrofitService retrofitEditService = new RetrofitService();
             usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
             int espaco;
@@ -415,18 +420,23 @@ public class Cadastro extends AppCompatActivity {
         }
         btn_gravar_usuario.setOnClickListener(view -> {
             Double valorServico = null;
+            String catServico = null, subcatServico = null;
             String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
             if ((inputEditTextValorServico.getText()!=null) && (!inputEditTextValorServico.getText().equals(""))){
                 valorServico = Double.parseDouble(inputEditTextValorServico.getText().toString());
             }
             String descServico = String.valueOf(inputEditTextDescricaoServico.getText());
-            String catServico = spinnerCategoriaServico.getSelectedItem().toString();
-            String subcatServico = spinnerSubCategoriaServico.getSelectedItem().toString();
+            if (spinnerCategoriaServico.getSelectedItem().toString() != null) {
+                catServico = spinnerCategoriaServico.getSelectedItem().toString();
+            }
+            if (spinnerCategoriaServico.getSelectedItem().toString() != null) {
+                subcatServico = spinnerSubCategoriaServico.getSelectedItem().toString();
+            }
             if (!nomeServico.equals("") && nomeServico.length() >= 5) {
                 if (valorServico > 0 && valorServico < 100000 && valorServico!=null) {
                     if (!descServico.equals("") && descServico.length() > 15) {
-                        if (!catServico.equals("") && !catServico.equals(" ")) {
-                            if (!subcatServico.equals("") && !subcatServico.equals(" ")) {
+                        if (!catServico.equals("") && !catServico.equals(" ") && catServico != null) {
+                            if (!subcatServico.equals("") && !subcatServico.equals(" ") && subcatServico != null) {
                                 Servico servico = new Servico();
                                 servico.setNome(nomeServico);
                                 servico.setValor(valorServico);

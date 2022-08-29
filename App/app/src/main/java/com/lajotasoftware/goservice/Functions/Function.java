@@ -130,7 +130,12 @@ public class Function {
         }
     }
 
-    private String removeCaracteresEspeciais(String doc) {
+    public String removeCaracteresEspeciais(String doc) {
+        doc = doc.replace("(","");
+        doc = doc.replace(")","");
+        doc = doc.replace(".","");
+        doc = doc.replace("-","");
+        doc = doc.replace("/","");
         return doc;
     }
 
@@ -138,11 +143,22 @@ public class Function {
         // máscara do CNPJ: 99.999.999.9999-99
         return (CNPJ.substring(0, 2) + "." + CNPJ.substring(2, 5) + "." + CNPJ.substring(5, 8) + "." + CNPJ.substring(8, 12) + "-" + CNPJ.substring(12, 14));
     }
+    public static String imprimeCPF(String CPF) {
+        // máscara do CPF: 999.999.999-99
+        return (CPF.substring(0, 3) + "." + CPF.substring(3, 6) + "." + CPF.substring(6, 9) + "-" + CPF.substring(9, 11));
+    }
+    public static String imprimeTelefone(String telefone) {
+        // máscara do TELEFONE: (99)99999-9999
+        return ("("+telefone.substring(0, 2) + ")" + telefone.substring(2, 7) + "-" + telefone.substring(7, telefone.length()));
+    }
 
     public boolean validarTelefone(String telefone) {
         //Baseado no original para javascript:
         //https://gist.github.com/jonathangoncalves/7bdec924e9bd2bdf353d6b7520820b62
-
+        if (telefone.substring(0,1).equals("0")){
+            telefone = telefone.substring(1,telefone.length());
+        }
+        telefone = removeCaracteresEspeciais(telefone);
         //retira todos os caracteres não-numéricos (incluindo espaço,tab, etc)
         telefone = telefone.replaceAll("\\D","");
 
@@ -159,7 +175,7 @@ public class Function {
 
         //DDDs validos
         Integer[] codigosDDD = {
-                11, 12, 13, 14, 15, 16, 17, 18, 19,
+                11, 12, 13, 14, 15, 16, 17, 18, 19  ,
                 21, 22, 24, 27, 28, 31, 32, 33, 34,
                 35, 37, 38, 41, 42, 43, 44, 45, 46,
                 47, 48, 49, 51, 53, 54, 55, 61, 62,
