@@ -171,7 +171,7 @@ public class Perfil extends AppCompatActivity {
     }
 
     private void listaServico(List<String> servicos) {
-        stringArrayAdapter = new ArrayAdapter(this, R.layout.custom_list_service, servicos);
+        stringArrayAdapter = new ArrayAdapter(this, R.layout.z_custom_list_service, servicos);
         listView.setAdapter(stringArrayAdapter);
     }
 

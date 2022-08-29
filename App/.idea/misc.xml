@@ -35,12 +35,15 @@
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/retangle_border_view.xml" value="0.3635" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/retangle_border_view_2.xml" value="0.3635" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/retangle_border_view_3.xml" value="0.3675" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/retangle_border_view_4.xml" value="0.3675" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/retangle_border_view_5.xml" value="0.3675" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/retangle_view.xml" value="0.3635" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/drawable/round_button.xml" value="0.231" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/activity_main.xml" value="0.3625" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/cadastroUsuario.xml" value="0.3625" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/cadastro_servico.xml" value="0.256797583081571" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/cadastro_usuario.xml" value="0.33" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/cards_servico.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/custom_list_service.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/entry_cadastro_login.xml" value="0.33" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/entry_login.xml" value="0.1" />
@@ -48,6 +51,7 @@
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/perfilUsuario.xml" value="0.3625" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/perfil_usuario.xml" value="0.3909191583610188" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/without_connection.xml" value="0.31203703703703706" />
+        <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/layout/z_custom_list_cardservice.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Luciano/Desktop/TCC/GoServiceTCC/App/app/src/main/res/menu/menu_main.xml" value="0.3625" />
       </map>
     </option>
