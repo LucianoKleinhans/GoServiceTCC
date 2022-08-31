@@ -367,13 +367,8 @@ public class Cadastro extends AppCompatActivity {
             usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
             int espaco;
             espaco = strServico.indexOf("\n");
-            nomeServico = strServico.substring(0, espaco);
-            strServico = strServico.substring(espaco + 1, strServico.length());
-            espaco = strServico.indexOf("\n");
-            descServico = strServico.substring(0, espaco);
-            strServico = strServico.substring(espaco + 1, strServico.length());
-            valorServico = Double.parseDouble(strServico.substring(2, strServico.length()));
-            usuarioAPI.getServicoByNDV(nomeServico, descServico, valorServico).enqueue(new Callback<Servico>() {
+            idServico = Long.parseLong(strServico.substring(0, espaco));
+            usuarioAPI.getServicoById(idServico).enqueue(new Callback<Servico>() {
                 @Override
                 public void onResponse(Call<Servico> call, Response<Servico> servResponse) {
                     if (servResponse.isSuccessful()) {

@@ -84,7 +84,8 @@ public class Servico {
     @SuppressLint("DefaultLocale")
     @Override
     public String toString() {
-        return  nome + '\n' +
+        return  id.toString() + '\n' +
+                nome + '\n' +
                 obsServico + '\n' +
                 "R$"+valor;
     }

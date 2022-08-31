@@ -14,6 +14,6 @@ public interface DAOServico extends JpaRepository<Servico, Long> {
     @Query(value = "select * from servico s where s.id_prestador_id = ?1", nativeQuery = true)
     List<Servico> getServicosPrestador(Long idPrestador);
 
-    @Query(value = "select * from servico s where s.nome like ?1 and s.obs_servico like ?2 and s.valor = ?3", nativeQuery = true)
-    Servico getServicoByNDV(String nomeServ, String descServ, Double valorServ);
+    @Query(value = "select * from servico s where s.id = ?1", nativeQuery = true)
+    Servico getServicoByID(Long id);
 }

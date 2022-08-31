@@ -56,10 +56,8 @@ public class ServicoController {
         return repository.getServicosPrestador(idPrestador);
     }
 
-    @PostMapping("/servico/{nomeServ}/{descServ}/{valorServ}")
-    public Servico getServicoByNDV(@PathVariable String nomeServ,
-                                   @PathVariable String descServ,
-                                   @PathVariable Double valorServ){
-        return repository.getServicoByNDV(nomeServ, descServ, valorServ);
+    @PostMapping("/servico/seleciona/{id}")
+    public Servico getServicoByID(@PathVariable Long id){
+        return repository.getServicoByID(id);
     }
 }

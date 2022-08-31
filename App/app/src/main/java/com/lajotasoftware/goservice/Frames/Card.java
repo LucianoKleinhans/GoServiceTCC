@@ -165,13 +165,8 @@ public class Card extends AppCompatActivity {
             usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
             int espaco;
             espaco = strCardServico.indexOf("\n");
-            nomeCardServico = strCardServico.substring(0, espaco);
-            strCardServico = strCardServico.substring(espaco + 1, strCardServico.length());
-            espaco = strCardServico.indexOf("\n");
-            descCardServico = strCardServico.substring(0, espaco);
-            strCardServico = strCardServico.substring(espaco + 1, strCardServico.length());
-            valorCardServico = Double.parseDouble(strCardServico.substring(2, strCardServico.length()));
-            usuarioAPI.getCardServicoByNDV(nomeCardServico, descCardServico, valorCardServico).enqueue(new Callback<SolicitaServico>() {
+            idCardServico = Long.parseLong(strCardServico.substring(0, espaco));
+            usuarioAPI.getCardServicoById(idCardServico).enqueue(new Callback<SolicitaServico>() {
                 @Override
                 public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> servResponse) {
                     if (servResponse.isSuccessful()) {
@@ -346,20 +341,15 @@ public class Card extends AppCompatActivity {
         UsuarioAPI usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
         int espaco;
         espaco = sv.indexOf("\n");
-        nomeServico = sv.substring(0, espaco);
-        sv = sv.substring(espaco + 1, sv.length());
-        espaco = sv.indexOf("\n");
-        descServico = sv.substring(0, espaco);
-        sv = sv.substring(espaco + 1, sv.length());
-        valorServico = Double.parseDouble(sv.substring(2, sv.length()));
-        usuarioAPI.getCardServicoByNDV(nomeServico, descServico, valorServico).enqueue(new Callback<SolicitaServico>() {
+        idCardServico = Long.parseLong(sv.substring(0, espaco));
+        usuarioAPI.getCardServicoById(idCardServico).enqueue(new Callback<SolicitaServico>() {
             @Override
             public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
                 SolicitaServico cardServ = new SolicitaServico();
                 assert response.body() != null;
                 cardServ.setServico(response.body());
-                Long idServico = cardServ.getId();
-                usuarioAPI.deleteCardServico(idServico).enqueue(new Callback<SolicitaServico>() {
+                Long idCardServico = cardServ.getId();
+                usuarioAPI.deleteCardServico(idCardServico).enqueue(new Callback<SolicitaServico>() {
                     @Override
                     public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {}
 

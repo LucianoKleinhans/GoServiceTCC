@@ -52,10 +52,8 @@ public interface UsuarioAPI {
     @PUT("/servico/update/{id}")
     Call<Servico> updateServico(@Path("id")Long id,@Body Servico servico);
 
-    @POST("/servico/{nomeServ}/{descServ}/{valorServ}")
-    Call<Servico> getServicoByNDV(@Path("nomeServ") String nomeServ,
-                                  @Path("descServ") String descServ,
-                                  @Path("valorServ") Double valorServ);
+    @POST("/servico/seleciona/{id}")
+    Call<Servico> getServicoById(@Path("id") Long id);
 
     @DELETE("/servico/delete/{id}")
     Call<Servico> deleteServico(@Path("id")Long id);
@@ -70,10 +68,9 @@ public interface UsuarioAPI {
     @POST ("/cardservico/{id}")
     Call<List<SolicitaServico>> getCardServico(@Path("id")Long id);
 
-    @POST("/cardservico/{nomeServ}/{descServ}/{valorServ}")
-    Call<SolicitaServico> getCardServicoByNDV(@Path("nomeServ") String nomeServ,
-                                              @Path("descServ") String descServ,
-                                              @Path("valorServ") Double valorServ);
+    @POST("/cardservico/seleciona/{id}")
+    Call<SolicitaServico> getCardServicoById(@Path("id") Long id);
+
     @DELETE("/cardservico/delete/{id}")
     Call<SolicitaServico> deleteCardServico(@Path("id")Long id);
 }

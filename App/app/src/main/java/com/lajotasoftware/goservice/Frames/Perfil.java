@@ -30,7 +30,7 @@ import retrofit2.Response;
 
 public class Perfil extends AppCompatActivity {
 
-    private Long idUsuario;
+    private Long idUsuario, idServico;
     Usuario usuario = new Usuario();
     Usuario user = new Usuario();
     private Boolean prestador;
@@ -233,13 +233,8 @@ public class Perfil extends AppCompatActivity {
         UsuarioAPI usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
         int espaco;
         espaco = sv.indexOf("\n");
-        nomeServico = sv.substring(0, espaco);
-        sv = sv.substring(espaco + 1, sv.length());
-        espaco = sv.indexOf("\n");
-        descServico = sv.substring(0, espaco);
-        sv = sv.substring(espaco + 1, sv.length());
-        valorServico = Double.parseDouble(sv.substring(2, sv.length()));
-        usuarioAPI.getServicoByNDV(nomeServico, descServico, valorServico).enqueue(new Callback<Servico>() {
+        idServico = Long.parseLong(sv.substring(0, espaco));
+        usuarioAPI.getServicoById(idServico).enqueue(new Callback<Servico>() {
             @Override
             public void onResponse(Call<Servico> call, Response<Servico> response) {
                 Servico serv = new Servico();

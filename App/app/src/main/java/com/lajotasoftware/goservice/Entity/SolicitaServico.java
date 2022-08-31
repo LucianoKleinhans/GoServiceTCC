@@ -91,7 +91,8 @@ public class SolicitaServico {
 
     @Override
     public String toString() {
-        return  nomeServico + '\n' +
+        return  id.toString() + '\n' +
+                nomeServico + '\n' +
                 descricaoSolicitacao + '\n' +
                 "R$"+valor;
     }

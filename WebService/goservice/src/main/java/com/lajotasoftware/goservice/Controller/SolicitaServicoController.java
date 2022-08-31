@@ -56,10 +56,8 @@ public class SolicitaServicoController {
         return repository.getCardServicos(id);
     }
 
-    @PostMapping("/cardservico/{nomeServ}/{descServ}/{valorServ}")
-    public SolicitaServico getCardServicoByNDV(@PathVariable String nomeServ,
-                                   @PathVariable String descServ,
-                                   @PathVariable Double valorServ){
-        return repository.getCardServicoByNDV(nomeServ, descServ, valorServ);
+    @PostMapping("/cardservico/seleciona/{id}")
+    public SolicitaServico getCardServicoByid(@PathVariable Long id){
+        return repository.getCardServicoByid(id);
     }
 }
