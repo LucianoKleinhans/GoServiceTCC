@@ -33,8 +33,9 @@ import retrofit2.Response;
 
 public class Card extends AppCompatActivity {
 
-    Long idUsuario, idPrestador, idServico;
-    String status;
+    Long idUsuario, idPrestador, idCardServico;
+    String status, strCardServico, nomeCardServico, descCardServico;
+    Double valorCardServico;
     UsuarioAPI usuarioAPI;
     Intent it;
     Spinner categoria_servico, sub_categoria_servico;
@@ -50,6 +51,7 @@ public class Card extends AppCompatActivity {
         Bundle parametros = it.getExtras();
         status = parametros.getString("status_usuario");
         idUsuario = parametros.getLong("id_usuario");
+        strCardServico = parametros.getString("servico_str");
         if (status.equals("DEFAUT")) {
             setContentView(R.layout.cards_servico);
             initializeComponents();
@@ -158,6 +160,63 @@ public class Card extends AppCompatActivity {
             }
         });
 
+        if (status.equals("EDITAR_SERVICO")) {
+            RetrofitService retrofitEditService = new RetrofitService();
+            usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
+            int espaco;
+            espaco = strCardServico.indexOf("\n");
+            nomeCardServico = strCardServico.substring(0, espaco);
+            strCardServico = strCardServico.substring(espaco + 1, strCardServico.length());
+            espaco = strCardServico.indexOf("\n");
+            descCardServico = strCardServico.substring(0, espaco);
+            strCardServico = strCardServico.substring(espaco + 1, strCardServico.length());
+            valorCardServico = Double.parseDouble(strCardServico.substring(2, strCardServico.length()));
+            usuarioAPI.getCardServicoByNDV(nomeCardServico, descCardServico, valorCardServico).enqueue(new Callback<SolicitaServico>() {
+                @Override
+                public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> servResponse) {
+                    if (servResponse.isSuccessful()) {
+                        SolicitaServico cardServ = new SolicitaServico();
+                        assert servResponse.body() != null;
+                        cardServ.setServico(servResponse.body());
+                        idCardServico = cardServ.getId();
+                        inputEditTextNomeServico.setText(cardServ.getNomeServico());
+                        inputEditTextDescricaoServico.setText(cardServ.getDescricaoSolicitacao());
+                        inputEditTextValorServico.setText(cardServ.getValor().toString());
+                        ArrayAdapter<CharSequence> adapterCategoria = ArrayAdapter.createFromResource(Card.this, R.array.categoria_servico, android.R.layout.simple_spinner_item);
+                        adapterCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinnerCategoriaServico.setAdapter(adapterCategoria);
+                        if (!cardServ.getCategoria().equals(null)) {
+                            int spinnerPosition = adapterCategoria.getPosition(cardServ.getCategoria());
+                            spinnerCategoriaServico.setSelection(spinnerPosition);
+                        }
+                        if (cardServ.getCategoria().equals("Informática")) {
+                            ArrayAdapter<CharSequence> adapterSubCategoria = ArrayAdapter.createFromResource(Card.this, R.array.sub_categoria_servico_Informática, android.R.layout.simple_spinner_item);
+                            adapterSubCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinnerSubCategoriaServico.setAdapter(adapterSubCategoria);
+                            if (!cardServ.getSubCategoria().equals(null)) {
+                                int spinnerPosition = adapterSubCategoria.getPosition(cardServ.getCategoria());
+                                spinnerSubCategoriaServico.setSelection(spinnerPosition);
+                            }
+                        }
+                        if (cardServ.getCategoria().equals("Marcenaria")) {
+                            ArrayAdapter<CharSequence> adapterSubCategoria = ArrayAdapter.createFromResource(Card.this, R.array.sub_categoria_servico_Marcenaria, android.R.layout.simple_spinner_item);
+                            adapterSubCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinnerSubCategoriaServico.setAdapter(adapterSubCategoria);
+                            if (!cardServ.getSubCategoria().equals(null)) {
+                                int spinnerPosition = adapterSubCategoria.getPosition(cardServ.getCategoria());
+                                spinnerSubCategoriaServico.setSelection(spinnerPosition);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SolicitaServico> call, Throwable t) {
+                    Toast.makeText(Card.this, "Falha ao editar! \n Tente novamente. \n Se o problema persistir contate o suporte", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
         btn_gravar_cardservico.setOnClickListener(view -> {
             Double valorServico = null;
             String catServico = null, subcatServico = null;
@@ -195,7 +254,7 @@ public class Card extends AppCompatActivity {
                                 it.putExtras(parametros);
 
                                 if (status.equals("EDITAR_CARTAO")) {
-                                    usuarioAPI.updateCardServico(idServico, cardServico).enqueue(new Callback<SolicitaServico>() {
+                                    usuarioAPI.updateCardServico(idCardServico, cardServico).enqueue(new Callback<SolicitaServico>() {
                                         @Override
                                         public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
                                             if (response.code() == 200) {
@@ -247,12 +306,6 @@ public class Card extends AppCompatActivity {
         });
 
         btn_cancelar_cardservico.setOnClickListener(view -> {
-            /*Intent it = new Intent(this, Card.class);
-            Bundle parametros = new Bundle();
-            parametros.putLong("id_usuario", idUsuario);
-            parametros.putString("status_usuario", "DEFAUT");
-            it.putExtras(parametros);
-            startActivity(it);*/
             onBackPressed();
             status = "DEFAUT";
         });
@@ -342,14 +395,10 @@ public class Card extends AppCompatActivity {
     }
 
     private void editar(String cardSv) {
-        Intent it = new Intent(this,Card.class);
-        Bundle parametros = new Bundle();
-        String status = "EDITAR_SERVICO";
-        parametros.putLong("id_usuario", idUsuario);
-        parametros.putString("status_usuario", status);
-        //parametros.putString("servico_str",cardSv);
-        it.putExtras(parametros);
-        startActivity(it);
+        status = "EDITAR_SERVICO";
+        strCardServico = cardSv;
+        setContentView(R.layout.cadastro_servico);
+        initializeComponentsCadastroCartao();
     }
 
     public void btn_card_to_createcard (View view) {

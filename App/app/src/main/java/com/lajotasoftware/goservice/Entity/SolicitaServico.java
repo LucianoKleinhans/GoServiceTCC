@@ -20,7 +20,7 @@ public class SolicitaServico {
         this.categoria = cardsServicos.getCategoria();
         this.subCategoria = cardsServicos.getSubCategoria();
         this.valor = cardsServicos.getValor();
-        this.categoria = cardsServicos.getCategoria();
+        this.descricaoSolicitacao = cardsServicos.getDescricaoSolicitacao();
         this.valorProposto = cardsServicos.getValorProposto();
         this.id_Cliente = cardsServicos.getId_Cliente();
     };
@@ -91,15 +91,8 @@ public class SolicitaServico {
 
     @Override
     public String toString() {
-        return "SolicitaServico{" +
-                "id=" + id +
-                ", nomeServico='" + nomeServico + '\'' +
-                ", categoria='" + categoria + '\'' +
-                ", subCategoria='" + subCategoria + '\'' +
-                ", descricaoSolicitacao='" + descricaoSolicitacao + '\'' +
-                ", valor=" + valor +
-                ", valorProposto=" + valorProposto +
-                ", id_Cliente=" + id_Cliente +
-                '}';
+        return  nomeServico + '\n' +
+                descricaoSolicitacao + '\n' +
+                "R$"+valor;
     }
 }

@@ -103,4 +103,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvCardNomeServico" />
+
+    <TextView
+        android:id="@+id/idCardServico"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:text="IdCardServ"
+        android:textAlignment="textStart"
+        android:textColor="#d5d5d5"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ttvCardNomeServico" />
 </androidx.constraintlayout.widget.ConstraintLayout>
