@@ -17,6 +17,7 @@
         android:text="Novo Card"
         android:textAllCaps="false"
         android:textSize="15sp"
+        android:onClick="btn_card_to_createcard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnProcurarCards"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView4" />
@@ -34,30 +35,6 @@
         app:layout_constraintEnd_toStartOf="@+id/btnNovoCard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView4" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCancelarCadServico"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="#750709"
-        android:text="@string/cancelar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnGravarCadServico"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="#009f10"
-        android:onClick="btn_gravar_servico"
-        android:text="@string/gravar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="TextContrastCheck" />
 
     <View
         android:id="@+id/myRectangleView4"
@@ -86,14 +63,32 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
+        android:id="@+id/listCardServico"
         android:layout_width="0dp"
-        android:layout_height="529dp"
+        android:layout_height="0dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnProcurarCards" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="#4bb2f8"
+        android:backgroundTint="#4bb2f8"
+        android:clickable="true"
+        android:onClick="btn_cards_to_main"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_home"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

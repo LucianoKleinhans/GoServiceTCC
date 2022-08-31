@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Entity.Usuario;
+import com.lajotasoftware.goservice.Frames.Card;
 import com.lajotasoftware.goservice.Frames.Login;
 import com.lajotasoftware.goservice.R;
 
@@ -91,6 +92,15 @@ public class MainActivity extends AppCompatActivity {
         Intent it = new Intent(this, Perfil.class);
         Bundle parametros = new Bundle();
         parametros.putLong("id_usuario", idUsuario);
+        it.putExtras(parametros);
+        startActivity(it);
+    }
+
+    public void btn_main_to_card (View view) {
+        Intent it = new Intent(this, Card.class);
+        Bundle parametros = new Bundle();
+        parametros.putLong("id_usuario", idUsuario);
+        parametros.putString("status_usuario", "DEFAUT");
         it.putExtras(parametros);
         startActivity(it);
     }

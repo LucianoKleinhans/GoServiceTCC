@@ -1,6 +1,7 @@
 package com.lajotasoftware.goservice.retrofit;
 
 import com.lajotasoftware.goservice.Entity.Servico;
+import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.Usuario;
 
 import java.util.List;
@@ -16,6 +17,11 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface UsuarioAPI {
+    //testa a conexão
+    @POST ("/connection")
+    Call<Boolean> testConnection();
+
+    /*-----------------Crud Usuario-----------------*/
 
     @GET("/usuario")
     Call<List<Usuario>> getAllUsuarios();
@@ -35,8 +41,7 @@ public interface UsuarioAPI {
     @DELETE ("/usuario/delete/{id}")
     Call<Usuario> deleteUser(@Path("id")Long id);
 
-    @POST ("/connection")
-    Call<Boolean> testConnection();
+    /*-----------------Crud Servico-----------------*/
 
     @POST ("/servico/create")
     Call<Servico> createNewService(@Body Servico servico);
@@ -54,4 +59,21 @@ public interface UsuarioAPI {
 
     @DELETE("/servico/delete/{id}")
     Call<Servico> deleteServico(@Path("id")Long id);
+
+    /*-----------------Crud Card Serviço-----------------*/
+    @POST ("/cardservico/create")
+    Call<SolicitaServico> createNewCardService(@Body SolicitaServico solcitaServico);
+
+    @PUT("/cardservico/update/{id}")
+    Call<SolicitaServico> updateCardServico(@Path("id")Long id,@Body SolicitaServico solcitaServico);
+
+    @POST ("/cardservico/{id}")
+    Call<List<SolicitaServico>> getCardServico(@Path("id")Long id);
+
+    @POST("/cardservico/{nomeServ}/{descServ}/{valorServ}")
+    Call<SolicitaServico> getCardServicoByNDV(@Path("nomeServ") String nomeServ,
+                                              @Path("descServ") String descServ,
+                                              @Path("valorServ") Double valorServ);
+    @DELETE("/cardservico/delete/{id}")
+    Call<SolicitaServico> deleteCardServico(@Path("id")Long id);
 }

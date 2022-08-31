@@ -15,10 +15,12 @@ public class SolicitaServico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String nomeServico;
     private String categoria;
     private String subCategoria;
     private String descricaoSolicitacao;
     private Double valor;
+    private Double valorProposto;
 
     @ManyToOne
     private Usuario id_Cliente;

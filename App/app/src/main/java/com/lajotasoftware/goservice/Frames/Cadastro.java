@@ -323,8 +323,8 @@ public class Cadastro extends AppCompatActivity {
         Spinner spinnerCategoriaServico = findViewById(R.id.spinner_categoria);
         Spinner spinnerSubCategoriaServico = findViewById(R.id.spinner_sub_categoria);
 
-        MaterialButton btn_gravar_usuario = findViewById(R.id.btnGravarCadServico);
-        MaterialButton btn_cancelar_usuario = findViewById(R.id.btnCancelarCadServico);
+        MaterialButton btn_gravar_servico = findViewById(R.id.btnGravarCadServico);
+        MaterialButton btn_cancelar_servico = findViewById(R.id.btnCancelarCadServico);
 
         if (status.equals("CADASTRO_SERVICO")) {
             categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
@@ -418,7 +418,7 @@ public class Cadastro extends AppCompatActivity {
                 }
             });
         }
-        btn_gravar_usuario.setOnClickListener(view -> {
+        btn_gravar_servico.setOnClickListener(view -> {
             Double valorServico = null;
             String catServico = null, subcatServico = null;
             String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
@@ -500,6 +500,9 @@ public class Cadastro extends AppCompatActivity {
             } else {
                 Toast.makeText(Cadastro.this, "Nome invalido!", Toast.LENGTH_SHORT).show();
             }
+        });
+        btn_cancelar_servico.setOnClickListener(view -> {
+            onBackPressed();
         });
     }
 }

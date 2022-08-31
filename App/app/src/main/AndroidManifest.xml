@@ -37,6 +37,9 @@
         <activity android:name=".Frames.Cadastro"
         android:windowSoftInputMode="stateHidden">
         </activity>
+        <activity android:name=".Frames.Card"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
     </application>
 
 </manifest>
