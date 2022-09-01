@@ -59,6 +59,7 @@
     <string name="cadastro">Cadastro</string>
     <string name="sem_conexao">Sem Conexão</string>
     <string name="todo">TODO</string>
+    <string name="informe_algo_sobre_voce">Informe algo sobre você</string>
 
     <string-array name="uf">
         <item>AC</item>

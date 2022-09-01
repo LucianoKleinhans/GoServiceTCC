@@ -16,7 +16,7 @@ public class Function {
 
     public boolean isCPF(String CPF) {
 
-        CPF = removeCaracteresEspeciais(CPF);
+        CPF = removeCaracteresEspeciais(CPF, "CPF");
 
         // considera-se erro CPF's formados por uma sequencia de numeros iguais
         if (CPF.equals("00000000000") || CPF.equals("11111111111") || CPF.equals("22222222222") || CPF.equals("33333333333") || CPF.equals("44444444444") || CPF.equals("55555555555") || CPF.equals("66666666666") || CPF.equals("77777777777") || CPF.equals("88888888888") || CPF.equals("99999999999") || (CPF.length() != 11))
@@ -72,7 +72,7 @@ public class Function {
 
     public boolean isCNPJ(String CNPJ) {
 
-        CNPJ = removeCaracteresEspeciais(CNPJ);
+        CNPJ = removeCaracteresEspeciais(CNPJ, "CNPJ");
 
         // considera-se erro CNPJ's formados por uma sequencia de numeros iguais
         if (CNPJ.equals("00000000000000") || CNPJ.equals("11111111111111") || CNPJ.equals("22222222222222") || CNPJ.equals("33333333333333") || CNPJ.equals("44444444444444") || CNPJ.equals("55555555555555") || CNPJ.equals("66666666666666") || CNPJ.equals("77777777777777") || CNPJ.equals("88888888888888") || CNPJ.equals("99999999999999") || (CNPJ.length() != 14))
@@ -130,12 +130,17 @@ public class Function {
         }
     }
 
-    public String removeCaracteresEspeciais(String doc) {
+    public String removeCaracteresEspeciais(String doc, String tipo) {
         doc = doc.replace("(","");
         doc = doc.replace(")","");
         doc = doc.replace(".","");
         doc = doc.replace("-","");
         doc = doc.replace("/","");
+        if (tipo.equals("TELEFONE")) {
+            if (doc.charAt(0) == '0') {
+                doc = doc.substring(1, doc.length());
+            }
+        }
         return doc;
     }
 
@@ -153,12 +158,9 @@ public class Function {
     }
 
     public boolean validarTelefone(String telefone) {
-        //Baseado no original para javascript:
-        //https://gist.github.com/jonathangoncalves/7bdec924e9bd2bdf353d6b7520820b62
-        if (telefone.substring(0,1).equals("0")){
-            telefone = telefone.substring(1,telefone.length());
-        }
-        telefone = removeCaracteresEspeciais(telefone);
+
+        telefone = removeCaracteresEspeciais(telefone, "TELEFONE");
+
         //retira todos os caracteres não-numéricos (incluindo espaço,tab, etc)
         telefone = telefone.replaceAll("\\D","");
 

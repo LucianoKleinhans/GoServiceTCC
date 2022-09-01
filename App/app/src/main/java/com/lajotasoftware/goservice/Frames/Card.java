@@ -342,44 +342,53 @@ public class Card extends AppCompatActivity {
         int espaco;
         espaco = sv.indexOf("\n");
         idCardServico = Long.parseLong(sv.substring(0, espaco));
-        usuarioAPI.getCardServicoById(idCardServico).enqueue(new Callback<SolicitaServico>() {
+        usuarioAPI.deleteCardServico(idCardServico).enqueue(new Callback<SolicitaServico>() {
             @Override
             public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
-                SolicitaServico cardServ = new SolicitaServico();
-                assert response.body() != null;
-                cardServ.setServico(response.body());
-                Long idCardServico = cardServ.getId();
-                usuarioAPI.deleteCardServico(idCardServico).enqueue(new Callback<SolicitaServico>() {
+                Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
+                RetrofitService retrofitServiceListService = new RetrofitService();
+                UsuarioAPI usuarioAPIListCardService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
+                usuarioAPIListCardService.getCardServico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
                     @Override
-                    public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {}
+                    public void onResponse(Call<List<SolicitaServico>> call, Response<List<SolicitaServico>> response) {
+                        //Toast.makeText(Perfil.this, "Sucesso!", Toast.LENGTH_SHORT).show();
+                        int aux = response.body().size();
+                        cardsServicos.clear();
+                        for (int i=1; i<=aux;i++){
+                            cardsServicos.add(response.body().get(i-1).toString());
+                        }
+                        listaCardServico(cardsServicos);
+                    }
 
                     @Override
-                    public void onFailure(Call<SolicitaServico> call, Throwable t) {}
+                    public void onFailure(Call<List<SolicitaServico>> call, Throwable t) {
+                        Toast.makeText(Card.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
+                    }
                 });
             }
 
             @Override
             public void onFailure(Call<SolicitaServico> call, Throwable t) {
-                Toast.makeText(Card.this, "Não foi possível excluir!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        RetrofitService retrofitServiceListService = new RetrofitService();
-        UsuarioAPI usuarioAPIListCardService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
-        usuarioAPIListCardService.getCardServico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
-            @Override
-            public void onResponse(Call<List<SolicitaServico>> call, Response<List<SolicitaServico>> response) {
-                //Toast.makeText(Perfil.this, "Sucesso!", Toast.LENGTH_SHORT).show();
-                int aux = response.body().size();
-                cardsServicos.clear();
-                for (int i=1; i<=aux;i++){
-                    cardsServicos.add(response.body().get(i-1).toString());
-                }
-                listaCardServico(cardsServicos);
-            }
+                Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
+                RetrofitService retrofitServiceListService = new RetrofitService();
+                UsuarioAPI usuarioAPIListCardService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
+                usuarioAPIListCardService.getCardServico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
+                    @Override
+                    public void onResponse(Call<List<SolicitaServico>> call, Response<List<SolicitaServico>> response) {
+                        //Toast.makeText(Perfil.this, "Sucesso!", Toast.LENGTH_SHORT).show();
+                        int aux = response.body().size();
+                        cardsServicos.clear();
+                        for (int i=1; i<=aux;i++){
+                            cardsServicos.add(response.body().get(i-1).toString());
+                        }
+                        listaCardServico(cardsServicos);
+                    }
 
-            @Override
-            public void onFailure(Call<List<SolicitaServico>> call, Throwable t) {
-                Toast.makeText(Card.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onFailure(Call<List<SolicitaServico>> call, Throwable t) {
+                        Toast.makeText(Card.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

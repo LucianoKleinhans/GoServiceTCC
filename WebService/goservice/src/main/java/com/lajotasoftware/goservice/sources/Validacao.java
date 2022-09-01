@@ -253,19 +253,25 @@ public class Validacao {
         }
     }
 
-    private String removeCaracteresEspeciais(String doc) {
-        return doc;
-    }
-
     public static String imprimeCNPJ(String CNPJ) {
         // máscara do CNPJ: 99.999.999.9999-99
         return (CNPJ.substring(0, 2) + "." + CNPJ.substring(2, 5) + "." + CNPJ.substring(5, 8) + "." + CNPJ.substring(8, 12) + "-" + CNPJ.substring(12, 14));
     }
-
+    public String removeCaracteresEspeciais(String doc) {
+        doc = doc.replace("(","");
+        doc = doc.replace(")","");
+        doc = doc.replace(".","");
+        doc = doc.replace("-","");
+        doc = doc.replace("/","");
+        return doc;
+    }
     public boolean validarTelefone(String telefone) {
         //Baseado no original para javascript:
         //https://gist.github.com/jonathangoncalves/7bdec924e9bd2bdf353d6b7520820b62
-
+        telefone = removeCaracteresEspeciais(telefone);
+        if (telefone.charAt(0) == '0'){
+            telefone = telefone.substring(1,telefone.length());
+        }
         //retira todos os caracteres não-numéricos (incluindo espaço,tab, etc)
         telefone = telefone.replaceAll("\\D","");
 

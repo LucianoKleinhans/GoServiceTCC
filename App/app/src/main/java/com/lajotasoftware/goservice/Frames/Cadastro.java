@@ -3,6 +3,7 @@ package com.lajotasoftware.goservice.Frames;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -193,25 +194,26 @@ public class Cadastro extends AppCompatActivity {
             String telefone = String.valueOf(inputEditTextTelefone.getText());
             String email = String.valueOf(inputEditTextEmail.getText());
             String site = String.valueOf(inputEditTextSite.getText());
-
+            Boolean validCPF = false;
+            Boolean validCNPJ = false;
             //validacao dos campos
             if (!CPF.equals("")) {
                 if (function.isCPF(CPF)) {
-                    Boolean validCPF = true;
+                    validCPF = true;
                 } else {
                     Toast.makeText(Cadastro.this, "CPF inválido!", Toast.LENGTH_SHORT).show();
                 }
             }
             if (!CNPJ.equals("")) {
                 if (function.isCNPJ(CNPJ)) {
-                    Boolean validCNPJ = true;
+                    validCNPJ = true;
                 } else {
                     Toast.makeText(Cadastro.this, "CNPJ inválido!", Toast.LENGTH_SHORT).show();
                 }
             }
             if (!(primeiroNome.equals(""))) {
                 if (!(segundoNome.equals(""))) {
-                    if (((!(CNPJ.equals(""))) && (CPF.equals("")))||((!(CPF.equals(""))) && (CNPJ.equals("")))) {
+                    if (((!(CNPJ.equals(""))) && (CPF.equals("")))||((!(CPF.equals(""))) && (CNPJ.equals("")))||((validCPF==true) && (validCNPJ==true))) {
                         if (!(ruaAvenida.equals(""))) {
                             if (!(bairro.equals(""))) {
                                 if (!(numero.equals(""))) {
@@ -219,19 +221,19 @@ public class Cadastro extends AppCompatActivity {
                                         if (!(cidade.equals(""))) {
                                             if (!(uf.equals(""))) {
                                                 if ((!(telefone.equals(""))) && (function.validarTelefone(telefone))) {
-                                                    if (!(email.equals(""))) {
+                                                    if ((!(email.equals("")))) {
                                                         Usuario usuario = new Usuario();
                                                         usuario.setPrimeiroNome(primeiroNome);
                                                         usuario.setSegundoNome(segundoNome);
-                                                        usuario.setCpf(function.removeCaracteresEspeciais(CPF));
-                                                        usuario.setCnpj(function.removeCaracteresEspeciais(CNPJ));
+                                                        usuario.setCpf(function.removeCaracteresEspeciais(CPF, "CPF"));
+                                                        usuario.setCnpj(function.removeCaracteresEspeciais(CNPJ, "CNPJ"));
                                                         usuario.setRuaAvenida(ruaAvenida);
                                                         usuario.setBairro(bairro);
                                                         usuario.setNumero(numero);
                                                         usuario.setCep(cep);
                                                         usuario.setCidade(cidade);
                                                         usuario.setUf(uf);
-                                                        usuario.setTelefone(function.removeCaracteresEspeciais(telefone));
+                                                        usuario.setTelefone(function.removeCaracteresEspeciais(telefone, "TELEFONE"));
                                                         usuario.setEmail(email);
                                                         usuario.setSite(site);
                                                         usuario.setAtivo(true);
@@ -259,8 +261,8 @@ public class Cadastro extends AppCompatActivity {
                                                                 Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
                                                             }
                                                         });
-                                                    } else {Toast.makeText(Cadastro.this, "Campo E-mail está vazio!", Toast.LENGTH_SHORT).show();}
-                                                } else {Toast.makeText(Cadastro.this, "Campo Telefone está vazio!", Toast.LENGTH_SHORT).show();}
+                                                    } else {Toast.makeText(Cadastro.this, "Campo E-mail está vazio ou incorreto!", Toast.LENGTH_SHORT).show();}
+                                                } else {Toast.makeText(Cadastro.this, "Campo Telefone está vazio ou incorreto!", Toast.LENGTH_SHORT).show();}
                                             } else {Toast.makeText(Cadastro.this, "Campo UF está vazio!", Toast.LENGTH_SHORT).show();}
                                         } else {Toast.makeText(Cadastro.this, "Campo CIDADE está vazio!", Toast.LENGTH_SHORT).show();}
                                     } else {Toast.makeText(Cadastro.this, "Campo CEP está vazio!", Toast.LENGTH_SHORT).show();}
