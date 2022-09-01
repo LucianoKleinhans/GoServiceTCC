@@ -160,7 +160,7 @@ public class Card extends AppCompatActivity {
             }
         });
 
-        if (status.equals("EDITAR_SERVICO")) {
+        if (status.equals("EDITAR_CARTAO")) {
             RetrofitService retrofitEditService = new RetrofitService();
             usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
             int espaco;
@@ -189,7 +189,7 @@ public class Card extends AppCompatActivity {
                             adapterSubCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinnerSubCategoriaServico.setAdapter(adapterSubCategoria);
                             if (!cardServ.getSubCategoria().equals(null)) {
-                                int spinnerPosition = adapterSubCategoria.getPosition(cardServ.getCategoria());
+                                int spinnerPosition = adapterSubCategoria.getPosition(cardServ.getSubCategoria());
                                 spinnerSubCategoriaServico.setSelection(spinnerPosition);
                             }
                         }
@@ -198,7 +198,7 @@ public class Card extends AppCompatActivity {
                             adapterSubCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinnerSubCategoriaServico.setAdapter(adapterSubCategoria);
                             if (!cardServ.getSubCategoria().equals(null)) {
-                                int spinnerPosition = adapterSubCategoria.getPosition(cardServ.getCategoria());
+                                int spinnerPosition = adapterSubCategoria.getPosition(cardServ.getSubCategoria());
                                 spinnerSubCategoriaServico.setSelection(spinnerPosition);
                             }
                         }
@@ -394,7 +394,7 @@ public class Card extends AppCompatActivity {
     }
 
     private void editar(String cardSv) {
-        status = "EDITAR_SERVICO";
+        status = "EDITAR_CARTAO";
         strCardServico = cardSv;
         setContentView(R.layout.cadastro_servico);
         initializeComponentsCadastroCartao();

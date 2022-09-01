@@ -101,6 +101,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ttvSitePerfilUser3"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:onClick="btn_perfil_to_editperfil"
+        android:text="Editar Perfil"
+        android:textColor="#A8A8A8"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangle0View3"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/ttvUsernamePerfilUser"
         android:layout_width="0dp"
         android:layout_height="31dp"
@@ -159,7 +172,7 @@
         android:id="@+id/btnTornarPresPerfilUser"
         android:layout_width="230dp"
         android:layout_height="50dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="12dp"
         android:text="@string/torne_se_prestador"
         app:layout_constraintEnd_toEndOf="parent"

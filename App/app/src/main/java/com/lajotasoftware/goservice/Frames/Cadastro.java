@@ -393,7 +393,7 @@ public class Cadastro extends AppCompatActivity {
                             adapterSubCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinnerSubCategoriaServico.setAdapter(adapterSubCategoria);
                             if (!serv.getSubCategoria().equals(null)) {
-                                int spinnerPosition = adapterSubCategoria.getPosition(serv.getCategoria());
+                                int spinnerPosition = adapterSubCategoria.getPosition(serv.getSubCategoria());
                                 spinnerSubCategoriaServico.setSelection(spinnerPosition);
                             }
                         }
@@ -402,7 +402,7 @@ public class Cadastro extends AppCompatActivity {
                             adapterSubCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spinnerSubCategoriaServico.setAdapter(adapterSubCategoria);
                             if (!serv.getSubCategoria().equals(null)) {
-                                int spinnerPosition = adapterSubCategoria.getPosition(serv.getCategoria());
+                                int spinnerPosition = adapterSubCategoria.getPosition(serv.getSubCategoria());
                                 spinnerSubCategoriaServico.setSelection(spinnerPosition);
                             }
                         }
