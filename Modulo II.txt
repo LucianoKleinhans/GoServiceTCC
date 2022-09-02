@@ -1,0 +1,3 @@
+Durante o segundo módulo foi desenvolvida a tela responsável pelo cadastro de serviços do prestador, tal como foi implementada a tela para cadastro de novos serviços e o cadastro de cartões de serviço (que será utilizado para que o cliente busque por um serviço específico e receba ofertas dos prestadores interessados).
+
+Em resumo: agora, um usuário já cadastrado no sistema tem a possibilidade de tornar-se um prestador e listar os serviços que presta.
