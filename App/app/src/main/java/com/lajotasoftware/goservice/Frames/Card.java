@@ -8,15 +8,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.lajotasoftware.goservice.Entity.Servico;
+import com.lajotasoftware.goservice.Adapter.CustomAdapterCard;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.MainActivity;
@@ -31,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Card extends AppCompatActivity {
+public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardListener {
 
     Long idUsuario, idPrestador, idCardServico;
     String status, strCardServico, nomeCardServico, descCardServico;
@@ -40,10 +41,9 @@ public class Card extends AppCompatActivity {
     Intent it;
     Spinner categoria_servico, sub_categoria_servico;
 
-    SolicitaServico solicitaServico = new SolicitaServico();
-    ListView listView;
-    List<String> cardsServicos = new ArrayList<String>();
-    ArrayAdapter<String> stringArrayAdapter;
+    CustomAdapterCard customAdapter;
+    RecyclerView recyclerView;
+    List<SolicitaServico> cardsServicos = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,18 +64,31 @@ public class Card extends AppCompatActivity {
         }
     }
     private void initializeComponents() {
-        listView = (ListView) findViewById(R.id.listCardServico);
 
+        recyclerView = findViewById(R.id.listCardServico);
+        listarCards();
+    }
+
+    private void listarCards() {
         RetrofitService retrofitServiceListService = new RetrofitService();
         UsuarioAPI usuarioAPIListCardService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
         usuarioAPIListCardService.getCardServico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
             @Override
             public void onResponse(Call<List<SolicitaServico>> call, Response<List<SolicitaServico>> response) {
                 int aux = response.body().size();
+                cardsServicos.clear();
                 for (int i=1; i<=aux;i++){
-                    cardsServicos.add(response.body().get(i-1).toString());
+                    SolicitaServico solicitaServico = new SolicitaServico();
+                    solicitaServico.setId(response.body().get(i-1).getId());
+                    solicitaServico.setNomeServico(response.body().get(i-1).getNomeServico());
+                    solicitaServico.setDescricaoSolicitacao(response.body().get(i-1).getDescricaoSolicitacao());
+                    solicitaServico.setValor(response.body().get(i-1).getValor());
+                    cardsServicos.add(solicitaServico);
                 }
-                listaCardServico(cardsServicos);
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(linearLayoutManager);
+                customAdapter = new CustomAdapterCard(Card.this, cardsServicos, Card.this);
+                recyclerView.setAdapter(customAdapter);
             }
 
             @Override
@@ -83,13 +96,40 @@ public class Card extends AppCompatActivity {
                 Toast.makeText(Card.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
             }
         });
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+    }
+
+    @Override
+    public void onCardVisualizarClick(int position, Long id) {
+        idCardServico = id;
+        status = "EDITAR_CARTAO";
+        setContentView(R.layout.cadastro_servico);
+        initializeComponentsCadastroCartao();
+    }
+
+    @Override
+    public void onCardRemoverClick(int position, Long id) {
+        RetrofitService retrofitEditService = new RetrofitService();
+        UsuarioAPI usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
+        usuarioAPI.deleteCardServico(id).enqueue(new Callback<SolicitaServico>() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long l) {
-                createDialog(view, position);
-                return true;
+            public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
+                Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
+                listarCards();
+            }
+
+            @Override
+            public void onFailure(Call<SolicitaServico> call, Throwable t) {
+                Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
+                listarCards();
             }
         });
+    }
+    @Override
+    public void onCardEditarClick(int position, Long id) {
+        idCardServico = id;
+        status = "EDITAR_CARTAO";
+        setContentView(R.layout.cadastro_servico);
+        initializeComponentsCadastroCartao();
     }
     private void initializeComponentsCadastroCartao() {
         RetrofitService retrofitService = new RetrofitService();
@@ -107,7 +147,6 @@ public class Card extends AppCompatActivity {
                     idUsuario = user.getId();
                 }
             }
-
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
                 throw new Error("USUARIO INVALIDO");
@@ -142,8 +181,7 @@ public class Card extends AppCompatActivity {
                     sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
                     ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(Card.this, R.array.sub_categoria_servico, android.R.layout.simple_spinner_item);
                     spinnerSubCategoriaServico.setAdapter(adapter1);
-                }
-                if (catSelected.equals("Informática")) {
+                }else if (catSelected.equals("Informática")) {
                     sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
                     ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(Card.this, R.array.sub_categoria_servico_Informática, android.R.layout.simple_spinner_item);
                     spinnerSubCategoriaServico.setAdapter(adapter1);
@@ -163,9 +201,6 @@ public class Card extends AppCompatActivity {
         if (status.equals("EDITAR_CARTAO")) {
             RetrofitService retrofitEditService = new RetrofitService();
             usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
-            int espaco;
-            espaco = strCardServico.indexOf("\n");
-            idCardServico = Long.parseLong(strCardServico.substring(0, espaco));
             usuarioAPI.getCardServicoById(idCardServico).enqueue(new Callback<SolicitaServico>() {
                 @Override
                 public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> servResponse) {
@@ -305,10 +340,6 @@ public class Card extends AppCompatActivity {
             status = "DEFAUT";
         });
     }
-    private void listaCardServico(List<String> cardsServicos) {
-        stringArrayAdapter = new ArrayAdapter(this, R.layout.z_custom_list_service, cardsServicos);
-        listView.setAdapter(stringArrayAdapter);
-    }
 
     public void createDialog(View view,int position){
         AlertDialog.Builder adb = new AlertDialog.Builder(this);
@@ -323,82 +354,27 @@ public class Card extends AppCompatActivity {
         adb.setNegativeButton("Editar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getApplicationContext(), "Editar", Toast.LENGTH_LONG).show();
-                String cardSv = cardsServicos.get(position);
-                editar(cardSv);
+                //String cardSv = cardsServicos.get(position);
+                //editar(cardSv);
             } });
         adb.setNeutralButton("Excluir", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                String cardSv = cardsServicos.get(position);
-                excluir(cardSv);
+                //String cardSv = cardsServicos.get(position);
+                //excluir(cardSv);
             } });
         AlertDialog alertDialog = adb.create();
         alertDialog.show();
     }
-    private void excluir(String sv) {
-        String nomeServico, descServico;
-        Double valorServico;
-        RetrofitService retrofitEditService = new RetrofitService();
-        UsuarioAPI usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
-        int espaco;
-        espaco = sv.indexOf("\n");
-        idCardServico = Long.parseLong(sv.substring(0, espaco));
-        usuarioAPI.deleteCardServico(idCardServico).enqueue(new Callback<SolicitaServico>() {
-            @Override
-            public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
-                Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
-                RetrofitService retrofitServiceListService = new RetrofitService();
-                UsuarioAPI usuarioAPIListCardService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
-                usuarioAPIListCardService.getCardServico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
-                    @Override
-                    public void onResponse(Call<List<SolicitaServico>> call, Response<List<SolicitaServico>> response) {
-                        //Toast.makeText(Perfil.this, "Sucesso!", Toast.LENGTH_SHORT).show();
-                        int aux = response.body().size();
-                        cardsServicos.clear();
-                        for (int i=1; i<=aux;i++){
-                            cardsServicos.add(response.body().get(i-1).toString());
-                        }
-                        listaCardServico(cardsServicos);
-                    }
+    /*private void excluir(String sv) {
 
-                    @Override
-                    public void onFailure(Call<List<SolicitaServico>> call, Throwable t) {
-                        Toast.makeText(Card.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+    }*/
 
-            @Override
-            public void onFailure(Call<SolicitaServico> call, Throwable t) {
-                Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
-                RetrofitService retrofitServiceListService = new RetrofitService();
-                UsuarioAPI usuarioAPIListCardService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
-                usuarioAPIListCardService.getCardServico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
-                    @Override
-                    public void onResponse(Call<List<SolicitaServico>> call, Response<List<SolicitaServico>> response) {
-                        //Toast.makeText(Perfil.this, "Sucesso!", Toast.LENGTH_SHORT).show();
-                        int aux = response.body().size();
-                        cardsServicos.clear();
-                        for (int i=1; i<=aux;i++){
-                            cardsServicos.add(response.body().get(i-1).toString());
-                        }
-                        listaCardServico(cardsServicos);
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<SolicitaServico>> call, Throwable t) {
-                        Toast.makeText(Card.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-    }
-
-    private void editar(String cardSv) {
-        status = "EDITAR_CARTAO";
-        strCardServico = cardSv;
-        setContentView(R.layout.cadastro_servico);
-        initializeComponentsCadastroCartao();
-    }
+//    private void editar(String cardSv) {
+//        status = "EDITAR_CARTAO";
+//        strCardServico = cardSv;
+//        setContentView(R.layout.cadastro_servico);
+//        initializeComponentsCadastroCartao();
+//    }
 
     public void btn_card_to_createcard (View view) {
         Intent it = new Intent(this, Card.class);
@@ -416,5 +392,7 @@ public class Card extends AppCompatActivity {
         it.putExtras(parametros);
         startActivity(it);
     }
+
+
 
 }
