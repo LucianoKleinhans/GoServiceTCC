@@ -5,19 +5,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
+import com.lajotasoftware.goservice.Adapter.CustomAdapterCard;
+import com.lajotasoftware.goservice.Adapter.CustomAdapterService;
 import com.lajotasoftware.goservice.Entity.Servico;
+import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.MainActivity;
 import com.lajotasoftware.goservice.R;
@@ -31,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Perfil extends AppCompatActivity {
+public class Perfil extends AppCompatActivity implements CustomAdapterService.OnServicoListener {
 
     private Long idUsuario, idServico;
     Usuario usuario = new Usuario();
@@ -40,9 +40,9 @@ public class Perfil extends AppCompatActivity {
     Servico servico = new Servico();
     String status, bio;
 
-    ListView listView;
-    List<String> servicos = new ArrayList<String>();
-    ArrayAdapter<String> stringArrayAdapter;
+    CustomAdapterService customAdapter;
+    RecyclerView listServicosPrestador;
+    List<Servico> servicos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +65,9 @@ public class Perfil extends AppCompatActivity {
         View rectangleServico = findViewById(R.id.myRectangleView24);
         View btnAddServicos = findViewById(R.id.btnServicos);
 
-        View listServicosPrestador = findViewById(R.id.listServicosPrestador);
+        listServicosPrestador = findViewById(R.id.listServicosPrestador);
 
-        MaterialButton btnTornarUserPrestador = findViewById(R.id.btnTornarPresPerfilUser);
+        //MaterialButton btnTornarUserPrestador = findViewById(R.id.btnTornarPresPerfilUser);
 
         RetrofitService retrofitService = new RetrofitService();
         UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
@@ -83,39 +83,13 @@ public class Perfil extends AppCompatActivity {
                     /*Deixar botao prestador visivel*/
 
                     if (user.getPrestador().equals(true)) {
-                        btnTornarUserPrestador.setVisibility(View.INVISIBLE);
+                        //btnTornarUserPrestador.setVisibility(View.INVISIBLE);
                         listServicosPrestador.setVisibility(View.VISIBLE);
                         btnAddServicos.setVisibility(View.VISIBLE);
                         rectangleServico.setVisibility(View.VISIBLE);
-                        listView = (ListView) findViewById(R.id.listServicosPrestador);
-                        RetrofitService retrofitServiceListService = new RetrofitService();
-                        UsuarioAPI usuarioAPIListService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
-                        usuarioAPIListService.getServicosPrestador(idUsuario).enqueue(new Callback<List<Servico>>() {
-                            @Override
-                            public void onResponse(Call<List<Servico>> call, Response<List<Servico>> response) {
-                                //Toast.makeText(Perfil.this, "Sucesso!", Toast.LENGTH_SHORT).show();
-                                int aux = response.body().size();
-                                for (int i=1; i<=aux;i++){
-                                    servicos.add(response.body().get(i-1).toString());
-                                }
-                                listaServico(servicos);
-                            }
-
-                            @Override
-                            public void onFailure(Call<List<Servico>> call, Throwable t) {
-                                Toast.makeText(Perfil.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-                        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                            @Override
-                            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long l) {
-                                createDialog(view, position);
-                                return true;
-                            }
-                        });
+                        listaServico();
                     } else {
-                        btnTornarUserPrestador.setVisibility(View.VISIBLE);
+                        //btnTornarUserPrestador.setVisibility(View.VISIBLE);
                         listServicosPrestador.setVisibility(View.INVISIBLE);
                         btnAddServicos.setVisibility(View.INVISIBLE);
                         rectangleServico.setVisibility(View.INVISIBLE);
@@ -136,59 +110,83 @@ public class Perfil extends AppCompatActivity {
                 throw new Error("USUARIO INVALIDO");
             }
         });
-
-        btnTornarUserPrestador.setOnClickListener(view -> {
-            AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(this);
-            alertDialogBuilder.setTitle("Tornar Usuario Prestador");
-            alertDialogBuilder
-                    .setMessage("Clique sim para se tornar Prestador!")
-                    .setCancelable(false)
-                    .setPositiveButton("Yes",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    RetrofitService retrofitService = new RetrofitService();
-                                    UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
-
-                                    Usuario usuario = new Usuario();
-
-                                    usuario.setId(idUsuario);
-                                    usuario.setId_Prestador(idUsuario+100);
-                                    usuario.setPrestador(true);
-                                    usuarioAPI.update(idUsuario, usuario).enqueue(new Callback<Usuario>() {
-                                        @Override
-                                        public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                                            if (response.code() == 200) {
-                                                Toast.makeText(Perfil.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
-                                                Usuario user = new Usuario();
-                                                assert response.body() != null;
-                                                user.setUsuario(response.body());
-                                                initializeComponents();
-                                            } else {
-                                                Toast.makeText(Perfil.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<Usuario> call, Throwable t) {
-                                            Toast.makeText(Perfil.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                }
-                            })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-
-                            dialog.cancel();
-                        }
-                    });
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
-        });
     }
 
-    private void listaServico(List<String> servicos) {
-        stringArrayAdapter = new ArrayAdapter(this, R.layout.z_custom_list_service, servicos);
-        listView.setAdapter(stringArrayAdapter);
+    private void listaServico() {
+        RetrofitService retrofitServiceListService = new RetrofitService();
+        UsuarioAPI usuarioAPIListService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
+        usuarioAPIListService.getServicosPrestador(idUsuario).enqueue(new Callback<List<Servico>>() {
+            @Override
+            public void onResponse(Call<List<Servico>> call, Response<List<Servico>> response) {
+                int aux = response.body().size();
+                servicos.clear();
+                for (int i=1; i<=aux;i++){
+                    Servico servico = new Servico();
+                    servico.setId(response.body().get(i-1).getId());
+                    servico.setNome(response.body().get(i-1).getNome());
+                    servico.setObsServico(response.body().get(i-1).getObsServico());
+                    servico.setValor(response.body().get(i-1).getValor());
+                    servicos.add(servico);
+                }
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                listServicosPrestador.setLayoutManager(linearLayoutManager);
+                customAdapter = new CustomAdapterService(Perfil.this, servicos, Perfil.this);
+                listServicosPrestador.setAdapter(customAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Servico>> call, Throwable t) {
+                Toast.makeText(Perfil.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    @Override
+    public void onCardRemoverClick(int position, Long id) {
+        AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Excluir Serviço");
+        alertDialogBuilder
+                .setMessage("Clique sim para Exluir o serviço!")
+                .setCancelable(false)
+                .setPositiveButton("Sim",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                RetrofitService retrofitEditService = new RetrofitService();
+                                UsuarioAPI usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
+                                usuarioAPI.deleteServico(id).enqueue(new Callback<Servico>() {
+                                    @Override
+                                    public void onResponse(Call<Servico> call, Response<Servico> response) {
+                                        Toast.makeText(Perfil.this, "Serviço exluído!", Toast.LENGTH_SHORT).show();
+                                        listaServico();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Servico> call, Throwable t) {
+                                        Toast.makeText(Perfil.this, "Serviço exluído!", Toast.LENGTH_SHORT).show();
+                                        listaServico();
+                                    }
+                                });
+                            }
+                        })
+                .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    @Override
+    public void onCardEditarClick(int position, Long id) {
+        Intent it = new Intent(this,Cadastro.class);
+        Bundle parametros = new Bundle();
+        String status = "EDITAR_SERVICO";
+        parametros.putLong("id_usuario", idUsuario);
+        parametros.putString("status_usuario", status);
+        parametros.putLong("id_servico",id);
+        it.putExtras(parametros);
+        startActivity(it);
     }
     public void btn_edtperfil_to_cad (View view){
         Intent it = new Intent(this, Cadastro.class);
@@ -217,100 +215,6 @@ public class Perfil extends AppCompatActivity {
         String status = "CADASTRO_SERVICO";
         parametros.putLong("id_usuario", idUsuario);
         parametros.putString("status_usuario", status);
-        it.putExtras(parametros);
-        startActivity(it);
-    }
-
-    public void createDialog(View view,int position){
-        AlertDialog.Builder adb = new AlertDialog.Builder(this);
-        adb.setTitle("O que deseja fazer?");
-        /*adb.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Servico finalizado", Toast.LENGTH_LONG).show();
-                String sv = servicos.get(position);
-                finalizarServico(sv);
-                //databaseReference.child("CadServico").child(sv.getId()).removeValue();
-            } });*/
-        adb.setNegativeButton("Editar", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Editar", Toast.LENGTH_LONG).show();
-                String sv = servicos.get(position);
-                editar(sv);
-            } });
-        adb.setNeutralButton("Excluir", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                String sv = servicos.get(position);
-                excluir(sv);
-            } });
-        AlertDialog alertDialog = adb.create();
-        alertDialog.show();
-    }
-
-    private void excluir(String sv) {
-        RetrofitService retrofitEditService = new RetrofitService();
-        UsuarioAPI usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
-        int espaco;
-        espaco = sv.indexOf("\n");
-        idServico = Long.parseLong(sv.substring(0, espaco));
-
-        usuarioAPI.deleteServico(idServico).enqueue(new Callback<Servico>() {
-            @Override
-            public void onResponse(Call<Servico> call, Response<Servico> response) {
-                Toast.makeText(Perfil.this, "Serviço exluído!", Toast.LENGTH_SHORT).show();
-                RetrofitService retrofitServiceListService = new RetrofitService();
-                UsuarioAPI usuarioAPIListService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
-                usuarioAPIListService.getServicosPrestador(idUsuario).enqueue(new Callback<List<Servico>>() {
-                    @Override
-                    public void onResponse(Call<List<Servico>> call, Response<List<Servico>> response) {
-                        //Toast.makeText(Perfil.this, "Sucesso!", Toast.LENGTH_SHORT).show();
-                        int aux = response.body().size();
-                        servicos.clear();
-                        for (int i=1; i<=aux;i++){
-                            servicos.add(response.body().get(i-1).toString());
-                        }
-                        listaServico(servicos);
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Servico>> call, Throwable t) {
-                        Toast.makeText(Perfil.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(Call<Servico> call, Throwable t) {
-                Toast.makeText(Perfil.this, "Serviço exluído!", Toast.LENGTH_SHORT).show();
-                RetrofitService retrofitServiceListService = new RetrofitService();
-                UsuarioAPI usuarioAPIListService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
-                usuarioAPIListService.getServicosPrestador(idUsuario).enqueue(new Callback<List<Servico>>() {
-                    @Override
-                    public void onResponse(Call<List<Servico>> call, Response<List<Servico>> response) {
-                        //Toast.makeText(Perfil.this, "Sucesso!", Toast.LENGTH_SHORT).show();
-                        int aux = response.body().size();
-                        servicos.clear();
-                        for (int i=1; i<=aux;i++){
-                            servicos.add(response.body().get(i-1).toString());
-                        }
-                        listaServico(servicos);
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Servico>> call, Throwable t) {
-                        Toast.makeText(Perfil.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-    }
-
-    private void editar(String sv) {
-        Intent it = new Intent(this,Cadastro.class);
-        Bundle parametros = new Bundle();
-        String status = "EDITAR_SERVICO";
-        parametros.putLong("id_usuario", idUsuario);
-        parametros.putString("status_usuario", status);
-        parametros.putString("servico_str",sv);
         it.putExtras(parametros);
         startActivity(it);
     }
@@ -430,5 +334,4 @@ public class Perfil extends AppCompatActivity {
             alertDialog.show();
         });
     }
-
 }

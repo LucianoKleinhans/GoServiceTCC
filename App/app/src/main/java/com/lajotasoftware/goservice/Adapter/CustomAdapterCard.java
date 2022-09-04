@@ -2,9 +2,6 @@ package com.lajotasoftware.goservice.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Frames.Card;
-import com.lajotasoftware.goservice.Functions.Function;
 import com.lajotasoftware.goservice.R;
 
 import java.util.List;
-
-import retrofit2.Callback;
 
 public class CustomAdapterCard extends RecyclerView.Adapter {
 
@@ -53,7 +46,7 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
         myViewHolder.CardServicoId.setText(cardLists.get(position).getId().toString());
         myViewHolder.CardServicoNome.setText(cardLists.get(position).getNomeServico().toString());
         myViewHolder.CardServicoDesc.setText(cardLists.get(position).getDescricaoSolicitacao().toString());
-        myViewHolder.CardServicoValor.setText(cardLists.get(position).getValor().toString());
+        myViewHolder.CardServicoValor.setText("Valor inicial: R$"+cardLists.get(position).getValor().toString());
         myViewHolder.position = position;
         myViewHolder.id = cardLists.get(position).getId();
     }
@@ -77,13 +70,13 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
         public ViewHolder (@NonNull View itemView, OnCardListener onCardListener){
             super(itemView);
             this.onCardListener = onCardListener;
-            CardServicoId = itemView.findViewById(R.id.idCardServico);
-            CardServicoNome = itemView.findViewById(R.id.ttvCardNomeServico);
-            CardServicoDesc = itemView.findViewById(R.id.textView5);
-            CardServicoValor = itemView.findViewById(R.id.ttvCardValorInicial);
+            CardServicoId = itemView.findViewById(R.id.idServico);
+            CardServicoNome = itemView.findViewById(R.id.ttvNomeServico);
+            CardServicoDesc = itemView.findViewById(R.id.ttvDescServico);
+            CardServicoValor = itemView.findViewById(R.id.ttvValorServico);
             itemView.findViewById(R.id.btnVisualizarCardServico).setOnClickListener(this);
-            itemView.findViewById(R.id.btnRemoverCardServico).setOnClickListener(this);
-            itemView.findViewById(R.id.btnEditarCardServico2).setOnClickListener(this);
+            itemView.findViewById(R.id.btnRemoverServico).setOnClickListener(this);
+            itemView.findViewById(R.id.btnEditarServico).setOnClickListener(this);
         }
 
         @Override

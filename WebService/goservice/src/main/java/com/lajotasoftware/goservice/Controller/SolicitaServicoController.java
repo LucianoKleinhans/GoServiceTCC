@@ -45,6 +45,7 @@ public class SolicitaServicoController {
                     if(solicitaServico.getValor()!=null){record.setValor(solicitaServico.getValor());}
                     if(solicitaServico.getValorProposto()!=null){record.setValorProposto(solicitaServico.getValorProposto());}
                     if(solicitaServico.getCategoria()!=null){record.setCategoria(solicitaServico.getCategoria());}
+                    if(solicitaServico.getSubCategoria()!=null){record.setSubCategoria(solicitaServico.getSubCategoria());}
                     if(solicitaServico.getDescricaoSolicitacao()!=null){record.setDescricaoSolicitacao(solicitaServico.getDescricaoSolicitacao());}
                     SolicitaServico updated = repository.save(record);
                     return ResponseEntity.ok().body(updated);

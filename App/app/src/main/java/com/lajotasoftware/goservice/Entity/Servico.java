@@ -90,8 +90,4 @@ public class Servico {
                 "R$"+valor;
     }
 
-    public List<Servico> listServicos() {
-        return servicos;
-    }
-
 }
