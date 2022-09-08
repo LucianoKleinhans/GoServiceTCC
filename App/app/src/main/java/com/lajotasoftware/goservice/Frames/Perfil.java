@@ -67,8 +67,6 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
 
         listServicosPrestador = findViewById(R.id.listServicosPrestador);
 
-        //MaterialButton btnTornarUserPrestador = findViewById(R.id.btnTornarPresPerfilUser);
-
         RetrofitService retrofitService = new RetrofitService();
         UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
         usuario.setId(idUsuario);

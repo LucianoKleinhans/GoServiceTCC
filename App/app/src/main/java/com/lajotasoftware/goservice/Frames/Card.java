@@ -36,7 +36,6 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
 
     Long idUsuario, idPrestador, idCardServico;
     String status;
-    Double valorCardServico;
     UsuarioAPI usuarioAPI;
     Intent it;
     Spinner categoria_servico, sub_categoria_servico;
@@ -108,35 +107,35 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Excluir Card");
         alertDialogBuilder
-                .setMessage("Clique sim para Exluir o Card!")
-                .setCancelable(false)
-                .setPositiveButton("Sim",
-                        new DialogInterface.OnClickListener() {
+            .setMessage("Clique sim para Exluir o Card!")
+            .setCancelable(false)
+            .setPositiveButton("Sim",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        RetrofitService retrofitEditService = new RetrofitService();
+                        UsuarioAPI usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
+                        usuarioAPI.deleteCardServico(id).enqueue(new Callback<SolicitaServico>() {
                             @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                RetrofitService retrofitEditService = new RetrofitService();
-                                UsuarioAPI usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
-                                usuarioAPI.deleteCardServico(id).enqueue(new Callback<SolicitaServico>() {
-                                    @Override
-                                    public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
-                                        Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
-                                        listarCards();
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<SolicitaServico> call, Throwable t) {
-                                        Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
-                                        listarCards();
-                                    }
-                                });
+                            public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
+                                Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
+                                listarCards();
                             }
-                        })
-                .setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
 
-                        dialog.cancel();
+                            @Override
+                            public void onFailure(Call<SolicitaServico> call, Throwable t) {
+                                Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
+                                listarCards();
+                            }
+                        });
                     }
-                });
+                })
+            .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+
+                    dialog.cancel();
+                }
+            });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }

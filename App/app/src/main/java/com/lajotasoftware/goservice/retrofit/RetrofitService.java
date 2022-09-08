@@ -17,14 +17,14 @@ public class RetrofitService {
         i = 1;
         if (i==0){
             retrofit = new Retrofit.Builder()
-            .baseUrl("http://192.168.0.111:8080")
-            .addConverterFactory(GsonConverterFactory.create(new Gson()))
-            .build();
+                    .baseUrl("http://192.168.0.111:8080")
+                    .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                    .build();
         }else if (i==1){
             retrofit = new Retrofit.Builder()
-            .baseUrl("http://138.97.217.167:8080")
-            .addConverterFactory(GsonConverterFactory.create(new Gson()))
-            .build();
+                    .baseUrl("http://138.97.217.167:8080")
+                    .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                    .build();
         }
     }
 
