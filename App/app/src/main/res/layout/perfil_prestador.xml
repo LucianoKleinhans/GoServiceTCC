@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#071219"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <View
+        android:id="@+id/myRectangleView24"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/retangle_border_view_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView21" />
+
+    <View
+        android:id="@+id/myRectangleView21"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/retangle_border_view_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangle0View3" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ttvBioPerfilPrestador"
+        android:layout_width="0dp"
+        android:layout_height="62dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/bio_desc"
+        android:textAlignment="textStart"
+        android:textColor="#d5d5d5"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView21"
+        app:layout_constraintEnd_toEndOf="@+id/myRectangleView21"
+        app:layout_constraintStart_toStartOf="@+id/myRectangleView21" />
+
+    <View
+        android:id="@+id/myRectangle0View3"
+        android:layout_width="wrap_content"
+        android:layout_height="155dp"
+        android:background="@drawable/retangle_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ttvUsernamePerfilPrestador"
+        android:layout_width="0dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:text="@string/user_name"
+        android:textColor="#d5d5d5"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ttvCidadePerfilPrestador"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:text="@string/cidade_uf"
+        android:textAlignment="viewStart"
+        android:textColor="#A8A8A8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ttvUsernamePerfilPrestador" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ttvSitePerfilPrestador"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="5dp"
+        android:text="@string/seu_site"
+        android:textColor="#A8A8A8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ttvEmailPerfilPrestador" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ttvEmailPerfilPrestador"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="5dp"
+        android:text="@string/seu_email"
+        android:textColor="#A8A8A8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ttvCidadePerfilPrestador" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_logogoservice"
+        android:contentDescription="TODO" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/bio"
+        android:textAlignment="textStart"
+        android:textColor="#d5d5d5"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="@+id/myRectangleView21"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView21" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="#4bb2f8"
+        android:backgroundTint="#4bb2f8"
+        android:clickable="true"
+        android:onClick="btn_perfil_to_main"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_home"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <View
+        android:id="@+id/myRectangleView25"
+        android:layout_width="180dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view_2"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangle0View3"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/star_1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
+        app:layout_constraintEnd_toStartOf="@+id/star_2"
+        app:srcCompat="@drawable/ic_star" />
+
+    <ImageView
+        android:id="@+id/star_2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
+        app:layout_constraintEnd_toStartOf="@+id/star_4"
+        app:srcCompat="@drawable/ic_star" />
+
+    <ImageView
+        android:id="@+id/star_3"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
+        app:layout_constraintStart_toEndOf="@+id/star_4"
+        app:srcCompat="@drawable/ic_star" />
+
+    <ImageView
+        android:id="@+id/star_4"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
+        app:layout_constraintEnd_toEndOf="@+id/myRectangleView25"
+        app:layout_constraintStart_toStartOf="@+id/myRectangleView25"
+        app:srcCompat="@drawable/ic_star" />
+
+    <ImageView
+        android:id="@+id/star_5"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
+        app:layout_constraintStart_toEndOf="@+id/star_3"
+        app:srcCompat="@drawable/ic_star" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listServicosPrestador"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView24"
+        app:layout_constraintEnd_toEndOf="@+id/myRectangleView24"
+        app:layout_constraintStart_toStartOf="@+id/myRectangleView24"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView24"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

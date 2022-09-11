@@ -5,10 +5,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lajotasoftware.goservice.Entity.Servico;
@@ -72,13 +75,18 @@ public class CustomAdapterPrestadores extends RecyclerView.Adapter {
             PrestadorID = itemView.findViewById(R.id.idPrestador);
             PrestadorNome = itemView.findViewById(R.id.ttvNomePrestador);
             PrestadorBio = itemView.findViewById(R.id.ttvBioPrestador);
+            itemView.findViewById(R.id.Prestador).setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
+            if (onPrestadorListener != null) {
+                onPrestadorListener.SelecionaPrestador(getAdapterPosition(), id);
+            }
         }
     }
 
     public interface OnPrestadorListener{
+        void SelecionaPrestador(int adapterPosition, Long id);
     }
 }

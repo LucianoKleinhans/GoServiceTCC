@@ -14,7 +14,7 @@ import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.MainActivity;
 import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
-import com.lajotasoftware.goservice.retrofit.UsuarioAPI;
+import com.lajotasoftware.goservice.retrofit.API;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +27,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RetrofitService retrofitService = new RetrofitService();
-        UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+        API usuarioAPI = retrofitService.getRetrofit().create(API.class);
         usuarioAPI.testConnection().enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
@@ -53,7 +53,7 @@ public class Login extends AppCompatActivity {
         MaterialButton btnCadastrar = findViewById(R.id.btnCadastrar);
 
         RetrofitService retrofitService = new RetrofitService();
-        UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+        API usuarioAPI = retrofitService.getRetrofit().create(API.class);
 
         btnEntrar.setOnClickListener(view -> {
             idUsuario = 0L;
@@ -119,7 +119,7 @@ public class Login extends AppCompatActivity {
 
     public void refresh(View view) {
         RetrofitService retrofitService = new RetrofitService();
-        UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+        API usuarioAPI = retrofitService.getRetrofit().create(API.class);
         usuarioAPI.testConnection().enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {

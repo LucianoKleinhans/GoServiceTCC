@@ -1,5 +1,6 @@
 package com.lajotasoftware.goservice.retrofit;
 
+import com.lajotasoftware.goservice.Entity.Pedido;
 import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.Usuario;
@@ -16,7 +17,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
-public interface UsuarioAPI {
+public interface API {
     //testa a conexão
     @POST ("/connection")
     Call<Boolean> testConnection();
@@ -77,6 +78,20 @@ public interface UsuarioAPI {
     /*-----------------View Prestadores-----------------*/
 
     @POST("/usuarioprestadores/{id}")
-    Call <List<Usuario>> getAllPrestadores(@Path("id")Long id);
+    Call<List<Usuario>> getAllPrestadores(@Path("id")Long id);
+
+    @POST("/usuarioprestador/{id}")
+    Call<Usuario> getPrestador(@Path("id")Long id);
+
+    /*-----------------Criar pedido de serviço avulso-----------------*/
+    @POST("/pedido")
+    Call<Pedido> criarPedido(@Body Pedido pedido);
+
+    @POST("/pedidosprestador/{id}")
+    Call<List<Pedido>> getPedidosPrestador(@Path("id")Long id);
+
+    @POST("/pedidoscliente/{id}")
+    Call<List<Pedido>> getPedidosCliente(@Path("id")Long id);
+
 
 }

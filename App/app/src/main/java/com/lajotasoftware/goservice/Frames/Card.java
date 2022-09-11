@@ -23,7 +23,7 @@ import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.MainActivity;
 import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
-import com.lajotasoftware.goservice.retrofit.UsuarioAPI;
+import com.lajotasoftware.goservice.retrofit.API;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
 
     Long idUsuario, idPrestador, idCardServico;
     String status;
-    UsuarioAPI usuarioAPI;
+    API usuarioAPI;
     Intent it;
     Spinner categoria_servico, sub_categoria_servico;
 
@@ -68,7 +68,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
 
     private void listarCards() {
         RetrofitService retrofitServiceListService = new RetrofitService();
-        UsuarioAPI usuarioAPIListCardService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
+        API usuarioAPIListCardService = retrofitServiceListService.getRetrofit().create(API.class);
         usuarioAPIListCardService.getCardServico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
             @Override
             public void onResponse(Call<List<SolicitaServico>> call, Response<List<SolicitaServico>> response) {
@@ -114,7 +114,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         RetrofitService retrofitEditService = new RetrofitService();
-                        UsuarioAPI usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
+                        API usuarioAPI = retrofitEditService.getRetrofit().create(API.class);
                         usuarioAPI.deleteCardServico(id).enqueue(new Callback<SolicitaServico>() {
                             @Override
                             public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
@@ -148,7 +148,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
     }
     private void initializeComponentsCadastroCartao() {
         RetrofitService retrofitService = new RetrofitService();
-        usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+        usuarioAPI = retrofitService.getRetrofit().create(API.class);
         Usuario usuario = new Usuario();
         Usuario user = new Usuario();
         usuario.setId(idUsuario);
@@ -214,7 +214,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         }
         if (status.equals("EDITAR_CARTAO")) {
             RetrofitService retrofitEditService = new RetrofitService();
-            usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
+            usuarioAPI = retrofitEditService.getRetrofit().create(API.class);
             usuarioAPI.getCardServicoById(idCardServico).enqueue(new Callback<SolicitaServico>() {
                 @Override
                 public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> servResponse) {

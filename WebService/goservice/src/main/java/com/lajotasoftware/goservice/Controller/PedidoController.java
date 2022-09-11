@@ -57,4 +57,14 @@ public class PedidoController {
                     return ResponseEntity.ok().body(updated);
                 }).orElse(ResponseEntity.notFound().build());
     }
+
+    @PostMapping("/pedidosprestador/{id}")
+    public List<Pedido> getPedidosPrestador(@PathVariable Long id){
+        return repository.getPedidosPrestador(id);
+    }
+
+    @PostMapping("/pedidoscliente/{id}")
+    public List<Pedido> getPedidosCliente(@PathVariable Long id){
+        return repository.getPedidosCliente(id);
+    }
 }

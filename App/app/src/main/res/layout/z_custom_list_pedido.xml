@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/Prestador"
+    android:id="@+id/cardservicolist"
     style="?android:attr/spinnerItemStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,52 +10,52 @@
     android:paddingTop="5dp"
     android:singleLine="false"
     android:textAlignment="inherit"
-    android:layout_marginBottom="5dp"
     android:textColor="#d5d5d5"
+    android:layout_marginBottom="5dp"
     android:padding="5dp">
 
     <ImageView
-        android:id="@+id/star_1"
+        android:id="@+id/star_10"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        app:layout_constraintEnd_toStartOf="@+id/star_2"
+        app:layout_constraintEnd_toStartOf="@+id/star_11"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_star" />
 
     <ImageView
-        android:id="@+id/star_2"
+        android:id="@+id/star_11"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        app:layout_constraintEnd_toStartOf="@+id/star_3"
+        app:layout_constraintEnd_toStartOf="@+id/star_12"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_star" />
 
     <ImageView
-        android:id="@+id/star_3"
+        android:id="@+id/star_12"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        app:layout_constraintEnd_toStartOf="@+id/star_4"
+        app:layout_constraintEnd_toStartOf="@+id/star_13"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_star" />
 
     <ImageView
-        android:id="@+id/star_4"
+        android:id="@+id/star_13"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        app:layout_constraintEnd_toStartOf="@+id/star_5"
+        app:layout_constraintEnd_toStartOf="@+id/star_14"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_star" />
 
     <ImageView
-        android:id="@+id/star_5"
+        android:id="@+id/star_14"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginTop="5dp"
@@ -64,14 +64,61 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_star" />
 
-    <TextView
-        android:id="@+id/ttvNomePrestador"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRecusaPedido"
         android:layout_width="0dp"
-        android:layout_height="33dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#750709"
+        android:text="Recusar "
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnAceitaPedido"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPedido" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAceitaPedido"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:text="@string/user_name"
+        android:layout_marginBottom="5dp"
+        android:backgroundTint="#009f10"
+        android:text="Aceitar"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnRecusaPedido"
+        app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPedido" />
+
+    <TextView
+        android:id="@+id/ttvValorServicoPedido"
+        android:layout_width="0dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view_4"
+        android:text="Valor: R$100,00"
+        android:textAlignment="center"
+        android:textColor="#d5d5d5"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ttvDescServicoPedido" />
+
+    <TextView
+        android:id="@+id/ttvNomeClientePedido"
+        android:layout_width="0dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="Cliente"
         android:textColor="#d5d5d5"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,36 +126,32 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/ttvBioPrestador"
+        android:id="@+id/ttvDescServicoPedido"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        android:text="Card desc"
+        android:text="Servico solicitado"
         android:textAlignment="textStart"
         android:textColor="#d5d5d5"
         android:textSize="15sp"
         android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvNomePrestador" />
+        app:layout_constraintTop_toBottomOf="@+id/ttvNomeClientePedido" />
 
     <TextView
-        android:id="@+id/idPrestador"
+        android:id="@+id/idPedido"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:text="IdCardServ"
+        android:text="idPedido"
         android:textAlignment="textStart"
         android:textColor="#d5d5d5"
         android:textSize="15sp"
         android:textStyle="normal"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/ttvNomeClientePedido" />
 </androidx.constraintlayout.widget.ConstraintLayout>

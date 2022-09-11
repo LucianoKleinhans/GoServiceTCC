@@ -14,15 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
-import com.lajotasoftware.goservice.Adapter.CustomAdapterCard;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterService;
 import com.lajotasoftware.goservice.Entity.Servico;
-import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.MainActivity;
 import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
-import com.lajotasoftware.goservice.retrofit.UsuarioAPI;
+import com.lajotasoftware.goservice.retrofit.API;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +66,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         listServicosPrestador = findViewById(R.id.listServicosPrestador);
 
         RetrofitService retrofitService = new RetrofitService();
-        UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+        API usuarioAPI = retrofitService.getRetrofit().create(API.class);
         usuario.setId(idUsuario);
         usuarioAPI.getAtualUser(usuario).enqueue(new Callback<Usuario>() {
             @Override
@@ -112,7 +110,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
 
     private void listaServico() {
         RetrofitService retrofitServiceListService = new RetrofitService();
-        UsuarioAPI usuarioAPIListService = retrofitServiceListService.getRetrofit().create(UsuarioAPI.class);
+        API usuarioAPIListService = retrofitServiceListService.getRetrofit().create(API.class);
         usuarioAPIListService.getServicosPrestador(idUsuario).enqueue(new Callback<List<Servico>>() {
             @Override
             public void onResponse(Call<List<Servico>> call, Response<List<Servico>> response) {
@@ -150,7 +148,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 RetrofitService retrofitEditService = new RetrofitService();
-                                UsuarioAPI usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
+                                API usuarioAPI = retrofitEditService.getRetrofit().create(API.class);
                                 usuarioAPI.deleteServico(id).enqueue(new Callback<Servico>() {
                                     @Override
                                     public void onResponse(Call<Servico> call, Response<Servico> response) {
@@ -231,7 +229,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
 
 
         RetrofitService retrofitService = new RetrofitService();
-        UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+        API usuarioAPI = retrofitService.getRetrofit().create(API.class);
         usuario.setId(idUsuario);
         usuarioAPI.getAtualUser(usuario).enqueue(new Callback<Usuario>() {
             @Override
@@ -295,7 +293,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     RetrofitService retrofitService = new RetrofitService();
-                                    UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+                                    API usuarioAPI = retrofitService.getRetrofit().create(API.class);
 
                                     Usuario usuario = new Usuario();
 

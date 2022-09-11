@@ -3,7 +3,6 @@ package com.lajotasoftware.goservice.Frames;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,7 +19,7 @@ import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.Functions.Function;
 import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
-import com.lajotasoftware.goservice.retrofit.UsuarioAPI;
+import com.lajotasoftware.goservice.retrofit.API;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +30,7 @@ public class Cadastro extends AppCompatActivity {
     String status;
     Intent it;
     Spinner uf, categoria_servico, sub_categoria_servico;
-    UsuarioAPI usuarioAPI;
+    API usuarioAPI;
     private Function function = new Function();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +67,7 @@ public class Cadastro extends AppCompatActivity {
         TextInputEditText inputEditTextSenha = findViewById(R.id.edtCadLoginPass);
         MaterialButton btnGravarUserAndPass = findViewById(R.id.btnCadLoginGravar);
         RetrofitService retrofitService = new RetrofitService();
-        UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+        API usuarioAPI = retrofitService.getRetrofit().create(API.class);
 
         btnGravarUserAndPass.setOnClickListener(view -> {
             String username = String.valueOf(inputEditTextUsuario.getText());
@@ -130,7 +129,7 @@ public class Cadastro extends AppCompatActivity {
         MaterialButton btn_cancelar_usuario = findViewById(R.id.btnCancelarCadUser);
 
         RetrofitService retrofitService = new RetrofitService();
-        UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+        API usuarioAPI = retrofitService.getRetrofit().create(API.class);
         if (status.equals("MODIFICA_CADASTRO")){
             Usuario usuario = new Usuario();
             usuario.setId(idUsuario);
@@ -295,7 +294,7 @@ public class Cadastro extends AppCompatActivity {
     @SuppressLint("CutPasteId")
     private void initializeComponentsCadastroServico() {
         RetrofitService retrofitService = new RetrofitService();
-        usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+        usuarioAPI = retrofitService.getRetrofit().create(API.class);
         Usuario usuario = new Usuario();
         Usuario user = new Usuario();
         usuario.setId(idUsuario);
@@ -361,7 +360,7 @@ public class Cadastro extends AppCompatActivity {
         }
         if (status.equals("EDITAR_SERVICO")) {
             RetrofitService retrofitEditService = new RetrofitService();
-            usuarioAPI = retrofitEditService.getRetrofit().create(UsuarioAPI.class);
+            usuarioAPI = retrofitEditService.getRetrofit().create(API.class);
             usuarioAPI.getServicoById(idServico).enqueue(new Callback<Servico>() {
                 @Override
                 public void onResponse(Call<Servico> call, Response<Servico> servResponse) {

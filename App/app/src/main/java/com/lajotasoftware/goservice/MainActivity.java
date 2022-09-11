@@ -5,24 +5,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.Frames.Card;
-import com.lajotasoftware.goservice.Frames.Login;
+import com.lajotasoftware.goservice.Frames.Pedidos;
 import com.lajotasoftware.goservice.Frames.Prestadores;
-import com.lajotasoftware.goservice.R;
 
 import android.view.View;
-import android.widget.Toast;
 
 import com.lajotasoftware.goservice.Frames.Perfil;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
-import com.lajotasoftware.goservice.retrofit.UsuarioAPI;
+import com.lajotasoftware.goservice.retrofit.API;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         MaterialTextView textViewUserName = findViewById(R.id.ttvUsernamePerfilUser2);
 
         RetrofitService retrofitService = new RetrofitService();
-        UsuarioAPI usuarioAPI = retrofitService.getRetrofit().create(UsuarioAPI.class);
+        API usuarioAPI = retrofitService.getRetrofit().create(API.class);
         Usuario usuario = new Usuario();
         usuario.setId(idUsuario);
         usuarioAPI.getAtualUser(usuario).enqueue(new Callback<Usuario>() {
@@ -109,6 +104,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void btn_main_to_prestadores(View view) {
         Intent it = new Intent(this, Prestadores.class);
+        Bundle parametros = new Bundle();
+        parametros.putLong("id_usuario", idUsuario);;
+        it.putExtras(parametros);
+        startActivity(it);
+    }
+
+    public void btn_main_to_solicitacoes(View view) {
+        Intent it = new Intent(this, Pedidos.class);
         Bundle parametros = new Bundle();
         parametros.putLong("id_usuario", idUsuario);;
         it.putExtras(parametros);

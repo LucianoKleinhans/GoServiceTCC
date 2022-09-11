@@ -43,6 +43,9 @@
         <activity android:name=".Frames.Prestadores"
             android:windowSoftInputMode="stateHidden">
         </activity>
+        <activity android:name=".Frames.Pedidos"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
     </application>
 
 </manifest>
