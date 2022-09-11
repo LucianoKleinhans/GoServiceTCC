@@ -14,6 +14,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.Frames.Card;
 import com.lajotasoftware.goservice.Frames.Login;
+import com.lajotasoftware.goservice.Frames.Prestadores;
 import com.lajotasoftware.goservice.R;
 
 import android.view.View;
@@ -101,6 +102,15 @@ public class MainActivity extends AppCompatActivity {
         Bundle parametros = new Bundle();
         parametros.putLong("id_usuario", idUsuario);
         parametros.putString("status_usuario", "DEFAUT");
+        it.putExtras(parametros);
+        startActivity(it);
+    }
+
+
+    public void btn_main_to_prestadores(View view) {
+        Intent it = new Intent(this, Prestadores.class);
+        Bundle parametros = new Bundle();
+        parametros.putLong("id_usuario", idUsuario);;
         it.putExtras(parametros);
         startActivity(it);
     }

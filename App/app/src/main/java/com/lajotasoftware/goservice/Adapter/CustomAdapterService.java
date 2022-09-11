@@ -96,5 +96,6 @@ public class CustomAdapterService extends RecyclerView.Adapter {
     public interface OnServicoListener{
         void onCardRemoverClick (int position, Long id);
         void onCardEditarClick (int position, Long id);
+
     }
 }

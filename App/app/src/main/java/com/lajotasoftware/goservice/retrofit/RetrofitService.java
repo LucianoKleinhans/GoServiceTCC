@@ -14,7 +14,7 @@ public class RetrofitService {
     }
 
     private void initializeRetrofit() {
-        i = 1;
+        i = 0;
         if (i==0){
             retrofit = new Retrofit.Builder()
                     .baseUrl("http://192.168.0.111:8080")

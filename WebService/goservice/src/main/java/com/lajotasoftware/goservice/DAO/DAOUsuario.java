@@ -14,8 +14,8 @@ public interface DAOUsuario extends JpaRepository<Usuario, Long> {
     @Query(value = "SELECT * FROM Usuario u WHERE u.id_Prestador = ?1 and u.ativo = true", nativeQuery = true)
     List<Usuario> findPrestadorById(Long id);
 
-    @Query(value = "SELECT * FROM Usuario u WHERE u.ativo = true", nativeQuery = true)
-    List<Usuario> findAllPrestadores();
+    @Query(value = "select * from usuario u where u.ativo = true and u.prestador = true and u.id != ?1", nativeQuery = true)
+    List<Usuario> findAllPrestadores(Long id);
 
     Usuario findByLogin(String login);
 }

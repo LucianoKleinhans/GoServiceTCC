@@ -73,4 +73,10 @@ public interface UsuarioAPI {
 
     @DELETE("/cardservico/delete/{id}")
     Call<SolicitaServico> deleteCardServico(@Path("id")Long id);
+
+    /*-----------------View Prestadores-----------------*/
+
+    @POST("/usuarioprestadores/{id}")
+    Call <List<Usuario>> getAllPrestadores(@Path("id")Long id);
+
 }
