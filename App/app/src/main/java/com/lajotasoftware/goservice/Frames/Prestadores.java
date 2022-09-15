@@ -34,7 +34,6 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
 
     private Long idUsuario, idPrestador;
     String status;
-    Intent it;
 
     CustomAdapterPrestadores customAdapter;
     RecyclerView recyclerView;
@@ -59,6 +58,7 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
         Intent it = getIntent();
         Bundle parametros = it.getExtras();
         idUsuario = parametros.getLong("id_usuario");
+        status = parametros.getString("status");
         setContentView(R.layout.prestadores);
         initializeComponents();
     }
@@ -219,11 +219,31 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
         alertDialog.show();
     }
 
-    public void btn_cards_to_main(View view) {
+    public void btn_perfilprestador_to_main(View view) {
         Intent it = new Intent(this, MainActivity.class);
         Bundle parametros = new Bundle();
         parametros.putLong("id_usuario", idUsuario);
         it.putExtras(parametros);
         startActivity(it);
+    }
+    public void btn_prestadores_to_main (View view){
+        Intent it = new Intent(this, MainActivity.class);
+        Bundle parametros = new Bundle();
+        parametros.putLong("id_usuario", idUsuario);
+        it.putExtras(parametros);
+        startActivity(it);
+    }
+    public void onBackPressed () {
+        if (status.equals("VISUALIZAR_PRESTADOR")){
+            status = "DEFAUT";
+            setContentView(R.layout.prestadores);
+            initializeComponents();
+        }else{
+            Intent it = new Intent(this, MainActivity.class);
+            Bundle parametros = new Bundle();
+            parametros.putLong("id_usuario", idUsuario);
+            it.putExtras(parametros);
+            startActivity(it);
+        }
     }
 }

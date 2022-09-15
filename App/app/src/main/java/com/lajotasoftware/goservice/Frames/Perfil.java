@@ -279,9 +279,12 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                     Toast.makeText(Perfil.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
                 }
             });
+            setContentView(R.layout.perfil_usuario);
+            initializeComponents();
         });
         btnCancelarEditPerfil.setOnClickListener(view -> {
-            onBackPressed();
+            setContentView(R.layout.perfil_usuario);
+            initializeComponents();
         });
         btnTornarUserPrestador.setOnClickListener(view -> {
             AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(this);
@@ -328,6 +331,8 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                     });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
+            setContentView(R.layout.perfil_usuario);
+            initializeComponents();
         });
     }
 }

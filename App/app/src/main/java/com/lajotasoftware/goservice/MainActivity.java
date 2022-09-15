@@ -105,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
     public void btn_main_to_prestadores(View view) {
         Intent it = new Intent(this, Prestadores.class);
         Bundle parametros = new Bundle();
-        parametros.putLong("id_usuario", idUsuario);;
+        parametros.putLong("id_usuario", idUsuario);
+        parametros.putString("status", "DEFAUT");
         it.putExtras(parametros);
         startActivity(it);
     }

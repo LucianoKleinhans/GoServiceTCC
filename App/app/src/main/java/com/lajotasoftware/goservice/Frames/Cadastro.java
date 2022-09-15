@@ -269,13 +269,14 @@ public class Cadastro extends AppCompatActivity {
             } else {Toast.makeText(Cadastro.this, "Nome inválido!", Toast.LENGTH_SHORT).show();}
         });
         btn_cancelar_usuario.setOnClickListener(view -> {
-            if (status == "LOGIN_CRIADO") {
+            if (status.equals("LOGIN_CRIADO")) {
                 it = new Intent(this, Login.class);
-            }if (status == "MODIFICA_CADASTRO") {
+            }if (status.equals("MODIFICA_CADASTRO")) {
                 it = new Intent(this, Perfil.class);
                 Bundle parametros = new Bundle();
                 parametros.putLong("id_usuario", idUsuario);
                 it.putExtras(parametros);
+                finish();
             }
             usuarioAPI.deleteUser(idUsuario).enqueue(new Callback<Usuario>(){
                 @Override
@@ -491,6 +492,7 @@ public class Cadastro extends AppCompatActivity {
         });
         btn_cancelar_servico.setOnClickListener(view -> {
             onBackPressed();
+            finish();
         });
     }
 }
