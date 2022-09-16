@@ -9,6 +9,32 @@
 
 
     <View
+        android:id="@+id/myRectangleView4"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:background="@drawable/retangle_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:text="@string/cadastro"
+        android:textAlignment="center"
+        android:textColor="#d5d5d5"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
         android:id="@+id/myRectangleView2"
         android:layout_width="0dp"
         android:layout_height="45dp"
@@ -170,6 +196,25 @@
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView17" />
 
     <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtPrimeiroNome"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/primeiro_nome"
+        android:inputType="textPersonName"
+        android:textColor="#d5d5d5"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView4"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtSegundoNome"
         android:layout_width="0dp"
         android:layout_height="45dp"
@@ -189,50 +234,42 @@
         tools:ignore="TouchTargetSizeCheck" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtPrimeiroNome"
+        android:id="@+id/edtCPF"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="15dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/primeiro_nome"
-        android:inputType="textPersonName"
+        android:hint="@string/cpf"
+        android:inputType="number"
         android:textColor="#d5d5d5"
         android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myRectangleView4"
+        app:layout_constraintTop_toBottomOf="@+id/edtSegundoNome"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCancelarCadUser"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="#750709"
-        android:text="@string/cancelar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myRectangleView19" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnGravarCadUser"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="15dp"
-        android:backgroundTint="#009f10"
-        android:onClick="btn_gravar_usuario"
-        android:text="@string/gravar"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtCNPJ"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/cnpj"
+        android:inputType="number"
+        android:textColor="#d5d5d5"
+        android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myRectangleView18" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtCPF"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtTelefone"
@@ -252,6 +289,25 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtCNPJ"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtEmail"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/email"
+        android:inputType="textWebEmailAddress"
+        android:textColor="#d5d5d5"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtTelefone"
         tools:ignore="TouchTargetSizeCheck" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -292,18 +348,9 @@
         app:layout_constraintTop_toBottomOf="@+id/edtSite"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <View
-        android:id="@+id/myRectangleView4"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:background="@drawable/retangle_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtBairro"
-        android:layout_width="249dp"
+        android:layout_width="0dp"
         android:layout_height="44dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="5dp"
@@ -375,80 +422,6 @@
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView17"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtEmail"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/email"
-        android:inputType="textWebEmailAddress"
-        android:textColor="#d5d5d5"
-        android:textColorHint="#6b6b6b"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtTelefone"
-        tools:ignore="TouchTargetSizeCheck" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtCPF"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/cpf"
-        android:inputType="number"
-        android:textColor="#d5d5d5"
-        android:textColorHint="#6b6b6b"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtSegundoNome"
-        tools:ignore="TouchTargetSizeCheck" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtCNPJ"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/cnpj"
-        android:inputType="number"
-        android:textColor="#d5d5d5"
-        android:textColorHint="#6b6b6b"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtCPF"
-        tools:ignore="TouchTargetSizeCheck" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
-        android:text="@string/cadastro"
-        android:textAlignment="center"
-        android:textColor="#d5d5d5"
-        android:textSize="15sp"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Spinner
         android:id="@+id/spinner_uf"
         android:layout_width="105dp"
@@ -461,5 +434,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView17"
         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGravarCadUser"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="#009f10"
+        android:onClick="btn_gravar_usuario"
+        android:text="@string/gravar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView18" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCancelarCadUser"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="#750709"
+        android:text="@string/cancelar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView19" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

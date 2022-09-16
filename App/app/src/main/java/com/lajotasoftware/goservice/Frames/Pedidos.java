@@ -1,7 +1,5 @@
 package com.lajotasoftware.goservice.Frames;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,13 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.textview.MaterialTextView;
+import com.google.android.material.tabs.TabLayout;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterPedido;
-import com.lajotasoftware.goservice.Adapter.CustomAdapterPrestadores;
-import com.lajotasoftware.goservice.Adapter.CustomAdapterServicePerfilPrestador;
 import com.lajotasoftware.goservice.Entity.Pedido;
-import com.lajotasoftware.goservice.Entity.Servico;
-import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.MainActivity;
 import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.API;
@@ -38,13 +32,19 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
     Intent it;
 
     CustomAdapterPedido customAdapter;
-    RecyclerView recyclerView;
+    RecyclerView recyclerViewRecebida;
+    RecyclerView recyclerViewEnviada;
+    RecyclerView recyclerViewAberta;
     List<Pedido> pedidos = new ArrayList<>();
 
     RetrofitService retrofitService;
     API api;
     Pedido pedido;
     Date date = new Date();
+
+    TabLayout tabLayout;
+    //ViewPager2 viewPager2;
+    //PageAdapterSolicitacoes pageAdapterSolicitacoes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +57,73 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
     }
 
     private void initializeComponents() {
-        recyclerView = findViewById(R.id.listaPedidos);
+        recyclerViewRecebida = findViewById(R.id.listaPedidoRecebido);
+        recyclerViewEnviada = findViewById(R.id.listaPedidoEnviado);
+
+        tabLayout=findViewById(R.id.tabLayout);
+        //viewPager2=findViewById(R.id.view_pager);
+        //pageAdapterSolicitacoes = new PageAdapterSolicitacoes(this);
+        //viewPager2.setAdapter(pageAdapterSolicitacoes);
+        SolicitacaoRecebida();
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                //viewPager2.setCurrentItem(tab.getPosition());
+                int position = tab.getPosition();
+                switch (position){
+                    case 0:
+                        SolicitacaoRecebida();
+                    case 1:
+                        SolicitacaoEnviada();
+                    case 2:
+                        //SolicitacaoAberta();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+/*        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                tabLayout.getTabAt(position).select();
+            }
+        });*/
+
+
+    }
+
+    private void SolicitacaoRecebida() {
+        recyclerViewEnviada.setVisibility(View.INVISIBLE);
+        //recyclerViewAberta.setVisibility(View.INVISIBLE);//aberta
+        recyclerViewRecebida.setVisibility(View.VISIBLE);
+        recyclerViewRecebida = findViewById(R.id.listaPedidoRecebido);
         listarPedidos();
     }
+
+    private void SolicitacaoEnviada() {
+        recyclerViewRecebida.setVisibility(View.INVISIBLE);
+        //recyclerViewAberta.setVisibility(View.INVISIBLE);//aberta
+        recyclerViewEnviada.setVisibility(View.VISIBLE);
+        recyclerViewEnviada = findViewById(R.id.listaPedidoEnviado);
+        //listarPedidos();
+    }
+
+    /*private void SolicitacaoAberta() {
+        recyclerViewRecebida.setVisibility(View.INVISIBLE);
+        //recyclerViewAberta.setVisibility(View.INVISIBLE);//aberta
+        recyclerViewEnviada.setVisibility(View.INVISIBLE);
+        //recyclerViewAberta = findViewById(R.id.listaPedidoAberto);
+        //listarPedidos();
+    }*/
 
     private void listarPedidos() {
         retrofitService = new RetrofitService();
@@ -78,9 +142,9 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                         pedidos.add(pedido);
                     }
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-                    recyclerView.setLayoutManager(linearLayoutManager);
+                    recyclerViewRecebida.setLayoutManager(linearLayoutManager);
                     customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this);
-                    recyclerView.setAdapter(customAdapter);
+                    recyclerViewRecebida.setAdapter(customAdapter);
                 }
             }
 
