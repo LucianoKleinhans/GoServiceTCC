@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.lajotasoftware.goservice.Entity.Pedido;
-import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Frames.Card;
 import com.lajotasoftware.goservice.R;
 
@@ -23,11 +23,13 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
     List<Pedido> pedidosList;
     Context context;
     private OnPedidoListener mOnPedidoListener;
+    String parametro;
 
-    public CustomAdapterPedido(Context context, List<Pedido> pedidosList, OnPedidoListener mOnPedidoListener) {
+    public CustomAdapterPedido(Context context, List<Pedido> pedidosList, OnPedidoListener mOnPedidoListener, String parametro) {
         this.pedidosList = pedidosList;
         this.context = context;
         this.mOnPedidoListener = mOnPedidoListener;
+        this.parametro = parametro;
     }
 
     @NonNull
@@ -74,16 +76,42 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
             valorServicoPedido = itemView.findViewById(R.id.ttvValorServicoPedido);
             itemView.findViewById(R.id.btnAceitaPedido).setOnClickListener(this);
             itemView.findViewById(R.id.btnRecusaPedido).setOnClickListener(this);
+            itemView.findViewById(R.id.btnCancelaPedido).setOnClickListener(this);
+            itemView.findViewById(R.id.btnVisualizarPedido).setOnClickListener(this);
+
+            if (parametro.equals("ENVIADAS")) {
+                itemView.findViewById(R.id.btnAceitaPedido).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnRecusaPedido).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnVisualizarPedido).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnCancelaPedido).setVisibility(View.VISIBLE);
+            }else if (parametro.equals("RECEBIDAS")) {
+                itemView.findViewById(R.id.btnAceitaPedido).setVisibility(View.VISIBLE);
+                itemView.findViewById(R.id.btnRecusaPedido).setVisibility(View.VISIBLE);
+                itemView.findViewById(R.id.btnVisualizarPedido).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnCancelaPedido).setVisibility(View.INVISIBLE);
+            }else if (parametro.equals("PROGRESSO")) {
+                itemView.findViewById(R.id.btnAceitaPedido).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnRecusaPedido).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnVisualizarPedido).setVisibility(View.VISIBLE);
+                itemView.findViewById(R.id.btnCancelaPedido).setVisibility(View.INVISIBLE);
+            }else if (parametro.equals("FINALIZADO")) {
+                itemView.findViewById(R.id.btnAceitaPedido).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnRecusaPedido).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnVisualizarPedido).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnCancelaPedido).setVisibility(View.INVISIBLE);
+            }
         }
 
         @Override
         public void onClick(View view) {
             Button b = (Button)view;
             String text = b.getText().toString();
-            if ("Solicitar".equals(text)) {
+            if ("Aceitar".equals(text)) {
                 onPedidoListener.AceitaPedido(getAdapterPosition(), id);
             }else if ("Recusar".equals(text)){
                 onPedidoListener.RecusaPedido(getAdapterPosition(), id);
+            }else if ("Cancelar Pedido".equals(text)){
+                onPedidoListener.CancelaPedido(getAdapterPosition(), id);
             }
         }
     }
@@ -91,5 +119,6 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
     public interface OnPedidoListener{
         void AceitaPedido (int position, Long id);
         void RecusaPedido (int position, Long id);
+        void CancelaPedido(int position, Long id);
     }
 }

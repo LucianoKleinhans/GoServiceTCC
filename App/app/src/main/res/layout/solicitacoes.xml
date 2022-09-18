@@ -23,7 +23,7 @@
     <View
         android:id="@+id/myRectangleView26"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:background="@drawable/retangle_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -60,39 +60,56 @@
         app:srcCompat="@drawable/ic_home"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPedidosEnviados"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginStart="5dp"
         android:onClick="btnListaPedidoEnviada"
         android:text="Enviadas"
+        android:textAllCaps="false"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/myRectangleView26"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView4"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPedidosRecebidas"
-        android:layout_width="120dp"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:onClick="btnListaPedidoRecebidas"
         android:text="Recebidas"
+        android:textAllCaps="false"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/myRectangleView26"
-        app:layout_constraintEnd_toStartOf="@+id/btnPedidosAbertas"
         app:layout_constraintStart_toEndOf="@+id/btnPedidosEnviados"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView4"
         tools:ignore="TouchTargetSizeCheck" />
 
-    <Button
-        android:id="@+id/btnPedidosAbertas"
-        android:layout_width="120dp"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnPedidosProgresso"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginEnd="5dp"
-        android:onClick="btnListaPedidoAbertas"
-        android:text="Abertas"
+        android:onClick="btnListaPedidoEmProgresso"
+        android:text="Em Progresso"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView26"
+        app:layout_constraintStart_toEndOf="@+id/btnPedidosRecebidas"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView4"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnPedidosFinalizados"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:onClick="btnListaPedidoFinalizado"
+        android:text="Finalizado"
+        android:textAllCaps="false"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/myRectangleView26"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnPedidosProgresso"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView4"
         tools:ignore="TouchTargetSizeCheck" />
 

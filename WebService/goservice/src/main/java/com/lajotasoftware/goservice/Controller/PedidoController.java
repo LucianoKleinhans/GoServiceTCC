@@ -67,4 +67,14 @@ public class PedidoController {
     public List<Pedido> getPedidosCliente(@PathVariable Long id){
         return repository.getPedidosCliente(id);
     }
+
+    @PostMapping("/pedidosprogresso/{id}")
+    public List<Pedido> getPedidosEmProgresso(@PathVariable Long id){
+        return repository.getPedidosEmProgresso(id);
+    }
+
+    @PostMapping("/pedidosfinalizado/{id}")
+    public List<Pedido> getPedidosFinalizados(@PathVariable Long id){
+        return repository.getPedidosFinalizados(id);
+    }
 }
