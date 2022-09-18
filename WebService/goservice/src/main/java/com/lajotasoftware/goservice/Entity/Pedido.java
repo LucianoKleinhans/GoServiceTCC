@@ -16,7 +16,7 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Character status;
+    private String status;
     private Double avaliacaoPrestador;
     private Double avaliacaoCliente;
     private Boolean servicoSolicitado;
@@ -38,9 +38,9 @@ public class Pedido {
         }
     }
 
-    public void setStatus(Character status) {
+    public void setStatus(String status) {
         if (status != null) {
-            this.status = status;
+            this.status = status.toUpperCase();
         }
     }
 

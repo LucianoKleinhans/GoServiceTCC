@@ -3,13 +3,12 @@ package com.lajotasoftware.goservice.Entity;
 public class Pedido {
 
     private Long id;
-    private Character status;
+    private String status;
     private Double avaliacaoPrestador;
     private Double avaliacaoCliente;
     private Boolean servicoSolicitado;
     private Long dataEmissao;
     private Long dataFinalizacao;
-
     private Usuario id_Cliente;
     private Usuario id_Prestador;
     private SolicitaServico id_ServicoSolicitado;
@@ -23,11 +22,11 @@ public class Pedido {
         this.id = id;
     }
 
-    public Character getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Character status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

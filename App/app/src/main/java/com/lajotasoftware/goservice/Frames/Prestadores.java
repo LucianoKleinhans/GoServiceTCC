@@ -193,7 +193,7 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
                                 pedido.setDataEmissao(date.getTime());
                                 pedido.setId_Servico(servico);
                                 pedido.setServicoSolicitado(true);
-                                pedido.setStatus('A');
+                                pedido.setStatus("ABERTO");
                                 RetrofitService retrofitService = new RetrofitService();
                                 api = retrofitService.getRetrofit().create(API.class);
                                 api.criarPedido(pedido).enqueue(new Callback<Pedido>() {

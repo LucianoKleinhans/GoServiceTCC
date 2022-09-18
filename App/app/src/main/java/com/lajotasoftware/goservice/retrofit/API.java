@@ -93,5 +93,6 @@ public interface API {
     @POST("/pedidoscliente/{id}")
     Call<List<Pedido>> getPedidosCliente(@Path("id")Long id);
 
-
+    @POST("/pedido/udpate/{id}")
+    Call<Pedido> updatePedido(@Path("id")Long id,@Body Pedido pedido);
 }

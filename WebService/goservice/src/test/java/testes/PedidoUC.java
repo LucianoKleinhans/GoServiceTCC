@@ -23,7 +23,7 @@ public class PedidoUC {
         Servico servico = new Servico();
 
         pedido.setId(99L);
-        pedido.setStatus('A');
+        pedido.setStatus("ABERTO");
         pedido.setAvaliacaoPrestador(4.50);
         pedido.setAvaliacaoCliente(1.50);
         pedido.setServicoSolicitado(true);
@@ -117,7 +117,7 @@ public class PedidoUC {
         Servico servico = new Servico();
 
         pedido.setId(1L);
-        pedido.setStatus('A');
+        pedido.setStatus("ABERTO");
         pedido.setAvaliacaoPrestador(5.0);
         pedido.setAvaliacaoCliente(3.0);
         pedido.setDataEmissao(12312321321L);

@@ -37,7 +37,7 @@ public class PedidoController {
         repository.deleteById(id);
     }
 
-    @PutMapping(value = "/pedido/{id}")
+    @PutMapping(value = "/pedido/udpate/{id}")
     public ResponseEntity update(@PathVariable("id") long id,
                                  @RequestBody Pedido pedido) {
         return repository.findById(id)

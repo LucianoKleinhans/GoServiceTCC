@@ -20,6 +20,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/myRectangleView26"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:background="@drawable/retangle_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView4" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="0dp"
@@ -50,56 +60,56 @@
         app:srcCompat="@drawable/ic_home"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#204c6a"
-        app:layout_constraintEnd_toEndOf="parent"
+    <Button
+        android:id="@+id/btnPedidosEnviados"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:onClick="btnListaPedidoEnviada"
+        android:text="Enviadas"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView26"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView4"
-        app:tabTextColor="#D5D5D5">
+        tools:ignore="TouchTargetSizeCheck" />
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItemRecebidas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Recebidas" />
+    <Button
+        android:id="@+id/btnPedidosRecebidas"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:onClick="btnListaPedidoRecebidas"
+        android:text="Recebidas"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView26"
+        app:layout_constraintEnd_toStartOf="@+id/btnPedidosAbertas"
+        app:layout_constraintStart_toEndOf="@+id/btnPedidosEnviados"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView4"
+        tools:ignore="TouchTargetSizeCheck" />
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItemEnviadas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enviadas" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabItemAbertas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ABERTAS" />
-    </com.google.android.material.tabs.TabLayout>
+    <Button
+        android:id="@+id/btnPedidosAbertas"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="5dp"
+        android:onClick="btnListaPedidoAbertas"
+        android:text="Abertas"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView26"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView4"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listaPedidoRecebido"
+        android:id="@+id/listaPedido"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
-        app:layout_constraintVertical_bias="0.0" >
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView26">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listaPedidoEnviado"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/listaPedidoRecebido"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
