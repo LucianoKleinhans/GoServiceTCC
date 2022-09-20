@@ -174,7 +174,7 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
     }
 
     @Override
-    public void SolicitaServico(int position, Long id) {
+    public void SolicitaServico(int position, Long id, Long idPrestador) {
         AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle("Solicitar Serviço");
         alertDialogBuilder

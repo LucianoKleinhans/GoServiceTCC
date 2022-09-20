@@ -17,12 +17,12 @@ public class PedidoController {
 
     DAOPedido repository;
 
-    @GetMapping("/pedido")
+    @PostMapping("/pedido")
     public List<Pedido> getAllPedidos(){
         return repository.findAll();
     }
 
-    @GetMapping("/pedido/{id}")
+    @PostMapping("/pedido/{id}")
     public Pedido getPedidoById(@PathVariable Long id){
         return repository.getById(id);
     }

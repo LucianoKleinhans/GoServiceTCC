@@ -60,4 +60,9 @@ public class ServicoController {
     public Servico getServicoByID(@PathVariable Long id){
         return repository.getServicoByID(id);
     }
+
+    @PostMapping("/servico/lista/{id}")
+    public List<Servico> getAllServicos(@PathVariable Long id){
+        return repository.getAllServicos(id);
+    }
 }

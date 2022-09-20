@@ -59,6 +59,9 @@ public interface API {
     @DELETE("/servico/delete/{id}")
     Call<Servico> deleteServico(@Path("id")Long id);
 
+    @POST ("/servico/lista/{id}")
+    Call<List<Servico>> getAllServicos(@Path("id")Long id);
+
     /*-----------------Crud Card Serviço-----------------*/
     @POST ("/cardservico/create")
     Call<SolicitaServico> createNewCardService(@Body SolicitaServico solcitaServico);
@@ -98,6 +101,9 @@ public interface API {
 
     @POST("/pedidosfinalizado/{id}")
     Call<List<Pedido>> getPedidosFinalizados(@Path("id")Long id);
+
+    @POST("/pedido/{id}")
+    Call<Pedido> getPedidoById(@Path("id")Long id);
 
     @PUT("/pedido/udpate/{id}")
     Call<Pedido> updatePedido(@Path("id")Long id,@Body Pedido pedido);

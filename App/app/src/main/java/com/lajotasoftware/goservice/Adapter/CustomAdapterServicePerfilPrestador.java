@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Frames.Card;
+import com.lajotasoftware.goservice.Frames.Servicos;
 import com.lajotasoftware.goservice.R;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -44,11 +47,13 @@ public class CustomAdapterServicePerfilPrestador extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         ViewHolder myViewHolder = (ViewHolder) holder;
         myViewHolder.ServicoId.setText(servicosLists.get(position).getId().toString());
+        myViewHolder.ServicoPrestador.setText(servicosLists.get(position).getId_Prestador().getId().toString());
         myViewHolder.ServicoNome.setText(servicosLists.get(position).getNome().toString());
         myViewHolder.ServicoDesc.setText(servicosLists.get(position).getObsServico().toString());
         myViewHolder.ServicoValor.setText("Valor: R$"+servicosLists.get(position).getValor().toString());
         myViewHolder.position = position;
         myViewHolder.id = servicosLists.get(position).getId();
+        myViewHolder.idPrestador = servicosLists.get(position).getId_Prestador().getId();
     }
 
     @Override
@@ -59,8 +64,9 @@ public class CustomAdapterServicePerfilPrestador extends RecyclerView.Adapter {
 
         private Card card = new Card();
         public int position;
-        public Long id;
+        public Long id, idPrestador;
         TextView ServicoId;
+        TextView ServicoPrestador;
         TextView ServicoNome;
         TextView ServicoDesc;
         TextView ServicoValor;
@@ -70,6 +76,7 @@ public class CustomAdapterServicePerfilPrestador extends RecyclerView.Adapter {
             super(itemView);
             this.onServicoListener = onServicoListener;
             ServicoId = itemView.findViewById(R.id.idServicoPrestador);
+            ServicoPrestador = itemView.findViewById(R.id.idPrestador);
             ServicoNome = itemView.findViewById(R.id.ttvNomeServicoPrestador);
             ServicoDesc = itemView.findViewById(R.id.ttvDescServicoPrestador);
             ServicoValor = itemView.findViewById(R.id.ttvValorServicoPrestador);
@@ -81,12 +88,12 @@ public class CustomAdapterServicePerfilPrestador extends RecyclerView.Adapter {
             Button b = (Button)view;
             String text = b.getText().toString();
             if ("Solicitar".equals(text)) {
-                onServicoListener.SolicitaServico(getAdapterPosition(), id);
+                onServicoListener.SolicitaServico(getAdapterPosition(), id, idPrestador);
             }
         }
     }
 
     public interface OnServicoListener{
-        void SolicitaServico (int position, Long id);
+        void SolicitaServico (int position, Long id, Long idPrestador);
     }
 }

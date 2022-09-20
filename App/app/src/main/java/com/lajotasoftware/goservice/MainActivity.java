@@ -16,6 +16,7 @@ import com.lajotasoftware.goservice.Frames.Prestadores;
 import android.view.View;
 
 import com.lajotasoftware.goservice.Frames.Perfil;
+import com.lajotasoftware.goservice.Frames.Servicos;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
 import com.lajotasoftware.goservice.retrofit.API;
 
@@ -113,6 +114,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void btn_main_to_solicitacoes(View view) {
         Intent it = new Intent(this, Pedidos.class);
+        Bundle parametros = new Bundle();
+        parametros.putLong("id_usuario", idUsuario);;
+        it.putExtras(parametros);
+        startActivity(it);
+    }
+
+    public void btn_main_to_servicos(View view) {
+        Intent it = new Intent(this, Servicos.class);
         Bundle parametros = new Bundle();
         parametros.putLong("id_usuario", idUsuario);;
         it.putExtras(parametros);

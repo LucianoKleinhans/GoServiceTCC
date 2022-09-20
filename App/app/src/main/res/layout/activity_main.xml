@@ -18,14 +18,14 @@
 
     <Button
         android:id="@+id/btnGerenciaCardsMain"
-        android:layout_width="380dp"
-        android:layout_height="150dp"
+        android:layout_width="0dp"
+        android:layout_height="130dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
-        android:text="@string/gerencia_cards"
-        android:onClick="btn_main_to_card"
         android:background="@drawable/retangle_border_view_2"
+        android:onClick="btn_main_to_card"
+        android:text="@string/gerencia_cards"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView" />
@@ -48,28 +48,42 @@
 
     <Button
         android:id="@+id/btnPrestadoresMain"
-        android:layout_width="380dp"
-        android:layout_height="150dp"
+        android:layout_width="0dp"
+        android:layout_height="130dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
-        android:text="@string/prestadores"
-        android:onClick="btn_main_to_prestadores"
         android:background="@drawable/retangle_border_view_2"
+        android:onClick="btn_main_to_prestadores"
+        android:text="@string/prestadores"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnGerenciaCardsMain" />
 
     <Button
         android:id="@+id/btnSolicitacoesMain"
-        android:layout_width="380dp"
-        android:layout_height="150dp"
+        android:layout_width="0dp"
+        android:layout_height="130dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
-        android:text="@string/solicita_es"
-        android:onClick="btn_main_to_solicitacoes"
         android:background="@drawable/retangle_border_view_2"
+        android:onClick="btn_main_to_solicitacoes"
+        android:text="@string/solicita_es"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnServicosMain" />
+
+    <Button
+        android:id="@+id/btnServicosMain"
+        android:layout_width="0dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/retangle_border_view_2"
+        android:onClick="btn_main_to_servicos"
+        android:text="Servicos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnPrestadoresMain" />

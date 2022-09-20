@@ -27,8 +27,10 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.533"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPrestador" />
+        app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPrestador"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/ttvValorServicoPrestador"
@@ -78,6 +80,20 @@
 
     <TextView
         android:id="@+id/idServicoPrestador"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:text="IdCardServ"
+        android:textAlignment="textStart"
+        android:textColor="#d5d5d5"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ttvNomeServicoPrestador" />
+
+    <TextView
+        android:id="@+id/idPrestador"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"

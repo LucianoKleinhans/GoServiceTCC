@@ -112,6 +112,8 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
                 onPedidoListener.RecusaPedido(getAdapterPosition(), id);
             }else if ("Cancelar Pedido".equals(text)){
                 onPedidoListener.CancelaPedido(getAdapterPosition(), id);
+            }else if ("Visualizar".equals(text)){
+                onPedidoListener.VisualizarPedido(getAdapterPosition(), id);
             }
         }
     }
@@ -119,6 +121,7 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
     public interface OnPedidoListener{
         void AceitaPedido (int position, Long id);
         void RecusaPedido (int position, Long id);
-        void CancelaPedido(int position, Long id);
+        void CancelaPedido (int position, Long id);
+        void VisualizarPedido (int position, Long id);
     }
 }

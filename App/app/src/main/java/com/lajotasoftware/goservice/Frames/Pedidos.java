@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterPedido;
 import com.lajotasoftware.goservice.Entity.Pedido;
+import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.MainActivity;
 import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.API;
@@ -28,7 +30,7 @@ import retrofit2.Response;
 
 public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.OnPedidoListener{
 
-    private Long idUsuario, idPrestador;
+    private Long idUsuario, idPrestador, idPedido;
     String status, parametro;
     Intent it;
 
@@ -53,7 +55,6 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         idUsuario = parametros.getLong("id_usuario");
         setContentView(R.layout.solicitacoes);
         initializeComponents();
-
     }
 
     private void initializeComponents() {
@@ -67,7 +68,6 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
 
     private void lista() {
         parametro = "ENVIADAS";
-
         btnEnviadas.setBackgroundColor(Color.parseColor("#204c6a"));
         btnRecebidas.setBackgroundColor(Color.parseColor("#153246"));
         btnEmProgresso.setBackgroundColor(Color.parseColor("#153246"));
@@ -267,10 +267,12 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         api = retrofitService.getRetrofit().create(API.class);
         pedido = new Pedido();
         pedido.setStatus("ACEITO");
+        idPedido = id;
         api.updatePedido(id,pedido).enqueue(new Callback<Pedido>() {
             @Override
             public void onResponse(Call<Pedido> call, Response<Pedido> response) {
                 Toast.makeText(Pedidos.this, "Pedido Aceito!", Toast.LENGTH_SHORT).show();
+                negociacaoDireta(idPedido);
             }
 
             @Override
@@ -280,6 +282,8 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         });
         lista();
     }
+
+
 
     @Override
     public void RecusaPedido(int position, Long id) {
@@ -321,11 +325,54 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         lista();
     }
 
+    @Override
+    public void VisualizarPedido(int position, Long id) {
+
+    }
+
     public void btn_cards_to_main(View view) {
         Intent it = new Intent(this, MainActivity.class);
         Bundle parametros = new Bundle();
         parametros.putLong("id_usuario", idUsuario);
         it.putExtras(parametros);
         startActivity(it);
+    }
+
+    private void negociacaoDireta(Long idServico) {
+        setContentView(R.layout.perfil_solicitacao);
+        MaterialTextView ttvCliente = findViewById(R.id.ttvUsernamePerfilSolicita);
+        MaterialTextView ttvClienteUF = findViewById(R.id.ttvCidadePerfilSolicita);
+        MaterialTextView ttvClienteEmail = findViewById(R.id.ttvEmailPerfilSolicita);
+        MaterialTextView ttvClienteTelefone = findViewById(R.id.ttvTelefonePerfilSolicita);
+        MaterialTextView ttvClientesite = findViewById(R.id.ttvSitePerfilSolicita);
+        MaterialTextView ttvClienteServicoNome = findViewById(R.id.ttvServicoPerfilSolicita);
+        MaterialTextView ttvClienteServicoDesc = findViewById(R.id.ttvDescServicoPerfilSolicita);
+        MaterialTextView ttvClienteServicoValor = findViewById(R.id.ttvValorServicoPerfilSolicita);
+        MaterialButton btnSeguirNegociacao = findViewById(R.id.btnSegueNegociacaoPerfilSolicita);
+
+
+        retrofitService = new RetrofitService();
+        api = retrofitService.getRetrofit().create(API.class);
+        api.getPedidoById(idServico).enqueue(new Callback<Pedido>() {
+            @Override
+            public void onResponse(Call<Pedido> call, Response<Pedido> response) {
+                if (response.body()!=null) {
+                    ttvCliente.setText(response.body().getId_Cliente().getPrimeiroNome());
+                    ttvClienteUF.setText(response.body().getId_Cliente().getUf());
+                    ttvClienteEmail.setText(response.body().getId_Cliente().getEmail());
+                    ttvClienteTelefone.setText(response.body().getId_Cliente().getTelefone());
+                    ttvClientesite.setText(response.body().getId_Cliente().getSite());
+                    ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
+                    ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
+                    ttvClienteServicoValor.setText("Valor: R$"+response.body().getId_Servico().getValor().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Pedido> call, Throwable t) {
+
+            }
+        });
+
     }
 }
