@@ -1,7 +1,10 @@
 package com.lajotasoftware.goservice.Frames;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -15,6 +18,8 @@ import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterPedido;
 import com.lajotasoftware.goservice.Entity.Pedido;
 import com.lajotasoftware.goservice.Entity.Servico;
+import com.lajotasoftware.goservice.Entity.Usuario;
+import com.lajotasoftware.goservice.Functions.Function;
 import com.lajotasoftware.goservice.MainActivity;
 import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.API;
@@ -42,9 +47,12 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
     MaterialButton btnEmProgresso;
     MaterialButton btnFinalizado;
 
+    String nomeCliente,nomePrestador,telefone,servico,descservico,valor;
+
     RetrofitService retrofitService;
     API api;
     Pedido pedido;
+    Function function;
     Date date = new Date();
 
     @Override
@@ -283,8 +291,6 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         lista();
     }
 
-
-
     @Override
     public void RecusaPedido(int position, Long id) {
         retrofitService = new RetrofitService();
@@ -327,7 +333,29 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
 
     @Override
     public void VisualizarPedido(int position, Long id) {
+        negociacaoDireta(idPedido);
+    }
 
+    @Override
+    public void FinalizarPedido(int adapterPosition, Long id, Long idCliente, Long idPrestador) {
+        AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Solicitar Serviço");
+        alertDialogBuilder
+                .setMessage("Clique sim para solicitar esse serviço!")
+                .setCancelable(false)
+                .setPositiveButton("Sim",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int idd) {
+
+                            }
+                        })
+                .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     public void btn_cards_to_main(View view) {
@@ -350,7 +378,6 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         MaterialTextView ttvClienteServicoValor = findViewById(R.id.ttvValorServicoPerfilSolicita);
         MaterialButton btnSeguirNegociacao = findViewById(R.id.btnSegueNegociacaoPerfilSolicita);
 
-
         retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
         api.getPedidoById(idServico).enqueue(new Callback<Pedido>() {
@@ -365,6 +392,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                     ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
                     ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
                     ttvClienteServicoValor.setText("Valor: R$"+response.body().getId_Servico().getValor().toString());
+                    nomePrestador = response.body().getId_Prestador().getPrimeiroNome();
                 }
             }
 
@@ -372,6 +400,54 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
             public void onFailure(Call<Pedido> call, Throwable t) {
 
             }
+        });
+
+        btnSeguirNegociacao.setOnClickListener(view -> {
+            nomeCliente = ttvCliente.getText().toString();
+            nomeCliente = nomeCliente.replace(" ", "%20");
+            nomePrestador = nomePrestador.replace(" ", "%20");
+            telefone = ttvClienteTelefone.getText().toString();
+            telefone = telefone.replace(" ", "%20");
+            servico = ttvClienteServicoNome.getText().toString();
+            servico = servico.replace(" ", "%20");
+            descservico = ttvClienteServicoDesc.getText().toString();
+            descservico = descservico.replace(" ", "%20");
+            valor = ttvClienteServicoValor.getText().toString();
+            valor = valor.replace(" ", "%20");
+
+            String url =
+                    "https://api.whatsapp.com/send?phone=55"+telefone
+                    +"&text=Ol%C3%A1%2C%20"+nomeCliente
+                    +"%2C%20sou%20o%20"+nomePrestador
+                    +"%2C%20Prestador%20de%20Servi%C3%A7o%20no%20aplicativo%20GO%20SERVICE.%0A%0A*Sua%20solicita%C3%A7%C3%A3o%20foi%20aceita.*"
+                    +"%0A%0AServi%C3%A7o%3A%20"+servico+"."
+                    +"%0ADescricao%3A%20"+descservico+"."
+                    +"%0A"+valor+"."
+                    +"%0A%0A*Vamos%20Marcar%20%3F*";
+
+            retrofitService = new RetrofitService();
+            api = retrofitService.getRetrofit().create(API.class);
+            pedido = new Pedido();
+            pedido.setStatus("ACEITO");
+            api.updatePedido(idServico,pedido).enqueue(new Callback<Pedido>() {
+                @Override
+                public void onResponse(Call<Pedido> call, Response<Pedido> response) {
+                    Toast.makeText(Pedidos.this, "Pedido Aceito!", Toast.LENGTH_SHORT).show();
+                    it = new Intent(Intent.ACTION_VIEW);
+                    it.setData(Uri.parse(url));
+                    startActivity(it);
+                }
+
+                @Override
+                public void onFailure(Call<Pedido> call, Throwable t) {
+                    Toast.makeText(Pedidos.this, "Falha ao Aceitar o Pedido!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            it = new Intent(this, MainActivity.class);
+            Bundle parametros = new Bundle();
+            parametros.putLong("id_usuario", idUsuario);
+            it.putExtras(parametros);
+            startActivity(it);
         });
 
     }

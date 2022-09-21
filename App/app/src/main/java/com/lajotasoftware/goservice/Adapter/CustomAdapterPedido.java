@@ -50,6 +50,8 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
         myViewHolder.valorServicoPedido.setText("Valor: R$"+pedidosList.get(position).getId_Servico().getValor().toString());
         myViewHolder.position = position;
         myViewHolder.id = pedidosList.get(position).getId();
+        myViewHolder.idCliente = pedidosList.get(position).getId_Cliente().getId();
+        myViewHolder.idPrestador = pedidosList.get(position).getId_Prestador().getId();
     }
 
     @Override
@@ -60,7 +62,7 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
 
         private Card card = new Card();
         public int position;
-        public Long id;
+        public Long id, idCliente, idPrestador;
         TextView idPedido;
         TextView clientePedido;
         TextView servicoPedido;
@@ -78,27 +80,32 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
             itemView.findViewById(R.id.btnRecusaPedido).setOnClickListener(this);
             itemView.findViewById(R.id.btnCancelaPedido).setOnClickListener(this);
             itemView.findViewById(R.id.btnVisualizarPedido).setOnClickListener(this);
+            itemView.findViewById(R.id.btnFinalizaServico).setOnClickListener(this);
 
             if (parametro.equals("ENVIADAS")) {
                 itemView.findViewById(R.id.btnAceitaPedido).setVisibility(View.INVISIBLE);
                 itemView.findViewById(R.id.btnRecusaPedido).setVisibility(View.INVISIBLE);
                 itemView.findViewById(R.id.btnVisualizarPedido).setVisibility(View.INVISIBLE);
                 itemView.findViewById(R.id.btnCancelaPedido).setVisibility(View.VISIBLE);
+                itemView.findViewById(R.id.btnFinalizaServico).setVisibility(View.INVISIBLE);
             }else if (parametro.equals("RECEBIDAS")) {
                 itemView.findViewById(R.id.btnAceitaPedido).setVisibility(View.VISIBLE);
                 itemView.findViewById(R.id.btnRecusaPedido).setVisibility(View.VISIBLE);
                 itemView.findViewById(R.id.btnVisualizarPedido).setVisibility(View.INVISIBLE);
                 itemView.findViewById(R.id.btnCancelaPedido).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnFinalizaServico).setVisibility(View.INVISIBLE);
             }else if (parametro.equals("PROGRESSO")) {
                 itemView.findViewById(R.id.btnAceitaPedido).setVisibility(View.INVISIBLE);
                 itemView.findViewById(R.id.btnRecusaPedido).setVisibility(View.INVISIBLE);
                 itemView.findViewById(R.id.btnVisualizarPedido).setVisibility(View.VISIBLE);
                 itemView.findViewById(R.id.btnCancelaPedido).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnFinalizaServico).setVisibility(View.VISIBLE);
             }else if (parametro.equals("FINALIZADO")) {
                 itemView.findViewById(R.id.btnAceitaPedido).setVisibility(View.INVISIBLE);
                 itemView.findViewById(R.id.btnRecusaPedido).setVisibility(View.INVISIBLE);
                 itemView.findViewById(R.id.btnVisualizarPedido).setVisibility(View.INVISIBLE);
                 itemView.findViewById(R.id.btnCancelaPedido).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnFinalizaServico).setVisibility(View.INVISIBLE);
             }
         }
 
@@ -114,6 +121,8 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
                 onPedidoListener.CancelaPedido(getAdapterPosition(), id);
             }else if ("Visualizar".equals(text)){
                 onPedidoListener.VisualizarPedido(getAdapterPosition(), id);
+            }else if ("Finalizar".equals(text)){
+                onPedidoListener.FinalizarPedido(getAdapterPosition(), id, idCliente, idPrestador);
             }
         }
     }
@@ -123,5 +132,6 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
         void RecusaPedido (int position, Long id);
         void CancelaPedido (int position, Long id);
         void VisualizarPedido (int position, Long id);
+        void FinalizarPedido(int adapterPosition, Long id, Long idCliente, Long idPrestador);
     }
 }
