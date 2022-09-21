@@ -1,12 +1,19 @@
 package com.lajotasoftware.goservice.Frames;
 
+import static android.graphics.Color.TRANSPARENT;
+
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +45,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
     private Long idUsuario, idPrestador, idPedido;
     String status, parametro;
     Intent it;
+    Dialog dialog;
 
     CustomAdapterPedido customAdapter;
     RecyclerView recyclerView;
@@ -66,6 +74,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
     }
 
     private void initializeComponents() {
+        dialog = new Dialog(this);
         recyclerView = findViewById(R.id.listaPedido);
         btnEnviadas = findViewById(R.id.btnPedidosEnviados);
         btnRecebidas = findViewById(R.id.btnPedidosRecebidas);
@@ -97,6 +106,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                         pedido.setId(response.body().get(i - 1).getId());
                         pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
                         pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
+                        pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
                         pedidos.add(pedido);
                     }
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -136,6 +146,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                         pedido.setId(response.body().get(i - 1).getId());
                         pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
                         pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
+                        pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
                         pedidos.add(pedido);
                     }
                 }
@@ -175,6 +186,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                         pedido.setId(response.body().get(i - 1).getId());
                         pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
                         pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
+                        pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
                         pedidos.add(pedido);
                     }
                 }
@@ -214,6 +226,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                         pedido.setId(response.body().get(i - 1).getId());
                         pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
                         pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
+                        pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
                         pedidos.add(pedido);
                     }
                 }
@@ -253,6 +266,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                         pedido.setId(response.body().get(i - 1).getId());
                         pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
                         pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
+                        pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
                         pedidos.add(pedido);
                     }
                 }
@@ -338,24 +352,80 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
 
     @Override
     public void FinalizarPedido(int adapterPosition, Long id, Long idCliente, Long idPrestador) {
-        AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle("Solicitar Serviço");
-        alertDialogBuilder
-                .setMessage("Clique sim para solicitar esse serviço!")
-                .setCancelable(false)
-                .setPositiveButton("Sim",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int idd) {
+        dialog.setContentView(R.layout.z_custom_alertdialog_avaliacao);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                            }
-                        })
-                .setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+        MaterialButton btnConfirma = dialog.findViewById(R.id.btnConfirmaAvaliacao);
+        ImageView star_1 = dialog.findViewById(R.id.star_1_avaliacao);
+        ImageView star_2 = dialog.findViewById(R.id.star_2_avaliacao);
+        ImageView star_3 = dialog.findViewById(R.id.star_3_avaliacao);
+        ImageView star_4 = dialog.findViewById(R.id.star_4_avaliacao);
+        ImageView star_5 = dialog.findViewById(R.id.star_5_avaliacao);
+
+        star_1.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            @Override
+            public void onClick(View view) {
+                star_1.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_2.setBackground(getDrawable(R.drawable.ic_star));
+                star_3.setBackground(getDrawable(R.drawable.ic_star));
+                star_4.setBackground(getDrawable(R.drawable.ic_star));
+                star_5.setBackground(getDrawable(R.drawable.ic_star));
+            }
+        });
+        star_2.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            @Override
+            public void onClick(View view) {
+                star_1.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_2.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_3.setBackground(getDrawable(R.drawable.ic_star));
+                star_4.setBackground(getDrawable(R.drawable.ic_star));
+                star_5.setBackground(getDrawable(R.drawable.ic_star));
+            }
+        });
+        star_3.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            @Override
+            public void onClick(View view) {
+                star_1.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_2.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_3.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_4.setBackground(getDrawable(R.drawable.ic_star));
+                star_5.setBackground(getDrawable(R.drawable.ic_star));
+            }
+        });
+        star_4.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            @Override
+            public void onClick(View view) {
+                star_1.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_2.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_3.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_4.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_5.setBackground(getDrawable(R.drawable.ic_star));
+            }
+        });
+        star_5.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            @Override
+            public void onClick(View view) {
+                star_1.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_2.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_3.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_4.setBackground(getDrawable(R.drawable.ic_star_gold));
+                star_5.setBackground(getDrawable(R.drawable.ic_star_gold));
+            }
+        });
+
+
+        btnConfirma.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        dialog.show();
     }
 
     public void btn_cards_to_main(View view) {

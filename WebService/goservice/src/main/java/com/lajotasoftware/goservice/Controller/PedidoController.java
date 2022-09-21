@@ -77,4 +77,26 @@ public class PedidoController {
     public List<Pedido> getPedidosFinalizados(@PathVariable Long id){
         return repository.getPedidosFinalizados(id);
     }
+
+    /*
+    @PostMapping("/pedidosprogressocliente/{id}")
+    public List<Pedido> getPedidosEmProgressoCliente(@PathVariable Long id){
+        return repository.getPedidosEmProgressoCliente(id);
+    }
+
+    @PostMapping("/pedidosprogressoprestador/{id}")
+    public List<Pedido> getPedidosEmProgressoPrestador(@PathVariable Long id){
+        return repository.getPedidosEmProgressoPrestador(id);
+    }
+
+    @PostMapping("/pedidosfinalizadocliente/{id}")
+    public List<Pedido> getPedidosFinalizadosCliente(@PathVariable Long id){
+        return repository.getPedidosFinalizadosCliente(id);
+    }
+
+    @PostMapping("/pedidosfinalizadoprestador/{id}")
+    public List<Pedido> getPedidosFinalizadosPrestador(@PathVariable Long id){
+        return repository.getPedidosFinalizadosPrestador(id);
+    }
+     */
 }
