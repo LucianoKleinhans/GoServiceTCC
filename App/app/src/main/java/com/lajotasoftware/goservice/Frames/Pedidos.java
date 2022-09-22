@@ -46,6 +46,8 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
     String status, parametro;
     Intent it;
     Dialog dialog;
+    Double avaliacao;
+    String url;
 
     CustomAdapterPedido customAdapter;
     RecyclerView recyclerView;
@@ -107,6 +109,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                         pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
                         pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
                         pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
+                        pedido.setStatus(response.body().get(i - 1).getStatus());
                         pedidos.add(pedido);
                     }
                     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -147,6 +150,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                         pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
                         pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
                         pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
+                        pedido.setStatus(response.body().get(i - 1).getStatus());
                         pedidos.add(pedido);
                     }
                 }
@@ -187,6 +191,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                         pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
                         pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
                         pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
+                        pedido.setStatus(response.body().get(i - 1).getStatus());
                         pedidos.add(pedido);
                     }
                 }
@@ -227,6 +232,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                         pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
                         pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
                         pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
+                        pedido.setStatus(response.body().get(i - 1).getStatus());
                         pedidos.add(pedido);
                     }
                 }
@@ -267,6 +273,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                         pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
                         pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
                         pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
+                        pedido.setStatus(response.body().get(i - 1).getStatus());
                         pedidos.add(pedido);
                     }
                 }
@@ -295,6 +302,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
             public void onResponse(Call<Pedido> call, Response<Pedido> response) {
                 Toast.makeText(Pedidos.this, "Pedido Aceito!", Toast.LENGTH_SHORT).show();
                 negociacaoDireta(idPedido);
+                lista();
             }
 
             @Override
@@ -302,7 +310,6 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 Toast.makeText(Pedidos.this, "Falha ao aceitar pedido!", Toast.LENGTH_SHORT).show();
             }
         });
-        lista();
     }
 
     @Override
@@ -315,6 +322,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
             @Override
             public void onResponse(Call<Pedido> call, Response<Pedido> response) {
                 Toast.makeText(Pedidos.this, "Pedido Recusado!", Toast.LENGTH_SHORT).show();
+                lista();
             }
 
             @Override
@@ -322,7 +330,6 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 Toast.makeText(Pedidos.this, "Falha ao Recusar Pedido!", Toast.LENGTH_SHORT).show();
             }
         });
-        lista();
     }
 
     @Override
@@ -335,6 +342,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
             @Override
             public void onResponse(Call<Pedido> call, Response<Pedido> response) {
                 Toast.makeText(Pedidos.this, "Pedido Cancelado!", Toast.LENGTH_SHORT).show();
+                lista();
             }
 
             @Override
@@ -342,12 +350,11 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 Toast.makeText(Pedidos.this, "Falha ao Recusar Pedido!", Toast.LENGTH_SHORT).show();
             }
         });
-        lista();
     }
 
     @Override
     public void VisualizarPedido(int position, Long id) {
-        negociacaoDireta(idPedido);
+        negociacaoDireta(id);
     }
 
     @Override
@@ -371,6 +378,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 star_3.setBackground(getDrawable(R.drawable.ic_star));
                 star_4.setBackground(getDrawable(R.drawable.ic_star));
                 star_5.setBackground(getDrawable(R.drawable.ic_star));
+                avaliacao = 1.0;
             }
         });
         star_2.setOnClickListener(new View.OnClickListener() {
@@ -382,6 +390,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 star_3.setBackground(getDrawable(R.drawable.ic_star));
                 star_4.setBackground(getDrawable(R.drawable.ic_star));
                 star_5.setBackground(getDrawable(R.drawable.ic_star));
+                avaliacao = 2.0;
             }
         });
         star_3.setOnClickListener(new View.OnClickListener() {
@@ -393,6 +402,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 star_3.setBackground(getDrawable(R.drawable.ic_star_gold));
                 star_4.setBackground(getDrawable(R.drawable.ic_star));
                 star_5.setBackground(getDrawable(R.drawable.ic_star));
+                avaliacao = 3.0;
             }
         });
         star_4.setOnClickListener(new View.OnClickListener() {
@@ -404,6 +414,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 star_3.setBackground(getDrawable(R.drawable.ic_star_gold));
                 star_4.setBackground(getDrawable(R.drawable.ic_star_gold));
                 star_5.setBackground(getDrawable(R.drawable.ic_star));
+                avaliacao = 4.0;
             }
         });
         star_5.setOnClickListener(new View.OnClickListener() {
@@ -415,6 +426,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 star_3.setBackground(getDrawable(R.drawable.ic_star_gold));
                 star_4.setBackground(getDrawable(R.drawable.ic_star_gold));
                 star_5.setBackground(getDrawable(R.drawable.ic_star_gold));
+                avaliacao = 5.0;
             }
         });
 
@@ -422,7 +434,43 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         btnConfirma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(Pedidos.this);
+                alertDialogBuilder.setTitle("Avaliação");
+                alertDialogBuilder
+                        .setMessage("Clique sim para confirmar sua Avaliação!")
+                        .setCancelable(false)
+                        .setPositiveButton("Sim",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int idd) {
+                                        retrofitService = new RetrofitService();
+                                        api = retrofitService.getRetrofit().create(API.class);
+                                        pedido = new Pedido();
+                                        if (idUsuario.equals(idCliente)){
+                                            pedido.setAvaliacaoPrestador(avaliacao);
+                                        }else if (idUsuario.equals(idPrestador)){
+                                            pedido.setAvaliacaoCliente(avaliacao);
+                                        }
+                                        pedido.setStatus("FINALIZADO");
+                                        api.updatePedido(id,pedido).enqueue(new Callback<Pedido>() {
+                                            @Override
+                                            public void onResponse(Call<Pedido> call, Response<Pedido> response) {
+                                                onBackPressed();
+                                            }
 
+                                            @Override
+                                            public void onFailure(Call<Pedido> call, Throwable t) {
+
+                                            }
+                                        });
+                                    }
+                                })
+                        .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         });
         dialog.show();
@@ -436,7 +484,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         startActivity(it);
     }
 
-    private void negociacaoDireta(Long idServico) {
+    private void negociacaoDireta(Long id) {
         setContentView(R.layout.perfil_solicitacao);
         MaterialTextView ttvCliente = findViewById(R.id.ttvUsernamePerfilSolicita);
         MaterialTextView ttvClienteUF = findViewById(R.id.ttvCidadePerfilSolicita);
@@ -450,19 +498,33 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
 
         retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
-        api.getPedidoById(idServico).enqueue(new Callback<Pedido>() {
+        api.getPedidoById(id).enqueue(new Callback<Pedido>() {
             @Override
             public void onResponse(Call<Pedido> call, Response<Pedido> response) {
                 if (response.body()!=null) {
-                    ttvCliente.setText(response.body().getId_Cliente().getPrimeiroNome());
-                    ttvClienteUF.setText(response.body().getId_Cliente().getUf());
-                    ttvClienteEmail.setText(response.body().getId_Cliente().getEmail());
-                    ttvClienteTelefone.setText(response.body().getId_Cliente().getTelefone());
-                    ttvClientesite.setText(response.body().getId_Cliente().getSite());
-                    ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
-                    ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
-                    ttvClienteServicoValor.setText("Valor: R$"+response.body().getId_Servico().getValor().toString());
-                    nomePrestador = response.body().getId_Prestador().getPrimeiroNome();
+                    nomeCliente = "";
+                    nomePrestador = "";
+                    if (idUsuario.equals(response.body().getId_Cliente().getId())){
+                        ttvCliente.setText(response.body().getId_Prestador().getPrimeiroNome());
+                        ttvClienteUF.setText(response.body().getId_Prestador().getUf());
+                        ttvClienteEmail.setText(response.body().getId_Prestador().getEmail());
+                        ttvClienteTelefone.setText(response.body().getId_Prestador().getTelefone());
+                        ttvClientesite.setText(response.body().getId_Prestador().getSite());
+                        ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
+                        ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
+                        ttvClienteServicoValor.setText("Valor: R$"+response.body().getId_Servico().getValor().toString());
+                        nomeCliente = response.body().getId_Cliente().getPrimeiroNome();
+                    }else{
+                        ttvCliente.setText(response.body().getId_Cliente().getPrimeiroNome());
+                        ttvClienteUF.setText(response.body().getId_Cliente().getUf());
+                        ttvClienteEmail.setText(response.body().getId_Cliente().getEmail());
+                        ttvClienteTelefone.setText(response.body().getId_Cliente().getTelefone());
+                        ttvClientesite.setText(response.body().getId_Cliente().getSite());
+                        ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
+                        ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
+                        ttvClienteServicoValor.setText("Valor: R$"+response.body().getId_Servico().getValor().toString());
+                        nomePrestador = response.body().getId_Prestador().getPrimeiroNome();
+                    }
                 }
             }
 
@@ -473,33 +535,57 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         });
 
         btnSeguirNegociacao.setOnClickListener(view -> {
-            nomeCliente = ttvCliente.getText().toString();
-            nomeCliente = nomeCliente.replace(" ", "%20");
-            nomePrestador = nomePrestador.replace(" ", "%20");
-            telefone = ttvClienteTelefone.getText().toString();
-            telefone = telefone.replace(" ", "%20");
-            servico = ttvClienteServicoNome.getText().toString();
-            servico = servico.replace(" ", "%20");
-            descservico = ttvClienteServicoDesc.getText().toString();
-            descservico = descservico.replace(" ", "%20");
-            valor = ttvClienteServicoValor.getText().toString();
-            valor = valor.replace(" ", "%20");
+            if (!(nomeCliente.equals(""))) {
+                nomePrestador = ttvCliente.getText().toString();
+                nomePrestador = nomeCliente.replace(" ", "%20");
+                nomeCliente = nomeCliente.replace(" ", "%20");
+                telefone = ttvClienteTelefone.getText().toString();
+                telefone = telefone.replace(" ", "%20");
+                servico = ttvClienteServicoNome.getText().toString();
+                servico = servico.replace(" ", "%20");
+                descservico = ttvClienteServicoDesc.getText().toString();
+                descservico = descservico.replace(" ", "%20");
+                valor = ttvClienteServicoValor.getText().toString();
+                valor = valor.replace(" ", "%20");
 
-            String url =
-                    "https://api.whatsapp.com/send?phone=55"+telefone
-                    +"&text=Ol%C3%A1%2C%20"+nomeCliente
-                    +"%2C%20sou%20o%20"+nomePrestador
-                    +"%2C%20Prestador%20de%20Servi%C3%A7o%20no%20aplicativo%20GO%20SERVICE.%0A%0A*Sua%20solicita%C3%A7%C3%A3o%20foi%20aceita.*"
-                    +"%0A%0AServi%C3%A7o%3A%20"+servico+"."
-                    +"%0ADescricao%3A%20"+descservico+"."
-                    +"%0A"+valor+"."
-                    +"%0A%0A*Vamos%20Marcar%20%3F*";
+                url =
+                        "https://api.whatsapp.com/send?phone=55"+telefone
+                                +"&text=Ol%C3%A1%2C%20"+nomePrestador
+                                +"%2C%20sou%20o%20"+nomeCliente
+                                +"%2C%20Usuario%20do%20aplicativo%20GO%20SERVICE."
+                                +"%0A%0AServi%C3%A7o%3A%20"+servico+"."
+                                +"%0ADescricao%3A%20"+descservico+"."
+                                +"%0A"+valor+"."
+                                +"%0A%0A*Vamos%20Marcar%20%3F*";
+            }else if (!(nomePrestador.equals(""))) {
+                nomeCliente = ttvCliente.getText().toString();
+                nomeCliente = nomeCliente.replace(" ", "%20");
+                nomePrestador = nomePrestador.replace(" ", "%20");
+                telefone = ttvClienteTelefone.getText().toString();
+                telefone = telefone.replace(" ", "%20");
+                servico = ttvClienteServicoNome.getText().toString();
+                servico = servico.replace(" ", "%20");
+                descservico = ttvClienteServicoDesc.getText().toString();
+                descservico = descservico.replace(" ", "%20");
+                valor = ttvClienteServicoValor.getText().toString();
+                valor = valor.replace(" ", "%20");
+
+                url =
+                        "https://api.whatsapp.com/send?phone=55"+telefone
+                                +"&text=Ol%C3%A1%2C%20"+nomeCliente
+                                +"%2C%20sou%20o%20"+nomePrestador
+                                +"%2C%20Prestador%20de%20Servi%C3%A7o%20no%20aplicativo%20GO%20SERVICE.%0A%0A*Sua%20solicita%C3%A7%C3%A3o%20foi%20aceita.*"
+                                +"%0A%0AServi%C3%A7o%3A%20"+servico+"."
+                                +"%0ADescricao%3A%20"+descservico+"."
+                                +"%0A"+valor+"."
+                                +"%0A%0A*Vamos%20Marcar%20%3F*";
+            }
 
             retrofitService = new RetrofitService();
             api = retrofitService.getRetrofit().create(API.class);
             pedido = new Pedido();
             pedido.setStatus("ACEITO");
-            api.updatePedido(idServico,pedido).enqueue(new Callback<Pedido>() {
+            api.updatePedido(id,pedido).enqueue(new Callback<Pedido>() {
                 @Override
                 public void onResponse(Call<Pedido> call, Response<Pedido> response) {
                     Toast.makeText(Pedidos.this, "Pedido Aceito!", Toast.LENGTH_SHORT).show();

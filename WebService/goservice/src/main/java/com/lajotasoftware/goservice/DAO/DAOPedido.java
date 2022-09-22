@@ -16,14 +16,14 @@ public interface DAOPedido extends JpaRepository<Pedido, Long> {
     @Query(value = "select * from pedido p where p.id_cliente_id = ?1 and p.servico_solicitado = true and p.status = 'ABERTO'", nativeQuery = true)
     List<Pedido> getPedidosCliente(Long id);
 
-    @Query(value = "select * from pedido p where p.id_cliente_id = ?1 or p.id_prestador_id = ?1 and p.servico_solicitado = true and p.status = 'ACEITO'", nativeQuery = true)
+    @Query(value = "select * from pedido p where (p.id_cliente_id = ?1 or p.id_prestador_id = ?1) and p.servico_solicitado = true and p.status = 'ACEITO'", nativeQuery = true)
     List<Pedido> getPedidosEmProgresso(Long id);
 
-    @Query(value = "select * from pedido p where p.id_cliente_id = ?1 or p.id_prestador_id = ?1 and p.servico_solicitado = true and p.status = 'RECUSADO' or p.status = 'FINALIZADO' or p.status = 'CANCELADO'", nativeQuery = true)
+    @Query(value = "select * from pedido p where (p.id_cliente_id = ?1 or p.id_prestador_id = ?1) and p.servico_solicitado = true and (p.status = 'RECUSADO' or p.status = 'FINALIZADO' or p.status = 'CANCELADO')", nativeQuery = true)
     List<Pedido> getPedidosFinalizados(Long id);
 
     @Query(value = "select * from pedido p where p.id = ?1", nativeQuery = true)
-    Pedido getPedidoById(Long id);
+    Pedido getPedidoId(Long id);
 
 
     /*

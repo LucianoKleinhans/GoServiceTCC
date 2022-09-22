@@ -158,6 +158,7 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
                         servico.setNome(response.body().get(i - 1).getNome());
                         servico.setObsServico(response.body().get(i - 1).getObsServico());
                         servico.setValor(response.body().get(i - 1).getValor());
+                        servico.setId_Prestador(response.body().get(i - 1).getId_Prestador());
                         servicosPrestador.add(servico);
                     }
                     LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getApplicationContext());

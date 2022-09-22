@@ -70,11 +70,9 @@
         android:layout_height="48dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:backgroundTint="#750709"
         android:text="Recusar "
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnAceitaPedido"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPedido" />
@@ -86,11 +84,9 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
         android:backgroundTint="#009f10"
         android:text="Aceitar"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnRecusaPedido"
         app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPedido" />
@@ -162,11 +158,9 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
         android:backgroundTint="#750709"
         android:text="Cancelar Pedido"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPedido" />
@@ -176,10 +170,10 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:backgroundTint="#30739f"
         android:text="Visualizar"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnFinalizaServico"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPedido" />
@@ -191,13 +185,27 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
         android:backgroundTint="#bd7500"
         android:text="Finalizar"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnVisualizarPedido"
-        app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPedido"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPedido" />
+
+    <TextView
+        android:id="@+id/ttvStatusPedido"
+        android:layout_width="0dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view_4"
+        android:text="Status: "
+        android:textAlignment="center"
+        android:textColor="#d5d5d5"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPedido" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

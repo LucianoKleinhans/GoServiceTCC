@@ -24,7 +24,7 @@ public class PedidoController {
 
     @PostMapping("/pedido/{id}")
     public Pedido getPedidoById(@PathVariable Long id){
-        return repository.getPedidoById(id);
+        return repository.getPedidoId(id);
     }
 
     @PostMapping("/pedido")
