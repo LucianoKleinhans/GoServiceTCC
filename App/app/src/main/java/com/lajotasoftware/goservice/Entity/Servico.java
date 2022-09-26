@@ -7,8 +7,8 @@ import java.util.List;
 public class Servico {
     private Long id;
     private String nome;
-    private String categoria;
-    private String subCategoria;
+    private Categoria categoria;
+    private SubCategoria subCategoria;
     private Double valor;
     private String obsServico;
     private Usuario id_Prestador;
@@ -41,19 +41,19 @@ public class Servico {
         this.nome = nome;
     }
 
-    public String getCategoria() {
+    public Categoria getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
+    public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
 
-    public String getSubCategoria() {
+    public SubCategoria getSubCategoria() {
         return subCategoria;
     }
 
-    public void setSubCategoria(String subCategoria) {
+    public void setSubCategoria(SubCategoria subCategoria) {
         this.subCategoria = subCategoria;
     }
 

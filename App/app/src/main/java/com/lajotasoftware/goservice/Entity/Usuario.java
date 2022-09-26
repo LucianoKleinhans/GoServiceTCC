@@ -23,6 +23,7 @@ public class Usuario {
     private Boolean prestador;
     private Boolean ativo;
     private String bio;
+    private Boolean master;
 
     public void setUsuario(Usuario usuario){
         this.id = usuario.getId();
@@ -47,6 +48,7 @@ public class Usuario {
         this.prestador = usuario.getPrestador();
         this.ativo = usuario.getAtivo();
         this.bio = usuario.getBio();
+        this.master = usuario.getMaster();
     };
 
     public Long getId() {
@@ -225,5 +227,11 @@ public class Usuario {
         this.bio = bio;
     }
 
+    public Boolean getMaster() {
+        return master;
+    }
 
+    public void setMaster(Boolean master) {
+        this.master = master;
+    }
 }

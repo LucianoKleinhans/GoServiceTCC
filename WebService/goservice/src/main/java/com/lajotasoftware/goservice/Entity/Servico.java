@@ -15,8 +15,12 @@ public class Servico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String categoria;
-    private String subCategoria;
+
+    @ManyToOne
+    private Categoria id_Categoria;
+
+    @ManyToOne
+    private SubCategoria id_SubCategoria;
     private Double valor;
     private String obsServico;
 
@@ -33,12 +37,12 @@ public class Servico {
         }
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setId_Categoria(Categoria id_Categoria) {
+        this.id_Categoria = id_Categoria;
     }
 
-    public void setSubCategoria(String subCategoria) {
-        this.subCategoria = subCategoria;
+    public void setId_SubCategoria(SubCategoria id_SubCategoria) {
+        this.id_SubCategoria = id_SubCategoria;
     }
 
     public void setValor(Double valor) {
@@ -52,4 +56,6 @@ public class Servico {
     public void setId_Prestador(Usuario id_Prestador) {
         this.id_Prestador = id_Prestador;
     }
+
+
 }

@@ -90,7 +90,7 @@
         <item>SE</item>
         <item>TO</item>
     </string-array>
-    <string-array name="categoria_servico">
+    <!--<string-array name="categoria_servico">
         <item> </item>
         <item>Informática</item>
         <item>Marcenaria</item>
@@ -112,7 +112,7 @@
         <item>Montagem de móvel</item>
         <item>Desmontagem de móvel</item>
         <item>Montagem/Desmontagem de móvel</item>
-    </string-array>
+    </string-array>-->
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

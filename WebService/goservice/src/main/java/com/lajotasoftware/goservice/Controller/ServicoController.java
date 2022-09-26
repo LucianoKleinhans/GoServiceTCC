@@ -42,8 +42,8 @@ public class ServicoController {
                     if(servico.getId_Prestador()!=null){record.setId_Prestador(servico.getId_Prestador());}
                     if(servico.getId()!=null){record.setId(servico.getId());}
                     if(servico.getNome()!=null){record.setNome(servico.getNome());}
-                    if(servico.getCategoria()!=null){record.setCategoria(servico.getCategoria());}
-                    if(servico.getSubCategoria()!=null){record.setSubCategoria(servico.getSubCategoria());}
+                    if(servico.getId_Categoria()!=null){record.setId_Categoria(servico.getId_Categoria());}
+                    if(servico.getId_SubCategoria()!=null){record.setId_SubCategoria(servico.getId_SubCategoria());}
                     if(servico.getValor()!=null){record.setValor(servico.getValor());}
                     if(servico.getObsServico()!=null){record.setObsServico(servico.getObsServico());}
                     Servico updated = repository.save(record);

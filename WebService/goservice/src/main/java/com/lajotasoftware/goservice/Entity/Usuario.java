@@ -40,6 +40,7 @@ public class Usuario {
     private Boolean prestador;
     private Boolean ativo;
 
+    private Boolean master;
     private String Bio;
 
     public Long getId() {

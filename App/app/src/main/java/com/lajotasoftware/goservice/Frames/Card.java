@@ -179,7 +179,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         MaterialButton btn_cancelar_cardservico = findViewById(R.id.btnCancelarCadServico);
 
         if (status.equals("CRIAR_CARTAO")) {
-            categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
+            /*categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.categoria_servico, android.R.layout.simple_spinner_item);
             categoria_servico.setAdapter(adapter);
 
@@ -210,10 +210,10 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                 public void onNothingSelected(AdapterView<?> adapterView) {
                     Toast.makeText(Card.this, "Nada Selecionado!", Toast.LENGTH_SHORT).show();
                 }
-            });
+            });*/
         }
         if (status.equals("EDITAR_CARTAO")) {
-            RetrofitService retrofitEditService = new RetrofitService();
+            /*RetrofitService retrofitEditService = new RetrofitService();
             usuarioAPI = retrofitEditService.getRetrofit().create(API.class);
             usuarioAPI.getCardServicoById(idCardServico).enqueue(new Callback<SolicitaServico>() {
                 @Override
@@ -258,7 +258,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                 public void onFailure(Call<SolicitaServico> call, Throwable t) {
                     Toast.makeText(Card.this, "Falha ao editar! \n Tente novamente. \n Se o problema persistir contate o suporte", Toast.LENGTH_SHORT).show();
                 }
-            });
+            });*/
         }
 
         btn_gravar_cardservico.setOnClickListener(view -> {

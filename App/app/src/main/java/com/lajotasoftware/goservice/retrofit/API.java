@@ -1,8 +1,10 @@
 package com.lajotasoftware.goservice.retrofit;
 
+import com.lajotasoftware.goservice.Entity.Categoria;
 import com.lajotasoftware.goservice.Entity.Pedido;
 import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
+import com.lajotasoftware.goservice.Entity.SubCategoria;
 import com.lajotasoftware.goservice.Entity.Usuario;
 
 import java.util.List;
@@ -107,4 +109,12 @@ public interface API {
 
     @PUT("/pedido/udpate/{id}")
     Call<Pedido> updatePedido(@Path("id")Long id,@Body Pedido pedido);
+
+    /*-------------------------Categoria/SubCategoria-----------------------------*/
+
+    @POST("/categoria")
+    Call<List<Categoria>> getAllCategoria();
+
+    @POST("/subcategoria/{id}")
+    Call<List<SubCategoria>> getSubCategoria(@Path("id") Long id);
 }

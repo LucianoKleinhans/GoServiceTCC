@@ -14,23 +14,34 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.lajotasoftware.goservice.Entity.Categoria;
 import com.lajotasoftware.goservice.Entity.Servico;
+import com.lajotasoftware.goservice.Entity.SubCategoria;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.Functions.Function;
 import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
 import com.lajotasoftware.goservice.retrofit.API;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Cadastro extends AppCompatActivity {
-    Long idUsuario, idPrestador, idServico;
+    Long idUsuario, idPrestador, idServico, idCategoria, idSubCategoria;
     String status;
     Intent it;
     Spinner uf, categoria_servico, sub_categoria_servico;
-    API usuarioAPI;
+    API api;
+
+    Categoria categoria;
+    SubCategoria subCategoria;
+    List<Categoria> categorias = new ArrayList<>();
+    List<SubCategoria> subCategorias = new ArrayList<>();
+
     private Function function = new Function();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -295,11 +306,11 @@ public class Cadastro extends AppCompatActivity {
     @SuppressLint("CutPasteId")
     private void initializeComponentsCadastroServico() {
         RetrofitService retrofitService = new RetrofitService();
-        usuarioAPI = retrofitService.getRetrofit().create(API.class);
+        api = retrofitService.getRetrofit().create(API.class);
         Usuario usuario = new Usuario();
         Usuario user = new Usuario();
         usuario.setId(idUsuario);
-        usuarioAPI.getAtualUser(usuario).enqueue(new Callback<Usuario>() {
+        api.getAtualUser(usuario).enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> usuarioResponse) {
                 if (usuarioResponse.isSuccessful()) {
@@ -326,43 +337,82 @@ public class Cadastro extends AppCompatActivity {
 
         if (status.equals("CADASTRO_SERVICO")) {
             categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.categoria_servico, android.R.layout.simple_spinner_item);
-            categoria_servico.setAdapter(adapter);
-            //String catServ = spinnerCategoriaServico.getSelectedItem().toString();
-
             sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
-            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.sub_categoria_servico, android.R.layout.simple_spinner_item);
-            sub_categoria_servico.setAdapter(adapter1);
-
-            spinnerCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            RetrofitService retrofitServiceCategoria = new RetrofitService();
+            api = retrofitServiceCategoria.getRetrofit().create(API.class);
+            api.getAllCategoria().enqueue(new Callback<List<Categoria>>() {
                 @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    String catSelected = spinnerCategoriaServico.getSelectedItem().toString();
-                    if (catSelected.equals(" ")) {
-                        sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
-                        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(Cadastro.this, R.array.sub_categoria_servico, android.R.layout.simple_spinner_item);
-                        spinnerSubCategoriaServico.setAdapter(adapter1);
-                    } else if (catSelected.equals("Informática")) {
-                        sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
-                        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(Cadastro.this, R.array.sub_categoria_servico_Informática, android.R.layout.simple_spinner_item);
-                        spinnerSubCategoriaServico.setAdapter(adapter1);
-                    } else if (catSelected.equals("Marcenaria")) {
-                        sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
-                        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(Cadastro.this, R.array.sub_categoria_servico_Marcenaria, android.R.layout.simple_spinner_item);
-                        spinnerSubCategoriaServico.setAdapter(adapter2);
+                public void onResponse(Call<List<Categoria>> call, Response<List<Categoria>> response) {
+                    int aux = 0;
+                    if (response.body() != null) {
+                        aux = response.body().size();
+                    }
+                    if (aux > 0) {
+                       categorias.clear();
+                       for (int i = 1; i <= aux; i++) {
+                           categoria = new Categoria();
+                           categoria.setId(response.body().get(i - 1).getId());
+                           categoria.setNome(response.body().get(i - 1).getNome());
+                           categorias.add(categoria);
+                       }
+                       ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(getApplicationContext(), android.R.layout.simple_spinner_item, categorias);
+                       adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                       categoria_servico.setAdapter(adapter);
                     }
                 }
 
                 @Override
+                public void onFailure(Call<List<Categoria>> call, Throwable t) {
+
+                }
+            });
+            spinnerCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    idCategoria = Long.valueOf(i)+1;
+                    RetrofitService retrofitServiceSubCategoria = new RetrofitService();
+                    api = retrofitServiceSubCategoria.getRetrofit().create(API.class);
+                    api.getSubCategoria(idCategoria).enqueue(new Callback<List<SubCategoria>>() {
+                        @Override
+                        public void onResponse(Call<List<SubCategoria>> call, Response<List<SubCategoria>> response) {
+                            int aux = 0;
+                            if (response.body() != null) {
+                                aux = response.body().size();
+                            }
+                            if (aux > 0){
+                                subCategorias.clear();
+                                for (int i = 1; i <= aux; i++){
+                                    subCategoria = new SubCategoria();
+                                    subCategoria.setId(response.body().get(i - 1).getId());
+                                    subCategoria.setNome(response.body().get(i - 1).getNome());
+                                    subCategoria.setIdCategoriaServico(response.body().get(i - 1).getIdCategoriaServico());
+                                    subCategorias.add(subCategoria);
+                                }
+                                ArrayAdapter<SubCategoria> adapter = new ArrayAdapter<SubCategoria>(getApplicationContext(), android.R.layout.simple_spinner_item, subCategorias);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                sub_categoria_servico.setAdapter(adapter);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<SubCategoria>> call, Throwable t) {
+
+                        }
+                    });
+                }
+
+                @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
-                    Toast.makeText(Cadastro.this, "Nada Selecionado!", Toast.LENGTH_SHORT).show();
+
                 }
             });
         }
         if (status.equals("EDITAR_SERVICO")) {
+            categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
+            sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
             RetrofitService retrofitEditService = new RetrofitService();
-            usuarioAPI = retrofitEditService.getRetrofit().create(API.class);
-            usuarioAPI.getServicoById(idServico).enqueue(new Callback<Servico>() {
+            api = retrofitEditService.getRetrofit().create(API.class);
+            api.getServicoById(idServico).enqueue(new Callback<Servico>() {
                 @Override
                 public void onResponse(Call<Servico> call, Response<Servico> servResponse) {
                     if (servResponse.isSuccessful()) {
@@ -373,31 +423,75 @@ public class Cadastro extends AppCompatActivity {
                         inputEditTextNomeServico.setText(serv.getNome());
                         inputEditTextDescricaoServico.setText(serv.getObsServico());
                         inputEditTextValorServico.setText(serv.getValor().toString());
-                        ArrayAdapter<CharSequence> adapterCategoria = ArrayAdapter.createFromResource(Cadastro.this, R.array.categoria_servico, android.R.layout.simple_spinner_item);
-                        adapterCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinnerCategoriaServico.setAdapter(adapterCategoria);
-                        if (!serv.getCategoria().equals(null)) {
-                            int spinnerPosition = adapterCategoria.getPosition(serv.getCategoria());
-                            spinnerCategoriaServico.setSelection(spinnerPosition);
-                        }
-                        if (serv.getCategoria().equals("Informática")) {
-                            ArrayAdapter<CharSequence> adapterSubCategoria = ArrayAdapter.createFromResource(Cadastro.this, R.array.sub_categoria_servico_Informática, android.R.layout.simple_spinner_item);
-                            adapterSubCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            spinnerSubCategoriaServico.setAdapter(adapterSubCategoria);
-                            if (!serv.getSubCategoria().equals(null)) {
-                                int spinnerPosition = adapterSubCategoria.getPosition(serv.getSubCategoria());
-                                spinnerSubCategoriaServico.setSelection(spinnerPosition);
+
+                        RetrofitService retrofitServiceCategoria = new RetrofitService();
+                        api = retrofitServiceCategoria.getRetrofit().create(API.class);
+                        api.getAllCategoria().enqueue(new Callback<List<Categoria>>() {
+                            @Override
+                            public void onResponse(Call<List<Categoria>> call, Response<List<Categoria>> response) {
+                                int aux = 0;
+                                if (response.body() != null) {
+                                    aux = response.body().size();
+                                }
+                                if (aux > 0) {
+                                    categorias.clear();
+                                    for (int i = 1; i <= aux; i++) {
+                                        categoria = new Categoria();
+                                        categoria.setId(response.body().get(i - 1).getId());
+                                        categoria.setNome(response.body().get(i - 1).getNome());
+                                        categorias.add(categoria);
+                                    }
+                                    ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(getApplicationContext(), android.R.layout.simple_spinner_item, categorias);
+                                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    categoria_servico.setAdapter(adapter);
+                                    if (serv.getCategoria() != null) {
+                                        int spinnerPosition = adapter.getPosition(serv.getCategoria());
+                                        spinnerCategoriaServico.setSelection(spinnerPosition);
+                                        idCategoria = serv.getCategoria().getId();
+
+                                        RetrofitService retrofitServiceSubCategoria = new RetrofitService();
+                                        api = retrofitServiceSubCategoria.getRetrofit().create(API.class);
+                                        api.getSubCategoria(idCategoria).enqueue(new Callback<List<SubCategoria>>() {
+                                            @Override
+                                            public void onResponse(Call<List<SubCategoria>> call, Response<List<SubCategoria>> response) {
+                                                int aux = 0;
+                                                if (response.body() != null) {
+                                                    aux = response.body().size();
+                                                }
+                                                if (aux > 0){
+                                                    subCategorias.clear();
+                                                    for (int i = 1; i <= aux; i++){
+                                                        subCategoria = new SubCategoria();
+                                                        subCategoria.setId(response.body().get(i - 1).getId());
+                                                        subCategoria.setNome(response.body().get(i - 1).getNome());
+                                                        subCategoria.setIdCategoriaServico(response.body().get(i - 1).getIdCategoriaServico());
+                                                        subCategorias.add(subCategoria);
+                                                    }
+                                                    ArrayAdapter<SubCategoria> adapter = new ArrayAdapter<SubCategoria>(getApplicationContext(), android.R.layout.simple_spinner_item, subCategorias);
+                                                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                    sub_categoria_servico.setAdapter(adapter);
+                                                    if (serv.getSubCategoria() != null) {
+                                                        int spinnerPosition = adapter.getPosition(serv.getSubCategoria());
+                                                        spinnerCategoriaServico.setSelection(spinnerPosition);
+                                                        idSubCategoria = serv.getSubCategoria().getId();
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<List<SubCategoria>> call, Throwable t) {
+
+                                            }
+                                        });
+                                    }
+                                }
                             }
-                        }
-                        if (serv.getCategoria().equals("Marcenaria")) {
-                            ArrayAdapter<CharSequence> adapterSubCategoria = ArrayAdapter.createFromResource(Cadastro.this, R.array.sub_categoria_servico_Marcenaria, android.R.layout.simple_spinner_item);
-                            adapterSubCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            spinnerSubCategoriaServico.setAdapter(adapterSubCategoria);
-                            if (!serv.getSubCategoria().equals(null)) {
-                                int spinnerPosition = adapterSubCategoria.getPosition(serv.getSubCategoria());
-                                spinnerSubCategoriaServico.setSelection(spinnerPosition);
+
+                            @Override
+                            public void onFailure(Call<List<Categoria>> call, Throwable t) {
+
                             }
-                        }
+                        });
                     }
                 }
 
@@ -427,11 +521,15 @@ public class Cadastro extends AppCompatActivity {
                         if (!catServico.equals("") && !catServico.equals(" ") && catServico != null) {
                             if (!subcatServico.equals("") && !subcatServico.equals(" ") && subcatServico != null) {
                                 Servico servico = new Servico();
+                                categoria = new Categoria();
+                                subCategoria = new SubCategoria();
+                                categoria.setId(idCategoria);
+                                subCategoria.setId(1L);
                                 servico.setNome(nomeServico);
                                 servico.setValor(valorServico);
                                 servico.setObsServico(descServico);
-                                servico.setCategoria(catServico);
-                                servico.setSubCategoria(subcatServico);
+                                servico.setCategoria(categoria);
+                                servico.setSubCategoria(subCategoria);
                                 servico.setId_Prestador(user);
 
                                 it = new Intent(this, Perfil.class);
@@ -440,7 +538,7 @@ public class Cadastro extends AppCompatActivity {
                                 it.putExtras(parametros);
 
                                 if (status.equals("EDITAR_SERVICO")) {
-                                    usuarioAPI.updateServico(idServico, servico).enqueue(new Callback<Servico>() {
+                                    api.updateServico(idServico, servico).enqueue(new Callback<Servico>() {
                                         @Override
                                         public void onResponse(Call<Servico> call, Response<Servico> response) {
                                             if (response.code() == 200) {
@@ -457,7 +555,7 @@ public class Cadastro extends AppCompatActivity {
                                         }
                                     });
                                 } else if (status.equals("CADASTRO_SERVICO")) {
-                                    usuarioAPI.createNewService(servico).enqueue(new Callback<Servico>() {
+                                    api.createNewService(servico).enqueue(new Callback<Servico>() {
                                         @Override
                                         public void onResponse(Call<Servico> call, Response<Servico> response) {
                                             if (response.code() == 200) {
