@@ -16,12 +16,48 @@ public class SolicitaServico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nomeServico;
-    private String categoria;
-    private String subCategoria;
+
+    @ManyToOne
+    private Categoria id_Categoria;
+
+    @ManyToOne
+    private SubCategoria id_SubCategoria;
     private String descricaoSolicitacao;
     private Double valor;
     private Double valorProposto;
 
     @ManyToOne
     private Usuario id_Cliente;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setNomeServico(String nomeServico) {
+        this.nomeServico = nomeServico;
+    }
+
+    public void setId_Categoria(Categoria id_Categoria) {
+        this.id_Categoria = id_Categoria;
+    }
+
+    public void setId_SubCategoria(SubCategoria id_SubCategoria) {
+        this.id_SubCategoria = id_SubCategoria;
+    }
+
+    public void setDescricaoSolicitacao(String descricaoSolicitacao) {
+        this.descricaoSolicitacao = descricaoSolicitacao;
+    }
+
+    public void setValor(Double valor) {
+        this.valor = valor;
+    }
+
+    public void setValorProposto(Double valorProposto) {
+        this.valorProposto = valorProposto;
+    }
+
+    public void setId_Cliente(Usuario id_Cliente) {
+        this.id_Cliente = id_Cliente;
+    }
 }

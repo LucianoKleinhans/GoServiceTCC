@@ -6,6 +6,12 @@ public class SubCategoria {
     private String nome;
     private Categoria idCategoriaServico;
 
+    public void setSubCategoria(SubCategoria subCategoria){
+        this.id = subCategoria.getId();
+        this.nome = subCategoria.getNome();
+        this.idCategoriaServico = subCategoria.getIdCategoriaServico();
+    };
+
     public Long getId() {
         return id;
     }
@@ -32,12 +38,6 @@ public class SubCategoria {
 
     @Override
     public String toString() {
-        return id + " - " + nome;
+        return nome;
     }
-
-    public void setSubCategoria(SubCategoria subCategoria){
-        this.id = subCategoria.getId();
-        this.nome = subCategoria.getNome();
-        this.idCategoriaServico = subCategoria.getIdCategoriaServico();
-    };
 }

@@ -1,5 +1,6 @@
 package com.lajotasoftware.goservice.Frames;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,7 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterCard;
+import com.lajotasoftware.goservice.Entity.Categoria;
+import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
+import com.lajotasoftware.goservice.Entity.SubCategoria;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.MainActivity;
 import com.lajotasoftware.goservice.R;
@@ -34,11 +38,16 @@ import retrofit2.Response;
 
 public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardListener {
 
-    Long idUsuario, idPrestador, idCardServico;
+    Long idUsuario, idPrestador, idCardServico, idCategoria, idSubCategoria;
     String status;
-    API usuarioAPI;
+    API api;
     Intent it;
     Spinner categoria_servico, sub_categoria_servico;
+
+    Categoria categoria;
+    SubCategoria subCategoria;
+    List<Categoria> categorias = new ArrayList<>();
+    List<SubCategoria> subCategorias = new ArrayList<>();
 
     CustomAdapterCard customAdapter;
     RecyclerView recyclerView;
@@ -146,13 +155,14 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         setContentView(R.layout.cadastro_servico);
         initializeComponentsCadastroCartao();
     }
+    @SuppressLint("CutPasteId")
     private void initializeComponentsCadastroCartao() {
         RetrofitService retrofitService = new RetrofitService();
-        usuarioAPI = retrofitService.getRetrofit().create(API.class);
+        api = retrofitService.getRetrofit().create(API.class);
         Usuario usuario = new Usuario();
         Usuario user = new Usuario();
         usuario.setId(idUsuario);
-        usuarioAPI.getAtualUser(usuario).enqueue(new Callback<Usuario>() {
+        api.getAtualUser(usuario).enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> usuarioResponse) {
                 if (usuarioResponse.isSuccessful()) {
@@ -179,78 +189,160 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         MaterialButton btn_cancelar_cardservico = findViewById(R.id.btnCancelarCadServico);
 
         if (status.equals("CRIAR_CARTAO")) {
-            /*categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.categoria_servico, android.R.layout.simple_spinner_item);
-            categoria_servico.setAdapter(adapter);
-
+            categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
             sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
-            ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(this, R.array.sub_categoria_servico, android.R.layout.simple_spinner_item);
-            sub_categoria_servico.setAdapter(adapter1);
-
-            spinnerCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            RetrofitService retrofitServiceCategoria = new RetrofitService();
+            api = retrofitServiceCategoria.getRetrofit().create(API.class);
+            api.getAllCategoria().enqueue(new Callback<List<Categoria>>() {
                 @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    String catSelected = spinnerCategoriaServico.getSelectedItem().toString();
-                    if (catSelected.equals(" ")) {
-                        sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
-                        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(Card.this, R.array.sub_categoria_servico, android.R.layout.simple_spinner_item);
-                        spinnerSubCategoriaServico.setAdapter(adapter1);
-                    } else if (catSelected.equals("Informática")) {
-                        sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
-                        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(Card.this, R.array.sub_categoria_servico_Informática, android.R.layout.simple_spinner_item);
-                        spinnerSubCategoriaServico.setAdapter(adapter1);
-                    } else if (catSelected.equals("Marcenaria")) {
-                        sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
-                        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(Card.this, R.array.sub_categoria_servico_Marcenaria, android.R.layout.simple_spinner_item);
-                        spinnerSubCategoriaServico.setAdapter(adapter2);
+                public void onResponse(Call<List<Categoria>> call, Response<List<Categoria>> response) {
+                    int aux = 0;
+                    if (response.body() != null) {
+                        aux = response.body().size();
+                    }
+                    if (aux > 0) {
+                        categorias.clear();
+                        for (int i = 1; i <= aux; i++) {
+                            categoria = new Categoria();
+                            categoria.setId(response.body().get(i - 1).getId());
+                            categoria.setNome(response.body().get(i - 1).getNome());
+                            categorias.add(categoria);
+                        }
+                        ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(getApplicationContext(), android.R.layout.simple_spinner_item, categorias);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        categoria_servico.setAdapter(adapter);
                     }
                 }
 
                 @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-                    Toast.makeText(Card.this, "Nada Selecionado!", Toast.LENGTH_SHORT).show();
+                public void onFailure(Call<List<Categoria>> call, Throwable t) {
+
                 }
-            });*/
+            });
+            spinnerCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    idCategoria = Long.valueOf(i)+1;
+                    RetrofitService retrofitServiceSubCategoria = new RetrofitService();
+                    api = retrofitServiceSubCategoria.getRetrofit().create(API.class);
+                    api.getSubCategoria(idCategoria).enqueue(new Callback<List<SubCategoria>>() {
+                        @Override
+                        public void onResponse(Call<List<SubCategoria>> call, Response<List<SubCategoria>> response) {
+                            int aux = 0;
+                            if (response.body() != null) {
+                                aux = response.body().size();
+                            }
+                            if (aux > 0){
+                                subCategorias.clear();
+                                for (int i = 1; i <= aux; i++){
+                                    subCategoria = new SubCategoria();
+                                    subCategoria.setId(response.body().get(i - 1).getId());
+                                    subCategoria.setNome(response.body().get(i - 1).getNome());
+                                    subCategoria.setIdCategoriaServico(response.body().get(i - 1).getIdCategoriaServico());
+                                    subCategorias.add(subCategoria);
+                                }
+                                ArrayAdapter<SubCategoria> adapter = new ArrayAdapter<SubCategoria>(getApplicationContext(), android.R.layout.simple_spinner_item, subCategorias);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                sub_categoria_servico.setAdapter(adapter);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<SubCategoria>> call, Throwable t) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
         }
         if (status.equals("EDITAR_CARTAO")) {
-            /*RetrofitService retrofitEditService = new RetrofitService();
-            usuarioAPI = retrofitEditService.getRetrofit().create(API.class);
-            usuarioAPI.getCardServicoById(idCardServico).enqueue(new Callback<SolicitaServico>() {
+            categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
+            sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
+            RetrofitService retrofitEditService = new RetrofitService();
+            api = retrofitEditService.getRetrofit().create(API.class);
+            api.getCardServicoById(idCardServico).enqueue(new Callback<SolicitaServico>() {
                 @Override
                 public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> servResponse) {
                     if (servResponse.isSuccessful()) {
-                        SolicitaServico cardServ = new SolicitaServico();
+                        SolicitaServico card = new SolicitaServico();
                         assert servResponse.body() != null;
-                        cardServ.setServico(servResponse.body());
-                        idCardServico = cardServ.getId();
-                        inputEditTextNomeServico.setText(cardServ.getNomeServico());
-                        inputEditTextDescricaoServico.setText(cardServ.getDescricaoSolicitacao());
-                        inputEditTextValorServico.setText(cardServ.getValor().toString());
-                        ArrayAdapter<CharSequence> adapterCategoria = ArrayAdapter.createFromResource(Card.this, R.array.categoria_servico, android.R.layout.simple_spinner_item);
-                        adapterCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinnerCategoriaServico.setAdapter(adapterCategoria);
-                        if (!cardServ.getCategoria().equals(null)) {
-                            int spinnerPosition = adapterCategoria.getPosition(cardServ.getCategoria());
-                            spinnerCategoriaServico.setSelection(spinnerPosition);
-                        }
-                        if (cardServ.getCategoria().equals("Informática")) {
-                            ArrayAdapter<CharSequence> adapterSubCategoria = ArrayAdapter.createFromResource(Card.this, R.array.sub_categoria_servico_Informática, android.R.layout.simple_spinner_item);
-                            adapterSubCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            spinnerSubCategoriaServico.setAdapter(adapterSubCategoria);
-                            if (!cardServ.getSubCategoria().equals(null)) {
-                                int spinnerPosition = adapterSubCategoria.getPosition(cardServ.getSubCategoria());
-                                spinnerSubCategoriaServico.setSelection(spinnerPosition);
+                        card.setServico(servResponse.body());
+                        idCardServico = card.getId();
+                        inputEditTextNomeServico.setText(card.getNomeServico());
+                        inputEditTextDescricaoServico.setText(card.getDescricaoSolicitacao());
+                        inputEditTextValorServico.setText(card.getValor().toString());
+
+                        RetrofitService retrofitServiceCategoria = new RetrofitService();
+                        api = retrofitServiceCategoria.getRetrofit().create(API.class);
+                        api.getAllCategoria().enqueue(new Callback<List<Categoria>>() {
+                            @Override
+                            public void onResponse(Call<List<Categoria>> call, Response<List<Categoria>> response) {
+                                int aux = 0;
+                                if (response.body() != null) {
+                                    aux = response.body().size();
+                                }
+                                if (aux > 0) {
+                                    categorias.clear();
+                                    for (int i = 1; i <= aux; i++) {
+                                        categoria = new Categoria();
+                                        categoria.setId(response.body().get(i - 1).getId());
+                                        categoria.setNome(response.body().get(i - 1).getNome());
+                                        categorias.add(categoria);
+                                    }
+                                    ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(getApplicationContext(), android.R.layout.simple_spinner_item, categorias);
+                                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    categoria_servico.setAdapter(adapter);
+                                    if (card.getId_Categoria() != null) {
+                                        spinnerCategoriaServico.setSelection(getIndex(spinnerCategoriaServico,card.getId_Categoria().toString()));
+                                        idCategoria = card.getId_Categoria().getId();
+
+                                        RetrofitService retrofitServiceSubCategoria = new RetrofitService();
+                                        api = retrofitServiceSubCategoria.getRetrofit().create(API.class);
+                                        api.getSubCategoria(idCategoria).enqueue(new Callback<List<SubCategoria>>() {
+                                            @Override
+                                            public void onResponse(Call<List<SubCategoria>> call, Response<List<SubCategoria>> response) {
+                                                int aux = 0;
+                                                if (response.body() != null) {
+                                                    aux = response.body().size();
+                                                }
+                                                if (aux > 0){
+                                                    subCategorias.clear();
+                                                    for (int i = 1; i <= aux; i++){
+                                                        subCategoria = new SubCategoria();
+                                                        subCategoria.setId(response.body().get(i - 1).getId());
+                                                        subCategoria.setNome(response.body().get(i - 1).getNome());
+                                                        subCategoria.setIdCategoriaServico(response.body().get(i - 1).getIdCategoriaServico());
+                                                        subCategorias.add(subCategoria);
+                                                    }
+                                                    ArrayAdapter<SubCategoria> adapter = new ArrayAdapter<SubCategoria>(getApplicationContext(), android.R.layout.simple_spinner_item, subCategorias);
+                                                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                    sub_categoria_servico.setAdapter(adapter);
+                                                    if (card.getId_SubCategoria() != null) {
+                                                        spinnerSubCategoriaServico.setSelection(getIndex(spinnerSubCategoriaServico,card.getId_SubCategoria().toString()));
+                                                        idSubCategoria = card.getId_SubCategoria().getId();
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<List<SubCategoria>> call, Throwable t) {
+
+                                            }
+                                        });
+                                    }
+                                }
                             }
-                        }
-                        if (cardServ.getCategoria().equals("Marcenaria")) {
-                            ArrayAdapter<CharSequence> adapterSubCategoria = ArrayAdapter.createFromResource(Card.this, R.array.sub_categoria_servico_Marcenaria, android.R.layout.simple_spinner_item);
-                            adapterSubCategoria.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            spinnerSubCategoriaServico.setAdapter(adapterSubCategoria);
-                            if (!cardServ.getSubCategoria().equals(null)) {
-                                int spinnerPosition = adapterSubCategoria.getPosition(cardServ.getSubCategoria());
-                                spinnerSubCategoriaServico.setSelection(spinnerPosition);
+
+                            @Override
+                            public void onFailure(Call<List<Categoria>> call, Throwable t) {
+
                             }
-                        }
+                        });
                     }
                 }
 
@@ -258,85 +350,73 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                 public void onFailure(Call<SolicitaServico> call, Throwable t) {
                     Toast.makeText(Card.this, "Falha ao editar! \n Tente novamente. \n Se o problema persistir contate o suporte", Toast.LENGTH_SHORT).show();
                 }
-            });*/
+            });
         }
-
         btn_gravar_cardservico.setOnClickListener(view -> {
             Double valorServico = null;
-            String catServico = null, subcatServico = null;
             String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
             if ((inputEditTextValorServico.getText()!=null) && (!inputEditTextValorServico.getText().equals(""))){
                 valorServico = Double.parseDouble(inputEditTextValorServico.getText().toString());
             }
             String descServico = String.valueOf(inputEditTextDescricaoServico.getText());
-            if (spinnerCategoriaServico.getSelectedItem().toString() != null) {
-                catServico = spinnerCategoriaServico.getSelectedItem().toString();
-            }
-            if (spinnerSubCategoriaServico.getSelectedItem().toString() != null) {
-                subcatServico = spinnerSubCategoriaServico.getSelectedItem().toString();
-            }
             if (!nomeServico.equals("") && nomeServico.length() >= 5) {
                 if (valorServico > 0 && valorServico < 100000 && valorServico!=null) {
                     if (!descServico.equals("") && descServico.length() > 15) {
-                        if (!catServico.equals("") && !catServico.equals(" ") && catServico != null) {
-                            if (!subcatServico.equals("") && !subcatServico.equals(" ") && subcatServico != null) {
-                                SolicitaServico cardServico = new SolicitaServico();
-                                cardServico.setValor(valorServico);
-                                cardServico.setValorProposto(0.0);
-                                if (status.equals("EDITAR_CARTAO")){
-                                    //cardServico.setValorProposto();
+                        SolicitaServico cardServico = new SolicitaServico();
+                        categoria = new Categoria();
+                        subCategoria = new SubCategoria();
+                        categoria.setId(idCategoria);
+                        subCategoria.setId(idSubCategoria);
+                        cardServico.setValor(valorServico);
+                        cardServico.setValorProposto(0.0);
+                        if (status.equals("EDITAR_CARTAO")){
+                            //cardServico.setValorProposto();
+                        }
+                        cardServico.setNomeServico(nomeServico);
+                        cardServico.setDescricaoSolicitacao(descServico);
+                        cardServico.setId_Categoria(categoria);
+                        cardServico.setId_SubCategoria(subCategoria);
+                        cardServico.setId_Cliente(user);
+
+                        it = new Intent(this, MainActivity.class);
+                        Bundle parametros = new Bundle();
+                        parametros.putLong("id_usuario", idUsuario);
+                        it.putExtras(parametros);
+
+                        if (status.equals("EDITAR_CARTAO")) {
+                            api.updateCardServico(idCardServico, cardServico).enqueue(new Callback<SolicitaServico>() {
+                                @Override
+                                public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
+                                    if (response.code() == 200) {
+                                        Toast.makeText(Card.this, "Serviço atualizado!", Toast.LENGTH_SHORT).show();
+                                        startActivity(it);
+                                    } else {
+                                        Toast.makeText(Card.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                                cardServico.setNomeServico(nomeServico);
-                                cardServico.setDescricaoSolicitacao(descServico);
-                                cardServico.setCategoria(catServico);
-                                cardServico.setSubCategoria(subcatServico);
-                                cardServico.setId_Cliente(user);
 
-                                it = new Intent(this, MainActivity.class);
-                                Bundle parametros = new Bundle();
-                                parametros.putLong("id_usuario", idUsuario);
-                                it.putExtras(parametros);
-
-                                if (status.equals("EDITAR_CARTAO")) {
-                                    usuarioAPI.updateCardServico(idCardServico, cardServico).enqueue(new Callback<SolicitaServico>() {
-                                        @Override
-                                        public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
-                                            if (response.code() == 200) {
-                                                Toast.makeText(Card.this, "Serviço atualizado!", Toast.LENGTH_SHORT).show();
-                                                startActivity(it);
-                                            } else {
-                                                Toast.makeText(Card.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<SolicitaServico> call, Throwable t) {
-                                            Toast.makeText(Card.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                } else if (status.equals("CRIAR_CARTAO")) {
-                                    usuarioAPI.createNewCardService(cardServico).enqueue(new Callback<SolicitaServico>() {
-                                        @Override
-                                        public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
-                                            if (response.code() == 200) {
-                                                Toast.makeText(Card.this, "Cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
-                                                startActivity(it);
-                                            } else {
-                                                Toast.makeText(Card.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<SolicitaServico> call, Throwable t) {
-                                            Toast.makeText(Card.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                @Override
+                                public void onFailure(Call<SolicitaServico> call, Throwable t) {
+                                    Toast.makeText(Card.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
-                                Toast.makeText(Card.this, "Sub-Categoria não selecionada!", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Toast.makeText(Card.this, "Categoria não selecionada!", Toast.LENGTH_SHORT).show();
+                            });
+                        } else if (status.equals("CRIAR_CARTAO")) {
+                            api .createNewCardService(cardServico).enqueue(new Callback<SolicitaServico>() {
+                                @Override
+                                public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
+                                    if (response.code() == 200) {
+                                        Toast.makeText(Card.this, "Cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
+                                        startActivity(it);
+                                    } else {
+                                        Toast.makeText(Card.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<SolicitaServico> call, Throwable t) {
+                                    Toast.makeText(Card.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     } else {
                         Toast.makeText(Card.this, "Observação vazio!", Toast.LENGTH_SHORT).show();
@@ -397,6 +477,13 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         startActivity(it);
     }
 
-
+    private int getIndex(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+        return 0;
+    }
 
 }

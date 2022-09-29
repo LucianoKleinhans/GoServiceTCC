@@ -5,8 +5,8 @@ import java.util.List;
 public class SolicitaServico {
     private Long id;
     private String nomeServico;
-    private String categoria;
-    private String subCategoria;
+    private Categoria id_Categoria;
+    private SubCategoria id_SubCategoria;
     private String descricaoSolicitacao;
     private Double valor;
     private Double valorProposto;
@@ -17,8 +17,8 @@ public class SolicitaServico {
     public void setServico(SolicitaServico cardsServicos){
         this.id = cardsServicos.getId();
         this.nomeServico = cardsServicos.getNomeServico();
-        this.categoria = cardsServicos.getCategoria();
-        this.subCategoria = cardsServicos.getSubCategoria();
+        this.id_Categoria = cardsServicos.getId_Categoria();
+        this.id_SubCategoria = cardsServicos.getId_SubCategoria();
         this.valor = cardsServicos.getValor();
         this.descricaoSolicitacao = cardsServicos.getDescricaoSolicitacao();
         this.valorProposto = cardsServicos.getValorProposto();
@@ -41,20 +41,20 @@ public class SolicitaServico {
         this.nomeServico = nomeServico;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public Categoria getId_Categoria() {
+        return id_Categoria;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setId_Categoria(Categoria id_Categoria) {
+        this.id_Categoria = id_Categoria;
     }
 
-    public String getSubCategoria() {
-        return subCategoria;
+    public SubCategoria getId_SubCategoria() {
+        return id_SubCategoria;
     }
 
-    public void setSubCategoria(String subCategoria) {
-        this.subCategoria = subCategoria;
+    public void setId_SubCategoria(SubCategoria id_SubCategoria) {
+        this.id_SubCategoria = id_SubCategoria;
     }
 
     public String getDescricaoSolicitacao() {

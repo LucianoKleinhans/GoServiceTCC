@@ -5,6 +5,11 @@ public class Categoria {
     private Long id;
     private String nome;
 
+    public void setCategoria(Categoria categoria){
+        this.id = categoria.getId();
+        this.nome = categoria.getNome();
+    };
+
     public Long getId() {
         return id;
     }
@@ -23,12 +28,7 @@ public class Categoria {
 
     @Override
     public String toString() {
-        return id + " - " + nome;
+        return nome;
     }
-
-    public void setCategoria(Categoria categoria){
-        this.id = categoria.getId();
-        this.nome = categoria.getNome();
-    };
 
 }

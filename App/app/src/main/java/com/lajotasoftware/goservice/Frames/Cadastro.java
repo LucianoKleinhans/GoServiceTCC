@@ -37,6 +37,7 @@ public class Cadastro extends AppCompatActivity {
     Spinner uf, categoria_servico, sub_categoria_servico;
     API api;
 
+    Servico serv;
     Categoria categoria;
     SubCategoria subCategoria;
     List<Categoria> categorias = new ArrayList<>();
@@ -416,7 +417,7 @@ public class Cadastro extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Servico> call, Response<Servico> servResponse) {
                     if (servResponse.isSuccessful()) {
-                        Servico serv = new Servico();
+                        serv = new Servico();
                         assert servResponse.body() != null;
                         serv.setServico(servResponse.body());
                         idServico = serv.getId();
@@ -444,10 +445,9 @@ public class Cadastro extends AppCompatActivity {
                                     ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(getApplicationContext(), android.R.layout.simple_spinner_item, categorias);
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     categoria_servico.setAdapter(adapter);
-                                    if (serv.getCategoria() != null) {
-                                        int spinnerPosition = adapter.getPosition(serv.getCategoria());
-                                        spinnerCategoriaServico.setSelection(spinnerPosition);
-                                        idCategoria = serv.getCategoria().getId();
+                                    if (serv.getId_Categoria() != null) {
+                                        spinnerCategoriaServico.setSelection(getIndex(spinnerCategoriaServico,serv.getId_Categoria().toString()));
+                                        idCategoria = serv.getId_Categoria().getId();
 
                                         RetrofitService retrofitServiceSubCategoria = new RetrofitService();
                                         api = retrofitServiceSubCategoria.getRetrofit().create(API.class);
@@ -470,10 +470,9 @@ public class Cadastro extends AppCompatActivity {
                                                     ArrayAdapter<SubCategoria> adapter = new ArrayAdapter<SubCategoria>(getApplicationContext(), android.R.layout.simple_spinner_item, subCategorias);
                                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                                     sub_categoria_servico.setAdapter(adapter);
-                                                    if (serv.getSubCategoria() != null) {
-                                                        int spinnerPosition = adapter.getPosition(serv.getSubCategoria());
-                                                        spinnerCategoriaServico.setSelection(spinnerPosition);
-                                                        idSubCategoria = serv.getSubCategoria().getId();
+                                                    if (serv.getId_SubCategoria() != null) {
+                                                        spinnerSubCategoriaServico.setSelection(getIndex(spinnerSubCategoriaServico,serv.getId_SubCategoria().toString()));
+                                                        idSubCategoria = serv.getId_SubCategoria().getId();
                                                     }
                                                 }
                                             }
@@ -503,80 +502,65 @@ public class Cadastro extends AppCompatActivity {
         }
         btn_gravar_servico.setOnClickListener(view -> {
             Double valorServico = null;
-            String catServico = null, subcatServico = null;
             String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
             if ((inputEditTextValorServico.getText()!=null) && (!inputEditTextValorServico.getText().equals(""))){
                 valorServico = Double.parseDouble(inputEditTextValorServico.getText().toString());
             }
             String descServico = String.valueOf(inputEditTextDescricaoServico.getText());
-            if (spinnerCategoriaServico.getSelectedItem().toString() != null) {
-                catServico = spinnerCategoriaServico.getSelectedItem().toString();
-            }
-            if (spinnerSubCategoriaServico.getSelectedItem().toString() != null) {
-                subcatServico = spinnerSubCategoriaServico.getSelectedItem().toString();
-            }
             if (!nomeServico.equals("") && nomeServico.length() >= 5) {
                 if (valorServico > 0 && valorServico < 100000 && valorServico!=null) {
                     if (!descServico.equals("") && descServico.length() > 15) {
-                        if (!catServico.equals("") && !catServico.equals(" ") && catServico != null) {
-                            if (!subcatServico.equals("") && !subcatServico.equals(" ") && subcatServico != null) {
-                                Servico servico = new Servico();
-                                categoria = new Categoria();
-                                subCategoria = new SubCategoria();
-                                categoria.setId(idCategoria);
-                                subCategoria.setId(1L);
-                                servico.setNome(nomeServico);
-                                servico.setValor(valorServico);
-                                servico.setObsServico(descServico);
-                                servico.setCategoria(categoria);
-                                servico.setSubCategoria(subCategoria);
-                                servico.setId_Prestador(user);
+                        Servico servico = new Servico();
+                        categoria = new Categoria();
+                        subCategoria = new SubCategoria();
+                        categoria.setId(idCategoria);
+                        subCategoria.setId(idSubCategoria);
+                        servico.setNome(nomeServico);
+                        servico.setValor(valorServico);
+                        servico.setObsServico(descServico);
+                        servico.setId_Categoria(categoria);
+                        servico.setId_SubCategoria(subCategoria);
+                        servico.setId_Prestador(user);
 
-                                it = new Intent(this, Perfil.class);
-                                Bundle parametros = new Bundle();
-                                parametros.putLong("id_usuario", idUsuario);
-                                it.putExtras(parametros);
+                        it = new Intent(this, Perfil.class);
+                        Bundle parametros = new Bundle();
+                        parametros.putLong("id_usuario", idUsuario);
+                        it.putExtras(parametros);
 
-                                if (status.equals("EDITAR_SERVICO")) {
-                                    api.updateServico(idServico, servico).enqueue(new Callback<Servico>() {
-                                        @Override
-                                        public void onResponse(Call<Servico> call, Response<Servico> response) {
-                                            if (response.code() == 200) {
-                                                Toast.makeText(Cadastro.this, "Serviço atualizado!", Toast.LENGTH_SHORT).show();
-                                                startActivity(it);
-                                            } else {
-                                                Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<Servico> call, Throwable t) {
-                                            Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                                } else if (status.equals("CADASTRO_SERVICO")) {
-                                    api.createNewService(servico).enqueue(new Callback<Servico>() {
-                                        @Override
-                                        public void onResponse(Call<Servico> call, Response<Servico> response) {
-                                            if (response.code() == 200) {
-                                                Toast.makeText(Cadastro.this, "Cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
-                                                startActivity(it);
-                                            } else {
-                                                Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<Servico> call, Throwable t) {
-                                            Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                        if (status.equals("EDITAR_SERVICO")) {
+                            api.updateServico(idServico, servico).enqueue(new Callback<Servico>() {
+                                @Override
+                                public void onResponse(Call<Servico> call, Response<Servico> response) {
+                                    if (response.code() == 200) {
+                                        Toast.makeText(Cadastro.this, "Serviço atualizado!", Toast.LENGTH_SHORT).show();
+                                        startActivity(it);
+                                    } else {
+                                        Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            } else {
-                                Toast.makeText(Cadastro.this, "Sub-Categoria não selecionada!", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Toast.makeText(Cadastro.this, "Categoria não selecionada!", Toast.LENGTH_SHORT).show();
+
+                                @Override
+                                public void onFailure(Call<Servico> call, Throwable t) {
+                                    Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else if (status.equals("CADASTRO_SERVICO")) {
+                            api.createNewService(servico).enqueue(new Callback<Servico>() {
+                                @Override
+                                public void onResponse(Call<Servico> call, Response<Servico> response) {
+                                    if (response.code() == 200) {
+                                        Toast.makeText(Cadastro.this, "Cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
+                                        startActivity(it);
+                                    } else {
+                                        Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Servico> call, Throwable t) {
+                                    Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     } else {
                         Toast.makeText(Cadastro.this, "Observação vazio!", Toast.LENGTH_SHORT).show();
@@ -592,5 +576,13 @@ public class Cadastro extends AppCompatActivity {
             onBackPressed();
             finish();
         });
+    }
+    private int getIndex(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+        return 0;
     }
 }
