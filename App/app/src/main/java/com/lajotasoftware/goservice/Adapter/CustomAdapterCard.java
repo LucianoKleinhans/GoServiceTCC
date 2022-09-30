@@ -19,16 +19,18 @@ import java.util.List;
 
 public class CustomAdapterCard extends RecyclerView.Adapter {
 
+    private String parametro;
     List<SolicitaServico> cardLists;
     Context context;
     private OnCardListener mOnCardListener;
 
 
 
-    public CustomAdapterCard(Context context, List<SolicitaServico> cardLists, OnCardListener onCardListener) {
+    public CustomAdapterCard(Context context, List<SolicitaServico> cardLists, OnCardListener onCardListener, String parametro) {
         this.cardLists = cardLists;
         this.context = context;
         this.mOnCardListener = onCardListener;
+        this.parametro = parametro;
     }
 
     @NonNull
@@ -77,6 +79,18 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
             itemView.findViewById(R.id.btnVisualizarCardServico).setOnClickListener(this);
             itemView.findViewById(R.id.btnRemoverServico).setOnClickListener(this);
             itemView.findViewById(R.id.btnEditarServico).setOnClickListener(this);
+            itemView.findViewById(R.id.btnFazerProposta).setOnClickListener(this);
+            if (parametro.equals("MEUS_CARDS")){
+                itemView.findViewById(R.id.btnVisualizarCardServico).setVisibility(View.VISIBLE);
+                itemView.findViewById(R.id.btnRemoverServico).setVisibility(View.VISIBLE);
+                itemView.findViewById(R.id.btnEditarServico).setVisibility(View.VISIBLE);
+                itemView.findViewById(R.id.btnFazerProposta).setVisibility(View.INVISIBLE);
+            }else if (parametro.equals("CARDS_PUBLICOS")) {
+                itemView.findViewById(R.id.btnVisualizarCardServico).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnRemoverServico).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnEditarServico).setVisibility(View.INVISIBLE);
+                itemView.findViewById(R.id.btnFazerProposta).setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
@@ -93,6 +107,9 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
                 case "Editar":
                     onCardListener.onCardEditarClick(getAdapterPosition(), id);
                     break;
+                case "Fazer Proposta":
+                    onCardListener.onCardFazerPropostaClick(getAdapterPosition(), id);
+                    break;
             }
         }
     }
@@ -101,5 +118,6 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
         void onCardVisualizarClick (int position, Long id);
         void onCardRemoverClick (int position, Long id);
         void onCardEditarClick (int position, Long id);
+        void onCardFazerPropostaClick(int position, Long id);
     }
 }

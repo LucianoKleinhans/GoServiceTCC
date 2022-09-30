@@ -52,13 +52,18 @@ public class SolicitaServicoController {
                 }).orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/cardservico/{id}")
+    @PostMapping("/cardservico/seleciona/{id}")
+    public SolicitaServico getCardServicoByid(@PathVariable Long id){
+        return repository.getCardServicoByid(id);
+    }
+
+    @PostMapping("/cardservico/meuscards/{id}")
     public List<SolicitaServico> getCardServicos(@PathVariable Long id){
         return repository.getCardServicos(id);
     }
 
-    @PostMapping("/cardservico/seleciona/{id}")
-    public SolicitaServico getCardServicoByid(@PathVariable Long id){
-        return repository.getCardServicoByid(id);
+    @PostMapping("/cardservico/cardspublicos/{id}")
+    public List<SolicitaServico> getCardsServicoPublico(@PathVariable Long id){
+        return repository.getCardsServicoPublico(id);
     }
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,11 +40,11 @@ import retrofit2.Response;
 public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardListener {
 
     Long idUsuario, idPrestador, idCardServico, idCategoria, idSubCategoria;
-    String status;
+    String status, parametro;
     API api;
     Intent it;
     Spinner categoria_servico, sub_categoria_servico;
-
+    int auxiliar = 0;
     Categoria categoria;
     SubCategoria subCategoria;
     List<Categoria> categorias = new ArrayList<>();
@@ -52,6 +53,8 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
     CustomAdapterCard customAdapter;
     RecyclerView recyclerView;
     List<SolicitaServico> cardsServicos = new ArrayList<>();
+    MaterialButton btnMeusCards;
+    MaterialButton btnCardsPublicos;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,16 +75,24 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
     }
     private void initializeComponents() {
         recyclerView = findViewById(R.id.listCardServico);
+        btnMeusCards = findViewById(R.id.btnMeusCards);
+        btnCardsPublicos = findViewById(R.id.btnCardsPublicos);
         listarCards();
     }
 
     private void listarCards() {
+        parametro = "MEUS_CARDS";
+        btnMeusCards.setBackgroundColor(Color.parseColor("#204c6a"));
+        btnCardsPublicos.setBackgroundColor(Color.parseColor("#153246"));
         RetrofitService retrofitServiceListService = new RetrofitService();
-        API usuarioAPIListCardService = retrofitServiceListService.getRetrofit().create(API.class);
-        usuarioAPIListCardService.getCardServico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
+        api = retrofitServiceListService.getRetrofit().create(API.class);
+        api.getCardServico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
             @Override
             public void onResponse(Call<List<SolicitaServico>> call, Response<List<SolicitaServico>> response) {
-                int aux = response.body().size();
+                int aux = 0;
+                if (response.body()!=null) {
+                    aux = response.body().size();
+                }
                 cardsServicos.clear();
                 for (int i=1; i<=aux;i++){
                     SolicitaServico solicitaServico = new SolicitaServico();
@@ -93,7 +104,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                 }
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(linearLayoutManager);
-                customAdapter = new CustomAdapterCard(Card.this, cardsServicos, Card.this);
+                customAdapter = new CustomAdapterCard(Card.this, cardsServicos, Card.this, parametro);
                 recyclerView.setAdapter(customAdapter);
             }
 
@@ -102,6 +113,51 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                 Toast.makeText(Card.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void btnMeusCards(View view) {
+        listarCards();
+    }
+
+    public void btnCardsPublicos(View view) {
+        parametro = "CARDS_PUBLICOS";
+        btnMeusCards.setBackgroundColor(Color.parseColor("#153246"));
+        btnCardsPublicos.setBackgroundColor(Color.parseColor("#204c6a"));
+        RetrofitService retrofitServiceListService = new RetrofitService();
+        api = retrofitServiceListService.getRetrofit().create(API.class);
+        api.getCardsServicoPublico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
+            @Override
+            public void onResponse(Call<List<SolicitaServico>> call, Response<List<SolicitaServico>> response) {
+                int aux = 0;
+                if (response.body()!=null) {
+                    aux = response.body().size();
+                }
+                cardsServicos.clear();
+                for (int i=1; i<=aux;i++){
+                    SolicitaServico solicitaServico = new SolicitaServico();
+                    solicitaServico.setId(response.body().get(i-1).getId());
+                    solicitaServico.setNomeServico(response.body().get(i-1).getNomeServico());
+                    solicitaServico.setDescricaoSolicitacao(response.body().get(i-1).getDescricaoSolicitacao());
+                    solicitaServico.setValor(response.body().get(i-1).getValor());
+                    cardsServicos.add(solicitaServico);
+                }
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(linearLayoutManager);
+                customAdapter = new CustomAdapterCard(Card.this, cardsServicos, Card.this, parametro);
+                recyclerView.setAdapter(customAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<SolicitaServico>> call, Throwable t) {
+                Toast.makeText(Card.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void btnPropostasEnviadas(View view) {
+    }
+
+    public void btnPropostasRecebidas(View view) {
     }
 
     @Override
@@ -155,6 +211,12 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         setContentView(R.layout.cadastro_servico);
         initializeComponentsCadastroCartao();
     }
+
+    @Override
+    public void onCardFazerPropostaClick(int position, Long id) {
+
+    }
+
     @SuppressLint("CutPasteId")
     private void initializeComponentsCadastroCartao() {
         RetrofitService retrofitService = new RetrofitService();
@@ -351,7 +413,63 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                     Toast.makeText(Card.this, "Falha ao editar! \n Tente novamente. \n Se o problema persistir contate o suporte", Toast.LENGTH_SHORT).show();
                 }
             });
+            spinnerCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    idCategoria = Long.valueOf(i)+1;
+                    RetrofitService retrofitServiceSubCategoria = new RetrofitService();
+                    api = retrofitServiceSubCategoria.getRetrofit().create(API.class);
+                    api.getSubCategoria(idCategoria).enqueue(new Callback<List<SubCategoria>>() {
+                        @Override
+                        public void onResponse(Call<List<SubCategoria>> call, Response<List<SubCategoria>> response) {
+                            int aux = 0;
+                            if (response.body() != null) {
+                                aux = response.body().size();
+                            }
+                            if (aux > 0){
+                                subCategorias.clear();
+                                for (int i = 1; i <= aux; i++){
+                                    subCategoria = new SubCategoria();
+                                    subCategoria.setId(response.body().get(i - 1).getId());
+                                    subCategoria.setNome(response.body().get(i - 1).getNome());
+                                    subCategoria.setIdCategoriaServico(response.body().get(i - 1).getIdCategoriaServico());
+                                    subCategorias.add(subCategoria);
+                                }
+                                if (auxiliar > 0) {
+                                    ArrayAdapter<SubCategoria> adapter = new ArrayAdapter<SubCategoria>(getApplicationContext(), android.R.layout.simple_spinner_item, subCategorias);
+                                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    sub_categoria_servico.setAdapter(adapter);
+                                }
+                                auxiliar++;
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<SubCategoria>> call, Throwable t) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
         }
+        spinnerSubCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String subCat = adapterView.getSelectedItem().toString();
+                int pos = subCat.indexOf("-");
+                idSubCategoria = Long.valueOf(String.copyValueOf(subCat.toCharArray(),0,pos-1));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         btn_gravar_cardservico.setOnClickListener(view -> {
             Double valorServico = null;
             String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
@@ -485,5 +603,4 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         }
         return 0;
     }
-
 }

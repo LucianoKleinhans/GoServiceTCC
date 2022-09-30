@@ -17,4 +17,6 @@ public interface DAOSolicitaServico extends JpaRepository<SolicitaServico, Long>
     @Query(value = "select * from solicita_servico ss where ss.id_cliente_id = ?1", nativeQuery = true)
     List<SolicitaServico> getCardServicos(Long id);
 
+    @Query(value = "select * from solicita_servico ss where ss.id_cliente_id != ?1", nativeQuery = true)
+    List<SolicitaServico> getCardsServicoPublico(long id);
 }

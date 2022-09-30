@@ -12,34 +12,19 @@
         android:id="@+id/btnNovoCard"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:onClick="btn_card_to_createcard"
         android:text="Novo Card"
         android:textAllCaps="false"
         android:textSize="15sp"
-        android:onClick="btn_card_to_createcard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnProcurarCards"
-        app:layout_constraintTop_toBottomOf="@+id/myRectangleView4" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnProcurarCards"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:text="Procurar Cards"
-        android:textAllCaps="false"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/btnNovoCard"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myRectangleView4" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <View
         android:id="@+id/myRectangleView4"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:background="@drawable/retangle_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,8 +70,70 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnNovoCard" />
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="#153246"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView4">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMeusCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:onClick="btnMeusCards"
+                android:text="Meus Cards"
+                android:textAllCaps="false"
+                android:textSize="11sp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCardsPublicos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="btnCardsPublicos"
+                android:text="Cards Publicos"
+                android:textAllCaps="false"
+                android:textSize="11sp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCardsPublicos2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:onClick="btnPropostasEnviadas"
+                android:text="Propostas Enviadas"
+                android:textAllCaps="false"
+                android:textSize="11sp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCardsPublicos3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:onClick="btnPropostasRecebidas"
+                android:text="Propostas Recebidas"
+                android:textAllCaps="false"
+                android:textSize="11sp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

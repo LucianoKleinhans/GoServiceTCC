@@ -36,7 +36,7 @@ public class Cadastro extends AppCompatActivity {
     Intent it;
     Spinner uf, categoria_servico, sub_categoria_servico;
     API api;
-
+    int auxiliar = 0;
     Servico serv;
     Categoria categoria;
     SubCategoria subCategoria;
@@ -409,6 +409,7 @@ public class Cadastro extends AppCompatActivity {
             });
         }
         if (status.equals("EDITAR_SERVICO")) {
+
             categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
             sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
             RetrofitService retrofitEditService = new RetrofitService();
@@ -499,7 +500,63 @@ public class Cadastro extends AppCompatActivity {
                     Toast.makeText(Cadastro.this, "Falha ao editar! \n Tente novamente. \n Se o problema persistir contate o suporte", Toast.LENGTH_SHORT).show();
                 }
             });
+            spinnerCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    idCategoria = Long.valueOf(i)+1;
+                    RetrofitService retrofitServiceSubCategoria = new RetrofitService();
+                    api = retrofitServiceSubCategoria.getRetrofit().create(API.class);
+                    api.getSubCategoria(idCategoria).enqueue(new Callback<List<SubCategoria>>() {
+                        @Override
+                        public void onResponse(Call<List<SubCategoria>> call, Response<List<SubCategoria>> response) {
+                            int aux = 0;
+                            if (response.body() != null) {
+                                aux = response.body().size();
+                            }
+                            if (aux > 0){
+                                subCategorias.clear();
+                                for (int i = 1; i <= aux; i++){
+                                    subCategoria = new SubCategoria();
+                                    subCategoria.setId(response.body().get(i - 1).getId());
+                                    subCategoria.setNome(response.body().get(i - 1).getNome());
+                                    subCategoria.setIdCategoriaServico(response.body().get(i - 1).getIdCategoriaServico());
+                                    subCategorias.add(subCategoria);
+                                }
+                                if (auxiliar > 0) {
+                                    ArrayAdapter<SubCategoria> adapter = new ArrayAdapter<SubCategoria>(getApplicationContext(), android.R.layout.simple_spinner_item, subCategorias);
+                                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    sub_categoria_servico.setAdapter(adapter);
+                                }
+                                auxiliar++;
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<SubCategoria>> call, Throwable t) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
         }
+        spinnerSubCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String subCat = adapterView.getSelectedItem().toString();
+                int pos = subCat.indexOf("-");
+                idSubCategoria = Long.valueOf(String.copyValueOf(subCat.toCharArray(),0,pos-1));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         btn_gravar_servico.setOnClickListener(view -> {
             Double valorServico = null;
             String nomeServico = String.valueOf(inputEditTextNomeServico.getText());

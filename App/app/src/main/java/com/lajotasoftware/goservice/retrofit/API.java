@@ -71,14 +71,19 @@ public interface API {
     @PUT("/cardservico/update/{id}")
     Call<SolicitaServico> updateCardServico(@Path("id")Long id,@Body SolicitaServico solcitaServico);
 
-    @POST ("/cardservico/{id}")
-    Call<List<SolicitaServico>> getCardServico(@Path("id")Long id);
-
     @POST("/cardservico/seleciona/{id}")
     Call<SolicitaServico> getCardServicoById(@Path("id") Long id);
 
+    @POST ("/cardservico/meuscards/{id}")
+    Call<List<SolicitaServico>> getCardServico(@Path("id")Long id);
+
+    @POST ("/cardservico/cardspublicos/{id}")
+    Call<List<SolicitaServico>> getCardsServicoPublico(@Path("id")Long id);
+
     @DELETE("/cardservico/delete/{id}")
     Call<SolicitaServico> deleteCardServico(@Path("id")Long id);
+
+
 
     /*-----------------View Prestadores-----------------*/
 

@@ -29,7 +29,13 @@ public class ServicoController {
     public Servico salvarServico(@RequestBody Servico servico){ return repository.save(servico);
     }
 
-    @DeleteMapping("/servico/delete/{id}")
+    /*@PostMapping("/servico/create")
+    public Servico salvarServico(@RequestBody Servico servico){
+        return repository.savar(servico.getNome(), servico.getObsServico(), servico.getValor(), servico.getId_Prestador().getId(), servico.getId_Categoria().getId(), servico.getId_SubCategoria().getId());
+    }*/
+
+
+        @DeleteMapping("/servico/delete/{id}")
     public void deleteServico(@PathVariable Long id){
         repository.deleteById(id);
     }
