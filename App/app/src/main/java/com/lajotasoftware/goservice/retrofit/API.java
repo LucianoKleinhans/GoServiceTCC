@@ -2,6 +2,7 @@ package com.lajotasoftware.goservice.retrofit;
 
 import com.lajotasoftware.goservice.Entity.Categoria;
 import com.lajotasoftware.goservice.Entity.Pedido;
+import com.lajotasoftware.goservice.Entity.Proposta;
 import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.SubCategoria;
@@ -80,8 +81,8 @@ public interface API {
     @POST ("/cardservico/cardspublicos/{id}")
     Call<List<SolicitaServico>> getCardsServicoPublico(@Path("id")Long id);
 
-    @DELETE("/cardservico/delete/{id}")
-    Call<SolicitaServico> deleteCardServico(@Path("id")Long id);
+    //@DELETE("/cardservico/delete/{id}")
+    //Call<SolicitaServico> deleteCardServico(@Path("id")Long id);
 
 
 
@@ -122,4 +123,9 @@ public interface API {
 
     @POST("/subcategoria/{id}")
     Call<List<SubCategoria>> getSubCategoria(@Path("id") Long id);
+
+    /*------------------------- Proposta -----------------------------*/
+
+    @POST("/proposta/create")
+    Call<Proposta> criarProposta(@Body Proposta proposta);
 }

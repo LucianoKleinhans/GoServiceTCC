@@ -10,6 +10,7 @@ public class Servico {
     private Categoria id_Categoria;
     private SubCategoria id_SubCategoria;
     private Double valor;
+    private Boolean excluido;
     private String obsServico;
     private Usuario id_Prestador;
 
@@ -21,6 +22,7 @@ public class Servico {
         this.id_Categoria = servico.getId_Categoria();
         this.id_SubCategoria = servico.getId_SubCategoria();
         this.valor = servico.getValor();
+        this.excluido = servico.getExcluido();
         this.obsServico = servico.getObsServico();
         this.id_Prestador = servico.getId_Prestador();
     };
@@ -63,6 +65,14 @@ public class Servico {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+
+    public Boolean getExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(Boolean excluido) {
+        this.excluido = excluido;
     }
 
     public String getObsServico() {

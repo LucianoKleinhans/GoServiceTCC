@@ -26,7 +26,7 @@ public class PropostaController {
         return repository.getById(id);
     }
 
-    @PostMapping("/proposta")
+    @PostMapping("/proposta/create")
     public Proposta salvarProposta(@RequestBody Proposta proposta){
         return repository.save(proposta);
     }

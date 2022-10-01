@@ -51,6 +51,7 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
         myViewHolder.CardServicoValor.setText("Valor inicial: R$"+cardLists.get(position).getValor().toString());
         myViewHolder.position = position;
         myViewHolder.id = cardLists.get(position).getId();
+        myViewHolder.idCliente = cardLists.get(position).getId_Cliente().getId();
     }
 
     @Override
@@ -62,7 +63,7 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
 
         private Card card = new Card();
         public int position;
-        public Long id;
+        public Long id, idCliente;
         TextView CardServicoId;
         TextView CardServicoNome;
         TextView CardServicoDesc;
@@ -108,7 +109,7 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
                     onCardListener.onCardEditarClick(getAdapterPosition(), id);
                     break;
                 case "Fazer Proposta":
-                    onCardListener.onCardFazerPropostaClick(getAdapterPosition(), id);
+                    onCardListener.onCardFazerPropostaClick(getAdapterPosition(), id, idCliente);
                     break;
             }
         }
@@ -118,6 +119,6 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
         void onCardVisualizarClick (int position, Long id);
         void onCardRemoverClick (int position, Long id);
         void onCardEditarClick (int position, Long id);
-        void onCardFazerPropostaClick(int position, Long id);
+        void onCardFazerPropostaClick(int position, Long aLong, Long id);
     }
 }

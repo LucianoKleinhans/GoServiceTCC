@@ -24,6 +24,8 @@ public class SolicitaServico {
     private SubCategoria id_SubCategoria;
     private String descricaoSolicitacao;
     private Double valor;
+
+    private Boolean excluido;
     private Double valorProposto;
 
     @ManyToOne
@@ -51,6 +53,10 @@ public class SolicitaServico {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+
+    public void setExcluido(Boolean excluido) {
+        this.excluido = excluido;
     }
 
     public void setValorProposto(Double valorProposto) {

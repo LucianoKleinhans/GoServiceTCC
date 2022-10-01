@@ -147,9 +147,11 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                Servico serv = new Servico();
+                                serv.setExcluido(true);
                                 RetrofitService retrofitEditService = new RetrofitService();
                                 API usuarioAPI = retrofitEditService.getRetrofit().create(API.class);
-                                usuarioAPI.deleteServico(id).enqueue(new Callback<Servico>() {
+                                usuarioAPI.updateServico(id,serv).enqueue(new Callback<Servico>() {
                                     @Override
                                     public void onResponse(Call<Servico> call, Response<Servico> response) {
                                         Toast.makeText(Perfil.this, "Serviço exluído!", Toast.LENGTH_SHORT).show();

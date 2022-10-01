@@ -50,8 +50,8 @@
         app:layout_constraintStart_toStartOf="@+id/myRectangle0View2"
         app:layout_constraintTop_toTopOf="@+id/myRectangle0View2" />
 
-    <TextView
-        android:id="@+id/ttvNomeServico"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ttvNomeCardServico"
         android:layout_width="0dp"
         android:layout_height="31dp"
         android:layout_marginStart="15dp"
@@ -68,7 +68,6 @@
         android:id="@+id/ttvCardValorAtual"
         android:layout_width="0dp"
         android:layout_height="31dp"
-        android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/retangle_border_view_5"
@@ -78,10 +77,26 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="@+id/myRectangle0View"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ttvValorServico" />
+        app:layout_constraintStart_toEndOf="@+id/ttvValorCardServico" />
 
-    <TextView
-        android:id="@+id/idServico"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ttvValorCardServico"
+        android:layout_width="0dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/retangle_border_view_4"
+        android:text="Valor Incial : R$100"
+        android:textAlignment="center"
+        android:textColor="#d5d5d5"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangle0View"
+        app:layout_constraintEnd_toStartOf="@+id/ttvCardValorAtual"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/idCardServico"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -95,23 +110,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/ttvValorServico"
-        android:layout_width="0dp"
-        android:layout_height="31dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="15dp"
-        android:background="@drawable/retangle_border_view_4"
-        android:text="Valor Incial : R$100"
-        android:textAlignment="center"
-        android:textColor="#d5d5d5"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangle0View"
-        app:layout_constraintEnd_toStartOf="@+id/ttvCardValorAtual"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/ttvDescServico"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ttvDescCardServico"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="15dp"
@@ -123,10 +123,21 @@
         android:textColor="#d5d5d5"
         android:textSize="15sp"
         android:textStyle="normal"
-        app:layout_constraintBottom_toTopOf="@+id/ttvValorServico"
+        app:layout_constraintBottom_toTopOf="@+id/ttvValorCardServico"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvNomeServico" />
+        app:layout_constraintTop_toBottomOf="@+id/ttvNomeCardServico" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangle0View2"
+        app:layout_constraintEnd_toEndOf="@+id/myRectangle0View2"
+        app:layout_constraintStart_toStartOf="@+id/myRectangle0View2"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton2"
@@ -142,17 +153,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_home"
         tools:ignore="SpeakableTextPresentCheck" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangle0View2"
-        app:layout_constraintEnd_toEndOf="@+id/myRectangle0View2"
-        app:layout_constraintStart_toStartOf="@+id/myRectangle0View2"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,7 +19,6 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         android:backgroundTint="#009f10"
@@ -27,60 +26,7 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/star_3_avaliacao" />
-
-    <ImageView
-        android:id="@+id/star_2_avaliacao"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/ic_star"
-        app:layout_constraintEnd_toStartOf="@+id/star_3_avaliacao"
-        app:layout_constraintTop_toBottomOf="@+id/ttvNomePrestador"
-        />
-
-    <ImageView
-        android:id="@+id/star_1_avaliacao"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/ic_star"
-        app:layout_constraintEnd_toStartOf="@+id/star_2_avaliacao"
-        app:layout_constraintTop_toBottomOf="@+id/ttvNomePrestador"
-        />
-
-    <ImageView
-        android:id="@+id/star_4_avaliacao"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toEndOf="@+id/star_3_avaliacao"
-        app:layout_constraintTop_toBottomOf="@+id/ttvNomePrestador"
-        android:background="@drawable/ic_star" />
-
-    <ImageView
-        android:id="@+id/star_5_avaliacao"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toEndOf="@+id/star_4_avaliacao"
-        app:layout_constraintTop_toBottomOf="@+id/ttvNomePrestador"
-        android:background="@drawable/ic_star" />
-
-    <ImageView
-        android:id="@+id/star_3_avaliacao"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvNomePrestador"
-        android:background="@drawable/ic_star" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/ttvNomePrestador"
@@ -97,5 +43,19 @@
         app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:theme="@style/RatingBar"
+        app:layout_constraintBottom_toTopOf="@+id/btnConfirmaAvaliacao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ttvNomePrestador"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

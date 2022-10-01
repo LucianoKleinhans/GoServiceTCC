@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -363,73 +364,9 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         MaterialButton btnConfirma = dialog.findViewById(R.id.btnConfirmaAvaliacao);
-        ImageView star_1 = dialog.findViewById(R.id.star_1_avaliacao);
-        ImageView star_2 = dialog.findViewById(R.id.star_2_avaliacao);
-        ImageView star_3 = dialog.findViewById(R.id.star_3_avaliacao);
-        ImageView star_4 = dialog.findViewById(R.id.star_4_avaliacao);
-        ImageView star_5 = dialog.findViewById(R.id.star_5_avaliacao);
 
-        star_1.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("UseCompatLoadingForDrawables")
-            @Override
-            public void onClick(View view) {
-                star_1.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_2.setBackground(getDrawable(R.drawable.ic_star));
-                star_3.setBackground(getDrawable(R.drawable.ic_star));
-                star_4.setBackground(getDrawable(R.drawable.ic_star));
-                star_5.setBackground(getDrawable(R.drawable.ic_star));
-                avaliacao = 1.0;
-            }
-        });
-        star_2.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("UseCompatLoadingForDrawables")
-            @Override
-            public void onClick(View view) {
-                star_1.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_2.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_3.setBackground(getDrawable(R.drawable.ic_star));
-                star_4.setBackground(getDrawable(R.drawable.ic_star));
-                star_5.setBackground(getDrawable(R.drawable.ic_star));
-                avaliacao = 2.0;
-            }
-        });
-        star_3.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("UseCompatLoadingForDrawables")
-            @Override
-            public void onClick(View view) {
-                star_1.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_2.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_3.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_4.setBackground(getDrawable(R.drawable.ic_star));
-                star_5.setBackground(getDrawable(R.drawable.ic_star));
-                avaliacao = 3.0;
-            }
-        });
-        star_4.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("UseCompatLoadingForDrawables")
-            @Override
-            public void onClick(View view) {
-                star_1.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_2.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_3.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_4.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_5.setBackground(getDrawable(R.drawable.ic_star));
-                avaliacao = 4.0;
-            }
-        });
-        star_5.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("UseCompatLoadingForDrawables")
-            @Override
-            public void onClick(View view) {
-                star_1.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_2.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_3.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_4.setBackground(getDrawable(R.drawable.ic_star_gold));
-                star_5.setBackground(getDrawable(R.drawable.ic_star_gold));
-                avaliacao = 5.0;
-            }
-        });
-
+        RatingBar starBar = findViewById(R.id.ratingBar);
+        avaliacao = (double) starBar.getNumStars();
 
         btnConfirma.setOnClickListener(new View.OnClickListener() {
             @Override

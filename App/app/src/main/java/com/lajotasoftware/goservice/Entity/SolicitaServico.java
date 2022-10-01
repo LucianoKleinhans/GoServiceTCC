@@ -9,6 +9,7 @@ public class SolicitaServico {
     private SubCategoria id_SubCategoria;
     private String descricaoSolicitacao;
     private Double valor;
+    private Boolean excluido;
     private Double valorProposto;
     private Usuario id_Cliente;
 
@@ -20,6 +21,7 @@ public class SolicitaServico {
         this.id_Categoria = cardsServicos.getId_Categoria();
         this.id_SubCategoria = cardsServicos.getId_SubCategoria();
         this.valor = cardsServicos.getValor();
+        this.excluido = cardsServicos.getExcluido();
         this.descricaoSolicitacao = cardsServicos.getDescricaoSolicitacao();
         this.valorProposto = cardsServicos.getValorProposto();
         this.id_Cliente = cardsServicos.getId_Cliente();
@@ -71,6 +73,14 @@ public class SolicitaServico {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+
+    public Boolean getExcluido() {
+        return excluido;
+    }
+
+    public void setExcluido(Boolean excluido) {
+        this.excluido = excluido;
     }
 
     public Double getValorProposto() {

@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,8 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterCard;
 import com.lajotasoftware.goservice.Entity.Categoria;
+import com.lajotasoftware.goservice.Entity.Proposta;
 import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.SubCategoria;
@@ -164,8 +167,31 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
     public void onCardVisualizarClick(int position, Long id) {
         idCardServico = id;
         status = "VISUALIZAR_CARTAO";
-        setContentView(R.layout.cadastro_servico);
-        initializeComponentsCadastroCartao();
+        setContentView(R.layout.card_servico_visualizacao);
+        MaterialTextView idCardServico = findViewById(R.id.idCardServico);
+        MaterialTextView nomeCardServico = findViewById(R.id.ttvNomeCardServico);
+        MaterialTextView descCardServico = findViewById(R.id.ttvDescCardServico);
+        MaterialTextView valorInicialCardServico = findViewById(R.id.ttvValorCardServico);
+        MaterialTextView valorAutualCardServico = findViewById(R.id.ttvCardValorAtual);
+        RetrofitService retrofitService = new RetrofitService();
+        api = retrofitService.getRetrofit().create(API.class);
+        api.getCardServicoById(id).enqueue(new Callback<SolicitaServico>() {
+            @Override
+            public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
+                if (response.body()!=null){
+                    idCardServico.setText(response.body().getId().toString());
+                    nomeCardServico.setText(response.body().getNomeServico());
+                    descCardServico.setText(response.body().getDescricaoSolicitacao());
+                    valorInicialCardServico.setText(response.body().getValor().toString());
+                    valorAutualCardServico.setText(response.body().getValorProposto().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SolicitaServico> call, Throwable t) {
+
+            }
+        });
     }
     @Override
     public void onCardRemoverClick(int position, Long id) {
@@ -178,9 +204,11 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        SolicitaServico card = new SolicitaServico();
+                        card.setExcluido(true);
                         RetrofitService retrofitEditService = new RetrofitService();
                         API usuarioAPI = retrofitEditService.getRetrofit().create(API.class);
-                        usuarioAPI.deleteCardServico(id).enqueue(new Callback<SolicitaServico>() {
+                        usuarioAPI.updateCardServico(id,card).enqueue(new Callback<SolicitaServico>() {
                             @Override
                             public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
                                 Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
@@ -213,8 +241,35 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
     }
 
     @Override
-    public void onCardFazerPropostaClick(int position, Long id) {
+    public void onCardFazerPropostaClick(int position, Long id, Long idCliente) {
+        Proposta proposta = new Proposta();
+        Usuario prestador = new Usuario();
+        Usuario cliente = new Usuario();
+        SolicitaServico card = new SolicitaServico();
 
+        prestador.setId(idPrestador);
+        cliente.setId(idCliente);
+        card.setId(id);
+
+        proposta.setId_Prestador(prestador);
+        proposta.setId_Cliente(cliente);
+        proposta.setId_SolicitaServico(card);
+        proposta.setObservacao("");
+        proposta.setValor(100.0);
+
+        RetrofitService retrofitService = new RetrofitService();
+        retrofitService.getRetrofit().create(API.class);
+        api.criarProposta(proposta).enqueue(new Callback<Proposta>() {
+            @Override
+            public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                Toast.makeText(Card.this, "Proposta Criada com Sucesso!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Proposta> call, Throwable t) {
+
+            }
+        });
     }
 
     @SuppressLint("CutPasteId")
@@ -551,31 +606,6 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
             onBackPressed();
             status = "DEFAUT";
         });
-    }
-
-    public void createDialog(View view,int position){
-        AlertDialog.Builder adb = new AlertDialog.Builder(this);
-        adb.setTitle("O que deseja fazer?");
-        /*adb.setPositiveButton("Finalizar", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Servico finalizado", Toast.LENGTH_LONG).show();
-                String sv = servicos.get(position);
-                finalizarServico(sv);
-                //databaseReference.child("CadServico").child(sv.getId()).removeValue();
-            } });*/
-        adb.setNegativeButton("Editar", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Editar", Toast.LENGTH_LONG).show();
-                //String cardSv = cardsServicos.get(position);
-                //editar(cardSv);
-            } });
-        adb.setNeutralButton("Excluir", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                //String cardSv = cardsServicos.get(position);
-                //excluir(cardSv);
-            } });
-        AlertDialog alertDialog = adb.create();
-        alertDialog.show();
     }
 
     public void btn_card_to_createcard (View view) {

@@ -22,6 +22,8 @@ public class Servico {
     @ManyToOne
     private SubCategoria id_SubCategoria;
     private Double valor;
+
+    private Boolean excluido;
     private String obsServico;
 
     @ManyToOne
@@ -48,6 +50,7 @@ public class Servico {
     public void setValor(Double valor) {
         this.valor = valor;
     }
+
 
     public void setObsServico(String obsServico) {
         this.obsServico = obsServico;
