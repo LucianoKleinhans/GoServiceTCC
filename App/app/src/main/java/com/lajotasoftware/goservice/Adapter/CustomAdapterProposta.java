@@ -11,22 +11,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.lajotasoftware.goservice.Entity.Proposta;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Frames.Card;
 import com.lajotasoftware.goservice.R;
 
 import java.util.List;
 
-public class CustomAdapterCard extends RecyclerView.Adapter {
+public class CustomAdapterProposta extends RecyclerView.Adapter {
 
     private String parametro;
     List<SolicitaServico> cardLists;
     Context context;
-    private OnCardListener mOnCardListener;
+    private CustomAdapterCard.OnCardListener mOnCardListener;
 
 
 
-    public CustomAdapterCard(Context context, List<SolicitaServico> cardLists, OnCardListener onCardListener, String parametro) {
+    public CustomAdapterProposta(Context context, List<SolicitaServico> cardLists, CustomAdapterCard.OnCardListener onCardListener, String parametro) {
         this.cardLists = cardLists;
         this.context = context;
         this.mOnCardListener = onCardListener;
@@ -36,15 +37,15 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.z_custom_list_cardservice, parent, false);
-        ViewHolder viewHolder=new ViewHolder(view, mOnCardListener);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.z_custom_list_propostas, parent, false);
+        CustomAdapterCard.ViewHolder viewHolder=new CustomAdapterCard.ViewHolder(view, mOnCardListener);
         return viewHolder;
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        ViewHolder myViewHolder = (ViewHolder) holder;
+        CustomAdapterCard.ViewHolder myViewHolder = (CustomAdapterCard.ViewHolder) holder;
         myViewHolder.CardServicoId.setText(cardLists.get(position).getId().toString());
         myViewHolder.CardServicoNome.setText(cardLists.get(position).getNomeServico().toString());
         myViewHolder.CardServicoDesc.setText(cardLists.get(position).getDescricaoSolicitacao().toString());
@@ -68,9 +69,9 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
         TextView CardServicoNome;
         TextView CardServicoDesc;
         TextView CardServicoValor;
-        OnCardListener onCardListener;
+        CustomAdapterCard.OnCardListener onCardListener;
 
-        public ViewHolder (@NonNull View itemView, OnCardListener onCardListener){
+        public ViewHolder (@NonNull View itemView, CustomAdapterCard.OnCardListener onCardListener){
             super(itemView);
             this.onCardListener = onCardListener;
             CardServicoId = itemView.findViewById(R.id.idServico);

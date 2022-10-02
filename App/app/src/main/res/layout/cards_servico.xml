@@ -111,7 +111,7 @@
                 tools:ignore="TouchTargetSizeCheck" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCardsPublicos2"
+                android:id="@+id/btnPropostasEnviadas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
@@ -121,8 +121,8 @@
                 android:textSize="11sp"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCardsPublicos3"
+            <!--<com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPropostasRecebidas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
@@ -130,7 +130,7 @@
                 android:text="Propostas Recebidas"
                 android:textAllCaps="false"
                 android:textSize="11sp"
-                tools:ignore="TouchTargetSizeCheck" />
+                tools:ignore="TouchTargetSizeCheck" />-->
 
         </LinearLayout>
     </HorizontalScrollView>

@@ -47,9 +47,18 @@ public class PropostaController {
                     if(proposta.getId()!=null){record.setId(proposta.getId());}
                     if(proposta.getValor()!=null){record.setValor(proposta.getValor());}
                     if(proposta.getObservacao()!=null){record.setObservacao(proposta.getObservacao());}
-                    if(proposta.getPropostaAceita()!=null){record.setPropostaAceita(proposta.getPropostaAceita());}
+                    if(proposta.getStatus()!=null){record.setStatus(proposta.getStatus());}
                     Proposta updated = repository.save(record);
                     return ResponseEntity.ok().body(updated);
                 }).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping(value = "/proposta/enviadas/{id}")
+    public List<Proposta> getPropostasEnviadas(@PathVariable("id") Long id){
+        return repository.getPropostasEnviadas(id);
+    }
+    @PostMapping(value = "/proposta/recebidas/{id}")
+    public List<Proposta> getPropostasRecebidas(@PathVariable("id") Long id){
+        return repository.getPropostasRecebidas(id);
     }
 }

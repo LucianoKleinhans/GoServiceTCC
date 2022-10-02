@@ -20,7 +20,7 @@ public class Proposta {
     private Usuario id_Cliente;
     private Double valor;
     private String observacao;
-    private Character propostaAceita;
+    private String status;
 
     @ManyToOne
     private Usuario id_Prestador;
@@ -54,8 +54,8 @@ public class Proposta {
         }
     }
 
-    public void setPropostaAceita(Character propostaAceita) {
-        this.propostaAceita = propostaAceita;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setId_Prestador(Usuario id_Prestador) {

@@ -2,9 +2,11 @@ package com.lajotasoftware.goservice.Frames;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,7 +24,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterCard;
+import com.lajotasoftware.goservice.Adapter.CustomAdapterProposta;
 import com.lajotasoftware.goservice.Entity.Categoria;
+import com.lajotasoftware.goservice.Entity.Pedido;
 import com.lajotasoftware.goservice.Entity.Proposta;
 import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
@@ -46,40 +50,51 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
     String status, parametro;
     API api;
     Intent it;
+    Dialog dialog;
     Spinner categoria_servico, sub_categoria_servico;
     int auxiliar = 0;
     Categoria categoria;
     SubCategoria subCategoria;
+    Proposta proposta;
     List<Categoria> categorias = new ArrayList<>();
     List<SubCategoria> subCategorias = new ArrayList<>();
+    List<SolicitaServico> cardsServicos = new ArrayList<>();
+    List<Proposta> propostas = new ArrayList<>();
 
     CustomAdapterCard customAdapter;
     RecyclerView recyclerView;
-    List<SolicitaServico> cardsServicos = new ArrayList<>();
     MaterialButton btnMeusCards;
     MaterialButton btnCardsPublicos;
+    MaterialButton btnPropostasEnviadas;
+    MaterialButton btnPropostasRecebidas;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent it  = getIntent();
+        Intent it = getIntent();
         Bundle parametros = it.getExtras();
         status = parametros.getString("status_usuario");
         idUsuario = parametros.getLong("id_usuario");
         if (status.equals("DEFAUT")) {
             setContentView(R.layout.cards_servico);
             initializeComponents();
-        }if (status.equals("CRIAR_CARTAO")) {
+        }
+        if (status.equals("CRIAR_CARTAO")) {
             setContentView(R.layout.cadastro_servico);
             initializeComponentsCadastroCartao();
-        }if (status.equals("EDITAR_CARTAO")) {
+        }
+        if (status.equals("EDITAR_CARTAO")) {
             setContentView(R.layout.cadastro_servico);
             initializeComponentsCadastroCartao();
         }
     }
+
     private void initializeComponents() {
+        dialog = new Dialog(this);
         recyclerView = findViewById(R.id.listCardServico);
         btnMeusCards = findViewById(R.id.btnMeusCards);
         btnCardsPublicos = findViewById(R.id.btnCardsPublicos);
+        btnPropostasEnviadas = findViewById(R.id.btnPropostasEnviadas);
+        /*btnPropostasRecebidas = findViewById(R.id.btnPropostasRecebidas);*/
         listarCards();
     }
 
@@ -87,22 +102,21 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         parametro = "MEUS_CARDS";
         btnMeusCards.setBackgroundColor(Color.parseColor("#204c6a"));
         btnCardsPublicos.setBackgroundColor(Color.parseColor("#153246"));
+        btnPropostasEnviadas.setBackgroundColor(Color.parseColor("#153246"));
+        btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#153246"));
         RetrofitService retrofitServiceListService = new RetrofitService();
         api = retrofitServiceListService.getRetrofit().create(API.class);
         api.getCardServico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
             @Override
             public void onResponse(Call<List<SolicitaServico>> call, Response<List<SolicitaServico>> response) {
                 int aux = 0;
-                if (response.body()!=null) {
+                if (response.body() != null) {
                     aux = response.body().size();
                 }
                 cardsServicos.clear();
-                for (int i=1; i<=aux;i++){
+                for (int i = 1; i <= aux; i++) {
                     SolicitaServico solicitaServico = new SolicitaServico();
-                    solicitaServico.setId(response.body().get(i-1).getId());
-                    solicitaServico.setNomeServico(response.body().get(i-1).getNomeServico());
-                    solicitaServico.setDescricaoSolicitacao(response.body().get(i-1).getDescricaoSolicitacao());
-                    solicitaServico.setValor(response.body().get(i-1).getValor());
+                    solicitaServico.setServico(response.body().get(i - 1));
                     cardsServicos.add(solicitaServico);
                 }
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -126,22 +140,21 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         parametro = "CARDS_PUBLICOS";
         btnMeusCards.setBackgroundColor(Color.parseColor("#153246"));
         btnCardsPublicos.setBackgroundColor(Color.parseColor("#204c6a"));
+        btnPropostasEnviadas.setBackgroundColor(Color.parseColor("#153246"));
+        btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#153246"));
         RetrofitService retrofitServiceListService = new RetrofitService();
         api = retrofitServiceListService.getRetrofit().create(API.class);
         api.getCardsServicoPublico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
             @Override
             public void onResponse(Call<List<SolicitaServico>> call, Response<List<SolicitaServico>> response) {
                 int aux = 0;
-                if (response.body()!=null) {
+                if (response.body() != null) {
                     aux = response.body().size();
                 }
                 cardsServicos.clear();
-                for (int i=1; i<=aux;i++){
+                for (int i = 1; i <= aux; i++) {
                     SolicitaServico solicitaServico = new SolicitaServico();
-                    solicitaServico.setId(response.body().get(i-1).getId());
-                    solicitaServico.setNomeServico(response.body().get(i-1).getNomeServico());
-                    solicitaServico.setDescricaoSolicitacao(response.body().get(i-1).getDescricaoSolicitacao());
-                    solicitaServico.setValor(response.body().get(i-1).getValor());
+                    solicitaServico.setServico(response.body().get(i - 1));
                     cardsServicos.add(solicitaServico);
                 }
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -158,10 +171,63 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
     }
 
     public void btnPropostasEnviadas(View view) {
+        parametro = "CARDS_PROPOSTAS_ENVIADAS";
+        btnMeusCards.setBackgroundColor(Color.parseColor("#153246"));
+        btnCardsPublicos.setBackgroundColor(Color.parseColor("#153246"));
+        btnPropostasEnviadas.setBackgroundColor(Color.parseColor("#204c6a"));
+        btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#153246"));
+        RetrofitService retrofitServiceListService = new RetrofitService();
+        api = retrofitServiceListService.getRetrofit().create(API.class);
+        api.getPropostasEnviadas(idUsuario).enqueue(new Callback<List<Proposta>>() {
+            @Override
+            public void onResponse(Call<List<Proposta>> call, Response<List<Proposta>> response) {
+                int aux = 0;
+                if (response.body() != null) {
+                    aux = response.body().size();
+                }
+                propostas.clear();
+                cardsServicos.clear();
+                for (int i = 1; i <= aux; i++) {
+                    SolicitaServico solicitaServico = new SolicitaServico();
+                    solicitaServico.setServico(response.body().get(i - 1).getId_SolicitaServico());
+                    cardsServicos.add(solicitaServico);
+                }
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(linearLayoutManager);
+                customAdapter = new CustomAdapterCard(Card.this, cardsServicos, Card.this, parametro);
+                recyclerView.setAdapter(customAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Proposta>> call, Throwable t) {
+
+            }
+        });
     }
 
-    public void btnPropostasRecebidas(View view) {
-    }
+    /*public void btnPropostasRecebidas(View view) {
+        parametro = "CARDS_PROPOSTAS_RECEBIDAS";
+        btnMeusCards.setBackgroundColor(Color.parseColor("#153246"));
+        btnCardsPublicos.setBackgroundColor(Color.parseColor("#153246"));
+        btnPropostasEnviadas.setBackgroundColor(Color.parseColor("#153246"));
+        btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#204c6a"));
+        RetrofitService retrofitServiceListService = new RetrofitService();
+        api = retrofitServiceListService.getRetrofit().create(API.class);
+        api.getPropostasRecebidas(idUsuario).enqueue(new Callback<List<Proposta>>() {
+            @Override
+            public void onResponse(Call<List<Proposta>> call, Response<List<Proposta>> response) {
+                int aux = 0;
+                if (response.body() != null) {
+                    aux = response.body().size();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Proposta>> call, Throwable t) {
+
+            }
+        });
+    }*/
 
     @Override
     public void onCardVisualizarClick(int position, Long id) {
@@ -178,7 +244,173 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         api.getCardServicoById(id).enqueue(new Callback<SolicitaServico>() {
             @Override
             public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
-                if (response.body()!=null){
+                if (response.body() != null) {
+                    idCardServico.setText(response.body().getId().toString());
+                    nomeCardServico.setText(response.body().getNomeServico());
+                    descCardServico.setText(response.body().getDescricaoSolicitacao());
+                    valorInicialCardServico.setText(response.body().getValor().toString());
+                    valorAutualCardServico.setText(response.body().getValorProposto().toString());
+                    RetrofitService retrofitService = new RetrofitService();
+                    api = retrofitService.getRetrofit().create(API.class);
+                    api.getPropostasRecebidas(response.body().getId()).enqueue(new Callback<List<Proposta>>() {
+                        @Override
+                        public void onResponse(Call<List<Proposta>> call, Response<List<Proposta>> response) {
+                            int aux = 0;
+                            if (response.body() != null) {
+                                aux = response.body().size();
+                            }
+                            if (aux > 0) {
+                                propostas.clear();
+                                for (int i = 1; i <= aux; i++) {
+                                    proposta = new Proposta();
+                                    proposta.setProposta(response.body().get(i - 1));
+                                    propostas.add(proposta);
+                                }
+                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                                recyclerView.setLayoutManager(linearLayoutManager);
+                                customAdapter = new CustomAdapterProposta(Card.this, propostas, Card.this);
+                                recyclerView.setAdapter(customAdapter);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<Proposta>> call, Throwable t) {
+
+                        }
+                    });
+                }else{
+                    onBackPressed();
+                    Toast.makeText(Card.this, "Erro ao carregar Card!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SolicitaServico> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onCardRemoverClick(int position, Long id) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Excluir Card");
+        alertDialogBuilder
+                .setMessage("Clique sim para Exluir o Card!")
+                .setCancelable(false)
+                .setPositiveButton("Sim",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                SolicitaServico card = new SolicitaServico();
+                                card.setExcluido(true);
+                                RetrofitService retrofitEditService = new RetrofitService();
+                                API usuarioAPI = retrofitEditService.getRetrofit().create(API.class);
+                                usuarioAPI.updateCardServico(id, card).enqueue(new Callback<SolicitaServico>() {
+                                    @Override
+                                    public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
+                                        Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
+                                        listarCards();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<SolicitaServico> call, Throwable t) {
+                                        Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
+                                        listarCards();
+                                    }
+                                });
+                            }
+                        })
+                .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    @Override
+    public void onCardEditarClick(int position, Long id) {
+        idCardServico = id;
+        status = "EDITAR_CARTAO";
+        setContentView(R.layout.cadastro_servico);
+        initializeComponentsCadastroCartao();
+    }
+
+    @Override
+    public void onCardFazerPropostaClick(int position, Long id, Long idCliente) {
+        dialog.setContentView(R.layout.z_custom_alertdialog_proposta);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        MaterialButton btnConfirma = dialog.findViewById(R.id.btnConfirmaProposta);
+        TextInputEditText edtDescProposta = dialog.findViewById(R.id.edtDescricaoProposta);
+        TextInputEditText edtValorProposta = dialog.findViewById(R.id.edtValorProposta);
+
+        idPrestador = idUsuario;
+
+        btnConfirma.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!edtDescProposta.toString().equals("")) {
+                    if (!edtValorProposta.toString().equals("")) {
+                        Proposta proposta = new Proposta();
+                        Usuario prestador = new Usuario();
+                        Usuario cliente = new Usuario();
+                        SolicitaServico card = new SolicitaServico();
+
+                        prestador.setId(idPrestador);
+                        cliente.setId(idCliente);
+                        card.setId(id);
+
+                        proposta.setId_Prestador(prestador);
+                        proposta.setId_Cliente(cliente);
+                        proposta.setId_SolicitaServico(card);
+                        proposta.setObservacao(edtDescProposta.getText().toString());
+                        proposta.setValor(Double.valueOf(edtValorProposta.getText().toString()));
+
+                        RetrofitService retrofitService = new RetrofitService();
+                        retrofitService.getRetrofit().create(API.class);
+                        api.criarProposta(proposta).enqueue(new Callback<Proposta>() {
+                            @Override
+                            public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                                Toast.makeText(Card.this, "Proposta Criada com Sucesso!", Toast.LENGTH_SHORT).show();
+                                onBackPressed();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Proposta> call, Throwable t) {
+
+                            }
+                        });
+                    } else {
+                        Toast.makeText(Card.this, "Valor da proposta é obrigatório!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(Card.this, "Descrição da proposta é obrigatória!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void onCardVizualizarPropostaClick(int position, Long id) {
+        /*idCardServico = id;
+        status = "VISUALIZAR_CARTAO";
+        setContentView(R.layout.card_servico_visualizacao);
+        MaterialTextView idCardServico = findViewById(R.id.idCardServico);
+        MaterialTextView nomeCardServico = findViewById(R.id.ttvNomeCardServico);
+        MaterialTextView descCardServico = findViewById(R.id.ttvDescCardServico);
+        MaterialTextView valorInicialCardServico = findViewById(R.id.ttvValorCardServico);
+        MaterialTextView valorAutualCardServico = findViewById(R.id.ttvCardValorAtual);
+        RetrofitService retrofitService = new RetrofitService();
+        api = retrofitService.getRetrofit().create(API.class);
+        api.getCardServicoById(id).enqueue(new Callback<SolicitaServico>() {
+            @Override
+            public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
+                if (response.body() != null) {
                     idCardServico.setText(response.body().getId().toString());
                     nomeCardServico.setText(response.body().getNomeServico());
                     descCardServico.setText(response.body().getDescricaoSolicitacao());
@@ -191,85 +423,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
             public void onFailure(Call<SolicitaServico> call, Throwable t) {
 
             }
-        });
-    }
-    @Override
-    public void onCardRemoverClick(int position, Long id) {
-        AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle("Excluir Card");
-        alertDialogBuilder
-            .setMessage("Clique sim para Exluir o Card!")
-            .setCancelable(false)
-            .setPositiveButton("Sim",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        SolicitaServico card = new SolicitaServico();
-                        card.setExcluido(true);
-                        RetrofitService retrofitEditService = new RetrofitService();
-                        API usuarioAPI = retrofitEditService.getRetrofit().create(API.class);
-                        usuarioAPI.updateCardServico(id,card).enqueue(new Callback<SolicitaServico>() {
-                            @Override
-                            public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
-                                Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
-                                listarCards();
-                            }
-
-                            @Override
-                            public void onFailure(Call<SolicitaServico> call, Throwable t) {
-                                Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
-                                listarCards();
-                            }
-                        });
-                    }
-                })
-            .setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-
-                    dialog.cancel();
-                }
-            });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-    @Override
-    public void onCardEditarClick(int position, Long id) {
-        idCardServico = id;
-        status = "EDITAR_CARTAO";
-        setContentView(R.layout.cadastro_servico);
-        initializeComponentsCadastroCartao();
-    }
-
-    @Override
-    public void onCardFazerPropostaClick(int position, Long id, Long idCliente) {
-        Proposta proposta = new Proposta();
-        Usuario prestador = new Usuario();
-        Usuario cliente = new Usuario();
-        SolicitaServico card = new SolicitaServico();
-
-        prestador.setId(idPrestador);
-        cliente.setId(idCliente);
-        card.setId(id);
-
-        proposta.setId_Prestador(prestador);
-        proposta.setId_Cliente(cliente);
-        proposta.setId_SolicitaServico(card);
-        proposta.setObservacao("");
-        proposta.setValor(100.0);
-
-        RetrofitService retrofitService = new RetrofitService();
-        retrofitService.getRetrofit().create(API.class);
-        api.criarProposta(proposta).enqueue(new Callback<Proposta>() {
-            @Override
-            public void onResponse(Call<Proposta> call, Response<Proposta> response) {
-                Toast.makeText(Card.this, "Proposta Criada com Sucesso!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<Proposta> call, Throwable t) {
-
-            }
-        });
+        });*/
     }
 
     @SuppressLint("CutPasteId")
@@ -289,6 +443,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                     idUsuario = user.getId();
                 }
             }
+
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
                 throw new Error("USUARIO INVALIDO");
@@ -339,7 +494,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
             spinnerCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    idCategoria = Long.valueOf(i)+1;
+                    idCategoria = Long.valueOf(i) + 1;
                     RetrofitService retrofitServiceSubCategoria = new RetrofitService();
                     api = retrofitServiceSubCategoria.getRetrofit().create(API.class);
                     api.getSubCategoria(idCategoria).enqueue(new Callback<List<SubCategoria>>() {
@@ -349,9 +504,9 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                             if (response.body() != null) {
                                 aux = response.body().size();
                             }
-                            if (aux > 0){
+                            if (aux > 0) {
                                 subCategorias.clear();
-                                for (int i = 1; i <= aux; i++){
+                                for (int i = 1; i <= aux; i++) {
                                     subCategoria = new SubCategoria();
                                     subCategoria.setId(response.body().get(i - 1).getId());
                                     subCategoria.setNome(response.body().get(i - 1).getNome());
@@ -415,7 +570,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     categoria_servico.setAdapter(adapter);
                                     if (card.getId_Categoria() != null) {
-                                        spinnerCategoriaServico.setSelection(getIndex(spinnerCategoriaServico,card.getId_Categoria().toString()));
+                                        spinnerCategoriaServico.setSelection(getIndex(spinnerCategoriaServico, card.getId_Categoria().toString()));
                                         idCategoria = card.getId_Categoria().getId();
 
                                         RetrofitService retrofitServiceSubCategoria = new RetrofitService();
@@ -427,9 +582,9 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                                                 if (response.body() != null) {
                                                     aux = response.body().size();
                                                 }
-                                                if (aux > 0){
+                                                if (aux > 0) {
                                                     subCategorias.clear();
-                                                    for (int i = 1; i <= aux; i++){
+                                                    for (int i = 1; i <= aux; i++) {
                                                         subCategoria = new SubCategoria();
                                                         subCategoria.setId(response.body().get(i - 1).getId());
                                                         subCategoria.setNome(response.body().get(i - 1).getNome());
@@ -440,7 +595,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                                     sub_categoria_servico.setAdapter(adapter);
                                                     if (card.getId_SubCategoria() != null) {
-                                                        spinnerSubCategoriaServico.setSelection(getIndex(spinnerSubCategoriaServico,card.getId_SubCategoria().toString()));
+                                                        spinnerSubCategoriaServico.setSelection(getIndex(spinnerSubCategoriaServico, card.getId_SubCategoria().toString()));
                                                         idSubCategoria = card.getId_SubCategoria().getId();
                                                     }
                                                 }
@@ -471,7 +626,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
             spinnerCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    idCategoria = Long.valueOf(i)+1;
+                    idCategoria = Long.valueOf(i) + 1;
                     RetrofitService retrofitServiceSubCategoria = new RetrofitService();
                     api = retrofitServiceSubCategoria.getRetrofit().create(API.class);
                     api.getSubCategoria(idCategoria).enqueue(new Callback<List<SubCategoria>>() {
@@ -481,9 +636,9 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                             if (response.body() != null) {
                                 aux = response.body().size();
                             }
-                            if (aux > 0){
+                            if (aux > 0) {
                                 subCategorias.clear();
-                                for (int i = 1; i <= aux; i++){
+                                for (int i = 1; i <= aux; i++) {
                                     subCategoria = new SubCategoria();
                                     subCategoria.setId(response.body().get(i - 1).getId());
                                     subCategoria.setNome(response.body().get(i - 1).getNome());
@@ -517,7 +672,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String subCat = adapterView.getSelectedItem().toString();
                 int pos = subCat.indexOf("-");
-                idSubCategoria = Long.valueOf(String.copyValueOf(subCat.toCharArray(),0,pos-1));
+                idSubCategoria = Long.valueOf(String.copyValueOf(subCat.toCharArray(), 0, pos - 1));
             }
 
             @Override
@@ -528,12 +683,12 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         btn_gravar_cardservico.setOnClickListener(view -> {
             Double valorServico = null;
             String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
-            if ((inputEditTextValorServico.getText()!=null) && (!inputEditTextValorServico.getText().equals(""))){
+            if ((inputEditTextValorServico.getText() != null) && (!inputEditTextValorServico.getText().equals(""))) {
                 valorServico = Double.parseDouble(inputEditTextValorServico.getText().toString());
             }
             String descServico = String.valueOf(inputEditTextDescricaoServico.getText());
             if (!nomeServico.equals("") && nomeServico.length() >= 5) {
-                if (valorServico > 0 && valorServico < 100000 && valorServico!=null) {
+                if (valorServico > 0 && valorServico < 100000 && valorServico != null) {
                     if (!descServico.equals("") && descServico.length() > 15) {
                         SolicitaServico cardServico = new SolicitaServico();
                         categoria = new Categoria();
@@ -542,7 +697,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                         subCategoria.setId(idSubCategoria);
                         cardServico.setValor(valorServico);
                         cardServico.setValorProposto(0.0);
-                        if (status.equals("EDITAR_CARTAO")){
+                        if (status.equals("EDITAR_CARTAO")) {
                             //cardServico.setValorProposto();
                         }
                         cardServico.setNomeServico(nomeServico);
@@ -574,7 +729,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                                 }
                             });
                         } else if (status.equals("CRIAR_CARTAO")) {
-                            api .createNewCardService(cardServico).enqueue(new Callback<SolicitaServico>() {
+                            api.createNewCardService(cardServico).enqueue(new Callback<SolicitaServico>() {
                                 @Override
                                 public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
                                     if (response.code() == 200) {
@@ -608,7 +763,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         });
     }
 
-    public void btn_card_to_createcard (View view) {
+    public void btn_card_to_createcard(View view) {
         Intent it = new Intent(this, Card.class);
         Bundle parametros = new Bundle();
         parametros.putLong("id_usuario", idUsuario);
@@ -617,7 +772,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         startActivity(it);
     }
 
-    public void btn_cards_to_main (View view){
+    public void btn_cards_to_main(View view) {
         Intent it = new Intent(this, MainActivity.class);
         Bundle parametros = new Bundle();
         parametros.putLong("id_usuario", idUsuario);
@@ -625,9 +780,9 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         startActivity(it);
     }
 
-    private int getIndex(Spinner spinner, String myString){
-        for (int i=0;i<spinner.getCount();i++){
-            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+    private int getIndex(Spinner spinner, String myString) {
+        for (int i = 0; i < spinner.getCount(); i++) {
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)) {
                 return i;
             }
         }

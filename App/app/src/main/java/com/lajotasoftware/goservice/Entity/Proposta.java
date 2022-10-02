@@ -5,9 +5,19 @@ public class Proposta {
     private Usuario id_Cliente;
     private Double valor;
     private String observacao;
-    private Character propostaAceita;
+    private String status;
     private Usuario id_Prestador;
     private SolicitaServico id_SolicitaServico;
+
+    public void setProposta(Proposta proposta){
+        this.id = proposta.getId();
+        this.id_Cliente = proposta.getId_Cliente();
+        this.valor = proposta.getValor();
+        this.observacao = proposta.getObservacao();
+        this.status = proposta.getStatus();
+        this.id_Prestador = proposta.getId_Prestador();
+        this.id_SolicitaServico = proposta.getId_SolicitaServico();
+    };
 
     public Long getId() {
         return id;
@@ -41,12 +51,12 @@ public class Proposta {
         this.observacao = observacao;
     }
 
-    public Character getPropostaAceita() {
-        return propostaAceita;
+    public String getStatus() {
+        return status;
     }
 
-    public void setPropostaAceita(Character propostaAceita) {
-        this.propostaAceita = propostaAceita;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Usuario getId_Prestador() {
