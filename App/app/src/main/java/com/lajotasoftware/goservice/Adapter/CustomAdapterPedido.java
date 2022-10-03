@@ -62,7 +62,7 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
     }
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private Card card = new Card();
+        private Pedido pedido = new Pedido();
         public int position;
         public Long id, idCliente, idPrestador;
         TextView idPedido;

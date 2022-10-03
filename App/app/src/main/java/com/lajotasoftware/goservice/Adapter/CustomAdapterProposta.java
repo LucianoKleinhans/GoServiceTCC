@@ -20,88 +20,65 @@ import java.util.List;
 
 public class CustomAdapterProposta extends RecyclerView.Adapter {
 
-    private String parametro;
-    List<SolicitaServico> cardLists;
+    List<Proposta> propostasLists;
     Context context;
-    private CustomAdapterCard.OnCardListener mOnCardListener;
+    private OnPropostaListener mOnPropostaListener;
 
-
-
-    public CustomAdapterProposta(Context context, List<SolicitaServico> cardLists, CustomAdapterCard.OnCardListener onCardListener, String parametro) {
-        this.cardLists = cardLists;
+    public CustomAdapterProposta(Context context, List<Proposta> propostasLists, OnPropostaListener OnPropostaListener) {
+        this.propostasLists = propostasLists;
         this.context = context;
-        this.mOnCardListener = onCardListener;
-        this.parametro = parametro;
+        this.mOnPropostaListener = OnPropostaListener;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.z_custom_list_propostas, parent, false);
-        CustomAdapterCard.ViewHolder viewHolder=new CustomAdapterCard.ViewHolder(view, mOnCardListener);
+        ViewHolder viewHolder=new ViewHolder(view, mOnPropostaListener);
         return viewHolder;
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        CustomAdapterCard.ViewHolder myViewHolder = (CustomAdapterCard.ViewHolder) holder;
-        myViewHolder.CardServicoId.setText(cardLists.get(position).getId().toString());
-        myViewHolder.CardServicoNome.setText(cardLists.get(position).getNomeServico().toString());
-        myViewHolder.CardServicoDesc.setText(cardLists.get(position).getDescricaoSolicitacao().toString());
-        myViewHolder.CardServicoValor.setText("Valor inicial: R$"+cardLists.get(position).getValor().toString());
+        ViewHolder myViewHolder = (ViewHolder) holder;
+
+        myViewHolder.PropostaID.setText(propostasLists.get(position).getId().toString());
+        myViewHolder.PropostaPrestador.setText(propostasLists.get(position).getId_Prestador().getPrimeiroNome());
+        myViewHolder.PropostaDesc.setText(propostasLists.get(position).getObservacao().toString());
+        myViewHolder.PropostaValor.setText("Valor proposto: R$"+propostasLists.get(position).getValor().toString());
         myViewHolder.position = position;
-        myViewHolder.id = cardLists.get(position).getId();
-        myViewHolder.idCliente = cardLists.get(position).getId_Cliente().getId();
+        myViewHolder.id = propostasLists.get(position).getId();
+        myViewHolder.idCliente = propostasLists.get(position).getId_Cliente().getId();
+        myViewHolder.idPrestador = propostasLists.get(position).getId_Prestador().getId();
     }
 
     @Override
     public int getItemCount() {
-        return cardLists.size();
+        return propostasLists.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private Card card = new Card();
+        private Proposta proposta = new Proposta();
         public int position;
-        public Long id, idCliente;
-        TextView CardServicoId;
-        TextView CardServicoNome;
-        TextView CardServicoDesc;
-        TextView CardServicoValor;
-        CustomAdapterCard.OnCardListener onCardListener;
+        public Long id, idCliente, idPrestador;
+        TextView PropostaID;
+        TextView PropostaPrestador;
+        TextView PropostaDesc;
+        TextView PropostaValor;
+        OnPropostaListener onPropostaListener;
 
-        public ViewHolder (@NonNull View itemView, CustomAdapterCard.OnCardListener onCardListener){
+        public ViewHolder (@NonNull View itemView, OnPropostaListener onPropostaListener){
             super(itemView);
-            this.onCardListener = onCardListener;
-            CardServicoId = itemView.findViewById(R.id.idServico);
-            CardServicoNome = itemView.findViewById(R.id.ttvNomeServico);
-            CardServicoDesc = itemView.findViewById(R.id.ttvDescServico);
-            CardServicoValor = itemView.findViewById(R.id.ttvValorServico);
-            itemView.findViewById(R.id.btnVisualizarCardServico).setOnClickListener(this);
-            itemView.findViewById(R.id.btnRemoverServico).setOnClickListener(this);
-            itemView.findViewById(R.id.btnEditarServico).setOnClickListener(this);
-            itemView.findViewById(R.id.btnFazerProposta).setOnClickListener(this);
-            itemView.findViewById(R.id.btnVizualizarProposta).setOnClickListener(this);
-            if (parametro.equals("MEUS_CARDS")){
-                itemView.findViewById(R.id.btnVisualizarCardServico).setVisibility(View.VISIBLE);
-                itemView.findViewById(R.id.btnRemoverServico).setVisibility(View.VISIBLE);
-                itemView.findViewById(R.id.btnEditarServico).setVisibility(View.VISIBLE);
-                itemView.findViewById(R.id.btnFazerProposta).setVisibility(View.INVISIBLE);
-                itemView.findViewById(R.id.btnVizualizarProposta).setVisibility(View.INVISIBLE);
-            }else if (parametro.equals("CARDS_PUBLICOS")) {
-                itemView.findViewById(R.id.btnVisualizarCardServico).setVisibility(View.INVISIBLE);
-                itemView.findViewById(R.id.btnRemoverServico).setVisibility(View.INVISIBLE);
-                itemView.findViewById(R.id.btnEditarServico).setVisibility(View.INVISIBLE);
-                itemView.findViewById(R.id.btnFazerProposta).setVisibility(View.VISIBLE);
-                itemView.findViewById(R.id.btnVizualizarProposta).setVisibility(View.INVISIBLE);
-            }else if (parametro.equals("CARDS_PROPOSTAS_ENVIADAS")) {
-                itemView.findViewById(R.id.btnVisualizarCardServico).setVisibility(View.INVISIBLE);
-                itemView.findViewById(R.id.btnRemoverServico).setVisibility(View.INVISIBLE);
-                itemView.findViewById(R.id.btnEditarServico).setVisibility(View.INVISIBLE);
-                itemView.findViewById(R.id.btnFazerProposta).setVisibility(View.INVISIBLE);
-                itemView.findViewById(R.id.btnVizualizarProposta).setVisibility(View.VISIBLE);
-            }
+            this.onPropostaListener = onPropostaListener;
+            PropostaID = itemView.findViewById(R.id.idProposta);
+            PropostaPrestador = itemView.findViewById(R.id.ttvPrestadorProposta);
+            PropostaDesc = itemView.findViewById(R.id.ttvDescProposta);
+            PropostaValor = itemView.findViewById(R.id.ttvValorProposta);
+            itemView.findViewById(R.id.btnAceitarProposta).setOnClickListener(this);
+            itemView.findViewById(R.id.btnNegociarProposta).setOnClickListener(this);
+            itemView.findViewById(R.id.btnRecusarProposta).setOnClickListener(this);
         }
 
         @Override
@@ -109,29 +86,22 @@ public class CustomAdapterProposta extends RecyclerView.Adapter {
             Button b = (Button)view;
             String text = b.getText().toString();
             switch (text) {
-                case "Visualizar":
-                    onCardListener.onCardVisualizarClick(getAdapterPosition(), id);
+                case "Aceitar":
+                    onPropostaListener.onPropostaAceitarClick(getAdapterPosition(), id, idCliente, idPrestador);
                     break;
-                case "Remover":
-                    onCardListener.onCardRemoverClick(getAdapterPosition(), id);
+                case "Negociar":
+                    onPropostaListener.onPropostaNegociarClick(getAdapterPosition(), id, idCliente, idPrestador);
                     break;
-                case "Editar":
-                    onCardListener.onCardEditarClick(getAdapterPosition(), id);
+                case "Recusar":
+                    onPropostaListener.onPropostaRecusarClick(getAdapterPosition(), id, idCliente, idPrestador);
                     break;
-                case "Fazer Proposta":
-                    onCardListener.onCardFazerPropostaClick(getAdapterPosition(), id, idCliente);
-                    break;
-                case "Vizualizar Proposta":
-                    onCardListener.onCardVizualizarPropostaClick(getAdapterPosition(),id);
             }
         }
     }
 
-    public interface OnCardListener{
-        void onCardVisualizarClick (int position, Long id);
-        void onCardRemoverClick (int position, Long id);
-        void onCardEditarClick (int position, Long id);
-        void onCardFazerPropostaClick(int position, Long id, Long idCliente);
-        void onCardVizualizarPropostaClick(int position, Long id);
+    public interface OnPropostaListener{
+        void onPropostaNegociarClick(int adapterPosition, Long id, Long idCliente, Long idPrestador);
+        void onPropostaAceitarClick(int adapterPosition, Long id, Long idCliente, Long idPrestador);
+        void onPropostaRecusarClick(int adapterPosition, Long id, Long idCliente, Long idPrestador);
     }
 }

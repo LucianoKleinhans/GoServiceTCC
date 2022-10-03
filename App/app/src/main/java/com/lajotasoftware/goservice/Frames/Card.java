@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,9 +25,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterCard;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterProposta;
 import com.lajotasoftware.goservice.Entity.Categoria;
-import com.lajotasoftware.goservice.Entity.Pedido;
 import com.lajotasoftware.goservice.Entity.Proposta;
-import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.SubCategoria;
 import com.lajotasoftware.goservice.Entity.Usuario;
@@ -44,29 +41,34 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardListener {
+public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardListener, CustomAdapterProposta.OnPropostaListener {
 
-    Long idUsuario, idPrestador, idCardServico, idCategoria, idSubCategoria;
+    Long idUsuario, idPrestador, idCardServico, idCategoria, idSubCategoria, idPropostaAceita;
     String status, parametro;
-    API api;
-    Intent it;
-    Dialog dialog;
-    Spinner categoria_servico, sub_categoria_servico;
     int auxiliar = 0;
+
+    API api;
     Categoria categoria;
     SubCategoria subCategoria;
     Proposta proposta;
+
     List<Categoria> categorias = new ArrayList<>();
     List<SubCategoria> subCategorias = new ArrayList<>();
     List<SolicitaServico> cardsServicos = new ArrayList<>();
     List<Proposta> propostas = new ArrayList<>();
 
-    CustomAdapterCard customAdapter;
+    Intent it;
+    Dialog dialog;
+    Spinner categoria_servico, sub_categoria_servico;
+
+    CustomAdapterCard customAdapterCard;
+    CustomAdapterProposta customAdapterProposta;
     RecyclerView recyclerView;
+    RecyclerView recyclerViewProposta;
     MaterialButton btnMeusCards;
     MaterialButton btnCardsPublicos;
     MaterialButton btnPropostasEnviadas;
-    MaterialButton btnPropostasRecebidas;
+    //MaterialButton btnPropostasRecebidas;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +105,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         btnMeusCards.setBackgroundColor(Color.parseColor("#204c6a"));
         btnCardsPublicos.setBackgroundColor(Color.parseColor("#153246"));
         btnPropostasEnviadas.setBackgroundColor(Color.parseColor("#153246"));
-        btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#153246"));
+        //btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#153246"));
         RetrofitService retrofitServiceListService = new RetrofitService();
         api = retrofitServiceListService.getRetrofit().create(API.class);
         api.getCardServico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
@@ -121,8 +123,8 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                 }
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(linearLayoutManager);
-                customAdapter = new CustomAdapterCard(Card.this, cardsServicos, Card.this, parametro);
-                recyclerView.setAdapter(customAdapter);
+                customAdapterCard = new CustomAdapterCard(Card.this, cardsServicos, Card.this, parametro);
+                recyclerView.setAdapter(customAdapterCard);
             }
 
             @Override
@@ -141,7 +143,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         btnMeusCards.setBackgroundColor(Color.parseColor("#153246"));
         btnCardsPublicos.setBackgroundColor(Color.parseColor("#204c6a"));
         btnPropostasEnviadas.setBackgroundColor(Color.parseColor("#153246"));
-        btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#153246"));
+        //btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#153246"));
         RetrofitService retrofitServiceListService = new RetrofitService();
         api = retrofitServiceListService.getRetrofit().create(API.class);
         api.getCardsServicoPublico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
@@ -159,8 +161,8 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                 }
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(linearLayoutManager);
-                customAdapter = new CustomAdapterCard(Card.this, cardsServicos, Card.this, parametro);
-                recyclerView.setAdapter(customAdapter);
+                customAdapterCard = new CustomAdapterCard(Card.this, cardsServicos, Card.this, parametro);
+                recyclerView.setAdapter(customAdapterCard);
             }
 
             @Override
@@ -175,7 +177,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         btnMeusCards.setBackgroundColor(Color.parseColor("#153246"));
         btnCardsPublicos.setBackgroundColor(Color.parseColor("#153246"));
         btnPropostasEnviadas.setBackgroundColor(Color.parseColor("#204c6a"));
-        btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#153246"));
+        //btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#153246"));
         RetrofitService retrofitServiceListService = new RetrofitService();
         api = retrofitServiceListService.getRetrofit().create(API.class);
         api.getPropostasEnviadas(idUsuario).enqueue(new Callback<List<Proposta>>() {
@@ -194,8 +196,8 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                 }
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(linearLayoutManager);
-                customAdapter = new CustomAdapterCard(Card.this, cardsServicos, Card.this, parametro);
-                recyclerView.setAdapter(customAdapter);
+                customAdapterCard = new CustomAdapterCard(Card.this, cardsServicos, Card.this, parametro);
+                recyclerView.setAdapter(customAdapterCard);
             }
 
             @Override
@@ -234,50 +236,25 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         idCardServico = id;
         status = "VISUALIZAR_CARTAO";
         setContentView(R.layout.card_servico_visualizacao);
-        MaterialTextView idCardServico = findViewById(R.id.idCardServico);
-        MaterialTextView nomeCardServico = findViewById(R.id.ttvNomeCardServico);
-        MaterialTextView descCardServico = findViewById(R.id.ttvDescCardServico);
-        MaterialTextView valorInicialCardServico = findViewById(R.id.ttvValorCardServico);
-        MaterialTextView valorAutualCardServico = findViewById(R.id.ttvCardValorAtual);
+        MaterialTextView ttvidCardServico = findViewById(R.id.idCardServico);
+        MaterialTextView ttvnomeCardServico = findViewById(R.id.ttvNomeCardServico);
+        MaterialTextView ttvdescCardServico = findViewById(R.id.ttvDescCardServico);
+        MaterialTextView ttvvalorInicialCardServico = findViewById(R.id.ttvValorCardServico);
+        MaterialTextView ttvvalorAtualCardServico = findViewById(R.id.ttvCardValorAtual);
+        recyclerViewProposta = findViewById(R.id.recyclerViewProposta);
         RetrofitService retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
         api.getCardServicoById(id).enqueue(new Callback<SolicitaServico>() {
             @Override
             public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
                 if (response.body() != null) {
-                    idCardServico.setText(response.body().getId().toString());
-                    nomeCardServico.setText(response.body().getNomeServico());
-                    descCardServico.setText(response.body().getDescricaoSolicitacao());
-                    valorInicialCardServico.setText(response.body().getValor().toString());
-                    valorAutualCardServico.setText(response.body().getValorProposto().toString());
-                    RetrofitService retrofitService = new RetrofitService();
-                    api = retrofitService.getRetrofit().create(API.class);
-                    api.getPropostasRecebidas(response.body().getId()).enqueue(new Callback<List<Proposta>>() {
-                        @Override
-                        public void onResponse(Call<List<Proposta>> call, Response<List<Proposta>> response) {
-                            int aux = 0;
-                            if (response.body() != null) {
-                                aux = response.body().size();
-                            }
-                            if (aux > 0) {
-                                propostas.clear();
-                                for (int i = 1; i <= aux; i++) {
-                                    proposta = new Proposta();
-                                    proposta.setProposta(response.body().get(i - 1));
-                                    propostas.add(proposta);
-                                }
-                                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-                                recyclerView.setLayoutManager(linearLayoutManager);
-                                customAdapter = new CustomAdapterProposta(Card.this, propostas, Card.this);
-                                recyclerView.setAdapter(customAdapter);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<List<Proposta>> call, Throwable t) {
-
-                        }
-                    });
+                    idCardServico = response.body().getId();
+                    ttvidCardServico.setText(response.body().getId().toString());
+                    ttvnomeCardServico.setText(response.body().getNomeServico());
+                    ttvdescCardServico.setText(response.body().getDescricaoSolicitacao());
+                    ttvvalorInicialCardServico.setText("Valor inicial R$"+response.body().getValor().toString());
+                    ttvvalorAtualCardServico.setText("Valor atual R$"+response.body().getValorProposto().toString());
+                    listarPropostas(idCardServico);
                 }else{
                     onBackPressed();
                     Toast.makeText(Card.this, "Erro ao carregar Card!", Toast.LENGTH_SHORT).show();
@@ -286,6 +263,37 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
 
             @Override
             public void onFailure(Call<SolicitaServico> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void listarPropostas(Long idCardServico) {
+        RetrofitService retrofitService = new RetrofitService();
+        api = retrofitService.getRetrofit().create(API.class);
+        api.getPropostasRecebidas(idCardServico).enqueue(new Callback<List<Proposta>>() {
+            @Override
+            public void onResponse(Call<List<Proposta>> call, Response<List<Proposta>> response) {
+                int aux = 0;
+                if (response.body() != null) {
+                    aux = response.body().size();
+                }
+                if (aux > 0) {
+                    propostas.clear();
+                    for (int i = 1; i <= aux; i++) {
+                        proposta = new Proposta();
+                        proposta.setProposta(response.body().get(i - 1));
+                        propostas.add(proposta);
+                    }
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                    recyclerViewProposta.setLayoutManager(linearLayoutManager);
+                    customAdapterProposta = new CustomAdapterProposta(Card.this, propostas, Card.this);
+                    recyclerViewProposta.setAdapter(customAdapterProposta);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Proposta>> call, Throwable t) {
 
             }
         });
@@ -369,6 +377,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                         proposta.setId_SolicitaServico(card);
                         proposta.setObservacao(edtDescProposta.getText().toString());
                         proposta.setValor(Double.valueOf(edtValorProposta.getText().toString()));
+                        proposta.setStatus("ABERTA");
 
                         RetrofitService retrofitService = new RetrofitService();
                         retrofitService.getRetrofit().create(API.class);
@@ -787,5 +796,107 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
             }
         }
         return 0;
+    }
+
+    @Override
+    public void onPropostaNegociarClick(int adapterPosition, Long id, Long idCliente, Long idPrestador) {
+
+    }
+
+    @Override
+    public void onPropostaAceitarClick(int adapterPosition, Long id, Long idCliente, Long idPrest) {
+        proposta = new Proposta();
+        proposta.setStatus("ACEITO");
+        idPropostaAceita = id;
+        idPrestador = idPrest;
+        RetrofitService retrofitService = new RetrofitService();
+        retrofitService.getRetrofit().create(API.class);
+        api.updateProposta(id, proposta).enqueue(new Callback<Proposta>() {
+            @Override
+            public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                Toast.makeText(Card.this, "Proposta Aceita!", Toast.LENGTH_SHORT).show();
+                RetrofitService retrofitService = new RetrofitService();
+                retrofitService.getRetrofit().create(API.class);
+                api.getPropostasRecebidas(idCardServico).enqueue(new Callback<List<Proposta>>() {
+                    @Override
+                    public void onResponse(Call<List<Proposta>> call, Response<List<Proposta>> response) {
+                        int aux = 0;
+                        Long idPro;
+                        if (response.body() != null) {
+                            aux = response.body().size();
+                        }
+                        if (aux > 0) {
+                            propostas.clear();
+                            for (int i = 1; i <= aux; i++) {
+                                if (!response.body().get(i - 1).getId().equals(idPropostaAceita)){
+                                    proposta = new Proposta();
+                                    proposta.setStatus("RECUSADO");
+                                    idPro = response.body().get(i - 1).getId();
+                                    RetrofitService retrofitService = new RetrofitService();
+                                    retrofitService.getRetrofit().create(API.class);
+                                    api.updateProposta(idPro, proposta).enqueue(new Callback<Proposta>() {
+                                        @Override
+                                        public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                                            Intent it = new Intent(Card.this, Pedidos.class);
+                                            Bundle parametros = new Bundle();
+                                            parametros.putLong("id_usuario", idUsuario);
+                                            parametros.putLong("id_proposta", idPropostaAceita);
+                                            parametros.putLong("id_prestador", idPrestador);
+                                            parametros.putString("status", "PROPOSTA_ACEITA");
+                                            it.putExtras(parametros);
+                                            startActivity(it);
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Proposta> call, Throwable t) {
+
+                                        }
+                                    });
+                                }
+                            }
+                        } else {
+                            Intent it = new Intent(Card.this, Pedidos.class);
+                            Bundle parametros = new Bundle();
+                            parametros.putLong("id_usuario", idUsuario);
+                            parametros.putLong("id_proposta", idPropostaAceita);
+                            parametros.putLong("id_prestador", idPrestador);
+                            parametros.putString("status", "PROPOSTA_ACEITA");
+                            it.putExtras(parametros);
+                            startActivity(it);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Proposta>> call, Throwable t) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<Proposta> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onPropostaRecusarClick(int adapterPosition, Long id, Long idCliente, Long idPrestador) {
+        proposta = new Proposta();
+        proposta.setStatus("RECUSADO");
+        RetrofitService retrofitService = new RetrofitService();
+        retrofitService.getRetrofit().create(API.class);
+        api.updateProposta(id, proposta).enqueue(new Callback<Proposta>() {
+            @Override
+            public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                Toast.makeText(Card.this, "Proposta recusada!", Toast.LENGTH_SHORT).show();
+                listarPropostas(idCardServico);
+            }
+
+            @Override
+            public void onFailure(Call<Proposta> call, Throwable t) {
+
+            }
+        });
     }
 }

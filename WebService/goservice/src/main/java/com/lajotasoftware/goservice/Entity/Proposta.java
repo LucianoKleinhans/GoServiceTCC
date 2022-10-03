@@ -13,7 +13,7 @@ import java.util.Objects;
 @Data
 public class Proposta {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

@@ -12,6 +12,7 @@ public class SolicitaServico {
     private Boolean excluido;
     private Double valorProposto;
     private Usuario id_Cliente;
+    private String status;
 
     List<SolicitaServico> cardsServicos;
 
@@ -24,6 +25,7 @@ public class SolicitaServico {
         this.excluido = cardsServicos.getExcluido();
         this.descricaoSolicitacao = cardsServicos.getDescricaoSolicitacao();
         this.valorProposto = cardsServicos.getValorProposto();
+        this.status = cardsServicos.getStatus();
         this.id_Cliente = cardsServicos.getId_Cliente();
     };
 
@@ -89,6 +91,14 @@ public class SolicitaServico {
 
     public void setValorProposto(Double valorProposto) {
         this.valorProposto = valorProposto;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Usuario getId_Cliente() {

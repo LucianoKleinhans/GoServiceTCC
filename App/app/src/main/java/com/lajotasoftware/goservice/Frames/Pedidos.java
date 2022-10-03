@@ -25,6 +25,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterPedido;
 import com.lajotasoftware.goservice.Entity.Pedido;
+import com.lajotasoftware.goservice.Entity.Proposta;
 import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.Functions.Function;
@@ -43,7 +44,7 @@ import retrofit2.Response;
 
 public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.OnPedidoListener{
 
-    private Long idUsuario, idPrestador, idPedido;
+    private Long idUsuario, idPrestadorProposta, idPedido, idProposta;
     String status, parametro;
     Intent it;
     Dialog dialog;
@@ -72,8 +73,16 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         Intent it = getIntent();
         Bundle parametros = it.getExtras();
         idUsuario = parametros.getLong("id_usuario");
+        idPrestadorProposta = parametros.getLong("id_prestador");
+        idProposta = parametros.getLong("id_proposta");
+        status = parametros.getString("status");
         setContentView(R.layout.solicitacoes);
-        initializeComponents();
+        if (status.equals("PROPOSTA_ACEITA")){
+            negociacaoDireta(idProposta);
+        } else {
+            initializeComponents();
+        }
+
     }
 
     private void initializeComponents() {
@@ -435,41 +444,63 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
 
         retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
-        api.getPedidoById(id).enqueue(new Callback<Pedido>() {
-            @Override
-            public void onResponse(Call<Pedido> call, Response<Pedido> response) {
-                if (response.body()!=null) {
-                    nomeCliente = "";
-                    nomePrestador = "";
-                    if (idUsuario.equals(response.body().getId_Cliente().getId())){
-                        ttvCliente.setText(response.body().getId_Prestador().getPrimeiroNome());
-                        ttvClienteUF.setText(response.body().getId_Prestador().getUf());
-                        ttvClienteEmail.setText(response.body().getId_Prestador().getEmail());
-                        ttvClienteTelefone.setText(response.body().getId_Prestador().getTelefone());
-                        ttvClientesite.setText(response.body().getId_Prestador().getSite());
-                        ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
-                        ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
-                        ttvClienteServicoValor.setText("Valor: R$"+response.body().getId_Servico().getValor().toString());
-                        nomeCliente = response.body().getId_Cliente().getPrimeiroNome();
-                    }else{
-                        ttvCliente.setText(response.body().getId_Cliente().getPrimeiroNome());
-                        ttvClienteUF.setText(response.body().getId_Cliente().getUf());
-                        ttvClienteEmail.setText(response.body().getId_Cliente().getEmail());
-                        ttvClienteTelefone.setText(response.body().getId_Cliente().getTelefone());
-                        ttvClientesite.setText(response.body().getId_Cliente().getSite());
-                        ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
-                        ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
-                        ttvClienteServicoValor.setText("Valor: R$"+response.body().getId_Servico().getValor().toString());
-                        nomePrestador = response.body().getId_Prestador().getPrimeiroNome();
+        if (status.equals("PROPOSTA_ACEITA")){
+            api.getPropostaByID(id).enqueue(new Callback<Proposta>() {
+                @Override
+                public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                    ttvCliente.setText(response.body().getId_Prestador().getPrimeiroNome());
+                    ttvClienteUF.setText(response.body().getId_Prestador().getUf());
+                    ttvClienteEmail.setText(response.body().getId_Prestador().getEmail());
+                    ttvClienteTelefone.setText(response.body().getId_Prestador().getTelefone());
+                    ttvClientesite.setText(response.body().getId_Prestador().getSite());
+                    ttvClienteServicoNome.setText(response.body().getId_SolicitaServico().getNomeServico());
+                    ttvClienteServicoDesc.setText(response.body().getObservacao());
+                    ttvClienteServicoValor.setText("Valor: R$"+response.body().getValor());
+                    nomeCliente = response.body().getId_Cliente().getPrimeiroNome();
+                }
+
+                @Override
+                public void onFailure(Call<Proposta> call, Throwable t) {
+
+                }
+            });
+        } else {
+            api.getPedidoById(id).enqueue(new Callback<Pedido>() {
+                @Override
+                public void onResponse(Call<Pedido> call, Response<Pedido> response) {
+                    if (response.body()!=null) {
+                        nomeCliente = "";
+                        nomePrestador = "";
+                        if (idUsuario.equals(response.body().getId_Cliente().getId())){
+                            ttvCliente.setText(response.body().getId_Prestador().getPrimeiroNome());
+                            ttvClienteUF.setText(response.body().getId_Prestador().getUf());
+                            ttvClienteEmail.setText(response.body().getId_Prestador().getEmail());
+                            ttvClienteTelefone.setText(response.body().getId_Prestador().getTelefone());
+                            ttvClientesite.setText(response.body().getId_Prestador().getSite());
+                            ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
+                            ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
+                            ttvClienteServicoValor.setText("Valor: R$"+response.body().getId_Servico().getValor().toString());
+                            nomeCliente = response.body().getId_Cliente().getPrimeiroNome();
+                        }else{
+                            ttvCliente.setText(response.body().getId_Cliente().getPrimeiroNome());
+                            ttvClienteUF.setText(response.body().getId_Cliente().getUf());
+                            ttvClienteEmail.setText(response.body().getId_Cliente().getEmail());
+                            ttvClienteTelefone.setText(response.body().getId_Cliente().getTelefone());
+                            ttvClientesite.setText(response.body().getId_Cliente().getSite());
+                            ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
+                            ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
+                            ttvClienteServicoValor.setText("Valor: R$"+response.body().getId_Servico().getValor().toString());
+                            nomePrestador = response.body().getId_Prestador().getPrimeiroNome();
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Pedido> call, Throwable t) {
+                @Override
+                public void onFailure(Call<Pedido> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }
 
         btnSeguirNegociacao.setOnClickListener(view -> {
             if (!(nomeCliente.equals(""))) {

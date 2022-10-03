@@ -21,9 +21,9 @@ public class PropostaController {
         return repository.findAll();
     }
 
-    @GetMapping("/proposta/{id}")
+    @PostMapping("/proposta/{id}")
     public Proposta getPropostaById(@PathVariable Long id){
-        return repository.getById(id);
+        return repository.getPropostaById(id);
     }
 
     @PostMapping("/proposta/create")
@@ -36,7 +36,7 @@ public class PropostaController {
         repository.deleteById(id);
     }
 
-    @PutMapping(value = "/proposta/{id}")
+    @PutMapping(value = "/proposta/update/{id}")
     public ResponseEntity update(@PathVariable("id") long id,
                                  @RequestBody Proposta proposta) {
         return repository.findById(id)

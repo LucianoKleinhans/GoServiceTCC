@@ -129,9 +129,15 @@ public interface API {
     @POST("/proposta/create")
     Call<Proposta> criarProposta(@Body Proposta proposta);
 
+    @POST(value = "/proposta/{id}")
+    Call<Proposta> getPropostaByID(@Path("id") Long id);
+
     @POST(value = "/proposta/enviadas/{id}")
     Call<List<Proposta>> getPropostasEnviadas(@Path("id") Long id);
 
     @POST(value = "/proposta/recebidas/{id}")
     Call<List<Proposta>> getPropostasRecebidas(@Path("id") Long id);
+
+    @PUT("/proposta/update/{id}")
+    Call<Proposta> updateProposta(@Path("id")Long id,@Body Proposta proposta);
 }

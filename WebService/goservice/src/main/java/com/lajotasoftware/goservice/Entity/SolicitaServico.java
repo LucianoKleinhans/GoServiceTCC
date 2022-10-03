@@ -28,6 +28,8 @@ public class SolicitaServico {
     private Boolean excluido;
     private Double valorProposto;
 
+    private String status;
+
     @ManyToOne
     private Usuario id_Cliente;
 
@@ -61,6 +63,10 @@ public class SolicitaServico {
 
     public void setValorProposto(Double valorProposto) {
         this.valorProposto = valorProposto;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setId_Cliente(Usuario id_Cliente) {

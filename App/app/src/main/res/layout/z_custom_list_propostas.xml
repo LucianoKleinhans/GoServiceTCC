@@ -6,7 +6,7 @@
     style="?android:attr/spinnerItemStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/retangle_border_view_2"
+    android:background="@drawable/retangle_border_view_3"
     android:paddingTop="5dp"
     android:singleLine="false"
     android:textAlignment="inherit"
@@ -15,56 +15,23 @@
     android:padding="5dp">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnFazerProposta"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        android:backgroundTint="#009f10"
-        android:text="Fazer Proposta"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvCardValorAtual"
-        tools:ignore="TextContrastCheck" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnVizualizarProposta"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        android:backgroundTint="#bd7500"
-        android:text="Vizualizar Proposta"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvCardValorAtual"
-        tools:ignore="TextContrastCheck" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnRemoverServico"
+        android:id="@+id/btnRecusarProposta"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:backgroundTint="#750709"
-        android:text="Remover"
+        android:text="Recusar"
+        android:textAllCaps="false"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnEditarServico"
+        app:layout_constraintEnd_toStartOf="@+id/btnNegociarProposta"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvValorServico" />
+        app:layout_constraintTop_toBottomOf="@+id/ttvValorProposta" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnEditarServico"
+        android:id="@+id/btnNegociarProposta"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="5dp"
@@ -72,68 +39,53 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:backgroundTint="#30739f"
-        android:text="Editar"
+        android:text="Negociar"
+        android:textAllCaps="false"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnVisualizarCardServico"
-        app:layout_constraintStart_toEndOf="@+id/btnRemoverServico"
-        app:layout_constraintTop_toBottomOf="@+id/ttvValorServico" />
+        app:layout_constraintEnd_toStartOf="@+id/btnAceitarProposta"
+        app:layout_constraintStart_toEndOf="@+id/btnRecusarProposta"
+        app:layout_constraintTop_toBottomOf="@+id/ttvValorProposta" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnVisualizarCardServico"
+        android:id="@+id/btnAceitarProposta"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:backgroundTint="#009f10"
-        android:text="Visualizar"
+        android:text="Aceitar"
+        android:textAllCaps="false"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnEditarServico"
-        app:layout_constraintTop_toBottomOf="@+id/ttvCardValorAtual"
+        app:layout_constraintStart_toEndOf="@+id/btnNegociarProposta"
+        app:layout_constraintTop_toBottomOf="@+id/ttvValorProposta"
         tools:ignore="TextContrastCheck" />
 
     <TextView
-        android:id="@+id/ttvValorServico"
-        android:layout_width="0dp"
+        android:id="@+id/ttvValorProposta"
+        android:layout_width="200dp"
         android:layout_height="31dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:background="@drawable/retangle_border_view_4"
-        android:text="Valor Incial : R$100"
-        android:textAlignment="center"
-        android:textColor="#d5d5d5"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toStartOf="@+id/ttvCardValorAtual"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvDescServico" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/ttvCardValorAtual"
-        android:layout_width="0dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
         android:background="@drawable/retangle_border_view_5"
-        android:text="Valor atual : R$80"
         android:textAlignment="center"
         android:textColor="#d5d5d5"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/ttvValorServico"
-        app:layout_constraintTop_toBottomOf="@+id/ttvDescServico" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ttvDescProposta" />
 
     <TextView
-        android:id="@+id/ttvNomeServico"
+        android:id="@+id/ttvPrestadorProposta"
         android:layout_width="0dp"
         android:layout_height="31dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:text="@string/user_name"
         android:textColor="#d5d5d5"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -141,23 +93,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/ttvDescServico"
+        android:id="@+id/ttvDescProposta"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:text="Card desc"
         android:textAlignment="textStart"
         android:textColor="#d5d5d5"
         android:textSize="15sp"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvNomeServico" />
+        app:layout_constraintTop_toBottomOf="@+id/ttvPrestadorProposta" />
 
     <TextView
-        android:id="@+id/idServico"
+        android:id="@+id/idProposta"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
@@ -168,5 +119,5 @@
         android:textStyle="normal"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ttvNomeServico" />
+        app:layout_constraintTop_toTopOf="@+id/ttvPrestadorProposta" />
 </androidx.constraintlayout.widget.ConstraintLayout>
