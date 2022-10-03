@@ -45,6 +45,11 @@ public class UsuarioController {
         return userService.getAtualUser(id);
     }
 
+    @PostMapping("/usuario/getusuario/{id}")
+    public Usuario getUsuario(@PathVariable Long id) {
+        return repository.getUsuario(id);
+    }
+
     @PostMapping("/usuarioprestadores/{id}")
     public List<Usuario> getAllPrestadores(@PathVariable Long id) {
         return repository.findAllPrestadores(id);

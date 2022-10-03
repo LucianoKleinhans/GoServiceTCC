@@ -68,4 +68,9 @@ public class SolicitaServicoController {
     public List<SolicitaServico> getCardsServicoPublico(@PathVariable Long id){
         return repository.getCardsServicoPublico(id);
     }
+
+    @PostMapping("/cardservico/cardsfinalizados/{id}")
+    public List<SolicitaServico> getCardsServicoFinalizados(@PathVariable Long id){
+        return repository.getCardsServicoFinalizados(id);
+    }
 }

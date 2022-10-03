@@ -79,7 +79,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         setContentView(R.layout.solicitacoes);
         if (status.equals("PROPOSTA_ACEITA")){
             negociacaoDireta(idProposta);
-        } else {
+        } else if (status.equals("PEDIDOS")){
             initializeComponents();
         }
 

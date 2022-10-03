@@ -115,7 +115,8 @@ public class MainActivity extends AppCompatActivity {
     public void btn_main_to_solicitacoes(View view) {
         Intent it = new Intent(this, Pedidos.class);
         Bundle parametros = new Bundle();
-        parametros.putLong("id_usuario", idUsuario);;
+        parametros.putLong("id_usuario", idUsuario);
+        parametros.putString("status", "PEDIDOS");
         it.putExtras(parametros);
         startActivity(it);
     }

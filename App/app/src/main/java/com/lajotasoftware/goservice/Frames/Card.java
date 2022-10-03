@@ -68,7 +68,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
     MaterialButton btnMeusCards;
     MaterialButton btnCardsPublicos;
     MaterialButton btnPropostasEnviadas;
-    //MaterialButton btnPropostasRecebidas;
+    MaterialButton btnCardsFinalizadas;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +96,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         btnMeusCards = findViewById(R.id.btnMeusCards);
         btnCardsPublicos = findViewById(R.id.btnCardsPublicos);
         btnPropostasEnviadas = findViewById(R.id.btnPropostasEnviadas);
-        /*btnPropostasRecebidas = findViewById(R.id.btnPropostasRecebidas);*/
+        btnCardsFinalizadas = findViewById(R.id.btnCardsFinalizadas);
         listarCards();
     }
 
@@ -105,7 +105,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         btnMeusCards.setBackgroundColor(Color.parseColor("#204c6a"));
         btnCardsPublicos.setBackgroundColor(Color.parseColor("#153246"));
         btnPropostasEnviadas.setBackgroundColor(Color.parseColor("#153246"));
-        //btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#153246"));
+        btnCardsFinalizadas.setBackgroundColor(Color.parseColor("#153246"));
         RetrofitService retrofitServiceListService = new RetrofitService();
         api = retrofitServiceListService.getRetrofit().create(API.class);
         api.getCardServico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
@@ -143,7 +143,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         btnMeusCards.setBackgroundColor(Color.parseColor("#153246"));
         btnCardsPublicos.setBackgroundColor(Color.parseColor("#204c6a"));
         btnPropostasEnviadas.setBackgroundColor(Color.parseColor("#153246"));
-        //btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#153246"));
+        btnCardsFinalizadas.setBackgroundColor(Color.parseColor("#153246"));
         RetrofitService retrofitServiceListService = new RetrofitService();
         api = retrofitServiceListService.getRetrofit().create(API.class);
         api.getCardsServicoPublico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
@@ -177,7 +177,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         btnMeusCards.setBackgroundColor(Color.parseColor("#153246"));
         btnCardsPublicos.setBackgroundColor(Color.parseColor("#153246"));
         btnPropostasEnviadas.setBackgroundColor(Color.parseColor("#204c6a"));
-        //btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#153246"));
+        btnCardsFinalizadas.setBackgroundColor(Color.parseColor("#153246"));
         RetrofitService retrofitServiceListService = new RetrofitService();
         api = retrofitServiceListService.getRetrofit().create(API.class);
         api.getPropostasEnviadas(idUsuario).enqueue(new Callback<List<Proposta>>() {
@@ -207,29 +207,39 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         });
     }
 
-    /*public void btnPropostasRecebidas(View view) {
-        parametro = "CARDS_PROPOSTAS_RECEBIDAS";
+    public void btnCardsFinalizadas(View view) {
+        parametro = "CARDS_PROPOSTAS_FINALIZADAS";
         btnMeusCards.setBackgroundColor(Color.parseColor("#153246"));
         btnCardsPublicos.setBackgroundColor(Color.parseColor("#153246"));
         btnPropostasEnviadas.setBackgroundColor(Color.parseColor("#153246"));
-        btnPropostasRecebidas.setBackgroundColor(Color.parseColor("#204c6a"));
+        btnCardsFinalizadas.setBackgroundColor(Color.parseColor("#204c6a"));
         RetrofitService retrofitServiceListService = new RetrofitService();
         api = retrofitServiceListService.getRetrofit().create(API.class);
-        api.getPropostasRecebidas(idUsuario).enqueue(new Callback<List<Proposta>>() {
+        api.getCardsServicoFinalizados(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
             @Override
-            public void onResponse(Call<List<Proposta>> call, Response<List<Proposta>> response) {
+            public void onResponse(Call<List<SolicitaServico>> call, Response<List<SolicitaServico>> response) {
                 int aux = 0;
                 if (response.body() != null) {
                     aux = response.body().size();
                 }
+                cardsServicos.clear();
+                for (int i = 1; i <= aux; i++) {
+                    SolicitaServico solicitaServico = new SolicitaServico();
+                    solicitaServico.setServico(response.body().get(i - 1));
+                    cardsServicos.add(solicitaServico);
+                }
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(linearLayoutManager);
+                customAdapterCard = new CustomAdapterCard(Card.this, cardsServicos, Card.this, parametro);
+                recyclerView.setAdapter(customAdapterCard);
             }
 
             @Override
-            public void onFailure(Call<List<Proposta>> call, Throwable t) {
-
+            public void onFailure(Call<List<SolicitaServico>> call, Throwable t) {
+                Toast.makeText(Card.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
             }
         });
-    }*/
+    }
 
     @Override
     public void onCardVisualizarClick(int position, Long id) {
@@ -377,7 +387,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                         proposta.setId_SolicitaServico(card);
                         proposta.setObservacao(edtDescProposta.getText().toString());
                         proposta.setValor(Double.valueOf(edtValorProposta.getText().toString()));
-                        proposta.setStatus("ABERTA");
+                        proposta.setStatus("ABERTO");
 
                         RetrofitService retrofitService = new RetrofitService();
                         retrofitService.getRetrofit().create(API.class);
@@ -714,6 +724,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                         cardServico.setId_Categoria(categoria);
                         cardServico.setId_SubCategoria(subCategoria);
                         cardServico.setId_Cliente(user);
+                        cardServico.setStatus("ABERTO");
 
                         it = new Intent(this, MainActivity.class);
                         Bundle parametros = new Bundle();
@@ -800,7 +811,15 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
 
     @Override
     public void onPropostaNegociarClick(int adapterPosition, Long id, Long idCliente, Long idPrestador) {
-
+        Intent it = new Intent(Card.this, Negociacao.class);
+        Bundle parametros = new Bundle();
+        parametros.putLong("id_usuario", idUsuario);
+        parametros.putLong("id_proposta", id);
+        parametros.putLong("id_prestador", idPrestador);
+        parametros.putLong("id_cliente", idCliente);
+        //parametros.putString("status", "PROPOSTA_ACEITA");
+        it.putExtras(parametros);
+        startActivity(it);
     }
 
     @Override

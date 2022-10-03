@@ -45,6 +45,9 @@ public interface API {
     @DELETE ("/usuario/delete/{id}")
     Call<Usuario> deleteUser(@Path("id")Long id);
 
+    @POST ("/usuario/getusuario/{id}")
+    Call<Usuario> getUsuario(@Path("id")Long id);
+
     /*-----------------Crud Servico-----------------*/
 
     @POST ("/servico/create")
@@ -84,7 +87,8 @@ public interface API {
     //@DELETE("/cardservico/delete/{id}")
     //Call<SolicitaServico> deleteCardServico(@Path("id")Long id);
 
-
+    @POST ("/cardservico/cardsfinalizados/{id}")
+    Call<List<SolicitaServico>> getCardsServicoFinalizados(@Path("id")Long id);
 
     /*-----------------View Prestadores-----------------*/
 

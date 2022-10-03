@@ -121,17 +121,28 @@
                 android:textSize="11sp"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <!--<com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPropostasRecebidas"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCardsFinalizadas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
-                android:onClick="btnPropostasRecebidas"
-                android:text="Propostas Recebidas"
+                android:onClick="btnCardsFinalizadas"
+                android:text="Cards Finalizados"
                 android:textAllCaps="false"
                 android:textSize="11sp"
-                tools:ignore="TouchTargetSizeCheck" />-->
+                tools:ignore="TouchTargetSizeCheck" />
 
+            <!--<com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPropostasFinalizadas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:onClick="btnPropostasFinalizadas"
+                android:text="Propostas Finalizadas"
+                android:textAllCaps="false"
+                android:textSize="11sp"
+                tools:ignore="TouchTargetSizeCheck" />
+-->
         </LinearLayout>
     </HorizontalScrollView>
 
