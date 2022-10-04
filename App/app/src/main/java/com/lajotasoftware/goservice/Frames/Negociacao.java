@@ -5,13 +5,18 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
+import com.lajotasoftware.goservice.Adapter.CustomAdapterCard;
+import com.lajotasoftware.goservice.Adapter.CustomAdapterMensagem;
+import com.lajotasoftware.goservice.Adapter.CustomAdapterMensagem.ViewHolder;
 import com.lajotasoftware.goservice.Entity.Mensagem;
 import com.lajotasoftware.goservice.Entity.Proposta;
+import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.API;
@@ -37,6 +42,7 @@ public class Negociacao extends AppCompatActivity {
 
     List<Mensagem> mensagens = new ArrayList<>();
 
+    CustomAdapterMensagem customAdapterMensagem;
 
     MaterialTextView ttvUsernameProposta;
     MaterialTextView ttvCidadeProposta;
@@ -65,6 +71,37 @@ public class Negociacao extends AppCompatActivity {
         preencheCabecalho();
         textMensagem.setText("");
         textValorMensagem.setText("");
+        recyclerView.findViewById(R.id.listMensagem);
+        listarMensagem();
+    }
+
+    private void listarMensagem() {
+        retrofitService = new RetrofitService();
+        retrofitService.getRetrofit().create(API.class);
+        api.getPropostaMensagem(idProposta).enqueue(new Callback<List<Mensagem>>() {
+            @Override
+            public void onResponse(Call<List<Mensagem>> call, Response<List<Mensagem>> response) {
+                int aux = 0;
+                if (response.body() != null) {
+                    aux = response.body().size();
+                }
+                mensagens.clear();
+                for (int i = 1; i <= aux; i++) {
+                    mensagem = new Mensagem();
+                    mensagem.setMessagem(response.body().get(i - 1));
+                    mensagens.add(mensagem);
+                }
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(linearLayoutManager);
+                customAdapterMensagem = new CustomAdapterMensagem(Negociacao.this, mensagens);
+                recyclerView.setAdapter(customAdapterMensagem);
+            }
+
+            @Override
+            public void onFailure(Call<List<Mensagem>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void preencheCabecalho() {

@@ -49,4 +49,9 @@ public class MensagemController {
                     return ResponseEntity.ok().body(updated);
                 }).orElse(ResponseEntity.notFound().build());
     }
+
+    @PostMapping(value = "/mensagem/proposta/{id}")
+    public Mensagem getMensagemProposta(@PathVariable Long id){
+        return repository.getMensagemProposta(id);
+    }
 }

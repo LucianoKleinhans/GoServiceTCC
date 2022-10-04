@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+    <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -20,14 +20,14 @@
     <View
         android:id="@+id/myRectangle0View4"
         android:layout_width="wrap_content"
-        android:layout_height="170dp"
+        android:layout_height="110dp"
         android:background="@drawable/retangle_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <View
+    <!--<View
         android:id="@+id/myRectangleView29"
         android:layout_width="0dp"
         android:layout_height="45dp"
@@ -37,7 +37,7 @@
         android:background="@drawable/retangle_border_view_5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />-->
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCancelarCadServico2"
@@ -52,7 +52,7 @@
         app:layout_constraintStart_toStartOf="@+id/myRectangle0View4"
         app:layout_constraintTop_toTopOf="@+id/myRectangle0View4" />
 
-    <EditText
+   <!-- <EditText
         android:id="@+id/edtValorServico2"
         android:layout_width="0dp"
         android:layout_height="45dp"
@@ -66,7 +66,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/myRectangleView29"
         app:layout_constraintEnd_toEndOf="@+id/myRectangleView29"
         app:layout_constraintStart_toStartOf="@+id/myRectangleView29"
-        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />
+        tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />-->
 
     <View
         android:id="@+id/myRectangleView30"
@@ -74,9 +74,9 @@
         android:layout_height="45dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/retangle_border_view_5"
-        app:layout_constraintBottom_toTopOf="@+id/myRectangleView29"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -244,6 +244,7 @@
         tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listMensagem"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="5dp"

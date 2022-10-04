@@ -3,11 +3,19 @@ package com.lajotasoftware.goservice.Entity;
 public class Mensagem {
     private Long id;
     private String mensagem;
-
     private Long dataHoraMsg;
     private Usuario id_Cliente;
     private Usuario id_Prestador;
     private Proposta id_Proposta;
+
+    public void setMessagem(Mensagem mensagem){
+        this.id = mensagem.getId();
+        this.mensagem = mensagem.getMensagem();
+        this.dataHoraMsg = mensagem.getDataHoraMsg();
+        this.id_Cliente = mensagem.getId_Cliente();
+        this.id_Prestador = mensagem.getId_Prestador();
+        this.id_Proposta = mensagem.getId_Proposta();
+    };
 
     public Long getId() {
         return id;

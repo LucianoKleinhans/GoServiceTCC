@@ -1,6 +1,7 @@
 package com.lajotasoftware.goservice.retrofit;
 
 import com.lajotasoftware.goservice.Entity.Categoria;
+import com.lajotasoftware.goservice.Entity.Mensagem;
 import com.lajotasoftware.goservice.Entity.Pedido;
 import com.lajotasoftware.goservice.Entity.Proposta;
 import com.lajotasoftware.goservice.Entity.Servico;
@@ -144,4 +145,9 @@ public interface API {
 
     @PUT("/proposta/update/{id}")
     Call<Proposta> updateProposta(@Path("id")Long id,@Body Proposta proposta);
+
+    /*------------------------------------------Mensagem------------------------------------------*/
+
+    @POST("/mensagem/proposta/{id}")
+    Call<List<Mensagem>> getPropostaMensagem(@Path("id")Long id);
 }
