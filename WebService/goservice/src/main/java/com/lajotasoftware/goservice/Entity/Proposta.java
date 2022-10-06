@@ -29,9 +29,7 @@ public class Proposta {
     private SolicitaServico id_SolicitaServico;
 
     public void setId(Long id) {
-        if(id != null){
-            this.id = id;
-        }
+        this.id = id;
     }
 
     public void setId_Cliente(Usuario id_Cliente) {

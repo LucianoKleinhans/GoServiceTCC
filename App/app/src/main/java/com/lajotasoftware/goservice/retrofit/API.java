@@ -43,10 +43,10 @@ public interface API {
     @POST("/usuario/create")
     Call<Usuario> createNewUser(@Body Usuario usuario);
 
-    @DELETE ("/usuario/delete/{id}")
+    @DELETE("/usuario/delete/{id}")
     Call<Usuario> deleteUser(@Path("id")Long id);
 
-    @POST ("/usuario/getusuario/{id}")
+    @POST("/usuario/getusuario/{id}")
     Call<Usuario> getUsuario(@Path("id")Long id);
 
     /*-----------------Crud Servico-----------------*/
@@ -150,4 +150,7 @@ public interface API {
 
     @POST("/mensagem/proposta/{id}")
     Call<List<Mensagem>> getPropostaMensagem(@Path("id")Long id);
+
+    @POST("/mensagem/create")
+    Call <Mensagem> createMensagem(@Body Mensagem mensagem);
 }

@@ -28,10 +28,11 @@ public class Mensagem {
     @ManyToOne
     private Proposta id_Proposta;
 
+    @ManyToOne
+    private Usuario sendBy;
+
     public void setId(Long id) {
-        if(id != null){
-            this.id = id;
-        }
+        this.id = id;
     }
 
     public void setMensagem(String mensagem) {
@@ -60,5 +61,9 @@ public class Mensagem {
         if(id_Proposta != null){
             this.id_Proposta = id_Proposta;
         }
+    }
+
+    public void setSendBy(Usuario sendBy) {
+        this.sendBy = sendBy;
     }
 }

@@ -26,7 +26,7 @@ public class MensagemController {
         return repository.getById(id);
     }
 
-    @PostMapping("/mensagem")
+    @PostMapping("/mensagem/create")
     public Mensagem salvarMensagem(@RequestBody Mensagem mensagem){
         return repository.save(mensagem);
     }
@@ -51,7 +51,7 @@ public class MensagemController {
     }
 
     @PostMapping(value = "/mensagem/proposta/{id}")
-    public Mensagem getMensagemProposta(@PathVariable Long id){
+    public List<Mensagem> getMensagemProposta(@PathVariable Long id){
         return repository.getMensagemProposta(id);
     }
 }

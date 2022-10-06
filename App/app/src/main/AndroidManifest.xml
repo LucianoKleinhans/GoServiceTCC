@@ -49,7 +49,9 @@
         <activity android:name=".Frames.Servicos"
             android:windowSoftInputMode="stateHidden">
         </activity>
-        <activity android:name=".Frames.Negociacao" />
+        <activity android:name=".Frames.Negociacao"
+            android:windowSoftInputMode="stateHidden">
+        </activity>
     </application>
 
 </manifest>

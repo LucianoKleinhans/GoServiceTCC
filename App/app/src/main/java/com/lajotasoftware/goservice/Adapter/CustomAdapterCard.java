@@ -127,7 +127,7 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
                     onCardListener.onCardFazerPropostaClick(getAdapterPosition(), id, idCliente);
                     break;
                 case "Vizualizar Proposta":
-                    onCardListener.onCardVizualizarPropostaClick(getAdapterPosition(),id);
+                    onCardListener.onCardVizualizarPropostaClick(getAdapterPosition(),id, idCliente);
             }
         }
     }
@@ -137,6 +137,6 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
         void onCardRemoverClick (int position, Long id);
         void onCardEditarClick (int position, Long id);
         void onCardFazerPropostaClick(int position, Long id, Long idCliente);
-        void onCardVizualizarPropostaClick(int position, Long id);
+        void onCardVizualizarPropostaClick(int position, Long id, Long idCliente);
     }
 }

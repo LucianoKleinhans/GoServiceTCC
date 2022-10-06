@@ -7,6 +7,7 @@ public class Mensagem {
     private Usuario id_Cliente;
     private Usuario id_Prestador;
     private Proposta id_Proposta;
+    private Usuario sendBy;
 
     public void setMessagem(Mensagem mensagem){
         this.id = mensagem.getId();
@@ -15,6 +16,7 @@ public class Mensagem {
         this.id_Cliente = mensagem.getId_Cliente();
         this.id_Prestador = mensagem.getId_Prestador();
         this.id_Proposta = mensagem.getId_Proposta();
+        this.sendBy = mensagem.getSendBy();
     };
 
     public Long getId() {
@@ -63,5 +65,13 @@ public class Mensagem {
 
     public void setId_Proposta(Proposta id_Proposta) {
         this.id_Proposta = id_Proposta;
+    }
+
+    public Usuario getSendBy() {
+        return sendBy;
+    }
+
+    public void setSendBy(Usuario sendBy) {
+        this.sendBy = sendBy;
     }
 }

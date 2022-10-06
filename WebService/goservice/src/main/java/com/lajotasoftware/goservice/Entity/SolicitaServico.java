@@ -58,7 +58,7 @@ public class SolicitaServico {
     }
 
     public void setExcluido(Boolean excluido) {
-        this.excluido = excluido;
+        this.excluido = excluido==null?false:excluido;
     }
 
     public void setValorProposto(Double valorProposto) {

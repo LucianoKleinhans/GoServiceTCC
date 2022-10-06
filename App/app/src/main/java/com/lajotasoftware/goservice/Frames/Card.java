@@ -415,34 +415,28 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
     }
 
     @Override
-    public void onCardVizualizarPropostaClick(int position, Long id) {
-        /*idCardServico = id;
-        status = "VISUALIZAR_CARTAO";
-        setContentView(R.layout.card_servico_visualizacao);
-        MaterialTextView idCardServico = findViewById(R.id.idCardServico);
-        MaterialTextView nomeCardServico = findViewById(R.id.ttvNomeCardServico);
-        MaterialTextView descCardServico = findViewById(R.id.ttvDescCardServico);
-        MaterialTextView valorInicialCardServico = findViewById(R.id.ttvValorCardServico);
-        MaterialTextView valorAutualCardServico = findViewById(R.id.ttvCardValorAtual);
+    public void onCardVizualizarPropostaClick(int position, Long id, Long idCliente) {
+        Intent it = new Intent(Card.this, Negociacao.class);
+        Bundle parametros = new Bundle();
         RetrofitService retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
         api.getCardServicoById(id).enqueue(new Callback<SolicitaServico>() {
             @Override
             public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
-                if (response.body() != null) {
-                    idCardServico.setText(response.body().getId().toString());
-                    nomeCardServico.setText(response.body().getNomeServico());
-                    descCardServico.setText(response.body().getDescricaoSolicitacao());
-                    valorInicialCardServico.setText(response.body().getValor().toString());
-                    valorAutualCardServico.setText(response.body().getValorProposto().toString());
-                }
+                assert response.body() != null;
+                parametros.putLong("id_usuario", idUsuario);
+                parametros.putLong("id_proposta", response.body().getId());
+                parametros.putLong("id_prestador", idUsuario);
+                parametros.putLong("id_cliente", response.body().getId_Cliente().getId());
+                it.putExtras(parametros);
+                startActivity(it);
             }
 
             @Override
             public void onFailure(Call<SolicitaServico> call, Throwable t) {
 
             }
-        });*/
+        });
     }
 
     @SuppressLint("CutPasteId")
@@ -817,7 +811,6 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         parametros.putLong("id_proposta", id);
         parametros.putLong("id_prestador", idPrestador);
         parametros.putLong("id_cliente", idCliente);
-        //parametros.putString("status", "PROPOSTA_ACEITA");
         it.putExtras(parametros);
         startActivity(it);
     }
@@ -856,14 +849,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                                     api.updateProposta(idPro, proposta).enqueue(new Callback<Proposta>() {
                                         @Override
                                         public void onResponse(Call<Proposta> call, Response<Proposta> response) {
-                                            Intent it = new Intent(Card.this, Pedidos.class);
-                                            Bundle parametros = new Bundle();
-                                            parametros.putLong("id_usuario", idUsuario);
-                                            parametros.putLong("id_proposta", idPropostaAceita);
-                                            parametros.putLong("id_prestador", idPrestador);
-                                            parametros.putString("status", "PROPOSTA_ACEITA");
-                                            it.putExtras(parametros);
-                                            startActivity(it);
+
                                         }
 
                                         @Override
@@ -873,15 +859,51 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                                     });
                                 }
                             }
+                            RetrofitService retrofitService = new RetrofitService();
+                            retrofitService.getRetrofit().create(API.class);
+                            SolicitaServico card = new SolicitaServico();
+                            card.setStatus("FINALIZADO");
+                            api.updateCardServico(idCardServico,card).enqueue(new Callback<SolicitaServico>() {
+                                @Override
+                                public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
+                                    Intent it = new Intent(Card.this, Pedidos.class);
+                                    Bundle parametros = new Bundle();
+                                    parametros.putLong("id_usuario", idUsuario);
+                                    parametros.putLong("id_proposta", idPropostaAceita);
+                                    parametros.putLong("id_prestador", idPrestador);
+                                    parametros.putString("status", "PROPOSTA_ACEITA");
+                                    it.putExtras(parametros);
+                                    startActivity(it);
+                                }
+
+                                @Override
+                                public void onFailure(Call<SolicitaServico> call, Throwable t) {
+
+                                }
+                            });
                         } else {
-                            Intent it = new Intent(Card.this, Pedidos.class);
-                            Bundle parametros = new Bundle();
-                            parametros.putLong("id_usuario", idUsuario);
-                            parametros.putLong("id_proposta", idPropostaAceita);
-                            parametros.putLong("id_prestador", idPrestador);
-                            parametros.putString("status", "PROPOSTA_ACEITA");
-                            it.putExtras(parametros);
-                            startActivity(it);
+                            RetrofitService retrofitService = new RetrofitService();
+                            retrofitService.getRetrofit().create(API.class);
+                            SolicitaServico card = new SolicitaServico();
+                            card.setStatus("FINALIZADO");
+                            api.updateCardServico(idCardServico,card).enqueue(new Callback<SolicitaServico>() {
+                                @Override
+                                public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
+                                    Intent it = new Intent(Card.this, Pedidos.class);
+                                    Bundle parametros = new Bundle();
+                                    parametros.putLong("id_usuario", idUsuario);
+                                    parametros.putLong("id_proposta", idPropostaAceita);
+                                    parametros.putLong("id_prestador", idPrestador);
+                                    parametros.putString("status", "PROPOSTA_ACEITA");
+                                    it.putExtras(parametros);
+                                    startActivity(it);
+                                }
+
+                                @Override
+                                public void onFailure(Call<SolicitaServico> call, Throwable t) {
+
+                                }
+                            });
                         }
                     }
 

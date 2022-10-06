@@ -1,4 +1,4 @@
-    <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -68,6 +68,19 @@
         app:layout_constraintStart_toStartOf="@+id/myRectangleView29"
         tools:ignore="TouchTargetSizeCheck,TextContrastCheck" />-->
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNovaProposta"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#30739f"
+        android:onClick="btnVoltarProposta"
+        android:text="Voltar"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="@+id/myRectangle0View4"
+        app:layout_constraintTop_toTopOf="@+id/myRectangle0View4" />
+
     <View
         android:id="@+id/myRectangleView30"
         android:layout_width="0dp"
@@ -81,7 +94,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtNomeServico2"
+        android:id="@+id/edtTextMensagem"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="15dp"
@@ -253,7 +266,91 @@
         android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/myRectangle0View4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView31">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <View
+        android:id="@+id/myRectangleView31"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view_3"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myRectangle0View3" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ttvValorPropostaMensagem"
+        android:layout_width="0dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/retangle_border_view_5"
+        android:textAlignment="center"
+        android:textColor="#d5d5d5"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView31"
+        app:layout_constraintEnd_toStartOf="@+id/btnAceitarPropostaMensagem"
+        app:layout_constraintStart_toStartOf="@+id/myRectangleView31" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/ttvDescPropostaMensagem"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:textAlignment="textStart"
+        android:textColor="#d5d5d5"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toTopOf="@+id/ttvValorPropostaMensagem"
+        app:layout_constraintEnd_toEndOf="@+id/myRectangleView31"
+        app:layout_constraintStart_toStartOf="@+id/myRectangleView31"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView31" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAceitarPropostaMensagem"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="5dp"
+        android:backgroundTint="#009f10"
+        android:text="Aceitar"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        android:onClick="aceitarPropostaMensagem"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView31"
+        app:layout_constraintEnd_toEndOf="@+id/myRectangleView31"
+        tools:ignore="TextContrastCheck" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAlterarPropostaMensagem"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="5dp"
+        android:backgroundTint="#009f10"
+        android:onClick="alterarPropostaMensagem"
+        android:text="Aceitar"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView31"
+        app:layout_constraintEnd_toEndOf="@+id/myRectangleView31"
+        tools:ignore="TextContrastCheck" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/idPropostaMensagem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/ttvDescPropostaMensagem"
+        app:layout_constraintTop_toTopOf="@+id/ttvDescPropostaMensagem" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
