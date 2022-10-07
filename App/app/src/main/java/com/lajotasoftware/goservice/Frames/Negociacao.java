@@ -1,10 +1,14 @@
 package com.lajotasoftware.goservice.Frames;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,9 +39,9 @@ import retrofit2.Response;
 
 public class Negociacao extends AppCompatActivity {
 
-    Long idUsuario, idPrestador, idCliente, idProposta;
+    Long idUsuario, idPrestador, idCliente, idProposta, idCardServico;
 
-    int delay = 5000;   // delay de 5 seg.
+    int delay = 2000;   // delay de 20 seg.
     int interval = 1000;  // intervalo de 1 seg.
 
     API api;
@@ -60,6 +64,7 @@ public class Negociacao extends AppCompatActivity {
     MaterialButton btnAlterarPropostaMensagem;
 
     Intent it;
+    Dialog dialog;
 
     List<Mensagem> mensagens = new ArrayList<>();
 
@@ -74,6 +79,7 @@ public class Negociacao extends AppCompatActivity {
         idPrestador = parametros.getLong("id_prestador");
         idCliente = parametros.getLong("id_cliente");
         idProposta = parametros.getLong("id_proposta");
+        idCardServico = parametros.getLong("id_card_servico");
         setContentView(R.layout.negociacao);
         initializeComponents();
         Timer timer = new Timer();
@@ -85,6 +91,7 @@ public class Negociacao extends AppCompatActivity {
     }
 
     private void initializeComponents() {
+        dialog = new Dialog(this);
         ttvUsernameProposta = findViewById(R.id.ttvUsernameProposta);
         ttvCidadeProposta = findViewById(R.id.ttvCidadeProposta);
         ttvEmailPerfilProposta = findViewById(R.id.ttvEmailPerfilProposta);
@@ -112,6 +119,22 @@ public class Negociacao extends AppCompatActivity {
                     ttvSitePerfilProposta.setText(response.body().getSite());
                     btnAceitarPropostaMensagem.setVisibility(View.VISIBLE);
                     btnAlterarPropostaMensagem.setVisibility(View.INVISIBLE);
+                    retrofitService = new RetrofitService();
+                    api = retrofitService.getRetrofit().create(API.class);
+                    api.getPropostaByID(idProposta).enqueue(new Callback<Proposta>() {
+                        @Override
+                        public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                            assert response.body() != null;
+                            ttvidPropostaMensagem.setText(response.body().getId().toString());
+                            ttvValorPropostaMensagem.setText("Valor: R$"+response.body().getValor().toString());
+                            ttvDescPropostaMensagem.setText(response.body().getObservacao());
+                        }
+
+                        @Override
+                        public void onFailure(Call<Proposta> call, Throwable t) {
+
+                        }
+                    });
                 }
 
                 @Override
@@ -119,7 +142,7 @@ public class Negociacao extends AppCompatActivity {
 
                 }
             });
-        }else if (idUsuario.equals(idPrestador)){
+        }else if (idUsuario.equals(idPrestador)) {
             retrofitService = new RetrofitService();
             api = retrofitService.getRetrofit().create(API.class);
             api.getUsuario(idCliente).enqueue(new Callback<Usuario>() {
@@ -133,6 +156,22 @@ public class Negociacao extends AppCompatActivity {
                     ttvSitePerfilProposta.setText(response.body().getSite());
                     btnAceitarPropostaMensagem.setVisibility(View.INVISIBLE);
                     btnAlterarPropostaMensagem.setVisibility(View.VISIBLE);
+                    retrofitService = new RetrofitService();
+                    api = retrofitService.getRetrofit().create(API.class);
+                    api.getPropostaByID(idProposta).enqueue(new Callback<Proposta>() {
+                        @Override
+                        public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                            assert response.body() != null;
+                            ttvidPropostaMensagem.setText(response.body().getId().toString());
+                            ttvValorPropostaMensagem.setText("Valor: R$"+response.body().getValor().toString());
+                            ttvDescPropostaMensagem.setText(response.body().getObservacao());
+                        }
+
+                        @Override
+                        public void onFailure(Call<Proposta> call, Throwable t) {
+                            Toast.makeText(Negociacao.this, "Bom dia", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
 
                 @Override
@@ -140,23 +179,6 @@ public class Negociacao extends AppCompatActivity {
                 }
             });
         }
-        retrofitService = new RetrofitService();
-        api = retrofitService.getRetrofit().create(API.class);
-        api.getPropostaByID(idProposta).enqueue(new Callback<Proposta>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onResponse(Call<Proposta> call, Response<Proposta> response) {
-                assert response.body() != null;
-                ttvidPropostaMensagem.setText(response.body().getId().toString());
-                ttvValorPropostaMensagem.setText("Valor: R$"+response.body().getValor().toString());
-                ttvDescPropostaMensagem.setText(response.body().getObservacao());
-            }
-
-            @Override
-            public void onFailure(Call<Proposta> call, Throwable t) {
-
-            }
-        });
 
         textMensagem.setText("");
         listarMensagem();
@@ -225,6 +247,11 @@ public class Negociacao extends AppCompatActivity {
 
     public void btnVoltarProposta(View view) {
         onBackPressed();
+        finish();
+    }
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
     }
 
     public void aceitarPropostaMensagem(View view) {
@@ -260,6 +287,112 @@ public class Negociacao extends AppCompatActivity {
 
     public void alterarPropostaMensagem(View view) {
         idProposta = Long.parseLong((String) ttvidPropostaMensagem.getText());
+        dialog.setContentView(R.layout.z_custom_alertdialog_proposta);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        idPrestador = idUsuario;
+
+        MaterialButton btnConfirma = dialog.findViewById(R.id.btnConfirmaProposta);
+        TextInputEditText edtDescProposta = dialog.findViewById(R.id.edtDescricaoProposta);
+        TextInputEditText edtValorProposta = dialog.findViewById(R.id.edtValorProposta);
+
+        btnConfirma.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!edtDescProposta.toString().equals("")) {
+                    if (!edtValorProposta.toString().equals("")) {
+                        Proposta proposta = new Proposta();
+                        Usuario prestador = new Usuario();
+                        Usuario cliente = new Usuario();
+                        SolicitaServico card = new SolicitaServico();
+
+                        prestador.setId(idPrestador);
+                        cliente.setId(idCliente);
+                        card.setId(idCardServico);
+
+                        proposta.setId_Prestador(prestador);
+                        proposta.setId_Cliente(cliente);
+                        proposta.setId_SolicitaServico(card);
+                        proposta.setObservacao(edtDescProposta.getText().toString());
+                        proposta.setValor(Double.valueOf(edtValorProposta.getText().toString()));
+                        proposta.setStatus("ABERTO");
+
+                        RetrofitService retrofitService = new RetrofitService();
+                        retrofitService.getRetrofit().create(API.class);
+                        api.updateProposta(idProposta,proposta).enqueue(new Callback<Proposta>() {
+                            @Override
+                            public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                                Toast.makeText(Negociacao.this, "Proposta Atualizada com Sucesso!", Toast.LENGTH_SHORT).show();
+                                Mensagem mensagem = new Mensagem();
+                                Proposta proposta = new Proposta();
+                                Usuario prestador = new Usuario();
+                                Usuario cliente = new Usuario();
+                                Usuario usuario = new Usuario();
+                                proposta.setId(idProposta);
+                                cliente.setId(idCliente);
+                                prestador.setId(idPrestador);
+                                usuario.setId(idUsuario);
+                                mensagem.setMensagem("Proposta Atualizada!");
+                                mensagem.setId_Proposta(proposta);
+                                mensagem.setId_Cliente(cliente);
+                                mensagem.setId_Prestador(prestador);
+                                mensagem.setSendBy(usuario);
+                                RetrofitService retrofitService = new RetrofitService();
+                                api = retrofitService.getRetrofit().create(API.class);
+                                api.createMensagem(mensagem).enqueue(new Callback<Mensagem>() {
+                                    @Override
+                                    public void onResponse(Call<Mensagem> call, Response<Mensagem> response) {
+                                        listarMensagem();
+                                        onBackPressed();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Mensagem> call, Throwable t) {
+
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onFailure(Call<Proposta> call, Throwable t) {
+
+                            }
+                        });
+                    } else {
+                        Toast.makeText(Negociacao.this, "Valor da proposta é obrigatório!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(Negociacao.this, "Descrição da proposta é obrigatória!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        dialog.show();
+    }
+
+    public void messageClick(View view) {
+        atualizarProposta();
+    }
+
+    private void atualizarProposta() {
+        retrofitService = new RetrofitService();
+        api = retrofitService.getRetrofit().create(API.class);
+        api.getPropostaByID(idProposta).enqueue(new Callback<Proposta>() {
+            @Override
+            public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                assert response.body() != null;
+                ttvidPropostaMensagem.setText(response.body().getId().toString());
+                ttvValorPropostaMensagem.setText("Valor: R$"+response.body().getValor().toString());
+                ttvDescPropostaMensagem.setText(response.body().getObservacao());
+            }
+
+            @Override
+            public void onFailure(Call<Proposta> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void refreshProposta(View view) {
+        atualizarProposta();
     }
 }

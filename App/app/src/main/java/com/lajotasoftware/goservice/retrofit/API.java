@@ -146,6 +146,10 @@ public interface API {
     @PUT("/proposta/update/{id}")
     Call<Proposta> updateProposta(@Path("id")Long id,@Body Proposta proposta);
 
+    @POST("/proposta/card/{idSolicitaServico}/{idPrestador}")
+    Call<Proposta> getPropostaSolicitacaoServico(@Path("idSolicitaServico") Long idSolicitaServico,
+                                                 @Path("idPrestador") Long idPrestador);
+
     /*------------------------------------------Mensagem------------------------------------------*/
 
     @POST("/mensagem/proposta/{id}")

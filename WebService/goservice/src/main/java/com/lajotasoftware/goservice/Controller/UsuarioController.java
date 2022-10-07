@@ -47,7 +47,7 @@ public class UsuarioController {
 
     @PostMapping("/usuario/getusuario/{id}")
     public Usuario getUsuario(@PathVariable Long id) {
-        return repository.getUsu    ario(id);
+        return repository.getUsuario(id);
     }
 
     @PostMapping("/usuarioprestadores/{id}")

@@ -43,6 +43,7 @@
         android:textColor="#d5d5d5"
         android:textSize="15sp"
         android:textStyle="normal"
+        android:onClick="messageClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

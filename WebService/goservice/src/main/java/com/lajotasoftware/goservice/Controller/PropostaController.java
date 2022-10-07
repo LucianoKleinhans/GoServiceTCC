@@ -61,4 +61,10 @@ public class PropostaController {
     public List<Proposta> getPropostasRecebidas(@PathVariable("id") Long id){
         return repository.getPropostasRecebidas(id);
     }
+
+    @PostMapping(value = "/proposta/card/{idSolicitaServico}/{idPrestador}")
+    public Proposta getPropostaSolicitacaoServico(@PathVariable("idSolicitaServico") Long idSolicitaServico,
+                                                  @PathVariable("idPrestador") Long idPrestador){
+        return repository.getPropostaSolicitacaoServico(idSolicitaServico,idPrestador);
+    }
 }

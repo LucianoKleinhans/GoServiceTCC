@@ -423,13 +423,26 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         api.getCardServicoById(id).enqueue(new Callback<SolicitaServico>() {
             @Override
             public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
-                assert response.body() != null;
-                parametros.putLong("id_usuario", idUsuario);
-                parametros.putLong("id_proposta", response.body().getId());
-                parametros.putLong("id_prestador", idUsuario);
-                parametros.putLong("id_cliente", response.body().getId_Cliente().getId());
-                it.putExtras(parametros);
-                startActivity(it);
+                RetrofitService retrofitService = new RetrofitService();
+                api = retrofitService.getRetrofit().create(API.class);
+                api.getPropostaSolicitacaoServico(response.body().getId(),idUsuario).enqueue(new Callback<Proposta>() {
+                    @Override
+                    public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                        assert response.body() != null;
+                        parametros.putLong("id_usuario", idUsuario);
+                        parametros.putLong("id_proposta", response.body().getId());
+                        parametros.putLong("id_prestador", idUsuario);
+                        parametros.putLong("id_cliente", response.body().getId_Cliente().getId());
+                        parametros.putLong("id_card_servico", id);
+                        it.putExtras(parametros);
+                        startActivity(it);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Proposta> call, Throwable t) {
+
+                    }
+                });
             }
 
             @Override
@@ -811,6 +824,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         parametros.putLong("id_proposta", id);
         parametros.putLong("id_prestador", idPrestador);
         parametros.putLong("id_cliente", idCliente);
+        parametros.putLong("id_card_servico", idCardServico);
         it.putExtras(parametros);
         startActivity(it);
     }
