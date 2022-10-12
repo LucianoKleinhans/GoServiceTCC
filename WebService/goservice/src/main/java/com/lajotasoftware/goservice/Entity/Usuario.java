@@ -43,6 +43,8 @@ public class Usuario {
     private Boolean master;
     private String Bio;
 
+    private String avatarIMG;
+
     public Long getId() {
         return id;
     }

@@ -215,34 +215,37 @@ public class Negociacao extends AppCompatActivity {
     }
 
     public void btnEnviarMensagem(View view) {
-        mensagem = new Mensagem();
-        proposta = new Proposta();
-        prestador = new Usuario();
-        cliente = new Usuario();
-        usuario = new Usuario();
-        proposta.setId(idProposta);
-        cliente.setId(idCliente);
-        prestador.setId(idPrestador);
-        usuario.setId(idUsuario);
-        mensagem.setMensagem(String.valueOf(textMensagem.getText()));
-        mensagem.setId_Proposta(proposta);
-        mensagem.setId_Cliente(cliente);
-        mensagem.setId_Prestador(prestador);
-        mensagem.setSendBy(usuario);
+        if (!textMensagem.getText().equals("")) {
+            mensagem = new Mensagem();
+            proposta = new Proposta();
+            prestador = new Usuario();
+            cliente = new Usuario();
+            usuario = new Usuario();
+            proposta.setId(idProposta);
+            cliente.setId(idCliente);
+            prestador.setId(idPrestador);
+            usuario.setId(idUsuario);
+            mensagem.setMensagem(String.valueOf(textMensagem.getText()));
+            mensagem.setId_Proposta(proposta);
+            mensagem.setId_Cliente(cliente);
+            mensagem.setId_Prestador(prestador);
+            mensagem.setSendBy(usuario);
 
-        retrofitService = new RetrofitService();
-        api = retrofitService.getRetrofit().create(API.class);
-        api.createMensagem(mensagem).enqueue(new Callback<Mensagem>() {
-            @Override
-            public void onResponse(Call<Mensagem> call, Response<Mensagem> response) {
-                listarMensagem();
-            }
+            retrofitService = new RetrofitService();
+            api = retrofitService.getRetrofit().create(API.class);
+            api.createMensagem(mensagem).enqueue(new Callback<Mensagem>() {
+                @Override
+                public void onResponse(Call<Mensagem> call, Response<Mensagem> response) {
+                    textMensagem.setText("");
+                    listarMensagem();
+                }
 
-            @Override
-            public void onFailure(Call<Mensagem> call, Throwable t) {
+                @Override
+                public void onFailure(Call<Mensagem> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     public void btnVoltarProposta(View view) {
