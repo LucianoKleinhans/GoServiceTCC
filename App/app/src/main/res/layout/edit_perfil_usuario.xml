@@ -61,7 +61,6 @@
         android:layout_marginStart="150dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="5dp"
-        android:text="@string/user_name"
         android:textColor="#d5d5d5"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +74,6 @@
         android:layout_marginStart="150dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
-        android:text="@string/cidade_uf"
         android:textAlignment="viewStart"
         android:textColor="#A8A8A8"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +87,6 @@
         android:layout_marginStart="150dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="5dp"
-        android:text="@string/seu_site"
         android:textColor="#A8A8A8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -116,7 +113,7 @@
         android:layout_marginStart="150dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="5dp"
-        android:text="@string/seu_email"
+
         android:textColor="#A8A8A8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -135,12 +132,14 @@
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView21" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/avatarPerfil"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:contentDescription="TODO"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:fadingEdge="horizontal|vertical"
+        android:onClick="btnSelectAvatarPerfil"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_logogoservice" />
@@ -191,5 +190,16 @@
         android:textStyle="normal"
         app:layout_constraintStart_toStartOf="@+id/myRectangleView21"
         app:layout_constraintTop_toTopOf="@+id/myRectangleView21" />
+
+    <ImageButton
+        android:id="@+id/btnSelectAvatarPerfil"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:backgroundTint="#00000000"
+        android:scaleType="center"
+        android:onClick="btnSelectAvatarPerfil"
+        app:layout_constraintBottom_toBottomOf="@+id/avatarPerfil"
+        app:layout_constraintEnd_toEndOf="@+id/avatarPerfil"
+        app:srcCompat="@drawable/ic_edit_pencil" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

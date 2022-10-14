@@ -104,4 +104,10 @@ public class UsuarioController {
                 return ResponseEntity.ok().body(updated);
             }).orElse(ResponseEntity.notFound().build());
     }
+
+    @PostMapping("/usuario/password/forget_password/{id}/{email}")
+    public String redefinirSenha (@PathVariable("id") Long id,
+                           @PathVariable("email") String email){
+        return userService.redefinirSenha(id,email);
+    }
 }

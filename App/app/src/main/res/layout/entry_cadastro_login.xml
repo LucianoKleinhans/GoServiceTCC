@@ -8,11 +8,73 @@
     tools:context=".Frames.Login">
 
     <View
+        android:id="@+id/myRectangleView33"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView32" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtCadLoginConfirmEmail"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="Confirme seu E-mail"
+        android:inputType="textPassword"
+        android:textColor="#d5d5d5"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView33"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <View
+        android:id="@+id/myRectangleView32"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView29" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtCadLoginEmail"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="E-mail"
+        android:inputType="textPassword"
+        android:textColor="#d5d5d5"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView32"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <View
         android:id="@+id/myRectangleView7"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="5dp"
         android:background="@drawable/retangle_border_view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +87,7 @@
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:background="@drawable/retangle_border_view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,18 +100,17 @@
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="50dp"
         android:layout_marginEnd="15dp"
         android:autofillHints=""
         android:ems="10"
-        android:hint="@string/insira_seu_usuario"
+        android:hint="Informe seu Usuário"
         android:inputType="textPersonName"
         android:textColor="#d5d5d5"
         android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView7"
         tools:ignore="TouchTargetSizeCheck" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -57,7 +118,6 @@
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
         android:autofillHints=""
         android:ems="10"
@@ -66,22 +126,53 @@
         android:textColor="#d5d5d5"
         android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtCadLoginUser"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView8"
         tools:ignore="TouchTargetSizeCheck" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCadLoginGravar"
         android:layout_width="180dp"
         android:layout_height="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:text="@string/gravarCadLogin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtCadLoginPass"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView33"
         tools:ignore="OnClick" />
+
+    <View
+        android:id="@+id/myRectangleView29"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/retangle_border_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView8" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/edtCadLoginConfirmPass"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="Confirme a senha"
+        android:inputType="textPassword"
+        android:textColor="#d5d5d5"
+        android:textColorHint="#6b6b6b"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView29"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <ImageView
         android:id="@+id/imageView"

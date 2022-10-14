@@ -3,16 +3,23 @@ package com.lajotasoftware.goservice.Frames;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterService;
 import com.lajotasoftware.goservice.Entity.Servico;
@@ -22,9 +29,14 @@ import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
 import com.lajotasoftware.goservice.retrofit.API;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,9 +50,14 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
     Servico servico = new Servico();
     String status, bio;
 
+    private final int GALLERY_REQ_CODE = 1000;
+
     CustomAdapterService customAdapter;
     RecyclerView listServicosPrestador;
     List<Servico> servicos = new ArrayList<>();
+
+    ImageView AvatarPerfil;
+    ImageButton btnSelectAvatarPerfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +153,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
             }
         });
     }
+
     @Override
     public void onCardRemoverClick(int position, Long id) {
         AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(this);
@@ -174,7 +192,6 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
-
     @Override
     public void onCardEditarClick(int position, Long id) {
         Intent it = new Intent(this,Cadastro.class);
@@ -186,6 +203,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         it.putExtras(parametros);
         startActivity(it);
     }
+
     public void btn_edtperfil_to_cad (View view){
         Intent it = new Intent(this, Cadastro.class);
         Bundle parametros = new Bundle();
@@ -216,7 +234,6 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         it.putExtras(parametros);
         startActivity(it);
     }
-
     private void initializeComponentsEdtPerfil() {
         MaterialTextView textViewNomeUsuario = findViewById(R.id.ttvUsernamePerfilUser);
         MaterialTextView textViewCidadeUsuario = findViewById(R.id.ttvCidadePerfilUser);
@@ -224,6 +241,9 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         MaterialTextView textViewSiteUsuario = findViewById(R.id.ttvSitePerfilUser);
         TextView textViewBioUsuario = findViewById(R.id.editTextTextMultiLine);
         textViewBioUsuario.setText(bio);
+
+        //imageview
+        AvatarPerfil = findViewById(R.id.avatarPerfil);
 
         MaterialButton btnTornarUserPrestador = findViewById(R.id.btnTornarPresPerfilUser);
         MaterialButton btnGravarEditPerfil = findViewById(R.id.btnGravarEditPerfil);
@@ -335,6 +355,48 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
             alertDialog.show();
             setContentView(R.layout.perfil_usuario);
             initializeComponents();
+        });
+    }
+
+    public void btnSelectAvatarPerfil(View view) {
+        Intent itGallery = new Intent(Intent.ACTION_PICK);
+        itGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(itGallery, GALLERY_REQ_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK){
+            if (requestCode==GALLERY_REQ_CODE){
+                AvatarPerfil.setImageURI(data.getData());
+                uploadFile(data.getData());
+            }
+        }
+    }
+
+    private void uploadFile(Uri data) {
+        File file = new File(data.getPath());
+        RequestBody fbody = RequestBody.create(MediaType.parse("image/*"), file);
+        /*RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("image", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
+                //.addFormDataPart("user", String.valueOf(idUsuario))
+                .build();*/
+
+        RetrofitService retrofitService = new RetrofitService();
+        API api = retrofitService.getRetrofit().create(API.class);
+        api.savePhoto(fbody,idUsuario).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Toast.makeText(Perfil.this, "", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
         });
     }
 }

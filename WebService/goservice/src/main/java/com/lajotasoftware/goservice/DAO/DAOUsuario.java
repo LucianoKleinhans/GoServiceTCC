@@ -23,7 +23,11 @@ public interface DAOUsuario extends JpaRepository<Usuario, Long> {
 
     @Query(value = "update usuario set avatarimg = ?2 where id = ?1", nativeQuery = true)
     default boolean saveImageUrl(Long user, String fileName){
-
         return true;
     };
+
+    @Query(value = "update usuario set senha = ?2 where id = ?1", nativeQuery = true)
+    default boolean alteraSenha(Long id, String novaSenha){
+        return true;
+    }
 }

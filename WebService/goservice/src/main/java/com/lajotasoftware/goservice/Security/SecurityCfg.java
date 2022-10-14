@@ -11,4 +11,6 @@ public class SecurityCfg extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeHttpRequests().antMatchers("/usuario/create", "/usuario/create/**").permitAll().and().httpBasic();
     }
+
+
 }
