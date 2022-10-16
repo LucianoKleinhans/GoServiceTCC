@@ -1,30 +1,18 @@
 package testes;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lajotasoftware.goservice.Controller.UsuarioController;
-import com.lajotasoftware.goservice.DAO.DAOUsuario;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.GoserviceApplication;
-import com.lajotasoftware.goservice.sources.Validacao;
-import org.apache.commons.validator.routines.EmailValidator;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.lajotasoftware.goservice.Services.Functions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import java.io.DataInput;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Map;
 
 @SpringBootTest(classes = GoserviceApplication.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UsuarioUC {
 
-    Validacao validacao = new Validacao();
+    Functions validacao = new Functions();
 
     @Test
     public void criaUsuario(){//test unitario

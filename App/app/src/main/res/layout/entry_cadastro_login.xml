@@ -29,7 +29,7 @@
         android:autofillHints=""
         android:ems="10"
         android:hint="Confirme seu E-mail"
-        android:inputType="textPassword"
+        android:inputType="textEmailAddress"
         android:textColor="#d5d5d5"
         android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +60,7 @@
         android:autofillHints=""
         android:ems="10"
         android:hint="E-mail"
-        android:inputType="textPassword"
+        android:inputType="textEmailAddress"
         android:textColor="#d5d5d5"
         android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +96,7 @@
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView7" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtCadLoginUser"
+        android:id="@+id/edtCadastroLoginUser"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="15dp"
@@ -114,7 +114,7 @@
         tools:ignore="TouchTargetSizeCheck" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtCadLoginPass"
+        android:id="@+id/edtCadastroLoginPass"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="15dp"

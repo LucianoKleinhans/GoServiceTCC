@@ -1,7 +1,7 @@
 package com.lajotasoftware.goservice.Entity;
 
 
-import com.lajotasoftware.goservice.sources.Validacao;
+import com.lajotasoftware.goservice.Services.Functions;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -88,7 +88,7 @@ public class Usuario {
     }
 
     public void setCpf(String cpf) {
-        Validacao validacao = new Validacao();
+        Functions validacao = new Functions();
         if (!cpf.equals("")) {
             if (cpf != null) {
                 if (validacao.isCPF(cpf)) {
@@ -104,7 +104,7 @@ public class Usuario {
     }
 
     public void setCnpj(String cnpj) {
-        Validacao validacao = new Validacao();
+        Functions validacao = new Functions();
         if (!cnpj.equals("")){
             if (cnpj != null) {
                 if (validacao.isCNPJ(cnpj)) {
@@ -169,7 +169,7 @@ public class Usuario {
     }
 
     public void setTelefone(String telefone) {
-        Validacao validacao = new Validacao();
+        Functions validacao = new Functions();
         if (telefone != null) {
             if (validacao.validarTelefone(telefone)) {
                 this.telefone = telefone;

@@ -25,7 +25,6 @@ public interface DAOPedido extends JpaRepository<Pedido, Long> {
     @Query(value = "select * from pedido p where p.id = ?1", nativeQuery = true)
     Pedido getPedidoId(Long id);
 
-
     /*
     @Query(value = "select * from pedido p where p.id_cliente_id = ?1 and p.servico_solicitado = true and p.status = 'ACEITO'", nativeQuery = true)
     List<Pedido> getPedidosEmProgressoCliente(Long id);

@@ -1,7 +1,10 @@
 package com.lajotasoftware.goservice.Frames;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,8 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Entity.Categoria;
+import com.lajotasoftware.goservice.Entity.Proposta;
 import com.lajotasoftware.goservice.Entity.Servico;
+import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.SubCategoria;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.Functions.Function;
@@ -25,14 +31,16 @@ import com.lajotasoftware.goservice.retrofit.API;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Cadastro extends AppCompatActivity {
     Long idUsuario, idPrestador, idServico, idCategoria, idSubCategoria;
-    String status;
+    String status, username, password, email, codConfirmacao;
     Intent it;
     Spinner uf, categoria_servico, sub_categoria_servico;
     API api;
@@ -43,6 +51,7 @@ public class Cadastro extends AppCompatActivity {
     List<Categoria> categorias = new ArrayList<>();
     List<SubCategoria> subCategorias = new ArrayList<>();
 
+    Dialog dialog;
     private Function function = new Function();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,42 +83,123 @@ public class Cadastro extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void initializeComponentsCadastroLogin() {
-        TextInputEditText inputEditTextUsuario = findViewById(R.id.edtCadLoginUser);
-        TextInputEditText inputEditTextSenha = findViewById(R.id.edtCadLoginPass);
+        TextInputEditText inputEditTextUsuario = findViewById(R.id.edtCadastroLoginUser);
+        TextInputEditText inputEditTextSenha = findViewById(R.id.edtCadastroLoginPass);
+        TextInputEditText inputEditTextSenhaConfirm = findViewById(R.id.edtCadLoginConfirmPass);
+        TextInputEditText inputEditTextEmail= findViewById(R.id.edtCadLoginEmail);
+        TextInputEditText inputEditTextEmailConfirm = findViewById(R.id.edtCadLoginConfirmEmail);
         MaterialButton btnGravarUserAndPass = findViewById(R.id.btnCadLoginGravar);
-        RetrofitService retrofitService = new RetrofitService();
-        API usuarioAPI = retrofitService.getRetrofit().create(API.class);
+
+        dialog = new Dialog(this);
 
         btnGravarUserAndPass.setOnClickListener(view -> {
-            String username = String.valueOf(inputEditTextUsuario.getText());
-            String password = String.valueOf(inputEditTextSenha.getText());
+            username = String.valueOf(inputEditTextUsuario.getText());
+            password = String.valueOf(inputEditTextSenha.getText());
+            email = String.valueOf(inputEditTextEmail.getText());
+
+            String confirmPassword = String.valueOf(inputEditTextSenhaConfirm.getText());
+            String confirmEmail = String.valueOf(inputEditTextEmailConfirm.getText());
 
             Usuario usuario = new Usuario();
             usuario.setLogin(username);
             usuario.setSenha(password);
+            usuario.setSenha(email);
 
-            Intent it = new Intent(this, Cadastro.class);
+            if (username.length()>=5){
+                if (password.length()>=10){
+                    if (Objects.equals(password, confirmPassword)){
+                        if (Objects.equals(email, confirmEmail)){
 
-            usuarioAPI.createNewUser(usuario).enqueue(new Callback<Usuario>(){
-                @Override
-                public void onResponse(Call<Usuario> call, Response<Usuario> response){
-                    Toast.makeText(Cadastro.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
-                    efetuarLogin(response.body().getId());
+                            dialog.setContentView(R.layout.z_custom_alertdialog_confirm_email);
+                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                    Bundle parametros = new Bundle();
-                    String status = "LOGIN_CRIADO";
-                    parametros.putString("status_usuario", status);
-                    parametros.putLong("id_usuario", idUsuario);
-                    it.putExtras(parametros);
-                    startActivity(it);
+                            MaterialTextView ttvDescConfirmEmail = dialog.findViewById(R.id.ttvDescConfirmEmail);
+                            TextInputEditText edtCodConfirmEmail = dialog.findViewById(R.id.edtCodConfirmEmail);
+                            MaterialButton btnConfirmaCodConfirmacao = dialog.findViewById(R.id.btnConfirmaCodConfirmacao);
+                            MaterialTextView btnReenviarCodigo = dialog.findViewById(R.id.btnReenviarCodigo);
+
+                            RetrofitService retrofitService = new RetrofitService();
+                            API api = retrofitService.getRetrofit().create(API.class);
+                            api.codConfirmacaoEmail(email).enqueue(new Callback<String>() {
+                                @Override
+                                public void onResponse(Call<String> call, Response<String> response) {
+                                    codConfirmacao = response.body().toString();
+                                 }
+
+                                @Override
+                                public void onFailure(Call<String> call, Throwable t) {
+
+                                }
+                            });
+
+                            btnConfirmaCodConfirmacao.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    String codConfirm = String.valueOf(edtCodConfirmEmail.getText());
+                                    if (codConfirm.equals(codConfirmacao)) {
+                                        Intent it = new Intent(Cadastro.this, Cadastro.class);
+                                        api.createNewUser(usuario).enqueue(new Callback<Usuario>() {
+                                            @Override
+                                            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                                                Toast.makeText(Cadastro.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+                                                efetuarLogin(response.body().getId());
+
+                                                Bundle parametros = new Bundle();
+                                                String status = "LOGIN_CRIADO";
+                                                parametros.putString("status_usuario", status);
+                                                parametros.putLong("id_usuario", idUsuario);
+                                                it.putExtras(parametros);
+                                                startActivity(it);
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<Usuario> call, Throwable t) {
+                                                Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    } else {
+                                        Toast.makeText(Cadastro.this, "Codigo de confirmação inválido!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                            btnReenviarCodigo.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view){
+                                    api.codConfirmacaoEmail(email).enqueue(new Callback<String>() {
+                                        @Override
+                                        public void onResponse(Call<String> call, Response<String> response) {
+                                            codConfirmacao = response.body().toString();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<String> call, Throwable t) {
+
+                                        }
+                                    });
+                                }
+                            });
+                            dialog.show();
+
+                            ttvDescConfirmEmail.setText("O código de confirmação foi enviado para o e-mail \n"+email);
+
+                        }else{
+                            Toast.makeText(Cadastro.this, "E-mails informados não são iguais", Toast.LENGTH_SHORT).show();
+                            inputEditTextEmail.selectAll();
+                            inputEditTextEmailConfirm.setText("");
+                        }
+                    }else{
+                        Toast.makeText(Cadastro.this, "Senhas informadas não são iguais", Toast.LENGTH_SHORT).show();
+                        inputEditTextSenha.selectAll();
+                        inputEditTextSenhaConfirm.setText("");
+                    }
+                }else{
+                    Toast.makeText(Cadastro.this, "Tamanho da Senha do Usuário deve ser maior ou igual a 10", Toast.LENGTH_SHORT).show();
                 }
-                @Override
-                public void onFailure(Call<Usuario> call, Throwable t){
-                    Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
-                }
-            });
-
+            }else{
+                Toast.makeText(Cadastro.this, "Tamanho do Nome de Usuário deve ser maior ou igual a 5", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -127,7 +217,7 @@ public class Cadastro extends AppCompatActivity {
         TextInputEditText inputEditTextCPF = findViewById(R.id.edtCPF);
         TextInputEditText inputEditTextCNPJ = findViewById(R.id.edtCNPJ);
         TextInputEditText inputEditTextTelefone = findViewById(R.id.edtTelefone);
-        TextInputEditText inputEditTextEmail = findViewById(R.id.edtEmail);
+        //TextInputEditText inputEditTextEmail = findViewById(R.id.edtEmail);
         TextInputEditText inputEditTextSite = findViewById(R.id.edtSite);
         TextInputEditText inputEditTextRuaAvenida = findViewById(R.id.edtRuaAvenida);
         TextInputEditText inputEditTextNumero = findViewById(R.id.edtNumero);
@@ -164,7 +254,7 @@ public class Cadastro extends AppCompatActivity {
                         if (user.getTelefone()!=null){
                             inputEditTextTelefone.setText(function.imprimeTelefone(user.getTelefone()));
                         }
-                        inputEditTextEmail.setText(user.getEmail());
+                        //inputEditTextEmail.setText(user.getEmail());
                         inputEditTextSite.setText(user.getSite());
                         inputEditTextRuaAvenida.setText(user.getRuaAvenida());
                         inputEditTextNumero.setText(user.getNumero());
@@ -199,7 +289,7 @@ public class Cadastro extends AppCompatActivity {
             String cidade = String.valueOf(inputEditTextCidade.getText());
             String uf = spinnerUF.getSelectedItem().toString();
             String telefone = String.valueOf(inputEditTextTelefone.getText());
-            String email = String.valueOf(inputEditTextEmail.getText());
+            //String email = String.valueOf(inputEditTextEmail.getText());
             String site = String.valueOf(inputEditTextSite.getText());
             Boolean validCPF = false;
             Boolean validCNPJ = false;
@@ -228,7 +318,7 @@ public class Cadastro extends AppCompatActivity {
                                         if (!(cidade.equals(""))) {
                                             if (!(uf.equals(""))) {
                                                 if ((!(telefone.equals(""))) && (function.validarTelefone(telefone))) {
-                                                    if ((!(email.equals("")))) {
+                                                    //if ((!(email.equals("")))) {
                                                         Usuario usuario = new Usuario();
                                                         usuario.setPrimeiroNome(primeiroNome);
                                                         usuario.setSegundoNome(segundoNome);
@@ -241,7 +331,7 @@ public class Cadastro extends AppCompatActivity {
                                                         usuario.setCidade(cidade);
                                                         usuario.setUf(uf);
                                                         usuario.setTelefone(function.removeCaracteresEspeciais(telefone, "TELEFONE"));
-                                                        usuario.setEmail(email);
+                                                        //usuario.setEmail(email);
                                                         usuario.setSite(site);
                                                         usuario.setAtivo(true);
                                                         if (status.equals("LOGIN_CRIADO")) {
@@ -268,7 +358,7 @@ public class Cadastro extends AppCompatActivity {
                                                                 Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
                                                             }
                                                         });
-                                                    } else {Toast.makeText(Cadastro.this, "Campo E-mail está vazio ou incorreto!", Toast.LENGTH_SHORT).show();}
+                                                    //} else {Toast.makeText(Cadastro.this, "Campo E-mail está vazio ou incorreto!", Toast.LENGTH_SHORT).show();}
                                                 } else {Toast.makeText(Cadastro.this, "Campo Telefone está vazio ou incorreto!", Toast.LENGTH_SHORT).show();}
                                             } else {Toast.makeText(Cadastro.this, "Campo UF está vazio!", Toast.LENGTH_SHORT).show();}
                                         } else {Toast.makeText(Cadastro.this, "Campo CIDADE está vazio!", Toast.LENGTH_SHORT).show();}

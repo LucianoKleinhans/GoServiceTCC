@@ -1,8 +1,12 @@
 package com.lajotasoftware.goservice.Frames;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -20,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterService;
 import com.lajotasoftware.goservice.Entity.Servico;
@@ -48,7 +53,8 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
     Usuario user = new Usuario();
     private Boolean prestador;
     Servico servico = new Servico();
-    String status, bio;
+    String status, bio, novaSenha, novaSenhaConfirm, codConfirmacao, novaSenhaCodConfirmacao;
+    Dialog dialog;
 
     private final int GALLERY_REQ_CODE = 1000;
 
@@ -123,6 +129,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                 throw new Error("USUARIO INVALIDO");
             }
         });
+        dialog = new Dialog(this);
     }
 
     private void listaServico() {
@@ -398,5 +405,83 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
 
             }
         });
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void alterarSenha(View view) {
+        RetrofitService retrofitService = new RetrofitService();
+        API api = retrofitService.getRetrofit().create(API.class);
+
+        dialog.setContentView(R.layout.z_custom_alertdialog_alter_password);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextInputEditText edtInsiraNovaSenha = dialog.findViewById(R.id.edtInsiraNovaSenha);
+        TextInputEditText edtConfirmaNovaSenha = dialog.findViewById(R.id.edtConfirmaNovaSenha);
+        MaterialTextView ttvTextEmailAlterSenha = dialog.findViewById(R.id.ttvTextEmailAlterSenha);
+        TextInputEditText edtCodConfirmEmailAlterSenha = dialog.findViewById(R.id.edtCodConfirmEmailAlterSenha);
+        MaterialTextView btnReenviarCodigoAlterSenha = dialog.findViewById(R.id.btnReenviarCodigoAlterSenha);
+        MaterialButton btnConfirmaAlteracaoSenha = dialog.findViewById(R.id.btnConfirmaAlteracaoSenha);
+
+        api.codConfirmacaoEmail(user.getEmail()).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                codConfirmacao = response.body().toString();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
+
+        btnConfirmaAlteracaoSenha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                novaSenha = String.valueOf(edtInsiraNovaSenha.getText());
+                novaSenhaConfirm = String.valueOf(edtConfirmaNovaSenha.getText());
+                novaSenhaCodConfirmacao = String.valueOf(edtCodConfirmEmailAlterSenha.getText());
+                if (novaSenha.equals(novaSenhaConfirm)){
+                    if (novaSenhaCodConfirmacao.equals(codConfirmacao)){
+                        api.alterarSenha(idUsuario, novaSenha).enqueue(new Callback<String>() {
+                            @Override
+                            public void onResponse(Call<String> call, Response<String> response) {
+                                Toast.makeText(Perfil.this, response.body().toString(), Toast.LENGTH_SHORT).show();
+                                dialog.hide();
+                            }
+
+                            @Override
+                            public void onFailure(Call<String> call, Throwable t) {
+
+                            }
+                        });
+                    }else{
+                        Toast.makeText(Perfil.this, "O código de confirmação incorreto!", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(Perfil.this, "As senhas informadas não são iguais ", Toast.LENGTH_SHORT).show();
+                    edtInsiraNovaSenha.selectAll();
+                    edtConfirmaNovaSenha.setText("");
+                }
+            }
+        });
+
+        btnReenviarCodigoAlterSenha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                api.codConfirmacaoEmail(user.getEmail()).enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        codConfirmacao = response.body().toString();
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+        dialog.show();
+        ttvTextEmailAlterSenha.setText("Um codigo de confirmacao foi enviado para o \\nE-mail: "+user.getEmail()+"\\n Coloque-o abaixo para prosseguir!");
     }
 }

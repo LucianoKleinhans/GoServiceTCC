@@ -100,19 +100,6 @@
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView10" />
 
     <View
-        android:id="@+id/myRectangleView12"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
-        android:background="@drawable/retangle_border_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myRectangleView11" />
-
-    <View
         android:id="@+id/myRectangleView13"
         android:layout_width="0dp"
         android:layout_height="45dp"
@@ -123,7 +110,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myRectangleView12" />
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView11" />
 
     <View
         android:id="@+id/myRectangleView14"
@@ -292,30 +279,10 @@
         tools:ignore="TouchTargetSizeCheck" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/edtEmail"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="15dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/email"
-        android:inputType="textWebEmailAddress"
-        android:textColor="#d5d5d5"
-        android:textColorHint="#6b6b6b"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtTelefone"
-        tools:ignore="TouchTargetSizeCheck" />
-
-    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtSite"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
         android:layout_marginEnd="15dp"
         android:autofillHints=""
         android:ems="10"
@@ -326,7 +293,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail"
+        app:layout_constraintTop_toTopOf="@+id/myRectangleView13"
         tools:ignore="TouchTargetSizeCheck" />
 
     <com.google.android.material.textfield.TextInputEditText

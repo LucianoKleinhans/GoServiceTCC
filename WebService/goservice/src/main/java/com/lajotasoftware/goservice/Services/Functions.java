@@ -1,12 +1,9 @@
-package com.lajotasoftware.goservice.sources;
+package com.lajotasoftware.goservice.Services;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
-public class Validacao {
+public class Functions {
 
     private int randomiza(int n) {
         int ranNum = (int) (Math.random() * n);

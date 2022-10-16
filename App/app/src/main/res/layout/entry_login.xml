@@ -7,6 +7,20 @@
     android:background="#071219"
     tools:context=".Frames.Login">
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/btnEsqueciMinhaSenha"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
+        android:text="Esqueci minha senha"
+        android:textAlignment="viewEnd"
+        android:textColor="#646464"
+        android:textSize="15sp"
+        android:onClick="esqueciMinhaSenha"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myRectangleView9" />
+
     <View
         android:id="@+id/myRectangleView9"
         android:layout_width="0dp"

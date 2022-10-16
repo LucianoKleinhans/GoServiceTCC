@@ -105,9 +105,21 @@ public class UsuarioController {
             }).orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/usuario/password/forget_password/{id}/{email}")
-    public String redefinirSenha (@PathVariable("id") Long id,
-                           @PathVariable("email") String email){
-        return userService.redefinirSenha(id,email);
+    @PostMapping("/usuario/password/forget_password/{email}")
+    public String esqueceSenha (@PathVariable("email") String email){
+        return userService.esqueceSenha(email);
     }
+
+    @PostMapping("/usuario/password/alter_password/{id}/{senha}")
+    public String alterarSenha (@PathVariable("id") Long id,
+                                  @PathVariable("senha") String senha){
+        return userService.alterarSenha(id,senha);
+    }
+
+    @PostMapping("/usuario/confirmacaoemail/{email}")
+    public String codConfirmacaoEmail(@PathVariable("email") String email){
+        return userService.codConfirmacaoEmail(email);
+    }
+
+
 }

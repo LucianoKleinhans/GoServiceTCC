@@ -13,6 +13,7 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -29,7 +30,7 @@ import retrofit2.http.Query;
 
 public interface API {
     //testa a conexão
-    @POST ("/connection")
+    @POST("/connection")
     Call<Boolean> testConnection();
 
     /*-----------------Crud Usuario-----------------*/
@@ -41,7 +42,7 @@ public interface API {
     Call<Usuario> getAtualUser(@Body Usuario usuario);
 
     @PUT("/usuario/update/{id}")
-    Call<Usuario> update(@Path("id")Long id,@Body Usuario usuario);
+    Call<Usuario> update(@Path("id") Long id, @Body Usuario usuario);
 
     @POST("/usuario/validation")
     Call<Usuario> authentication(@Body Usuario usuario);
@@ -50,82 +51,82 @@ public interface API {
     Call<Usuario> createNewUser(@Body Usuario usuario);
 
     @DELETE("/usuario/delete/{id}")
-    Call<Usuario> deleteUser(@Path("id")Long id);
+    Call<Usuario> deleteUser(@Path("id") Long id);
 
     @POST("/usuario/getusuario/{id}")
-    Call<Usuario> getUsuario(@Path("id")Long id);
+    Call<Usuario> getUsuario(@Path("id") Long id);
 
     /*-----------------Crud Servico-----------------*/
 
-    @POST ("/servico/create")
+    @POST("/servico/create")
     Call<Servico> createNewService(@Body Servico servico);
 
-    @POST ("/usuario/servico/{idPrestador}")
-    Call<List<Servico>> getServicosPrestador(@Path("idPrestador")Long id);
+    @POST("/usuario/servico/{idPrestador}")
+    Call<List<Servico>> getServicosPrestador(@Path("idPrestador") Long id);
 
     @PUT("/servico/update/{id}")
-    Call<Servico> updateServico(@Path("id")Long id,@Body Servico servico);
+    Call<Servico> updateServico(@Path("id") Long id, @Body Servico servico);
 
     @POST("/servico/seleciona/{id}")
     Call<Servico> getServicoById(@Path("id") Long id);
 
     @DELETE("/servico/delete/{id}")
-    Call<Servico> deleteServico(@Path("id")Long id);
+    Call<Servico> deleteServico(@Path("id") Long id);
 
-    @POST ("/servico/lista/{id}")
-    Call<List<Servico>> getAllServicos(@Path("id")Long id);
+    @POST("/servico/lista/{id}")
+    Call<List<Servico>> getAllServicos(@Path("id") Long id);
 
     /*-----------------Crud Card Serviço-----------------*/
-    @POST ("/cardservico/create")
+    @POST("/cardservico/create")
     Call<SolicitaServico> createNewCardService(@Body SolicitaServico solcitaServico);
 
     @PUT("/cardservico/update/{id}")
-    Call<SolicitaServico> updateCardServico(@Path("id")Long id,@Body SolicitaServico solcitaServico);
+    Call<SolicitaServico> updateCardServico(@Path("id") Long id, @Body SolicitaServico solcitaServico);
 
     @POST("/cardservico/seleciona/{id}")
     Call<SolicitaServico> getCardServicoById(@Path("id") Long id);
 
-    @POST ("/cardservico/meuscards/{id}")
-    Call<List<SolicitaServico>> getCardServico(@Path("id")Long id);
+    @POST("/cardservico/meuscards/{id}")
+    Call<List<SolicitaServico>> getCardServico(@Path("id") Long id);
 
-    @POST ("/cardservico/cardspublicos/{id}")
-    Call<List<SolicitaServico>> getCardsServicoPublico(@Path("id")Long id);
+    @POST("/cardservico/cardspublicos/{id}")
+    Call<List<SolicitaServico>> getCardsServicoPublico(@Path("id") Long id);
 
     //@DELETE("/cardservico/delete/{id}")
     //Call<SolicitaServico> deleteCardServico(@Path("id")Long id);
 
-    @POST ("/cardservico/cardsfinalizados/{id}")
-    Call<List<SolicitaServico>> getCardsServicoFinalizados(@Path("id")Long id);
+    @POST("/cardservico/cardsfinalizados/{id}")
+    Call<List<SolicitaServico>> getCardsServicoFinalizados(@Path("id") Long id);
 
     /*-----------------View Prestadores-----------------*/
 
     @POST("/usuarioprestadores/{id}")
-    Call<List<Usuario>> getAllPrestadores(@Path("id")Long id);
+    Call<List<Usuario>> getAllPrestadores(@Path("id") Long id);
 
     @POST("/usuarioprestador/{id}")
-    Call<Usuario> getPrestador(@Path("id")Long id);
+    Call<Usuario> getPrestador(@Path("id") Long id);
 
     /*-----------------Criar pedido de serviço avulso-----------------*/
     @POST("/pedido")
     Call<Pedido> criarPedido(@Body Pedido pedido);
 
     @POST("/pedidosprestador/{id}")
-    Call<List<Pedido>> getPedidosPrestador(@Path("id")Long id);
+    Call<List<Pedido>> getPedidosPrestador(@Path("id") Long id);
 
     @POST("/pedidoscliente/{id}")
-    Call<List<Pedido>> getPedidosCliente(@Path("id")Long id);
+    Call<List<Pedido>> getPedidosCliente(@Path("id") Long id);
 
     @POST("/pedidosprogresso/{id}")
-    Call<List<Pedido>> getPedidosEmProgresso(@Path("id")Long id);
+    Call<List<Pedido>> getPedidosEmProgresso(@Path("id") Long id);
 
     @POST("/pedidosfinalizado/{id}")
-    Call<List<Pedido>> getPedidosFinalizados(@Path("id")Long id);
+    Call<List<Pedido>> getPedidosFinalizados(@Path("id") Long id);
 
     @POST("/pedido/{id}")
-    Call<Pedido> getPedidoById(@Path("id")Long id);
+    Call<Pedido> getPedidoById(@Path("id") Long id);
 
     @PUT("/pedido/udpate/{id}")
-    Call<Pedido> updatePedido(@Path("id")Long id,@Body Pedido pedido);
+    Call<Pedido> updatePedido(@Path("id") Long id, @Body Pedido pedido);
 
     /*-------------------------Categoria/SubCategoria-----------------------------*/
 
@@ -150,7 +151,7 @@ public interface API {
     Call<List<Proposta>> getPropostasRecebidas(@Path("id") Long id);
 
     @PUT("/proposta/update/{id}")
-    Call<Proposta> updateProposta(@Path("id")Long id,@Body Proposta proposta);
+    Call<Proposta> updateProposta(@Path("id") Long id, @Body Proposta proposta);
 
     @POST("/proposta/card/{idSolicitaServico}/{idPrestador}")
     Call<Proposta> getPropostaSolicitacaoServico(@Path("idSolicitaServico") Long idSolicitaServico,
@@ -159,10 +160,10 @@ public interface API {
     /*------------------------------------------Mensagem------------------------------------------*/
 
     @POST("/mensagem/proposta/{id}")
-    Call<List<Mensagem>> getPropostaMensagem(@Path("id")Long id);
+    Call<List<Mensagem>> getPropostaMensagem(@Path("id") Long id);
 
     @POST("/mensagem/create")
-    Call <Mensagem> createMensagem(@Body Mensagem mensagem);
+    Call<Mensagem> createMensagem(@Body Mensagem mensagem);
 
     /*-------------------------------------------Imagem-------------------------------------------*/
 
@@ -175,6 +176,16 @@ public interface API {
 
     @Multipart
     @POST("/file/image/upload")
-    Call <ResponseBody> savePhoto(@Part("image") RequestBody image,
-                                  @Part("user") Long idUser);
+    Call<ResponseBody> savePhoto(@Part("image") RequestBody image, @Part("user") Long idUser);
+
+    /*-------------------------------------------E-Mail-------------------------------------------*/
+
+    @POST("/usuario/password/forget_password/{email}")
+    Call<String> forgetPassword(@Path("email") String email);
+
+    @POST("/usuario/confirmacaoemail/{email}")
+    Call<String> codConfirmacaoEmail(@Path("email") String email);
+
+    @POST("/usuario/password/alter_password/{id}/{senha}")
+    Call<String> alterarSenha(@Path("id") Long id, @Path("senha") String senha);
 }
