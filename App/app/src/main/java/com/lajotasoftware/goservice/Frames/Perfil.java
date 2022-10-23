@@ -53,6 +53,7 @@ import retrofit2.Response;
 public class Perfil extends AppCompatActivity implements CustomAdapterService.OnServicoListener {
 
     private Long idUsuario, idServico;
+    private String local;
     Usuario usuario = new Usuario();
     Usuario user = new Usuario();
     private Boolean prestador;
@@ -79,6 +80,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         Intent it = getIntent();
         Bundle parametros = it.getExtras();
         idUsuario = parametros.getLong("id_usuario");
+        local = "PERFIL";
         setContentView(R.layout.perfil_usuario);
         initializeComponents();
     }
@@ -125,8 +127,12 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                         rectangleServico.setVisibility(View.INVISIBLE);
                     }
                     textViewNomeUsuario.setText(user.getPrimeiroNome());
-                    textViewCidadeUsuario.setText("Cidade:" + user.getCidade() + " - " + user.getUf());
-                    textViewEmailUsuario.setText("E-mail:" + user.getEmail());
+                    if(user.getCidade() != null){
+                        textViewCidadeUsuario.setText("Cidade:" + user.getCidade() + " - " + user.getUf());
+                    }
+                    if(user.getEmail() != null) {
+                        textViewEmailUsuario.setText("E-mail:" + user.getEmail());
+                    }
                     if(user.getSite() == null){
                         textViewSiteUsuario.setVisibility(View.INVISIBLE);
                     }else{textViewSiteUsuario.setText("Site:" + user.getSite());}
@@ -193,6 +199,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Servico serv = new Servico();
+                                serv.setId(id);
                                 serv.setExcluido(true);
                                 RetrofitService retrofitEditService = new RetrofitService();
                                 API usuarioAPI = retrofitEditService.getRetrofit().create(API.class);
@@ -239,9 +246,13 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         parametros.putLong("id_usuario", idUsuario);
         it.putExtras(parametros);
         startActivity(it);
+        local = "PERFIL";
+        setContentView(R.layout.perfil_usuario);
+        initializeComponents();
     }
     public void btn_perfil_to_editperfil (View view){
         status = "EDITAR_PERFIL";
+        local = "EDIT_PERFIL";
         setContentView(R.layout.edit_perfil_usuario);
         initializeComponentsEdtPerfil();
     }
@@ -251,6 +262,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         parametros.putLong("id_usuario", idUsuario);
         it.putExtras(parametros);
         startActivity(it);
+        finish();
     }
     public void btn_perfil_to_cadservico(View view) {
         Intent it = new Intent(this, Cadastro.class);
@@ -297,8 +309,12 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                     }
 
                     textViewNomeUsuario.setText(user.getPrimeiroNome());
-                    textViewCidadeUsuario.setText("Cidade:" + user.getCidade() + " - " + user.getUf());
-                    textViewEmailUsuario.setText("E-mail:" + user.getEmail());
+                    if (user.getCidade() != null) {
+                        textViewCidadeUsuario.setText("Cidade:" + user.getCidade() + " - " + user.getUf());
+                    }
+                    if (user.getEmail() != null){
+                        textViewEmailUsuario.setText("E-mail:" + user.getEmail());
+                    }
                     if(user.getSite() == null){
                         textViewSiteUsuario.setVisibility(View.INVISIBLE);
                     }else{textViewSiteUsuario.setText("Site:" + user.getSite());}
@@ -535,12 +551,27 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
 
                     @Override
                     public void onFailure(Call<Return> call, Throwable t) {
-
                     }
                 });
             }
         });
         dialog.show();
         ttvTextEmailAlterSenha.setText("Um codigo de confirmacao foi enviado para o \n E-mail: "+user.getEmail()+"\n Coloque-o abaixo para prosseguir!");
+    }
+
+    @Override
+    public void onBackPressed(){
+        if (local.equals("PERFIL")){
+            Intent it = new Intent(this, MainActivity.class);
+            Bundle parametros = new Bundle();
+            parametros.putLong("id_usuario", idUsuario);
+            it.putExtras(parametros);
+            startActivity(it);
+            finish();
+        } else if (local.equals("EDIT_PERFIL")){
+            local = "PERFIL";
+            setContentView(R.layout.perfil_usuario);
+            initializeComponents();
+        }
     }
 }

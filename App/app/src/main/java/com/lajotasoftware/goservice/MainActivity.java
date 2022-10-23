@@ -29,6 +29,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    Usuario user = new Usuario();
     long idUsuario;
     String username;
     ProgressBar progressBar;
@@ -69,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                     btnPrestadoresMain.setEnabled(true);
                     btnServicosMain.setEnabled(true);
                     btnSolicitacoesMain.setEnabled(true);
-                    Usuario user = new Usuario();
                     assert usuarioResponse.body() != null;
                     user.setUsuario(usuarioResponse.body());
 
@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle parametros = new Bundle();
         parametros.putLong("id_usuario", idUsuario);
         parametros.putString("status_usuario", "DEFAUT");
+        parametros.putBoolean("pretador", user.getPrestador());
         it.putExtras(parametros);
         startActivity(it);
     }

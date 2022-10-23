@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Cadastro extends AppCompatActivity {
+    Usuario userLogado = new Usuario();
     Long idUsuario, idPrestador, idServico, idCategoria, idSubCategoria;
     String status, username, password, email, codConfirmacao;
     Intent it;
@@ -92,7 +94,8 @@ public class Cadastro extends AppCompatActivity {
         TextInputEditText inputEditTextEmail= findViewById(R.id.edtCadLoginEmail);
         TextInputEditText inputEditTextEmailConfirm = findViewById(R.id.edtCadLoginConfirmEmail);
         MaterialButton btnGravarUserAndPass = findViewById(R.id.btnCadLoginGravar);
-
+        ProgressBar progressBarCadLogin = findViewById(R.id.progressBarCadLogin);
+        progressBarCadLogin.setVisibility(View.GONE);
         dialog = new Dialog(this);
 
         btnGravarUserAndPass.setOnClickListener(view -> {
@@ -106,85 +109,159 @@ public class Cadastro extends AppCompatActivity {
             Usuario usuario = new Usuario();
             usuario.setLogin(username);
             usuario.setSenha(password);
-            usuario.setSenha(email);
+            usuario.setEmail(email);
 
             if (username.length()>=5){
                 if (password.length()>=10){
                     if (Objects.equals(password, confirmPassword)){
                         if (Objects.equals(email, confirmEmail)){
-
-                            dialog.setContentView(R.layout.z_custom_alertdialog_confirm_email);
-                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                            MaterialTextView ttvDescConfirmEmail = dialog.findViewById(R.id.ttvDescConfirmEmail);
-                            TextInputEditText edtCodConfirmEmail = dialog.findViewById(R.id.edtCodConfirmEmail);
-                            MaterialButton btnConfirmaCodConfirmacao = dialog.findViewById(R.id.btnConfirmaCodConfirmacao);
-                            MaterialTextView btnReenviarCodigo = dialog.findViewById(R.id.btnReenviarCodigo);
-
+                            progressBarCadLogin.setVisibility(View.VISIBLE);
+                            inputEditTextUsuario.setEnabled(false);
+                            inputEditTextSenha.setEnabled(false);
+                            inputEditTextSenhaConfirm.setEnabled(false);
+                            inputEditTextEmail.setEnabled(false);
+                            inputEditTextEmailConfirm.setEnabled(false);
+                            btnGravarUserAndPass.setEnabled(false);
                             RetrofitService retrofitService = new RetrofitService();
                             API api = retrofitService.getRetrofit().create(API.class);
-                            api.codConfirmacaoEmail(email).enqueue( new Callback<Return>() {
+                            api.existeUser(username, email).enqueue(new Callback<Return>() {
                                 @Override
                                 public void onResponse(Call<Return> call, Response<Return> response) {
-                                    codConfirmacao = response.body().getText();
-                                }
+                                    progressBarCadLogin.setVisibility(View.GONE);
+                                    inputEditTextUsuario.setEnabled(true);
+                                    inputEditTextSenha.setEnabled(true);
+                                    inputEditTextSenhaConfirm.setEnabled(true);
+                                    inputEditTextEmail.setEnabled(true);
+                                    inputEditTextEmailConfirm.setEnabled(true);
+                                    btnGravarUserAndPass.setEnabled(true);
+                                    if (response.body()!= null){
+                                        if (response.body().getStatusCode() == 200){
+                                            dialog.setContentView(R.layout.z_custom_alertdialog_confirm_email);
+                                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                                @Override
-                                public void onFailure(Call<Return> call, Throwable t) {
+                                            MaterialTextView ttvDescConfirmEmail = dialog.findViewById(R.id.ttvDescConfirmEmail);
+                                            TextInputEditText edtCodConfirmEmail = dialog.findViewById(R.id.edtCodConfirmEmail);
+                                            MaterialButton btnConfirmaCodConfirmacao = dialog.findViewById(R.id.btnConfirmaCodConfirmacao);
+                                            MaterialTextView btnReenviarCodigo = dialog.findViewById(R.id.btnReenviarCodigo);
+                                            ProgressBar progressBarCodConfirmacao = dialog.findViewById(R.id.progressBarCodConfirmacao);
 
-                                }
-                            });
+                                            progressBarCodConfirmacao.setVisibility(View.VISIBLE);
+                                            edtCodConfirmEmail.setEnabled(false);
+                                            btnConfirmaCodConfirmacao.setEnabled(false);
+                                            btnReenviarCodigo.setEnabled(false);
 
-                            btnConfirmaCodConfirmacao.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    String codConfirm = String.valueOf(edtCodConfirmEmail.getText());
-                                    if (codConfirm.equals(codConfirmacao)) {
-                                        Intent it = new Intent(Cadastro.this, Cadastro.class);
-                                        api.createNewUser(usuario).enqueue(new Callback<Usuario>() {
-                                            @Override
-                                            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                                                Toast.makeText(Cadastro.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
-                                                efetuarLogin(response.body().getId());
+                                            RetrofitService retrofitService = new RetrofitService();
+                                            API api = retrofitService.getRetrofit().create(API.class);
+                                            api.codConfirmacaoEmail(email).enqueue( new Callback<Return>() {
+                                                @Override
+                                                public void onResponse(Call<Return> call, Response<Return> response) {
+                                                    codConfirmacao = response.body().getText();
+                                                    progressBarCodConfirmacao.setVisibility(View.GONE);
+                                                    edtCodConfirmEmail.setEnabled(true);
+                                                    btnConfirmaCodConfirmacao.setEnabled(true);
+                                                    btnReenviarCodigo.setEnabled(true);
+                                                }
 
-                                                Bundle parametros = new Bundle();
-                                                String status = "LOGIN_CRIADO";
-                                                parametros.putString("status_usuario", status);
-                                                parametros.putLong("id_usuario", idUsuario);
-                                                it.putExtras(parametros);
-                                                startActivity(it);
-                                            }
+                                                @Override
+                                                public void onFailure(Call<Return> call, Throwable t) {
+                                                    Toast.makeText(Cadastro.this, "Falha ao enviar o codigo de confirmação tente novamente!", Toast.LENGTH_LONG).show();
+                                                    progressBarCodConfirmacao.setVisibility(View.GONE);
+                                                    edtCodConfirmEmail.setEnabled(true);
+                                                    btnConfirmaCodConfirmacao.setEnabled(true);
+                                                    btnReenviarCodigo.setEnabled(true);
+                                                }
+                                            });
 
-                                            @Override
-                                            public void onFailure(Call<Usuario> call, Throwable t) {
-                                                Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                    } else {
-                                        Toast.makeText(Cadastro.this, "Codigo de confirmação inválido!", Toast.LENGTH_SHORT).show();
+                                            btnConfirmaCodConfirmacao.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view) {
+                                                    String codConfirm = String.valueOf(edtCodConfirmEmail.getText());
+                                                    if (codConfirm.equals(codConfirmacao)) {
+                                                        progressBarCodConfirmacao.setVisibility(View.VISIBLE);
+                                                        edtCodConfirmEmail.setEnabled(false);
+                                                        btnConfirmaCodConfirmacao.setEnabled(false);
+                                                        btnReenviarCodigo.setEnabled(false);
+                                                        Intent it = new Intent(Cadastro.this, Cadastro.class);
+                                                        api.createNewUser(usuario).enqueue(new Callback<Usuario>() {
+                                                            @Override
+                                                            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                                                                progressBarCodConfirmacao.setVisibility(View.GONE);
+                                                                edtCodConfirmEmail.setEnabled(true);
+                                                                btnConfirmaCodConfirmacao.setEnabled(true);
+                                                                btnReenviarCodigo.setEnabled(true);
+                                                                dialog.hide();
+
+                                                                Toast.makeText(Cadastro.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
+                                                                efetuarLogin(response.body());
+                                                                Bundle parametros = new Bundle();
+                                                                String status = "LOGIN_CRIADO";
+                                                                parametros.putString("status_usuario", status);
+                                                                parametros.putLong("id_usuario", idUsuario);
+                                                                it.putExtras(parametros);
+                                                                startActivity(it);
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<Usuario> call, Throwable t) {
+                                                                progressBarCodConfirmacao.setVisibility(View.GONE);
+                                                                edtCodConfirmEmail.setEnabled(true);
+                                                                btnConfirmaCodConfirmacao.setEnabled(true);
+                                                                btnReenviarCodigo.setEnabled(true);
+                                                                Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                    } else {
+                                                        Toast.makeText(Cadastro.this, "Codigo de confirmação inválido!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                            btnReenviarCodigo.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View view){
+                                                    progressBarCodConfirmacao.setVisibility(View.VISIBLE);
+                                                    edtCodConfirmEmail.setEnabled(false);
+                                                    btnConfirmaCodConfirmacao.setEnabled(false);
+                                                    btnReenviarCodigo.setEnabled(false);
+                                                    api.codConfirmacaoEmail(email).enqueue(new Callback<Return>() {
+                                                        @Override
+                                                        public void onResponse(Call<Return> call, Response<Return> response) {
+                                                            progressBarCodConfirmacao.setVisibility(View.GONE);
+                                                            edtCodConfirmEmail.setEnabled(true);
+                                                            btnConfirmaCodConfirmacao.setEnabled(true);
+                                                            btnReenviarCodigo.setEnabled(true);
+                                                            codConfirmacao = response.body().getText();
+                                                        }
+
+                                                        @Override
+                                                        public void onFailure(Call<Return> call, Throwable t) {
+                                                            progressBarCodConfirmacao.setVisibility(View.GONE);
+                                                            edtCodConfirmEmail.setEnabled(true);
+                                                            btnConfirmaCodConfirmacao.setEnabled(true);
+                                                            btnReenviarCodigo.setEnabled(true);
+                                                            Toast.makeText(Cadastro.this, "Falha ao enviar o codigo de confirmação tente novamente!", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                            dialog.show();
+
+                                            ttvDescConfirmEmail.setText("O código de confirmação foi enviado para o e-mail \n"+email);
+                                        }else{
+                                            Toast.makeText(Cadastro.this, response.body().getText(), Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 }
-                            });
-                            btnReenviarCodigo.setOnClickListener(new View.OnClickListener() {
                                 @Override
-                                public void onClick(View view){
-                                    api.codConfirmacaoEmail(email).enqueue(new Callback<Return>() {
-                                        @Override
-                                        public void onResponse(Call<Return> call, Response<Return> response) {
-                                            codConfirmacao = response.body().getText();
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<Return> call, Throwable t) {
-
-                                        }
-                                    });
+                                public void onFailure(Call<Return> call, Throwable t) {
+                                    progressBarCadLogin.setVisibility(View.GONE);
+                                    inputEditTextUsuario.setEnabled(true);
+                                    inputEditTextSenha.setEnabled(true);
+                                    inputEditTextSenhaConfirm.setEnabled(true);
+                                    inputEditTextEmail.setEnabled(true);
+                                    inputEditTextEmailConfirm.setEnabled(true);
+                                    btnGravarUserAndPass.setEnabled(true);
                                 }
                             });
-                            dialog.show();
-
-                            ttvDescConfirmEmail.setText("O código de confirmação foi enviado para o e-mail \n"+email);
-
                         }else{
                             Toast.makeText(Cadastro.this, "E-mails informados não são iguais", Toast.LENGTH_SHORT).show();
                             inputEditTextEmail.selectAll();
@@ -204,8 +281,9 @@ public class Cadastro extends AppCompatActivity {
         });
     }
 
-    private void efetuarLogin(Long id) {
-        idUsuario = id;
+    private void efetuarLogin(Usuario usuario) {
+        userLogado = usuario;
+        idUsuario = usuario.getId();
     }
 
     private void initializeComponentsCadastro() {
@@ -265,9 +343,11 @@ public class Cadastro extends AppCompatActivity {
                         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Cadastro.this, R.array.uf, android.R.layout.simple_spinner_item);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinnerUF.setAdapter(adapter);
-                        if (!user.getUf().equals(null)) {
+                        if (user.getUf() != null) {
                             int spinnerPosition = adapter.getPosition(user.getUf());
                             spinnerUF.setSelection(spinnerPosition);
+                        }else{
+                            spinnerUF.setSelection(0);
                         }
                     }
                 }
@@ -684,6 +764,7 @@ public class Cadastro extends AppCompatActivity {
                                     if (response.code() == 200) {
                                         Toast.makeText(Cadastro.this, "Serviço atualizado!", Toast.LENGTH_SHORT).show();
                                         startActivity(it);
+                                        finish();
                                     } else {
                                         Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
                                     }
@@ -701,6 +782,7 @@ public class Cadastro extends AppCompatActivity {
                                     if (response.code() == 200) {
                                         Toast.makeText(Cadastro.this, "Cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
                                         startActivity(it);
+                                        finish();
                                     } else {
                                         Toast.makeText(Cadastro.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
                                     }

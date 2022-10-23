@@ -70,6 +70,12 @@ public class UsuarioController {
         return userService.validation(usuario);
     }
 
+    @PostMapping("/usuario/existe/{login}/{email}")
+    public Return existeUser(@PathVariable String login,
+                             @PathVariable String email) {
+        return userService.existeUser(login, email);
+    }
+
     @DeleteMapping("/usuario/delete/{id}")
     public void deleteUsuario(@PathVariable Long id) {
         repository.deleteById(id);
@@ -121,6 +127,4 @@ public class UsuarioController {
     public Return codConfirmacaoEmail(@PathVariable("email") String email){
         return userService.codConfirmacaoEmail(email);
     }
-
-
 }

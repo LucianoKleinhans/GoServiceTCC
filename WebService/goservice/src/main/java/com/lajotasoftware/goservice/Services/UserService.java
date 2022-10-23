@@ -33,28 +33,38 @@ public class UserService {
         return new BCryptPasswordEncoder();
     }
 
-    public Usuario execute (Usuario usuario){
-        Usuario existUser;
+    public Return existeUser(String login, String email) {
+        Return ret = new Return();
+        ret.setStatusCode(200);
+        ret.setStatus("Login e Senha Válido!");
+        ret.setText("Login de usuário e senha são válidos!");
+        if (daoUsuario.findByLogin(login) != null) {
+            ret.setStatusCode(500);
+            ret.setStatus("Login Inválido!");
+            ret.setText("Login de usuário já existente!");
+        } else if (daoUsuario.findByEmail(email) != null){
+            ret.setStatusCode(500);
+            ret.setStatus("E-mail Inválido!");
+            ret.setText("E-mail de usuário já existente!");
+        }
+        return ret;
+    }
 
-        existUser = daoUsuario.findByLogin(usuario.getLogin());
-        if (existUser != null) {
-            throw new Error("Usuario inválido!");
-        }
-        existUser = daoUsuario.findByEmail(usuario.getEmail());
-        if (existUser != null) {
-            throw new Error("Email inválido!");
-        }
+    public Usuario execute (Usuario usuario){
         usuario.setSenha(passwordEnconder().encode(usuario.getSenha()));
         usuario.setPrestador(false);
         usuario.setAtivo(false);
-        Usuario createdUser = daoUsuario.save(usuario);
+        usuario.setAvaliacaoCliente(0.0);
+        usuario.setAvaliacaoPrestador(0.0);
+        usuario.setMaster(false);
+        daoUsuario.save(usuario);
 
         emailService.sendEmail(
                 usuario.getEmail(),
                 "GoService - Bem vindo",
-                "Olá, "+user.getLogin()+"\n Seja Bem Vindo!");
+                "Olá, "+usuario.getLogin()+"\n Seja Bem Vindo!");
 
-        return createdUser;
+        return usuario;
     }
 
     public Usuario validation(Usuario usuario) {

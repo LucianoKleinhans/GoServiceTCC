@@ -48,7 +48,12 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
         myViewHolder.CardServicoId.setText(cardLists.get(position).getId().toString());
         myViewHolder.CardServicoNome.setText(cardLists.get(position).getNomeServico().toString());
         myViewHolder.CardServicoDesc.setText(cardLists.get(position).getDescricaoSolicitacao().toString());
-        myViewHolder.CardServicoValor.setText("Valor inicial: R$"+cardLists.get(position).getValor().toString());
+        myViewHolder.CardServicoValor.setText("Valor: R$"+cardLists.get(position).getValor().toString());
+        if (cardLists.get(position).getValorProposto() == 0){
+            myViewHolder.CardServicoValorAtual.setText("Sem Propostas!");
+        } else {
+            myViewHolder.CardServicoValorAtual.setText("Valor atual: R$"+cardLists.get(position).getValorProposto().toString());
+        }
         myViewHolder.position = position;
         myViewHolder.id = cardLists.get(position).getId();
         myViewHolder.idCliente = cardLists.get(position).getId_Cliente().getId();
@@ -68,6 +73,7 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
         TextView CardServicoNome;
         TextView CardServicoDesc;
         TextView CardServicoValor;
+        TextView CardServicoValorAtual;
         OnCardListener onCardListener;
 
         public ViewHolder (@NonNull View itemView, OnCardListener onCardListener){
@@ -77,6 +83,7 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
             CardServicoNome = itemView.findViewById(R.id.ttvNomeServico);
             CardServicoDesc = itemView.findViewById(R.id.ttvDescServico);
             CardServicoValor = itemView.findViewById(R.id.ttvValorServico);
+            CardServicoValorAtual = itemView.findViewById(R.id.ttvCardValorAtual);
             itemView.findViewById(R.id.btnVisualizarCardServico).setOnClickListener(this);
             itemView.findViewById(R.id.btnRemoverServico).setOnClickListener(this);
             itemView.findViewById(R.id.btnEditarServico).setOnClickListener(this);

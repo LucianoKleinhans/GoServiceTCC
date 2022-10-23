@@ -147,7 +147,6 @@
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
-        android:text="@string/bio_desc"
         android:textAlignment="textStart"
         android:textColor="#d5d5d5"
         android:textSize="15sp"
@@ -198,16 +197,18 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/ttvSitePerfilUser3"
-        android:layout_width="0dp"
-        android:layout_height="20dp"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
+        android:gravity="bottom"
         android:onClick="btn_perfil_to_editperfil"
         android:text="Editar Perfil"
+        android:textAlignment="viewStart"
         android:textColor="#A8A8A8"
         app:layout_constraintBottom_toBottomOf="@+id/myRectangle0View3"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
-        tools:ignore="TouchTargetSizeCheck" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="RtlCompat,TouchTargetSizeCheck" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/ttvUsernamePerfilUser"
@@ -290,12 +291,12 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         android:backgroundTint="#153246"
+        android:contentDescription="TODO"
         android:onClick="btn_perfil_to_editperfil"
         app:layout_constraintBottom_toBottomOf="@+id/myRectangle0View3"
         app:layout_constraintEnd_toEndOf="@+id/myRectangle0View3"
         app:srcCompat="@drawable/ic_edit"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck"
-        android:contentDescription="TODO" />
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <TextView
         android:id="@+id/textView4"

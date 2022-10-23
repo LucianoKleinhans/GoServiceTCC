@@ -48,6 +48,10 @@ public interface API {
     @POST("/usuario/validation")
     Call<Usuario> authentication(@Body Usuario usuario);
 
+    @POST("/usuario/existe/{login}/{email}")
+    Call<Return> existeUser(@Path("login") String login,
+                            @Path("email") String email);
+
     @POST("/usuario/create")
     Call<Usuario> createNewUser(@Body Usuario usuario);
 
