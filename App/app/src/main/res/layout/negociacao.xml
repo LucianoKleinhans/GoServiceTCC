@@ -11,12 +11,28 @@
         android:id="@+id/myRectangle0View3"
         android:layout_width="wrap_content"
         android:layout_height="160dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/retangle_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <RatingBar
+        android:id="@+id/ratingBarNegociacao"
+        style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="2dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:isIndicator="true"
+        android:theme="@style/RatingBar"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/ttvUsernameProposta"
+        tools:ignore="SpeakableTextPresentCheck" />
     <View
         android:id="@+id/myRectangle0View4"
         android:layout_width="wrap_content"
@@ -127,14 +143,14 @@
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginStart="150dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:layout_marginEnd="5dp"
         android:textAlignment="viewStart"
         android:textColor="#A8A8A8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myRectangleView25" />
+        app:layout_constraintTop_toBottomOf="@+id/ratingBarNegociacao" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/ttvSitePerfilProposta"
@@ -170,63 +186,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_logogoservice" />
-
-    <View
-        android:id="@+id/myRectangleView25"
-        android:layout_width="0dp"
-        android:layout_height="15dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginEnd="5dp"
-        android:background="@drawable/retangle_border_view_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvUsernameProposta" />
-
-    <ImageView
-        android:id="@+id/star_1"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
-        app:layout_constraintEnd_toStartOf="@+id/star_2"
-        app:srcCompat="@drawable/ic_star" />
-
-    <ImageView
-        android:id="@+id/star_2"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
-        app:layout_constraintEnd_toStartOf="@+id/star_4"
-        app:srcCompat="@drawable/ic_star" />
-
-    <ImageView
-        android:id="@+id/star_3"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginStart="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
-        app:layout_constraintStart_toEndOf="@+id/star_4"
-        app:srcCompat="@drawable/ic_star" />
-
-    <ImageView
-        android:id="@+id/star_4"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
-        app:layout_constraintEnd_toEndOf="@+id/myRectangleView25"
-        app:layout_constraintHorizontal_bias="0.199"
-        app:layout_constraintStart_toStartOf="@+id/myRectangleView25"
-        app:srcCompat="@drawable/ic_star" />
-
-    <ImageView
-        android:id="@+id/star_5"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginStart="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
-        app:layout_constraintStart_toEndOf="@+id/star_3"
-        app:srcCompat="@drawable/ic_star" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -303,20 +262,6 @@
         app:layout_constraintStart_toStartOf="@+id/myRectangleView31"
         app:layout_constraintTop_toTopOf="@+id/myRectangleView31" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAceitarPropostaMensagem"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="5dp"
-        android:backgroundTint="#009f10"
-        android:text="Aceitar"
-        android:textAllCaps="false"
-        android:textSize="12sp"
-        android:onClick="aceitarPropostaMensagem"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView31"
-        app:layout_constraintEnd_toEndOf="@+id/myRectangleView31"
-        tools:ignore="TextContrastCheck" />
-
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/idPropostaMensagem"
         android:layout_width="wrap_content"
@@ -351,5 +296,31 @@
         app:layout_constraintTop_toTopOf="@+id/myRectangleView31"
         app:srcCompat="@drawable/ic_refresh_fill0_wght400_grad0_opsz48"
         tools:ignore="SpeakableTextPresentCheck" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAceitarPropostaMensagem"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="5dp"
+        android:backgroundTint="#009f10"
+        android:onClick="aceitarPropostaMensagem"
+        android:text="Aceitar"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView31"
+        app:layout_constraintEnd_toEndOf="@+id/myRectangleView31"
+        tools:ignore="TextContrastCheck" />
+
+    <ProgressBar
+        android:id="@+id/progressBarNegociacao"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="#0099FF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

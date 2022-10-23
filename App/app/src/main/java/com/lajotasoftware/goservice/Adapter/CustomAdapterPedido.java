@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,7 +38,7 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.z_custom_list_pedido, parent, false);
-        ViewHolder viewHolder=new ViewHolder(view, mOnPedidoListener);
+        ViewHolder viewHolder = new ViewHolder(view, mOnPedidoListener);
         return viewHolder;
     }
 
@@ -54,6 +55,7 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
         myViewHolder.idCliente = pedidosList.get(position).getId_Cliente().getId();
         myViewHolder.idPrestador = pedidosList.get(position).getId_Prestador().getId();
         myViewHolder.statusPedido.setText("Status: "+pedidosList.get(position).getStatus());
+        myViewHolder.ratingBarPedidoCliente.setRating(pedidosList.get(position).getId_Cliente().getAvaliacaoCliente().floatValue());
     }
 
     @Override
@@ -70,6 +72,7 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
         TextView servicoPedido;
         TextView valorServicoPedido;
         TextView statusPedido;
+        RatingBar ratingBarPedidoCliente;
         OnPedidoListener onPedidoListener;
 
         public ViewHolder (@NonNull View itemView, OnPedidoListener onPedidoListener){
@@ -80,6 +83,7 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
             servicoPedido = itemView.findViewById(R.id.ttvDescServicoPedido);
             valorServicoPedido = itemView.findViewById(R.id.ttvValorServicoPedido);
             statusPedido = itemView.findViewById(R.id.ttvStatusPedido);
+            ratingBarPedidoCliente = itemView.findViewById(R.id.ratingBarPedidoCliente);
             itemView.findViewById(R.id.btnAceitaPedido).setOnClickListener(this);
             itemView.findViewById(R.id.btnRecusaPedido).setOnClickListener(this);
             itemView.findViewById(R.id.btnCancelaPedido).setOnClickListener(this);

@@ -1,6 +1,7 @@
 package com.lajotasoftware.goservice.Services;
 
 import com.lajotasoftware.goservice.DAO.DAOUsuario;
+import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,6 +21,7 @@ public class UserService {
     DAOUsuario daoUsuario;
     private String senha, senhaBanco, login, novaSenha, codConfirmacao;
     private Usuario user = new Usuario();
+    private Return ret = new Return();
 
     private final EmailService emailService;
 
@@ -31,10 +34,11 @@ public class UserService {
     }
 
     public Usuario execute (Usuario usuario){
+        Usuario existUser;
 
-        Usuario existUser = daoUsuario.findByLogin(usuario.getLogin());
+        existUser = daoUsuario.findByLogin(usuario.getLogin());
         if (existUser != null) {
-                throw new Error("Usuario inválido!");
+            throw new Error("Usuario inválido!");
         }
         existUser = daoUsuario.findByEmail(usuario.getEmail());
         if (existUser != null) {
@@ -56,7 +60,12 @@ public class UserService {
     public Usuario validation(Usuario usuario) {
         senha = usuario.getSenha();
         login = usuario.getLogin();
-        Usuario existUser = daoUsuario.findByLogin(usuario.getLogin());
+        Usuario existUser = null;
+        if (daoUsuario.findByLogin(usuario.getLogin()) != null){
+            existUser = daoUsuario.findByLogin(usuario.getLogin());
+        }if(daoUsuario.findByEmail(usuario.getLogin()) != null){
+            existUser = daoUsuario.findByEmail(usuario.getLogin());
+        }
         if (existUser != null && senha != null) {
             senhaBanco = existUser.getSenha();
             boolean valid = false;
@@ -82,7 +91,7 @@ public class UserService {
         return true;
     }
 
-    public String esqueceSenha(String email) {
+    public Boolean esqueceSenha(String email) {
         Usuario user = daoUsuario.findByEmail(email);
         if (user!=null) {
             try {
@@ -99,25 +108,23 @@ public class UserService {
                 //update de senha na tabela de usuario
                 daoUsuario.alteraSenha(user.getId(), passwordEnconder().encode(novaSenha));
                 //return
-                return "Nova senha enviada para o email: " + email;
+                return true;
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }else{
-            return "Email inválido!";
+            return false;
         }
     }
 
-    public String alterarSenha(Long id, String senha) {
+    public Boolean alterarSenha(Long id, String senha) {
         Usuario user = daoUsuario.getUsuario(id);
         try {
             daoUsuario.alteraSenha(user.getId(), passwordEnconder().encode(novaSenha));
-
-            return "Senha alterada com sucesso!";
-
+            return true;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return false;
         }
     }
 
@@ -149,14 +156,17 @@ public class UserService {
         return generatedString;
     }
 
-    public String codConfirmacaoEmail(String email) {
+    public Return codConfirmacaoEmail(String email) {
         try {
             codConfirmacao = codEmailGeneration();
             emailService.sendEmail(
                     email,
                     "GoService - Codigo de Confirmação",
                     "Olá,\nO seu código de confirmação é: "+codConfirmacao);
-            return codConfirmacao;
+            ret.setStatusCode(200);
+            ret.setStatus("Sucesso");
+            ret.setText(codConfirmacao);
+            return ret;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

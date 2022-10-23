@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -69,6 +70,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
     MaterialButton btnCardsPublicos;
     MaterialButton btnPropostasEnviadas;
     MaterialButton btnCardsFinalizadas;
+    ProgressBar progressBarCards;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +99,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         btnCardsPublicos = findViewById(R.id.btnCardsPublicos);
         btnPropostasEnviadas = findViewById(R.id.btnPropostasEnviadas);
         btnCardsFinalizadas = findViewById(R.id.btnCardsFinalizadas);
+        progressBarCards = findViewById(R.id.progressBarCards);
         listarCards();
     }
 
@@ -106,11 +109,13 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         btnCardsPublicos.setBackgroundColor(Color.parseColor("#153246"));
         btnPropostasEnviadas.setBackgroundColor(Color.parseColor("#153246"));
         btnCardsFinalizadas.setBackgroundColor(Color.parseColor("#153246"));
+        progressBarCards.setVisibility(View.VISIBLE);
         RetrofitService retrofitServiceListService = new RetrofitService();
         api = retrofitServiceListService.getRetrofit().create(API.class);
         api.getCardServico(idUsuario).enqueue(new Callback<List<SolicitaServico>>() {
             @Override
             public void onResponse(Call<List<SolicitaServico>> call, Response<List<SolicitaServico>> response) {
+                progressBarCards.setVisibility(View.GONE);
                 int aux = 0;
                 if (response.body() != null) {
                     aux = response.body().size();
@@ -130,6 +135,8 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
             @Override
             public void onFailure(Call<List<SolicitaServico>> call, Throwable t) {
                 Toast.makeText(Card.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
+                progressBarCards.setVisibility(View.GONE);
+                onBackPressed();
             }
         });
     }

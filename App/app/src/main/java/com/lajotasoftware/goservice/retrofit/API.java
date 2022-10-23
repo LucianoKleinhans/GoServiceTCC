@@ -4,6 +4,7 @@ import com.lajotasoftware.goservice.Entity.Categoria;
 import com.lajotasoftware.goservice.Entity.Mensagem;
 import com.lajotasoftware.goservice.Entity.Pedido;
 import com.lajotasoftware.goservice.Entity.Proposta;
+import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.SubCategoria;
@@ -181,11 +182,11 @@ public interface API {
     /*-------------------------------------------E-Mail-------------------------------------------*/
 
     @POST("/usuario/password/forget_password/{email}")
-    Call<String> forgetPassword(@Path("email") String email);
+    Call<Boolean> forgetPassword(@Path("email") String email);
 
     @POST("/usuario/confirmacaoemail/{email}")
-    Call<String> codConfirmacaoEmail(@Path("email") String email);
+    Call<Return> codConfirmacaoEmail(@Path("email") String email);
 
     @POST("/usuario/password/alter_password/{id}/{senha}")
-    Call<String> alterarSenha(@Path("id") Long id, @Path("senha") String senha);
+    Call<Boolean> alterarSenha(@Path("id") Long id, @Path("senha") String senha);
 }

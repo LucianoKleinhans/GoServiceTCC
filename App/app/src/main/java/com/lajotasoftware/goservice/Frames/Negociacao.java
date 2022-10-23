@@ -8,6 +8,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,6 +64,8 @@ public class Negociacao extends AppCompatActivity {
     MaterialTextView ttvidPropostaMensagem;
     MaterialButton btnAceitarPropostaMensagem;
     MaterialButton btnAlterarPropostaMensagem;
+    RatingBar ratingBarNegociacao;
+    ProgressBar progressBarNegociacao;
 
     Intent it;
     Dialog dialog;
@@ -102,9 +106,12 @@ public class Negociacao extends AppCompatActivity {
         ttvidPropostaMensagem = findViewById(R.id.idPropostaMensagem);
         btnAceitarPropostaMensagem = findViewById(R.id.btnAceitarPropostaMensagem);
         btnAlterarPropostaMensagem = findViewById(R.id.btnAlterarPropostaMensagem);
+        ratingBarNegociacao = findViewById(R.id.ratingBarNegociacao);
+        progressBarNegociacao = findViewById(R.id.progressBarNegociacao);
 
         textMensagem = findViewById(R.id.edtTextMensagem);
 
+        progressBarNegociacao.setVisibility(View.VISIBLE);
         if (idUsuario.equals(idCliente)){
             retrofitService = new RetrofitService();
             api = retrofitService.getRetrofit().create(API.class);
@@ -117,6 +124,7 @@ public class Negociacao extends AppCompatActivity {
                     ttvEmailPerfilProposta.setText(response.body().getEmail());
                     ttvTelefonePerfilProposta.setText(response.body().getTelefone());
                     ttvSitePerfilProposta.setText(response.body().getSite());
+                    ratingBarNegociacao.setRating(response.body().getAvaliacaoPrestador().floatValue());
                     btnAceitarPropostaMensagem.setVisibility(View.VISIBLE);
                     btnAlterarPropostaMensagem.setVisibility(View.INVISIBLE);
                     retrofitService = new RetrofitService();
@@ -128,18 +136,21 @@ public class Negociacao extends AppCompatActivity {
                             ttvidPropostaMensagem.setText(response.body().getId().toString());
                             ttvValorPropostaMensagem.setText("Valor: R$"+response.body().getValor().toString());
                             ttvDescPropostaMensagem.setText(response.body().getObservacao());
+                            progressBarNegociacao.setVisibility(View.GONE);
                         }
 
                         @Override
                         public void onFailure(Call<Proposta> call, Throwable t) {
-
+                            progressBarNegociacao.setVisibility(View.GONE);
+                            onBackPressed();
                         }
                     });
                 }
 
                 @Override
                 public void onFailure(Call<Usuario> call, Throwable t) {
-
+                    progressBarNegociacao.setVisibility(View.GONE);
+                    onBackPressed();
                 }
             });
         }else if (idUsuario.equals(idPrestador)) {
@@ -154,6 +165,7 @@ public class Negociacao extends AppCompatActivity {
                     ttvEmailPerfilProposta.setText(response.body().getEmail());
                     ttvTelefonePerfilProposta.setText(response.body().getTelefone());
                     ttvSitePerfilProposta.setText(response.body().getSite());
+                    ratingBarNegociacao.setRating(response.body().getAvaliacaoCliente().floatValue());
                     btnAceitarPropostaMensagem.setVisibility(View.INVISIBLE);
                     btnAlterarPropostaMensagem.setVisibility(View.VISIBLE);
                     retrofitService = new RetrofitService();
@@ -165,17 +177,22 @@ public class Negociacao extends AppCompatActivity {
                             ttvidPropostaMensagem.setText(response.body().getId().toString());
                             ttvValorPropostaMensagem.setText("Valor: R$"+response.body().getValor().toString());
                             ttvDescPropostaMensagem.setText(response.body().getObservacao());
+                            progressBarNegociacao.setVisibility(View.GONE);
                         }
 
                         @Override
                         public void onFailure(Call<Proposta> call, Throwable t) {
                             Toast.makeText(Negociacao.this, "Bom dia", Toast.LENGTH_SHORT).show();
+                            progressBarNegociacao.setVisibility(View.GONE);
+                            onBackPressed();
                         }
                     });
                 }
 
                 @Override
                 public void onFailure(Call<Usuario> call, Throwable t) {
+                    progressBarNegociacao.setVisibility(View.GONE);
+                    onBackPressed();
                 }
             });
         }
@@ -187,6 +204,7 @@ public class Negociacao extends AppCompatActivity {
     private void listarMensagem() {
         RecyclerView recyclerView = findViewById(R.id.listMensagem);
         retrofitService = new RetrofitService();
+        progressBarNegociacao.setVisibility(View.VISIBLE);
         api = retrofitService.getRetrofit().create(API.class);
         api.getPropostaMensagem(idProposta).enqueue(new Callback<List<Mensagem>>() {
             @Override
@@ -205,11 +223,12 @@ public class Negociacao extends AppCompatActivity {
                 recyclerView.setLayoutManager(linearLayoutManager);
                 customAdapterMensagem = new CustomAdapterMensagem(Negociacao.this, mensagens, idUsuario);
                 recyclerView.setAdapter(customAdapterMensagem);
+                progressBarNegociacao.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<List<Mensagem>> call, Throwable t) {
-
+                progressBarNegociacao.setVisibility(View.GONE);
             }
         });
     }
@@ -378,6 +397,7 @@ public class Negociacao extends AppCompatActivity {
 
     private void atualizarProposta() {
         retrofitService = new RetrofitService();
+        progressBarNegociacao.setVisibility(View.VISIBLE);
         api = retrofitService.getRetrofit().create(API.class);
         api.getPropostaByID(idProposta).enqueue(new Callback<Proposta>() {
             @Override
@@ -386,11 +406,12 @@ public class Negociacao extends AppCompatActivity {
                 ttvidPropostaMensagem.setText(response.body().getId().toString());
                 ttvValorPropostaMensagem.setText("Valor: R$"+response.body().getValor().toString());
                 ttvDescPropostaMensagem.setText(response.body().getObservacao());
+                progressBarNegociacao.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<Proposta> call, Throwable t) {
-
+                progressBarNegociacao.setVisibility(View.GONE);
             }
         });
     }

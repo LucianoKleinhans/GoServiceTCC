@@ -8,12 +8,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterService;
+import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.MainActivity;
@@ -55,6 +59,10 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
     Servico servico = new Servico();
     String status, bio, novaSenha, novaSenhaConfirm, codConfirmacao, novaSenhaCodConfirmacao;
     Dialog dialog;
+    ProgressBar progressBar;
+    ProgressBar progressBarPerfilUsuario;
+    ProgressBar progressBarEdtPerfilUsuario;
+    ProgressBar progressBarEdtCadastroUsuario;
 
     private final int GALLERY_REQ_CODE = 1000;
 
@@ -81,13 +89,16 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         MaterialTextView textViewEmailUsuario = findViewById(R.id.ttvEmailPerfilUser);
         MaterialTextView textViewSiteUsuario = findViewById(R.id.ttvSitePerfilUser);
         MaterialTextView textViewBioUsuario = findViewById(R.id.textView6);
-
+        RatingBar ratingBarPefilPrestador = findViewById(R.id.ratingBarPefilPrestador);
+        RatingBar ratingBarPefilCliente = findViewById(R.id.ratingBarPefilCliente);
+        progressBarPerfilUsuario = findViewById(R.id.progressBarPerfilUsuario);
+        progressBarPerfilUsuario.setVisibility(View.GONE);
         //layout
         View rectangleServico = findViewById(R.id.myRectangleView24);
         View btnAddServicos = findViewById(R.id.btnServicos);
 
         listServicosPrestador = findViewById(R.id.listServicosPrestador);
-
+        progressBarPerfilUsuario.setVisibility(View.VISIBLE);
         RetrofitService retrofitService = new RetrofitService();
         API usuarioAPI = retrofitService.getRetrofit().create(API.class);
         usuario.setId(idUsuario);
@@ -121,18 +132,25 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                     }else{textViewSiteUsuario.setText("Site:" + user.getSite());}
                     textViewBioUsuario.setText(user.getBio());
                     bio = user.getBio();
+
+                    ratingBarPefilPrestador.setRating(user.getAvaliacaoPrestador().floatValue());
+                    ratingBarPefilCliente.setRating(user.getAvaliacaoCliente().floatValue());
+                    progressBarPerfilUsuario.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
-                throw new Error("USUARIO INVALIDO");
+                progressBarPerfilUsuario.setVisibility(View.GONE);
+                Toast.makeText(Perfil.this, "Usuario Inválido!", Toast.LENGTH_SHORT).show();
+                onBackPressed();
             }
         });
         dialog = new Dialog(this);
     }
 
     private void listaServico() {
+        progressBarPerfilUsuario.setVisibility(View.VISIBLE);
         RetrofitService retrofitServiceListService = new RetrofitService();
         API usuarioAPIListService = retrofitServiceListService.getRetrofit().create(API.class);
         usuarioAPIListService.getServicosPrestador(idUsuario).enqueue(new Callback<List<Servico>>() {
@@ -152,11 +170,13 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                 listServicosPrestador.setLayoutManager(linearLayoutManager);
                 customAdapter = new CustomAdapterService(Perfil.this, servicos, Perfil.this);
                 listServicosPrestador.setAdapter(customAdapter);
+                progressBarPerfilUsuario.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<List<Servico>> call, Throwable t) {
                 Toast.makeText(Perfil.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
+                progressBarPerfilUsuario.setVisibility(View.GONE);
             }
         });
     }
@@ -247,6 +267,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         MaterialTextView textViewEmailUsuario = findViewById(R.id.ttvEmailPerfilUser);
         MaterialTextView textViewSiteUsuario = findViewById(R.id.ttvSitePerfilUser);
         TextView textViewBioUsuario = findViewById(R.id.editTextTextMultiLine);
+        progressBarEdtPerfilUsuario = findViewById(R.id.progressBarEdtPerfilUsuario);
         textViewBioUsuario.setText(bio);
 
         //imageview
@@ -256,7 +277,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         MaterialButton btnGravarEditPerfil = findViewById(R.id.btnGravarEditPerfil);
         MaterialButton btnCancelarEditPerfil = findViewById(R.id.btnCancelarEditPerfil);
 
-
+        progressBarEdtPerfilUsuario.setVisibility(View.VISIBLE);
         RetrofitService retrofitService = new RetrofitService();
         API usuarioAPI = retrofitService.getRetrofit().create(API.class);
         usuario.setId(idUsuario);
@@ -282,10 +303,12 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                         textViewSiteUsuario.setVisibility(View.INVISIBLE);
                     }else{textViewSiteUsuario.setText("Site:" + user.getSite());}
                 }
+                progressBarEdtPerfilUsuario.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
+                progressBarEdtPerfilUsuario.setVisibility(View.GONE);
                 throw new Error("USUARIO INVALIDO");
             }
         });
@@ -422,14 +445,26 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         MaterialTextView btnReenviarCodigoAlterSenha = dialog.findViewById(R.id.btnReenviarCodigoAlterSenha);
         MaterialButton btnConfirmaAlteracaoSenha = dialog.findViewById(R.id.btnConfirmaAlteracaoSenha);
 
-        api.codConfirmacaoEmail(user.getEmail()).enqueue(new Callback<String>() {
+        progressBar = dialog.findViewById(R.id.progressBarAlterSenha);
+        progressBar.setVisibility(View.VISIBLE);
+        edtInsiraNovaSenha.setEnabled(false);
+        edtConfirmaNovaSenha.setEnabled(false);
+        btnConfirmaAlteracaoSenha.setEnabled(false);
+        btnReenviarCodigoAlterSenha.setEnabled(false);
+
+        api.codConfirmacaoEmail(user.getEmail()).enqueue(new Callback<Return>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                codConfirmacao = response.body().toString();
+            public void onResponse(Call<Return> call, Response<Return> response) {
+                codConfirmacao = response.body().getText();
+                progressBar.setVisibility(View.GONE);
+                edtInsiraNovaSenha.setEnabled(true);
+                edtConfirmaNovaSenha.setEnabled(true);
+                btnConfirmaAlteracaoSenha.setEnabled(true);
+                btnReenviarCodigoAlterSenha.setEnabled(true);
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Return> call, Throwable t) {
 
             }
         });
@@ -441,21 +476,35 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                 novaSenhaConfirm = String.valueOf(edtConfirmaNovaSenha.getText());
                 novaSenhaCodConfirmacao = String.valueOf(edtCodConfirmEmailAlterSenha.getText());
                 if (novaSenha.equals(novaSenhaConfirm)){
-                    if (novaSenhaCodConfirmacao.equals(codConfirmacao)){
-                        api.alterarSenha(idUsuario, novaSenha).enqueue(new Callback<String>() {
-                            @Override
-                            public void onResponse(Call<String> call, Response<String> response) {
-                                Toast.makeText(Perfil.this, response.body().toString(), Toast.LENGTH_SHORT).show();
-                                dialog.hide();
-                            }
+                    if (novaSenha.length()>=10) {
+                        if (novaSenhaCodConfirmacao.equals(codConfirmacao)) {
+                            progressBar.setVisibility(View.VISIBLE);
+                            edtInsiraNovaSenha.setEnabled(false);
+                            edtConfirmaNovaSenha.setEnabled(false);
+                            btnConfirmaAlteracaoSenha.setEnabled(false);
+                            btnReenviarCodigoAlterSenha.setEnabled(false);
+                            api.alterarSenha(idUsuario, novaSenha).enqueue(new Callback<Boolean>() {
+                                @Override
+                                public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                                    Toast.makeText(Perfil.this, "Senha Alterada com Sucesso!", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                    edtInsiraNovaSenha.setEnabled(true);
+                                    edtConfirmaNovaSenha.setEnabled(true);
+                                    btnConfirmaAlteracaoSenha.setEnabled(true);
+                                    btnReenviarCodigoAlterSenha.setEnabled(true);
+                                    dialog.hide();
+                                }
 
-                            @Override
-                            public void onFailure(Call<String> call, Throwable t) {
+                                @Override
+                                public void onFailure(Call<Boolean> call, Throwable t) {
 
-                            }
-                        });
-                    }else{
-                        Toast.makeText(Perfil.this, "O código de confirmação incorreto!", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(Perfil.this, "O código de confirmação incorreto!", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(Perfil.this, "Senha deve ter no minimo 10 caracteres!", Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     Toast.makeText(Perfil.this, "As senhas informadas não são iguais ", Toast.LENGTH_SHORT).show();
@@ -468,20 +517,30 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         btnReenviarCodigoAlterSenha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
-                api.codConfirmacaoEmail(user.getEmail()).enqueue(new Callback<String>() {
+                progressBar.setVisibility(View.VISIBLE);
+                edtInsiraNovaSenha.setEnabled(false);
+                edtConfirmaNovaSenha.setEnabled(false);
+                btnConfirmaAlteracaoSenha.setEnabled(false);
+                btnReenviarCodigoAlterSenha.setEnabled(false);
+                api.codConfirmacaoEmail(user.getEmail()).enqueue(new Callback<Return>() {
                     @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        codConfirmacao = response.body().toString();
+                    public void onResponse(Call<Return> call, Response<Return> response) {
+                        codConfirmacao = response.body().getText();
+                        progressBar.setVisibility(View.GONE);
+                        edtInsiraNovaSenha.setEnabled(true);
+                        edtConfirmaNovaSenha.setEnabled(true);
+                        btnConfirmaAlteracaoSenha.setEnabled(true);
+                        btnReenviarCodigoAlterSenha.setEnabled(true);
                     }
 
                     @Override
-                    public void onFailure(Call<String> call, Throwable t) {
+                    public void onFailure(Call<Return> call, Throwable t) {
 
                     }
                 });
             }
         });
         dialog.show();
-        ttvTextEmailAlterSenha.setText("Um codigo de confirmacao foi enviado para o \\nE-mail: "+user.getEmail()+"\\n Coloque-o abaixo para prosseguir!");
+        ttvTextEmailAlterSenha.setText("Um codigo de confirmacao foi enviado para o \n E-mail: "+user.getEmail()+"\n Coloque-o abaixo para prosseguir!");
     }
 }

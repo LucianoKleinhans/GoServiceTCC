@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +33,10 @@ public class Login extends AppCompatActivity {
     public String username;
     public Function function = new Function();
     Dialog dialog;
+
+    ProgressBar progressBarLogin;
+    ProgressBar progressBarEsqueciSenha;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +66,10 @@ public class Login extends AppCompatActivity {
 
         MaterialButton btnEntrar = findViewById(R.id.btnCadLoginGravar);
         MaterialButton btnCadastrar = findViewById(R.id.btnCadastrar);
+        progressBarLogin = findViewById(R.id.progressBarLogin);
+        progressBarLogin.setVisibility(View.GONE);
+        btnEntrar.setEnabled(true);
+        btnCadastrar.setEnabled(true);
 
         RetrofitService retrofitService = new RetrofitService();
         API usuarioAPI = retrofitService.getRetrofit().create(API.class);
@@ -73,40 +82,52 @@ public class Login extends AppCompatActivity {
             Usuario usuario = new Usuario();
             usuario.setLogin(loginUsuario);
             usuario.setSenha(loginSenha);
-                    if (usuario.getLogin().length()>=5){
-                        if (usuario.getSenha().length()>=10){
-                            if (!(usuario.getLogin().equals("") || usuario.getSenha().equals(""))) {
-                                usuarioAPI.authentication(usuario).enqueue(new Callback<Usuario>() {
-                                    @Override
-                                    public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                                        if (response.body().getId() != 0) {
-                                            Toast.makeText(Login.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
-                                            efetuarLogin(response.body().getId());
-                                        } else {
-                                            Toast.makeText(Login.this, "Falha no Login!", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<Usuario> call, Throwable t) {
-                                        Toast.makeText(Login.this, "Falha no Login!", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }else{
-                                Toast.makeText(Login.this, "Login ou Senha Inválido!", Toast.LENGTH_SHORT).show();
+            if (usuario.getLogin().length()>=5){
+                if (usuario.getSenha().length()>=10){
+                    if (!(usuario.getLogin().equals("") || usuario.getSenha().equals(""))) {
+                        progressBarLogin.setVisibility(View.VISIBLE);
+                        btnEntrar.setEnabled(false);
+                        btnCadastrar.setEnabled(false);
+                        usuarioAPI.authentication(usuario).enqueue(new Callback<Usuario>() {
+                            @Override
+                            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                                if (response.body().getId() != 0) {
+                                    btnEntrar.setEnabled(true);
+                                    btnCadastrar.setEnabled(true);
+                                    Toast.makeText(Login.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                                    efetuarLogin(response.body().getId());
+                                } else {
+                                    Toast.makeText(Login.this, "Falha no Login!", Toast.LENGTH_SHORT).show();
+                                    progressBarLogin.setVisibility(View.GONE);
+                                    btnEntrar.setEnabled(true);
+                                    btnCadastrar.setEnabled(true);
+                                }
                             }
-                        }else{
-                            Toast.makeText(Login.this, "Tamanho da Senha do Usuário deve ser maior ou igual a 10", Toast.LENGTH_SHORT).show();
-                        }
+
+                            @Override
+                            public void onFailure(Call<Usuario> call, Throwable t) {
+                                Toast.makeText(Login.this, "Falha no Login!", Toast.LENGTH_SHORT).show();
+                                progressBarLogin.setVisibility(View.GONE);
+                                btnEntrar.setEnabled(true);
+                                btnCadastrar.setEnabled(true);
+                            }
+                        });
                     }else{
-                        Toast.makeText(Login.this, "Tamanho do Nome de Usuário deve ser maior ou igual a 5", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "Login ou Senha Inválido!", Toast.LENGTH_SHORT).show();
                     }
+                }else{
+                    Toast.makeText(Login.this, "Tamanho da Senha do Usuário deve ser maior ou igual a 10", Toast.LENGTH_SHORT).show();
+                }
+            }else{
+                Toast.makeText(Login.this, "Tamanho do Nome de Usuário deve ser maior ou igual a 5", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
     private void efetuarLogin(Long id) {
         idUsuario = id;
         if (idUsuario != 0L){
+            progressBarLogin.setVisibility(View.GONE);
             Intent it = new Intent(this, MainActivity.class);
             Bundle parametros = new Bundle();
             parametros.putLong("id_usuario", idUsuario);
@@ -149,6 +170,10 @@ public class Login extends AppCompatActivity {
 
         TextInputEditText edtEmailEsqueciSenha = dialog.findViewById(R.id.edtEmailEsqueciSenha);
         MaterialButton btnConfirmaEsqueciSenha = dialog.findViewById(R.id.btnConfirmaEsqueciSenha);
+        progressBarEsqueciSenha = dialog.findViewById(R.id.progressBarEsqueciSenha);
+        progressBarEsqueciSenha.setVisibility(View.GONE);
+        edtEmailEsqueciSenha.setEnabled(true);
+        btnConfirmaEsqueciSenha.setEnabled(true);
 
         RetrofitService retrofitService = new RetrofitService();
         API api = retrofitService.getRetrofit().create(API.class);
@@ -158,20 +183,26 @@ public class Login extends AppCompatActivity {
             public void onClick(View view) {
                 String emailEsqueciSenha = String.valueOf(edtEmailEsqueciSenha.getText());
                 if (emailEsqueciSenha!=null) {
-                    api.forgetPassword(emailEsqueciSenha).enqueue(new Callback<String>() {
+                    progressBarEsqueciSenha.setVisibility(View.VISIBLE);
+                    edtEmailEsqueciSenha.setEnabled(false);
+                    btnConfirmaEsqueciSenha.setEnabled(false);
+                    api.forgetPassword(emailEsqueciSenha).enqueue(new Callback<Boolean>() {
                         @Override
-                        public void onResponse(Call<String> call, Response<String> response) {
-                            assert response.body() != null;
-                            if (response.body().equals("Email inválido!")) {
+                        public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                            if (response.body().equals(false)) {
                                 Toast.makeText(Login.this, "Email inválido!", Toast.LENGTH_SHORT).show();
+                                progressBarEsqueciSenha.setVisibility(View.GONE);
+                                edtEmailEsqueciSenha.setEnabled(true);
+                                btnConfirmaEsqueciSenha.setEnabled(true);
                             } else {
-                                Toast.makeText(Login.this, "Senha de recuperação enviada para o e-mail \n" + emailEsqueciSenha, Toast.LENGTH_SHORT).show();
+                                progressBarEsqueciSenha.setVisibility(View.GONE);
+                                Toast.makeText(Login.this, "Senha de recuperação enviada para o e-mail \n" + emailEsqueciSenha, Toast.LENGTH_LONG).show();
                                 dialog.hide();
                             }
                         }
 
                         @Override
-                        public void onFailure(Call<String> call, Throwable t) {
+                        public void onFailure(Call<Boolean> call, Throwable t) {
 
                         }
                     });

@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.Frames.Card;
@@ -14,6 +15,7 @@ import com.lajotasoftware.goservice.Frames.Pedidos;
 import com.lajotasoftware.goservice.Frames.Prestadores;
 
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.lajotasoftware.goservice.Frames.Perfil;
 import com.lajotasoftware.goservice.Frames.Servicos;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     long idUsuario;
     String username;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeComponents() {
         MaterialTextView textViewUserName = findViewById(R.id.ttvUsernamePerfilUser2);
+        MaterialButton btnGerenciaCardsMain = findViewById(R.id.btnGerenciaCardsMain);
+        MaterialButton btnPrestadoresMain = findViewById(R.id.btnPrestadoresMain);
+        MaterialButton btnServicosMain = findViewById(R.id.btnServicosMain);
+        MaterialButton btnSolicitacoesMain = findViewById(R.id.btnSolicitacoesMain);
+        progressBar = findViewById(R.id.progressBarMain);
+        progressBar.setVisibility(View.VISIBLE);
+        btnGerenciaCardsMain.setEnabled(false);
+        btnPrestadoresMain.setEnabled(false);
+        btnServicosMain.setEnabled(false);
+        btnSolicitacoesMain.setEnabled(false);
 
         RetrofitService retrofitService = new RetrofitService();
         API usuarioAPI = retrofitService.getRetrofit().create(API.class);
@@ -51,6 +64,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Usuario> call, Response<Usuario> usuarioResponse) {
                 if (usuarioResponse.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                    btnGerenciaCardsMain.setEnabled(true);
+                    btnPrestadoresMain.setEnabled(true);
+                    btnServicosMain.setEnabled(true);
+                    btnSolicitacoesMain.setEnabled(true);
                     Usuario user = new Usuario();
                     assert usuarioResponse.body() != null;
                     user.setUsuario(usuarioResponse.body());

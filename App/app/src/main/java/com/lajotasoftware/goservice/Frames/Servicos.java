@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +49,7 @@ public class Servicos extends AppCompatActivity implements CustomAdapterServiceP
     Usuario prestador;
     Usuario cliente;
     Date date = new Date();
+    ProgressBar progressBarServicos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +63,10 @@ public class Servicos extends AppCompatActivity implements CustomAdapterServiceP
 
     private void initializeComponents() {
         recyclerView = findViewById(R.id.listaServicos);
+        progressBarServicos = findViewById(R.id.progressBarServicos);
+        progressBarServicos.setVisibility(View.VISIBLE);
         listarServicos();
+        progressBarServicos.setVisibility(View.GONE);
     }
 
     private void listarServicos() {

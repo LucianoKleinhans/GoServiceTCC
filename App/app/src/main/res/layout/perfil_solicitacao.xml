@@ -17,6 +17,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <RatingBar
+        android:id="@+id/ratingBarPefilPrestador1"
+        style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="1dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:isIndicator="true"
+        android:theme="@style/RatingBar"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/ttvUsernamePerfilSolicita"
+        tools:ignore="SpeakableTextPresentCheck" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/ttvUsernamePerfilSolicita"
         android:layout_width="0dp"
@@ -49,7 +65,7 @@
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginStart="150dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="1dp"
         android:layout_marginEnd="5dp"
         android:text="@string/cidade_uf"
         android:textAlignment="viewStart"
@@ -57,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myRectangleView25" />
+        app:layout_constraintTop_toBottomOf="@+id/ratingBarPefilPrestador1" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/ttvSitePerfilSolicita"
@@ -95,63 +111,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_logogoservice" />
-
-    <View
-        android:id="@+id/myRectangleView25"
-        android:layout_width="0dp"
-        android:layout_height="15dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginEnd="5dp"
-        android:background="@drawable/retangle_border_view_2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvUsernamePerfilSolicita" />
-
-    <ImageView
-        android:id="@+id/star_1"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
-        app:layout_constraintEnd_toStartOf="@+id/star_2"
-        app:srcCompat="@drawable/ic_star" />
-
-    <ImageView
-        android:id="@+id/star_2"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
-        app:layout_constraintEnd_toStartOf="@+id/star_4"
-        app:srcCompat="@drawable/ic_star" />
-
-    <ImageView
-        android:id="@+id/star_3"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginStart="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
-        app:layout_constraintStart_toEndOf="@+id/star_4"
-        app:srcCompat="@drawable/ic_star" />
-
-    <ImageView
-        android:id="@+id/star_4"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
-        app:layout_constraintEnd_toEndOf="@+id/myRectangleView25"
-        app:layout_constraintHorizontal_bias="0.199"
-        app:layout_constraintStart_toStartOf="@+id/myRectangleView25"
-        app:srcCompat="@drawable/ic_star" />
-
-    <ImageView
-        android:id="@+id/star_5"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginStart="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/myRectangleView25"
-        app:layout_constraintStart_toEndOf="@+id/star_3"
-        app:srcCompat="@drawable/ic_star" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"

@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +52,8 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
     Pedido pedido;
     API api;
 
+    ProgressBar progressBarListPrestadores;
+
     Date date = new Date();
 
     @Override
@@ -65,10 +69,12 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
 
     private void initializeComponents() {
         recyclerView = findViewById(R.id.listaPrestadores);
+        progressBarListPrestadores = findViewById(R.id.progressBarListPrestadores);
         listarPrestadores();
     }
 
     private void listarPrestadores() {
+        progressBarListPrestadores.setVisibility(View.VISIBLE);
         RetrofitService retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
         api.getAllPrestadores(idUsuario).enqueue(new Callback<List<Usuario>>() {
@@ -82,18 +88,21 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
                         prestador.setId(response.body().get(i - 1).getId());
                         prestador.setPrimeiroNome(response.body().get(i - 1).getPrimeiroNome());
                         prestador.setBio(response.body().get(i - 1).getBio());
+                        prestador.setAvaliacaoPrestador(response.body().get(i - 1).getAvaliacaoPrestador());
                         prestadores.add(prestador);
                     }
                     LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getApplicationContext());
                     recyclerView.setLayoutManager(linearLayoutManager1);
                     customAdapter = new CustomAdapterPrestadores(Prestadores.this, prestadores, Prestadores.this);
                     recyclerView.setAdapter(customAdapter);
+                    progressBarListPrestadores.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Usuario>> call, Throwable t) {
                 Toast.makeText(Prestadores.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
+                progressBarListPrestadores.setVisibility(View.GONE);
             }
         });
     }
@@ -111,11 +120,14 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
         MaterialTextView textViewEmailUsuario = findViewById(R.id.ttvEmailPerfilPrestador);
         MaterialTextView textViewSiteUsuario = findViewById(R.id.ttvSitePerfilPrestador);
         MaterialTextView textViewBioUsuario = findViewById(R.id.ttvBioPerfilPrestador);
+        RatingBar ratingBarPefilPrestador = findViewById(R.id.ratingBarPefilPrestador1);
+        ProgressBar progressBarPerfilPrestador = findViewById(R.id.progressBarPerfilPrestador);
 
         recyclerViewServicePrestador = findViewById(R.id.listServicosPrestador);
 
         idPrestador = id;
 
+        progressBarPerfilPrestador.setVisibility(View.VISIBLE);
         retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
         api.getPrestador(id).enqueue(new Callback<Usuario>() {
@@ -131,13 +143,15 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
                     textViewSiteUsuario.setVisibility(View.INVISIBLE);
                 }else{textViewSiteUsuario.setText("Site:" + prestador.getSite());}
                 textViewBioUsuario.setText(prestador.getBio());
+                ratingBarPefilPrestador.setRating(prestador.getAvaliacaoPrestador().floatValue());
 
                 listarServicosPrestador(id);
-
+                progressBarPerfilPrestador.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
+                progressBarPerfilPrestador.setVisibility(View.GONE);
                 throw new Error("USUARIO INVALIDO");
             }
         });

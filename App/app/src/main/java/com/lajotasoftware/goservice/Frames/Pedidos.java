@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
@@ -58,7 +59,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
     MaterialButton btnRecebidas;
     MaterialButton btnEmProgresso;
     MaterialButton btnFinalizado;
-
+    ProgressBar progressBarPedidos;
     String nomeCliente,nomePrestador,telefone,servico,descservico,valor;
 
     RetrofitService retrofitService;
@@ -92,6 +93,8 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         btnRecebidas = findViewById(R.id.btnPedidosRecebidas);
         btnEmProgresso = findViewById(R.id.btnPedidosProgresso);
         btnFinalizado = findViewById(R.id.btnPedidosFinalizados);
+        progressBarPedidos = findViewById(R.id.progressBarPedidos);
+        progressBarPedidos.setVisibility(View.GONE);
         lista();
     }
 
@@ -102,6 +105,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         btnEmProgresso.setBackgroundColor(Color.parseColor("#153246"));
         btnFinalizado.setBackgroundColor(Color.parseColor("#153246"));
         retrofitService = new RetrofitService();
+        progressBarPedidos.setVisibility(View.VISIBLE);
         api = retrofitService.getRetrofit().create(API.class);
         api.getPedidosCliente(idUsuario).enqueue(new Callback<List<Pedido>>() {
             @Override
@@ -127,11 +131,13 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                     customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro);
                     recyclerView.setAdapter(customAdapter);
                 }
+                progressBarPedidos.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<List<Pedido>> call, Throwable t) {
                 Toast.makeText(Pedidos.this, "Sem Sucesso ao carregar lista de pedidos!", Toast.LENGTH_SHORT).show();
+                progressBarPedidos.setVisibility(View.GONE);
             }
         });
     }
@@ -144,6 +150,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         btnEmProgresso.setBackgroundColor(Color.parseColor("#153246"));
         btnFinalizado.setBackgroundColor(Color.parseColor("#153246"));
         retrofitService = new RetrofitService();
+        progressBarPedidos.setVisibility(View.VISIBLE);
         api = retrofitService.getRetrofit().create(API.class);
         api.getPedidosCliente(idUsuario).enqueue(new Callback<List<Pedido>>() {
             @Override
@@ -168,11 +175,13 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 recyclerView.setLayoutManager(linearLayoutManager);
                 customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro);
                 recyclerView.setAdapter(customAdapter);
+                progressBarPedidos.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<List<Pedido>> call, Throwable t) {
                 Toast.makeText(Pedidos.this, "Sem Sucesso ao carregar lista de pedidos!", Toast.LENGTH_SHORT).show();
+                progressBarPedidos.setVisibility(View.GONE);
             }
         });
     }
@@ -184,6 +193,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         btnRecebidas.setBackgroundColor(Color.parseColor("#204c6a"));
         btnEmProgresso.setBackgroundColor(Color.parseColor("#153246"));
         btnFinalizado.setBackgroundColor(Color.parseColor("#153246"));
+        progressBarPedidos.setVisibility(View.VISIBLE);
         retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
         api.getPedidosPrestador(idUsuario).enqueue(new Callback<List<Pedido>>() {
@@ -209,11 +219,13 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 recyclerView.setLayoutManager(linearLayoutManager);
                 customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro);
                 recyclerView.setAdapter(customAdapter);
+                progressBarPedidos.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<List<Pedido>> call, Throwable t) {
                 Toast.makeText(Pedidos.this, "Sem Sucesso ao carregar lista de pedidos!", Toast.LENGTH_SHORT).show();
+                progressBarPedidos.setVisibility(View.GONE);
             }
         });
     }
@@ -225,6 +237,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         btnRecebidas.setBackgroundColor(Color.parseColor("#153246"));
         btnEmProgresso.setBackgroundColor(Color.parseColor("#204c6a"));
         btnFinalizado.setBackgroundColor(Color.parseColor("#153246"));
+        progressBarPedidos.setVisibility(View.VISIBLE);
         retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
         api.getPedidosEmProgresso(idUsuario).enqueue(new Callback<List<Pedido>>() {
@@ -250,11 +263,13 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 recyclerView.setLayoutManager(linearLayoutManager);
                 customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro);
                 recyclerView.setAdapter(customAdapter);
+                progressBarPedidos.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<List<Pedido>> call, Throwable t) {
                 Toast.makeText(Pedidos.this, "Sem Sucesso ao carregar lista de pedidos!", Toast.LENGTH_SHORT).show();
+                progressBarPedidos.setVisibility(View.GONE);
             }
         });
     }
@@ -266,6 +281,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         btnRecebidas.setBackgroundColor(Color.parseColor("#153246"));
         btnEmProgresso.setBackgroundColor(Color.parseColor("#153246"));
         btnFinalizado.setBackgroundColor(Color.parseColor("#204c6a"));
+        progressBarPedidos.setVisibility(View.VISIBLE);
         retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
         api.getPedidosFinalizados(idUsuario).enqueue(new Callback<List<Pedido>>() {
@@ -291,11 +307,13 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 recyclerView.setLayoutManager(linearLayoutManager);
                 customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro);
                 recyclerView.setAdapter(customAdapter);
+                progressBarPedidos.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<List<Pedido>> call, Throwable t) {
                 Toast.makeText(Pedidos.this, "Sem Sucesso ao carregar lista de pedidos!", Toast.LENGTH_SHORT).show();
+                progressBarPedidos.setVisibility(View.GONE);
             }
         });
     }

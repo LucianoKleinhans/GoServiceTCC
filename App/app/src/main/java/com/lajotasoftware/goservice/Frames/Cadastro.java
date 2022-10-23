@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Entity.Categoria;
 import com.lajotasoftware.goservice.Entity.Proposta;
+import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.SubCategoria;
@@ -122,14 +123,14 @@ public class Cadastro extends AppCompatActivity {
 
                             RetrofitService retrofitService = new RetrofitService();
                             API api = retrofitService.getRetrofit().create(API.class);
-                            api.codConfirmacaoEmail(email).enqueue(new Callback<String>() {
+                            api.codConfirmacaoEmail(email).enqueue( new Callback<Return>() {
                                 @Override
-                                public void onResponse(Call<String> call, Response<String> response) {
-                                    codConfirmacao = response.body().toString();
-                                 }
+                                public void onResponse(Call<Return> call, Response<Return> response) {
+                                    codConfirmacao = response.body().getText();
+                                }
 
                                 @Override
-                                public void onFailure(Call<String> call, Throwable t) {
+                                public void onFailure(Call<Return> call, Throwable t) {
 
                                 }
                             });
@@ -167,14 +168,14 @@ public class Cadastro extends AppCompatActivity {
                             btnReenviarCodigo.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view){
-                                    api.codConfirmacaoEmail(email).enqueue(new Callback<String>() {
+                                    api.codConfirmacaoEmail(email).enqueue(new Callback<Return>() {
                                         @Override
-                                        public void onResponse(Call<String> call, Response<String> response) {
-                                            codConfirmacao = response.body().toString();
+                                        public void onResponse(Call<Return> call, Response<Return> response) {
+                                            codConfirmacao = response.body().getText();
                                         }
 
                                         @Override
-                                        public void onFailure(Call<String> call, Throwable t) {
+                                        public void onFailure(Call<Return> call, Throwable t) {
 
                                         }
                                     });
@@ -333,6 +334,8 @@ public class Cadastro extends AppCompatActivity {
                                                         usuario.setTelefone(function.removeCaracteresEspeciais(telefone, "TELEFONE"));
                                                         //usuario.setEmail(email);
                                                         usuario.setSite(site);
+                                                        usuario.setAvaliacaoPrestador(0.0);
+                                                        usuario.setAvaliacaoCliente(0.0);
                                                         usuario.setAtivo(true);
                                                         if (status.equals("LOGIN_CRIADO")) {
                                                             it = new Intent(this, Login.class);

@@ -1,6 +1,7 @@
 package com.lajotasoftware.goservice.Controller;
 
 import com.lajotasoftware.goservice.DAO.DAOUsuario;
+import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.Services.UserService;
 import lombok.AllArgsConstructor;
@@ -106,18 +107,18 @@ public class UsuarioController {
     }
 
     @PostMapping("/usuario/password/forget_password/{email}")
-    public String esqueceSenha (@PathVariable("email") String email){
+    public Boolean esqueceSenha (@PathVariable("email") String email){
         return userService.esqueceSenha(email);
     }
 
     @PostMapping("/usuario/password/alter_password/{id}/{senha}")
-    public String alterarSenha (@PathVariable("id") Long id,
+    public Boolean alterarSenha (@PathVariable("id") Long id,
                                   @PathVariable("senha") String senha){
         return userService.alterarSenha(id,senha);
     }
 
     @PostMapping("/usuario/confirmacaoemail/{email}")
-    public String codConfirmacaoEmail(@PathVariable("email") String email){
+    public Return codConfirmacaoEmail(@PathVariable("email") String email){
         return userService.codConfirmacaoEmail(email);
     }
 

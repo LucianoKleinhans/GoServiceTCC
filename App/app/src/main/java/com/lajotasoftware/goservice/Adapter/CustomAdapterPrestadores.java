@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,6 +51,7 @@ public class CustomAdapterPrestadores extends RecyclerView.Adapter {
         myViewHolder.PrestadorID.setText(prestadoresList.get(position).getId().toString());
         myViewHolder.PrestadorNome.setText(prestadoresList.get(position).getPrimeiroNome());
         myViewHolder.PrestadorBio.setText(prestadoresList.get(position).getBio());
+        myViewHolder.ratingBarPefilPrestador.setRating(prestadoresList.get(position).getAvaliacaoPrestador().floatValue());
         myViewHolder.position = position;
         myViewHolder.id = prestadoresList.get(position).getId();
     }
@@ -67,6 +69,7 @@ public class CustomAdapterPrestadores extends RecyclerView.Adapter {
         TextView PrestadorID;
         TextView PrestadorNome;
         TextView PrestadorBio;
+        RatingBar ratingBarPefilPrestador;
         OnPrestadorListener onPrestadorListener;
 
         public ViewHolder (@NonNull View itemView, OnPrestadorListener onPrestadorListener){
@@ -75,6 +78,7 @@ public class CustomAdapterPrestadores extends RecyclerView.Adapter {
             PrestadorID = itemView.findViewById(R.id.idPrestador);
             PrestadorNome = itemView.findViewById(R.id.ttvNomePrestador);
             PrestadorBio = itemView.findViewById(R.id.ttvBioPrestador);
+            ratingBarPefilPrestador = itemView.findViewById(R.id.ratingBarPefilPrestador2);
             itemView.findViewById(R.id.Prestador).setOnClickListener(this);
         }
 
