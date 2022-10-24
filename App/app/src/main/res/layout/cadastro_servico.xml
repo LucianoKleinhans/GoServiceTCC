@@ -71,7 +71,7 @@
         app:layout_constraintStart_toEndOf="@+id/myRectangleView18"
         app:layout_constraintTop_toBottomOf="@+id/myRectangleView23" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtValorServico"
         android:layout_width="0dp"
         android:layout_height="45dp"
@@ -81,7 +81,7 @@
         android:autofillHints=""
         android:ems="10"
         android:hint="@string/valor_servico"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:textColor="#d5d5d5"
         android:textColorHint="#6b6b6b"
         app:layout_constraintEnd_toEndOf="parent"

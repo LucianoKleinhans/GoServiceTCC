@@ -43,7 +43,7 @@ public class Negociacao extends AppCompatActivity {
 
     Long idUsuario, idPrestador, idCliente, idProposta, idCardServico;
 
-    int delay = 2000;   // delay de 20 seg.
+    int delay = 10000;   // delay de 10000 seg.
     int interval = 1000;  // intervalo de 1 seg.
 
     API api;
@@ -66,6 +66,7 @@ public class Negociacao extends AppCompatActivity {
     MaterialButton btnAlterarPropostaMensagem;
     RatingBar ratingBarNegociacao;
     ProgressBar progressBarNegociacao;
+    Timer timer;
 
     Intent it;
     Dialog dialog;
@@ -86,7 +87,7 @@ public class Negociacao extends AppCompatActivity {
         idCardServico = parametros.getLong("id_card_servico");
         setContentView(R.layout.negociacao);
         initializeComponents();
-        Timer timer = new Timer();
+        timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
                 listarMensagem();
@@ -204,7 +205,6 @@ public class Negociacao extends AppCompatActivity {
     private void listarMensagem() {
         RecyclerView recyclerView = findViewById(R.id.listMensagem);
         retrofitService = new RetrofitService();
-        progressBarNegociacao.setVisibility(View.VISIBLE);
         api = retrofitService.getRetrofit().create(API.class);
         api.getPropostaMensagem(idProposta).enqueue(new Callback<List<Mensagem>>() {
             @Override
@@ -223,12 +223,10 @@ public class Negociacao extends AppCompatActivity {
                 recyclerView.setLayoutManager(linearLayoutManager);
                 customAdapterMensagem = new CustomAdapterMensagem(Negociacao.this, mensagens, idUsuario);
                 recyclerView.setAdapter(customAdapterMensagem);
-                progressBarNegociacao.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<List<Mensagem>> call, Throwable t) {
-                progressBarNegociacao.setVisibility(View.GONE);
             }
         });
     }
@@ -269,11 +267,12 @@ public class Negociacao extends AppCompatActivity {
 
     public void btnVoltarProposta(View view) {
         onBackPressed();
-        finish();
     }
     @Override
     public void onBackPressed(){
         super.onBackPressed();
+        timer.cancel();
+        finish();
     }
 
     public void aceitarPropostaMensagem(View view) {
@@ -332,6 +331,7 @@ public class Negociacao extends AppCompatActivity {
                         cliente.setId(idCliente);
                         card.setId(idCardServico);
 
+                        proposta.setId(idProposta);
                         proposta.setId_Prestador(prestador);
                         proposta.setId_Cliente(cliente);
                         proposta.setId_SolicitaServico(card);
@@ -365,19 +365,21 @@ public class Negociacao extends AppCompatActivity {
                                     @Override
                                     public void onResponse(Call<Mensagem> call, Response<Mensagem> response) {
                                         listarMensagem();
-                                        onBackPressed();
+                                        atualizarProposta();
                                     }
 
                                     @Override
                                     public void onFailure(Call<Mensagem> call, Throwable t) {
-
+                                        Toast.makeText(Negociacao.this, "Falha ao atualizar a proposta!", Toast.LENGTH_SHORT).show();
                                     }
                                 });
+                                dialog.hide();
                             }
 
                             @Override
                             public void onFailure(Call<Proposta> call, Throwable t) {
-
+                                Toast.makeText(Negociacao.this, "Falha ao atualizar a proposta!", Toast.LENGTH_SHORT).show();
+                                dialog.hide();
                             }
                         });
                     } else {
@@ -419,4 +421,5 @@ public class Negociacao extends AppCompatActivity {
     public void refreshProposta(View view) {
         atualizarProposta();
     }
+
 }

@@ -102,6 +102,7 @@ public class UsuarioController {
                 if(usuario.getSite()!=null){record.setSite(usuario.getSite());}
                 if(usuario.getLogin()!=null){record.setLogin(usuario.getLogin());}
                 if(usuario.getSenha()!=null){record.setSenha(usuario.getSenha());}
+                if(usuario.getSenhaRecuperacao()!=null){record.setSenhaRecuperacao(usuario.getSenhaRecuperacao());}
                 if(usuario.getAvaliacaoPrestador()!=null){record.setAvaliacaoPrestador(usuario.getAvaliacaoPrestador());}
                 if(usuario.getAvaliacaoCliente()!=null){record.setAvaliacaoCliente(usuario.getAvaliacaoCliente());}
                 if(usuario.getPrestador()!=null){record.setPrestador(usuario.getPrestador());}

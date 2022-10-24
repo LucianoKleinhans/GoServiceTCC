@@ -1,5 +1,6 @@
 package com.lajotasoftware.goservice.Frames;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
+import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.Functions.Function;
 import com.lajotasoftware.goservice.MainActivity;
@@ -95,7 +97,11 @@ public class Login extends AppCompatActivity {
                                     btnEntrar.setEnabled(true);
                                     btnCadastrar.setEnabled(true);
                                     Toast.makeText(Login.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
-                                    efetuarLogin(response.body().getId());
+                                    if (response.body().getSenhaRecuperacao() != null){
+                                        efetuarLogin(response.body().getId(), "RECUPERACAO");
+                                    }else {
+                                        efetuarLogin(response.body().getId(), null);
+                                    }
                                 } else {
                                     Toast.makeText(Login.this, "Falha no Login!", Toast.LENGTH_SHORT).show();
                                     progressBarLogin.setVisibility(View.GONE);
@@ -124,13 +130,14 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void efetuarLogin(Long id) {
+    private void efetuarLogin(Long id, String status) {
         idUsuario = id;
         if (idUsuario != 0L){
             progressBarLogin.setVisibility(View.GONE);
             Intent it = new Intent(this, MainActivity.class);
             Bundle parametros = new Bundle();
             parametros.putLong("id_usuario", idUsuario);
+            parametros.putString("status", status);
             it.putExtras(parametros);
             startActivity(it);
         }else{

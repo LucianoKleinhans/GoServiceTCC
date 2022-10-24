@@ -3,7 +3,9 @@ package com.lajotasoftware.goservice.Controller;
 import com.lajotasoftware.goservice.DAO.DAOProposta;
 import com.lajotasoftware.goservice.Entity.Proposta;
 import com.lajotasoftware.goservice.Entity.Usuario;
+import com.lajotasoftware.goservice.Services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,9 @@ import java.util.List;
 public class PropostaController {
 
     DAOProposta repository;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/proposta")
     public List<Proposta> getAllProposta(){
@@ -28,6 +33,7 @@ public class PropostaController {
 
     @PostMapping("/proposta/create")
     public Proposta salvarProposta(@RequestBody Proposta proposta){
+        userService.setValorProposto(proposta.getId_SolicitaServico().getId(), proposta.getValor());
         return repository.save(proposta);
     }
 
@@ -39,6 +45,7 @@ public class PropostaController {
     @PutMapping(value = "/proposta/update/{id}")
     public ResponseEntity update(@PathVariable("id") long id,
                                  @RequestBody Proposta proposta) {
+        userService.setValorProposto(proposta.getId_SolicitaServico().getId(), proposta.getValor());
         return repository.findById(id)
                 .map(record -> {
                     if(proposta.getId_Prestador()!=null){record.setId_Prestador(proposta.getId_Prestador());}

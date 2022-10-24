@@ -30,10 +30,15 @@ public interface DAOUsuario extends JpaRepository<Usuario, Long> {
     @Transactional
     void saveImageUrl(Long user, String fileName);
 
-    @Query(value = "update usuario set senha = ?2 where id = ?1", nativeQuery = true)
+    @Query(value = "update usuario set senha_recuperacao = ?2 where id = ?1", nativeQuery = true)
     @Modifying
     @Transactional
-    void alteraSenha(Long id, String novaSenha);
+    void senhaRecuperacao(Long id, String senhaRecuperacao);
+
+    @Query(value = "update usuario set senha = ?2, senha_recuperacao = null  where id = ?1", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void alterarSenha(Long id, String novaSenha);
 
     //-------------------- user calc avaliacao--------------------//
 

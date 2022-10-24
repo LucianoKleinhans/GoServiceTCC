@@ -1,6 +1,9 @@
 package com.lajotasoftware.goservice.Services;
 
+import com.lajotasoftware.goservice.DAO.DAOProposta;
+import com.lajotasoftware.goservice.DAO.DAOSolicitaServico;
 import com.lajotasoftware.goservice.DAO.DAOUsuario;
+import com.lajotasoftware.goservice.Entity.Proposta;
 import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +22,10 @@ import java.util.Random;
 public class UserService {
     @Autowired
     DAOUsuario daoUsuario;
-    private String senha, senhaBanco, login, novaSenha, codConfirmacao;
+
+    @Autowired
+    DAOSolicitaServico daoSolicitaServico;
+    private String senha, senhaBanco, senhaBancoRecuperacao, login, novaSenha, codConfirmacao;
     private Usuario user = new Usuario();
     private Return ret = new Return();
 
@@ -78,13 +84,22 @@ public class UserService {
         }
         if (existUser != null && senha != null) {
             senhaBanco = existUser.getSenha();
+            senhaBancoRecuperacao = existUser.getSenhaRecuperacao();
             boolean valid = false;
             valid = BCrypt.checkpw(senha, senhaBanco);
             if (valid) {
                 return existUser;
-                //user.setId(existUser.getId());
             } else {
-                user.setId(0L);
+                if (senhaBancoRecuperacao != null){
+                    valid = BCrypt.checkpw(senha, senhaBancoRecuperacao);
+                    if (valid){
+                        return existUser;
+                    } else {
+                        user.setId(0L);
+                    }
+                }else {
+                    user.setId(0L);
+                }
             }
         }else {
             user.setId(0L);
@@ -116,7 +131,7 @@ public class UserService {
                                 "Para alterar a sua senha deve ir em Perfil > Editar Perfil > Alterar Senha." +
                                 "\n **Obs. A senha deve conter pelo menos 10 caracteres!");
                 //update de senha na tabela de usuario
-                daoUsuario.alteraSenha(user.getId(), passwordEnconder().encode(novaSenha));
+                daoUsuario.senhaRecuperacao(user.getId(), passwordEnconder().encode(novaSenha));
                 //return
                 return true;
 
@@ -131,7 +146,7 @@ public class UserService {
     public Boolean alterarSenha(Long id, String senha) {
         Usuario user = daoUsuario.getUsuario(id);
         try {
-            daoUsuario.alteraSenha(user.getId(), passwordEnconder().encode(novaSenha));
+            daoUsuario.alterarSenha(user.getId(), passwordEnconder().encode(senha));
             return true;
         } catch (Exception e) {
             return false;
@@ -223,5 +238,15 @@ public class UserService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void setValorProposto(Long id, Double valor) {
+        Double menorValor = daoSolicitaServico.getMenorValorProposto(id);
+        if (menorValor > valor) {
+            daoSolicitaServico.setMenorvalorProposto(id, valor);
+        }else{
+            daoSolicitaServico.setMenorvalorProposto(id, menorValor);
+        }
+
     }
 }

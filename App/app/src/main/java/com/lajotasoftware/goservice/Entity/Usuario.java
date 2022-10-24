@@ -18,6 +18,7 @@ public class Usuario {
     private String site;
     private String login;
     private String senha;
+    private String senhaRecuperacao;
     private Double avaliacaoPrestador;
     private Double avaliacaoCliente;
     private Boolean prestador;
@@ -43,6 +44,7 @@ public class Usuario {
         this.site = usuario.getSite();
         this.login = usuario.getLogin();
         this.senha = usuario.getSenha();
+        this.senhaRecuperacao = usuario.getSenhaRecuperacao();
         this.avaliacaoPrestador = usuario.getAvaliacaoPrestador();
         this.avaliacaoCliente = usuario.getAvaliacaoCliente();
         this.prestador = usuario.getPrestador();
@@ -185,6 +187,14 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getSenhaRecuperacao() {
+        return senhaRecuperacao;
+    }
+
+    public void setSenhaRecuperacao(String senhaRecuperacao) {
+        this.senhaRecuperacao = senhaRecuperacao;
     }
 
     public Double getAvaliacaoPrestador() {

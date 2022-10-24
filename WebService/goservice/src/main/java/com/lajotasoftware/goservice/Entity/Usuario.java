@@ -35,6 +35,7 @@ public class Usuario {
     private String email;
     private String login;
     private String senha;
+    private String senhaRecuperacao;
     private Double avaliacaoPrestador;
     private Double avaliacaoCliente;
     private Boolean prestador;
@@ -223,6 +224,14 @@ public class Usuario {
         }else{
             throw new Error("Senha Inválida!");
         }
+    }
+
+    public String getSenhaRecuperacao() {
+        return senhaRecuperacao;
+    }
+
+    public void setSenhaRecuperacao(String senhaRecuperacao) {
+        this.senhaRecuperacao = senhaRecuperacao;
     }
 
     public Double getAvaliacaoPrestador() {
