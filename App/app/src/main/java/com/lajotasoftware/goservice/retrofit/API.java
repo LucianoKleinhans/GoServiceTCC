@@ -183,6 +183,9 @@ public interface API {
     @POST("/file/image/upload")
     Call<ResponseBody> savePhoto(@Part("image") RequestBody image, @Part("user") Long idUser);
 
+    @GET("/image/download/{imageName}")
+    Call<ResponseBody> downloadPhoto(@Path("imageName") String imageName);
+
     /*-------------------------------------------E-Mail-------------------------------------------*/
 
     @POST("/usuario/password/forget_password/{email}")

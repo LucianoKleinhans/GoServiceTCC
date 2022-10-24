@@ -16,6 +16,8 @@ import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Entity.Mensagem;
 import com.lajotasoftware.goservice.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,8 +49,10 @@ public class CustomAdapterMensagem extends RecyclerView.Adapter {
         myViewHolder.id = mensagemLists.get(position).getId();
         myViewHolder.enviadoPor = mensagemLists.get(position).getSendBy().getId();
         if (Objects.equals(idUser, myViewHolder.enviadoPor)){
+            myViewHolder.MensagemDataHoraDireita.setText(getDate(mensagemLists.get(position).getDataHoraMsg(), "dd/MM/yy hh:mm:ss"));
             myViewHolder.mensagemText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
         }else {
+            myViewHolder.MensagemDataHoraEsquerda.setText(getDate(mensagemLists.get(position).getDataHoraMsg(), "dd/MM/yy hh:mm:ss"));
             myViewHolder.mensagemText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
         }
         myViewHolder.mensagemText.setText(mensagemLists.get(position).getMensagem().toString());
@@ -69,14 +73,26 @@ public class CustomAdapterMensagem extends RecyclerView.Adapter {
         public Long id;
 
         MaterialTextView mensagemText;
-        ConstraintLayout mensagemList;
+        MaterialTextView MensagemDataHoraDireita;
+        MaterialTextView MensagemDataHoraEsquerda;
         //TextView MensagemValor;
 
         public ViewHolder (@NonNull View itemView){
             super(itemView);
             mensagemText = itemView.findViewById(R.id.ttvMensagemProposta);
-            mensagemList = itemView.findViewById(R.id.mensagemListBack);
+            MensagemDataHoraDireita = itemView.findViewById(R.id.msgDataHoraDireita);
+            MensagemDataHoraEsquerda = itemView.findViewById(R.id.msgDataHoraEsquerda);
             //MensagemValor = itemView.findViewById(R.id.ttvValorMensagemProposta);
         }
+    }
+    public static String getDate(long milliSeconds, String dateFormat)
+    {
+        // Create a DateFormatter object for displaying date in specified format.
+        SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliSeconds);
+        return formatter.format(calendar.getTime());
     }
 }

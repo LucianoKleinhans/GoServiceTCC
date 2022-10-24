@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface DAOMensagem extends JpaRepository<Mensagem, Long> {
 
-    @Query(value = "select * from mensagem m where m.id_proposta_id = ?1", nativeQuery = true)
+    @Query(value = "select * from mensagem m where m.id_proposta_id = ?1 order by m.data_hora_msg asc", nativeQuery = true)
     List<Mensagem> getMensagemProposta(Long id);
 }

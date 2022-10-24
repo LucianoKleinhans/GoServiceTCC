@@ -35,18 +35,42 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="17dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
+        android:onClick="messageClick"
         android:text="Servico solicitado"
         android:textAlignment="textEnd"
         android:textColor="#d5d5d5"
         android:textSize="15sp"
         android:textStyle="normal"
-        android:onClick="messageClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/msgDataHoraEsquerda"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="1dp"
+        android:textAlignment="textStart"
+        android:textColor="#d5d5d5"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/msgDataHoraDireita"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="5dp"
+        android:textAlignment="textEnd"
+        android:textColor="#d5d5d5"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

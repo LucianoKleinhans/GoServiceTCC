@@ -318,6 +318,22 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                     if(user.getSite() == null){
                         textViewSiteUsuario.setVisibility(View.INVISIBLE);
                     }else{textViewSiteUsuario.setText("Site:" + user.getSite());}
+
+                    /*if (usuarioResponse.body().getAvatarImg() != null){
+                        usuarioAPI.downloadPhoto(usuarioResponse.body().getAvatarImg()).enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                response.body();
+                                //AvatarPerfil.setimage;
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                            }
+                        });
+                    }*/
+
                 }
                 progressBarEdtPerfilUsuario.setVisibility(View.GONE);
             }

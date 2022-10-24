@@ -40,8 +40,8 @@ public class FileController {
         String fileName = null;
         Long user = 0L;
         try {
-            fileName = this.fileService.uploadImage(path, image, idUser);
             user = idUser;
+            fileName = this.fileService.uploadImage(path, image, idUser);
             daoUsuario.saveImageUrl(user,fileName);
         } catch (IOException e) {
             e.printStackTrace();

@@ -24,6 +24,7 @@ public class Usuario {
     private Boolean prestador;
     private Boolean ativo;
     private String bio;
+    private String avatarImg;
     private Boolean master;
 
     public void setUsuario(Usuario usuario){
@@ -50,6 +51,7 @@ public class Usuario {
         this.prestador = usuario.getPrestador();
         this.ativo = usuario.getAtivo();
         this.bio = usuario.getBio();
+        this.avatarImg = usuario.getAvatarImg();
         this.master = usuario.getMaster();
     };
 
@@ -235,6 +237,14 @@ public class Usuario {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public String getAvatarImg() {
+        return avatarImg;
+    }
+
+    public void setAvatarImg(String avatarImg) {
+        this.avatarImg = avatarImg;
     }
 
     public Boolean getMaster() {

@@ -31,6 +31,7 @@ import com.lajotasoftware.goservice.retrofit.API;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,8 +44,8 @@ public class Negociacao extends AppCompatActivity {
 
     Long idUsuario, idPrestador, idCliente, idProposta, idCardServico;
 
-    int delay = 10000;   // delay de 10000 seg.
-    int interval = 1000;  // intervalo de 1 seg.
+    int delay = 1000;   // delay de 10000 seg.
+    int interval = 10000;  // intervalo de 1 seg.
 
     API api;
     RetrofitService retrofitService;
@@ -93,6 +94,12 @@ public class Negociacao extends AppCompatActivity {
                 listarMensagem();
             }
         }, delay, interval);
+    }
+
+    @Override
+    protected void onPause() {
+        timer.cancel();
+        super.onPause();
     }
 
     private void initializeComponents() {
@@ -223,6 +230,7 @@ public class Negociacao extends AppCompatActivity {
                 recyclerView.setLayoutManager(linearLayoutManager);
                 customAdapterMensagem = new CustomAdapterMensagem(Negociacao.this, mensagens, idUsuario);
                 recyclerView.setAdapter(customAdapterMensagem);
+                recyclerView.scrollToPosition(mensagens.size() - 1);
             }
 
             @Override
@@ -233,6 +241,9 @@ public class Negociacao extends AppCompatActivity {
 
     public void btnEnviarMensagem(View view) {
         if (!textMensagem.getText().equals("")) {
+            Date date = new Date();
+            Long timeMilli = date.getTime();
+
             mensagem = new Mensagem();
             proposta = new Proposta();
             prestador = new Usuario();
@@ -247,6 +258,7 @@ public class Negociacao extends AppCompatActivity {
             mensagem.setId_Cliente(cliente);
             mensagem.setId_Prestador(prestador);
             mensagem.setSendBy(usuario);
+            mensagem.setDataHoraMsg(timeMilli);
 
             retrofitService = new RetrofitService();
             api = retrofitService.getRetrofit().create(API.class);
@@ -271,7 +283,7 @@ public class Negociacao extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         super.onBackPressed();
-        timer.cancel();
+        onPause();
         finish();
     }
 
