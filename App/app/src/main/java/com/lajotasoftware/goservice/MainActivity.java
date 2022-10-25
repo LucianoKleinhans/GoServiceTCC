@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
     public void btn_main_to_servicos(View view) {
         Intent it = new Intent(this, Servicos.class);
         Bundle parametros = new Bundle();
-        parametros.putLong("id_usuario", idUsuario);;
+        parametros.putLong("id_usuario", idUsuario);
         it.putExtras(parametros);
         startActivity(it);
     }
@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
                 novaSenhaConfirm = String.valueOf(edtConfirmaNovaSenha.getText());
                 novaSenhaCodConfirmacao = String.valueOf(edtCodConfirmEmailAlterSenha.getText());
                 if (novaSenha.equals(novaSenhaConfirm)){
-                    if (novaSenha.length()>=10) {
+                    if (novaSenha.length()>=5) {
                         if (novaSenhaCodConfirmacao.equals(codConfirmacao)) {
                             progressBar.setVisibility(View.VISIBLE);
                             edtInsiraNovaSenha.setEnabled(false);
@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "O código de confirmação incorreto!", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(MainActivity.this, "Senha deve ter no minimo 10 caracteres!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Senha deve possuir ao menos 5 caractes!", Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     Toast.makeText(MainActivity.this, "As senhas informadas não são iguais ", Toast.LENGTH_SHORT).show();

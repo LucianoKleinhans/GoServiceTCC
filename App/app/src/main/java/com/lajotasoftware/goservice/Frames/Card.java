@@ -27,6 +27,7 @@ import com.lajotasoftware.goservice.Adapter.CustomAdapterCard;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterProposta;
 import com.lajotasoftware.goservice.Entity.Categoria;
 import com.lajotasoftware.goservice.Entity.Proposta;
+import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.SubCategoria;
 import com.lajotasoftware.goservice.Entity.Usuario;
@@ -386,59 +387,79 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
 
     @Override
     public void onCardFazerPropostaClick(int position, Long id, Long idCliente) {
-        dialog.setContentView(R.layout.z_custom_alertdialog_proposta);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        MaterialButton btnConfirma = dialog.findViewById(R.id.btnConfirmaProposta);
-        TextInputEditText edtDescProposta = dialog.findViewById(R.id.edtDescricaoProposta);
-        TextInputEditText edtValorProposta = dialog.findViewById(R.id.edtValorProposta);
-
-        idPrestador = idUsuario;
-
-        btnConfirma.setOnClickListener(new View.OnClickListener() {
+        RetrofitService retrofitService = new RetrofitService();
+        retrofitService.getRetrofit().create(API.class);
+        api.getPropostaJaFeita(idUsuario, id).enqueue(new Callback<Return>() {
             @Override
-            public void onClick(View view) {
-                if (!edtDescProposta.toString().equals("")) {
-                    if (!edtValorProposta.toString().equals("")) {
-                        Proposta proposta = new Proposta();
-                        Usuario prestador = new Usuario();
-                        Usuario cliente = new Usuario();
-                        SolicitaServico card = new SolicitaServico();
+            public void onResponse(Call<Return> call, Response<Return> response) {
+                //Toast.makeText(Card.this, "click", Toast.LENGTH_SHORT).show();
+                if (response.body().getStatusCode() == 200){
+                    Toast.makeText(Card.this, "Já possui uma proposta sua para essa solicitação!", Toast.LENGTH_SHORT).show();
+                } else if (response.body().getStatusCode() == 100) {
+                    dialog.setContentView(R.layout.z_custom_alertdialog_proposta);
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                        prestador.setId(idPrestador);
-                        cliente.setId(idCliente);
-                        card.setId(id);
+                    MaterialButton btnConfirma = dialog.findViewById(R.id.btnConfirmaProposta);
+                    TextInputEditText edtDescProposta = dialog.findViewById(R.id.edtDescricaoProposta);
+                    TextInputEditText edtValorProposta = dialog.findViewById(R.id.edtValorProposta);
 
-                        proposta.setId_Prestador(prestador);
-                        proposta.setId_Cliente(cliente);
-                        proposta.setId_SolicitaServico(card);
-                        proposta.setObservacao(edtDescProposta.getText().toString());
-                        proposta.setValor(Double.valueOf(edtValorProposta.getText().toString()));
-                        proposta.setStatus("ABERTO");
+                    idPrestador = idUsuario;
 
-                        RetrofitService retrofitService = new RetrofitService();
-                        retrofitService.getRetrofit().create(API.class);
-                        api.criarProposta(proposta).enqueue(new Callback<Proposta>() {
-                            @Override
-                            public void onResponse(Call<Proposta> call, Response<Proposta> response) {
-                                Toast.makeText(Card.this, "Proposta Criada com Sucesso!", Toast.LENGTH_SHORT).show();
-                                onBackPressed();
+                    btnConfirma.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (!edtDescProposta.getText().toString().equals("")) {
+                                if (!edtValorProposta.getText().toString().equals("")) {
+                                    Proposta proposta = new Proposta();
+                                    Usuario prestador = new Usuario();
+                                    Usuario cliente = new Usuario();
+                                    SolicitaServico card = new SolicitaServico();
+
+                                    prestador.setId(idPrestador);
+                                    cliente.setId(idCliente);
+                                    card.setId(id);
+
+                                    proposta.setId_Prestador(prestador);
+                                    proposta.setId_Cliente(cliente);
+                                    proposta.setId_SolicitaServico(card);
+                                    proposta.setObservacao(edtDescProposta.getText().toString());
+                                    proposta.setValor(Double.valueOf(edtValorProposta.getText().toString()));
+                                    proposta.setStatus("ABERTO");
+
+                                    RetrofitService retrofitService = new RetrofitService();
+                                    retrofitService.getRetrofit().create(API.class);
+                                    api.criarProposta(proposta).enqueue(new Callback<Proposta>() {
+                                        @Override
+                                        public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                                            Toast.makeText(Card.this, "Proposta Criada com Sucesso!", Toast.LENGTH_SHORT).show();
+                                            onBackPressed();
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Proposta> call, Throwable t) {
+
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(Card.this, "Valor da proposta é obrigatório!", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(Card.this, "Descrição da proposta é obrigatória!", Toast.LENGTH_SHORT).show();
                             }
-
-                            @Override
-                            public void onFailure(Call<Proposta> call, Throwable t) {
-
-                            }
-                        });
-                    } else {
-                        Toast.makeText(Card.this, "Valor da proposta é obrigatório!", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(Card.this, "Descrição da proposta é obrigatória!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    dialog.show();
                 }
             }
+
+            @Override
+            public void onFailure(Call<Return> call, Throwable t) {
+                Toast.makeText(Card.this, "click", Toast.LENGTH_SHORT).show();
+            }
         });
-        dialog.show();
+
+
     }
 
     @Override
@@ -514,8 +535,8 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         MaterialButton btn_cancelar_cardservico = findViewById(R.id.btnCancelarCadServico);
 
         if (status.equals("CRIAR_CARTAO")) {
-            categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
-            sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
+            categoria_servico = findViewById(R.id.spinner_categoria);
+            sub_categoria_servico = findViewById(R.id.spinner_sub_categoria);
             RetrofitService retrofitServiceCategoria = new RetrofitService();
             api = retrofitServiceCategoria.getRetrofit().create(API.class);
             api.getAllCategoria().enqueue(new Callback<List<Categoria>>() {
@@ -586,8 +607,8 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
             });
         }
         if (status.equals("EDITAR_CARTAO")) {
-            categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
-            sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
+            categoria_servico = findViewById(R.id.spinner_categoria);
+            sub_categoria_servico = findViewById(R.id.spinner_sub_categoria);
             RetrofitService retrofitEditService = new RetrofitService();
             api = retrofitEditService.getRetrofit().create(API.class);
             api.getCardServicoById(idCardServico).enqueue(new Callback<SolicitaServico>() {
@@ -736,13 +757,16 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         btn_gravar_cardservico.setOnClickListener(view -> {
             Double valorServico = null;
             String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
-            if ((inputEditTextValorServico.getText() != null) && (!inputEditTextValorServico.getText().equals(""))) {
+
+            if(inputEditTextValorServico.getText().toString().equals("")){
+                valorServico = 0.0;
+            }else{
                 valorServico = Double.parseDouble(inputEditTextValorServico.getText().toString());
             }
             String descServico = String.valueOf(inputEditTextDescricaoServico.getText());
             if (!nomeServico.equals("") && nomeServico.length() >= 5) {
-                if (valorServico > 0 && valorServico < 100000 && valorServico != null) {
-                    if (!descServico.equals("") && descServico.length() > 15) {
+                if (valorServico >= 0 && valorServico < 100000) {
+                    if (!descServico.equals("") && descServico.length() > 0) {
                         SolicitaServico cardServico = new SolicitaServico();
                         categoria = new Categoria();
                         subCategoria = new SubCategoria();
@@ -802,10 +826,10 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                             });
                         }
                     } else {
-                        Toast.makeText(Card.this, "Observação vazio!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Card.this, "Campo observação é obrigatório!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(Card.this, "Valor vazio!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Card.this, "Valor inválido!", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(Card.this, "Nome invalido!", Toast.LENGTH_SHORT).show();

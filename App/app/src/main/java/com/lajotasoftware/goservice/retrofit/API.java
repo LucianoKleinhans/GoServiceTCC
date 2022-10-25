@@ -162,6 +162,10 @@ public interface API {
     Call<Proposta> getPropostaSolicitacaoServico(@Path("idSolicitaServico") Long idSolicitaServico,
                                                  @Path("idPrestador") Long idPrestador);
 
+    @POST("/proposta/card/propostajafeita/{idprestador}/{idsolicitacao}")
+    Call<Return> getPropostaJaFeita(@Path("idprestador") Long idPrestador,
+                                      @Path("idsolicitacao") Long idSolicitacao);
+
     /*------------------------------------------Mensagem------------------------------------------*/
 
     @POST("/mensagem/proposta/{id}")

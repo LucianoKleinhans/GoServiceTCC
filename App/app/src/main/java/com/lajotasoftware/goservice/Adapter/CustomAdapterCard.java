@@ -19,10 +19,10 @@ import java.util.List;
 
 public class CustomAdapterCard extends RecyclerView.Adapter {
 
-    private String parametro;
+    private final String parametro;
     List<SolicitaServico> cardLists;
     Context context;
-    private OnCardListener mOnCardListener;
+    private final OnCardListener mOnCardListener;
 
 
 
@@ -46,8 +46,8 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         ViewHolder myViewHolder = (ViewHolder) holder;
         myViewHolder.CardServicoId.setText(cardLists.get(position).getId().toString());
-        myViewHolder.CardServicoNome.setText(cardLists.get(position).getNomeServico().toString());
-        myViewHolder.CardServicoDesc.setText(cardLists.get(position).getDescricaoSolicitacao().toString());
+        myViewHolder.CardServicoNome.setText(cardLists.get(position).getNomeServico());
+        myViewHolder.CardServicoDesc.setText(cardLists.get(position).getDescricaoSolicitacao());
         myViewHolder.CardServicoValor.setText("Valor: R$"+cardLists.get(position).getValor().toString());
         if (cardLists.get(position).getValorProposto() == 0){
             myViewHolder.CardServicoValorAtual.setText("Sem Propostas!");
@@ -66,7 +66,7 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private Card card = new Card();
+        private final Card card = new Card();
         public int position;
         public Long id, idCliente;
         TextView CardServicoId;

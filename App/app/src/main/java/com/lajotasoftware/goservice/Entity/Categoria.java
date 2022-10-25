@@ -8,7 +8,7 @@ public class Categoria {
     public void setCategoria(Categoria categoria){
         this.id = categoria.getId();
         this.nome = categoria.getNome();
-    };
+    }
 
     public Long getId() {
         return id;

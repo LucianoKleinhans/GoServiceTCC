@@ -24,7 +24,7 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
 
     List<Pedido> pedidosList;
     Context context;
-    private OnPedidoListener mOnPedidoListener;
+    private final OnPedidoListener mOnPedidoListener;
     String parametro;
 
     public CustomAdapterPedido(Context context, List<Pedido> pedidosList, OnPedidoListener mOnPedidoListener, String parametro) {
@@ -64,7 +64,7 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
     }
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private Pedido pedido = new Pedido();
+        private final Pedido pedido = new Pedido();
         public int position;
         public Long id, idCliente, idPrestador;
         TextView idPedido;

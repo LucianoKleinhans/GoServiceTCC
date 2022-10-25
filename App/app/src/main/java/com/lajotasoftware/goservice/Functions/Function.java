@@ -34,7 +34,7 @@ public class Function {
                 // converte o i-esimo caractere do CPF em um numero:
                 // por exemplo, transforma o caractere '0' no inteiro 0
                 // (48 eh a posicao de '0' na tabela ASCII)
-                num = (int) (CPF.charAt(i) - 48);
+                num = CPF.charAt(i) - 48;
                 sm = sm + (num * peso);
                 peso = peso - 1;
             }
@@ -49,7 +49,7 @@ public class Function {
             sm = 0;
             peso = 11;
             for (i = 0; i < 10; i++) {
-                num = (int) (CPF.charAt(i) - 48);
+                num = CPF.charAt(i) - 48;
                 sm = sm + (num * peso);
                 peso = peso - 1;
             }
@@ -61,10 +61,7 @@ public class Function {
                 dig11 = (char) (r + 48);
 
             // Verifica se os digitos calculados conferem com os digitos informados.
-            if ((dig10 == CPF.charAt(9)) && (dig11 == CPF.charAt(10)))
-                return (true);
-            else
-                return (false);
+            return (dig10 == CPF.charAt(9)) && (dig11 == CPF.charAt(10));
         } catch (InputMismatchException erro) {
             return (false);
         }
@@ -90,7 +87,7 @@ public class Function {
                 // converte o i-ésimo caractere do CNPJ em um número:
                 // por exemplo, transforma o caractere '0' no inteiro 0
                 // (48 eh a posição de '0' na tabela ASCII)
-                num = (int) (CNPJ.charAt(i) - 48);
+                num = CNPJ.charAt(i) - 48;
                 sm = sm + (num * peso);
                 peso = peso + 1;
                 if (peso == 10)
@@ -107,7 +104,7 @@ public class Function {
             sm = 0;
             peso = 2;
             for (i = 12; i >= 0; i--) {
-                num = (int) (CNPJ.charAt(i) - 48);
+                num = CNPJ.charAt(i) - 48;
                 sm = sm + (num * peso);
                 peso = peso + 1;
                 if (peso == 10)
@@ -121,10 +118,7 @@ public class Function {
                 dig14 = (char) ((11 - r) + 48);
 
             // Verifica se os dígitos calculados conferem com os dígitos informados.
-            if ((dig13 == CNPJ.charAt(12)) && (dig14 == CNPJ.charAt(13)))
-                return (true);
-            else
-                return (false);
+            return (dig13 == CNPJ.charAt(12)) && (dig14 == CNPJ.charAt(13));
         } catch (InputMismatchException erro) {
             return (false);
         }
@@ -138,7 +132,7 @@ public class Function {
         doc = doc.replace("/","");
         if (tipo.equals("TELEFONE")) {
             if (doc.charAt(0) == '0') {
-                doc = doc.substring(1, doc.length());
+                doc = doc.substring(1);
             }
         }
         return doc;
@@ -154,7 +148,7 @@ public class Function {
     }
     public static String imprimeTelefone(String telefone) {
         // máscara do TELEFONE: (99)99999-9999
-        return ("("+telefone.substring(0, 2) + ")" + telefone.substring(2, 7) + "-" + telefone.substring(7, telefone.length()));
+        return ("("+telefone.substring(0, 2) + ")" + telefone.substring(2, 7) + "-" + telefone.substring(7));
     }
 
     public boolean validarTelefone(String telefone) {
@@ -191,9 +185,8 @@ public class Function {
         //Se o número só tiver dez digitos não é um celular e por isso o número logo após o DDD deve ser 2, 3, 4, 5 ou 7
         Integer[] prefixos = {2, 3, 4, 5, 7};
 
-        if (telefone.length() == 10 && java.util.Arrays.asList(prefixos).indexOf(Integer.parseInt(telefone.substring(2, 3))) == -1) return false;
+        return telefone.length() != 10 || java.util.Arrays.asList(prefixos).indexOf(Integer.parseInt(telefone.substring(2, 3))) != -1;
 
         //se passar por todas as validações acima, então está tudo certo
-        return true;
     }
 }

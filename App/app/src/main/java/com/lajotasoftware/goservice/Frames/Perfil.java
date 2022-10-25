@@ -508,7 +508,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                 novaSenhaConfirm = String.valueOf(edtConfirmaNovaSenha.getText());
                 novaSenhaCodConfirmacao = String.valueOf(edtCodConfirmEmailAlterSenha.getText());
                 if (novaSenha.equals(novaSenhaConfirm)){
-                    if (novaSenha.length()>=10) {
+                    if (novaSenha.length()>=5) {
                         if (novaSenhaCodConfirmacao.equals(codConfirmacao)) {
                             progressBar.setVisibility(View.VISIBLE);
                             edtInsiraNovaSenha.setEnabled(false);
@@ -536,7 +536,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                             Toast.makeText(Perfil.this, "O código de confirmação incorreto!", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(Perfil.this, "Senha deve ter no minimo 10 caracteres!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Perfil.this, "Senha deve possuir ao menos 5 caractes!", Toast.LENGTH_SHORT).show();
                     }
                 }else{
                     Toast.makeText(Perfil.this, "As senhas informadas não são iguais ", Toast.LENGTH_SHORT).show();

@@ -392,12 +392,12 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
 
         MaterialButton btnConfirma = dialog.findViewById(R.id.btnConfirmaAvaliacao);
 
-        RatingBar starBar = findViewById(R.id.ratingBar);
-        avaliacao = (double) starBar.getNumStars();
+        RatingBar starBar = dialog.findViewById(R.id.ratingBar);
 
         btnConfirma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                avaliacao = (double) starBar.getRating();
                 AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(Pedidos.this);
                 alertDialogBuilder.setTitle("Avaliação");
                 alertDialogBuilder

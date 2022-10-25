@@ -27,7 +27,7 @@ public class SolicitaServico {
         this.valorProposto = cardsServicos.getValorProposto();
         this.status = cardsServicos.getStatus();
         this.id_Cliente = cardsServicos.getId_Cliente();
-    };
+    }
 
     public Long getId() {
         return id;

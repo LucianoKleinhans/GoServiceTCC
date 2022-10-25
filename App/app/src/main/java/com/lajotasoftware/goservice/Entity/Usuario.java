@@ -53,7 +53,7 @@ public class Usuario {
         this.bio = usuario.getBio();
         this.avatarImg = usuario.getAvatarImg();
         this.master = usuario.getMaster();
-    };
+    }
 
     public Long getId() {
         return id;

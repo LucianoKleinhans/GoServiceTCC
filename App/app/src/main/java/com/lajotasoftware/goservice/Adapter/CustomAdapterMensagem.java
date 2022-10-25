@@ -55,7 +55,7 @@ public class CustomAdapterMensagem extends RecyclerView.Adapter {
             myViewHolder.MensagemDataHoraEsquerda.setText(getDate(mensagemLists.get(position).getDataHoraMsg(), "dd/MM/yy hh:mm:ss"));
             myViewHolder.mensagemText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
         }
-        myViewHolder.mensagemText.setText(mensagemLists.get(position).getMensagem().toString());
+        myViewHolder.mensagemText.setText(mensagemLists.get(position).getMensagem());
     }
 
     @Override
@@ -68,7 +68,7 @@ public class CustomAdapterMensagem extends RecyclerView.Adapter {
         public Long idCliente;
         public Long idPrestador;
         public Long enviadoPor;
-        private Mensagem mensagem = new Mensagem();
+        private final Mensagem mensagem = new Mensagem();
         public int position;
         public Long id;
 

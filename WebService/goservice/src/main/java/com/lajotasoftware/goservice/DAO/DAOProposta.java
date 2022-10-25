@@ -21,4 +21,7 @@ public interface DAOProposta extends JpaRepository<Proposta, Long> {
 
     @Query(value = "select * from proposta p where p.id_solicita_servico_id = ?1 and p.id_prestador_id = ?2 and p.status = 'ABERTO'",nativeQuery = true)
     Proposta getPropostaSolicitacaoServico(Long idSolicitaServico, Long idPrestador);
+
+    @Query(value = "select * from proposta p where p.id_prestador_id = ?1 and p.id_solicita_servico_id = ?2",nativeQuery = true)
+    Proposta getPropostaJaFeita(Long idPrestador, Long idProposta);
 }

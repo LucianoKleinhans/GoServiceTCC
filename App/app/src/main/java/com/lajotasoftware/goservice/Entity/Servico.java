@@ -25,8 +25,8 @@ public class Servico {
         this.excluido = servico.getExcluido();
         this.obsServico = servico.getObsServico();
         this.id_Prestador = servico.getId_Prestador();
-    };
-    
+    }
+
     public Long getId() {
         return id;
     }

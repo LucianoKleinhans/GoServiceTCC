@@ -21,7 +21,7 @@ public class CustomAdapterService extends RecyclerView.Adapter {
 
     List<Servico> servicosLists;
     Context context;
-    private OnServicoListener mOnServicoListener;
+    private final OnServicoListener mOnServicoListener;
 
 
 
@@ -44,8 +44,8 @@ public class CustomAdapterService extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         ViewHolder myViewHolder = (ViewHolder) holder;
         myViewHolder.ServicoId.setText(servicosLists.get(position).getId().toString());
-        myViewHolder.ServicoNome.setText(servicosLists.get(position).getNome().toString());
-        myViewHolder.ServicoDesc.setText(servicosLists.get(position).getObsServico().toString());
+        myViewHolder.ServicoNome.setText(servicosLists.get(position).getNome());
+        myViewHolder.ServicoDesc.setText(servicosLists.get(position).getObsServico());
         myViewHolder.ServicoValor.setText("Valor: R$"+servicosLists.get(position).getValor().toString());
         myViewHolder.position = position;
         myViewHolder.id = servicosLists.get(position).getId();
@@ -58,7 +58,7 @@ public class CustomAdapterService extends RecyclerView.Adapter {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private Card card = new Card();
+        private final Card card = new Card();
         public int position;
         public Long id;
         TextView ServicoId;

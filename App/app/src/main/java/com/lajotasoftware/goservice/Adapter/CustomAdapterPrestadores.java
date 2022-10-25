@@ -26,7 +26,7 @@ public class CustomAdapterPrestadores extends RecyclerView.Adapter {
 
     List<Usuario> prestadoresList;
     Context context;
-    private OnPrestadorListener mOnPrestadorListener;
+    private final OnPrestadorListener mOnPrestadorListener;
 
 
 
@@ -63,7 +63,7 @@ public class CustomAdapterPrestadores extends RecyclerView.Adapter {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private Card card = new Card();
+        private final Card card = new Card();
         public int position;
         public Long id;
         TextView PrestadorID;

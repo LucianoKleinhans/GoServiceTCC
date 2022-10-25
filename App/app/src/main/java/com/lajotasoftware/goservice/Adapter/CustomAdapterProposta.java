@@ -22,7 +22,7 @@ public class CustomAdapterProposta extends RecyclerView.Adapter {
 
     List<Proposta> propostasLists;
     Context context;
-    private OnPropostaListener mOnPropostaListener;
+    private final OnPropostaListener mOnPropostaListener;
 
     public CustomAdapterProposta(Context context, List<Proposta> propostasLists, OnPropostaListener OnPropostaListener) {
         this.propostasLists = propostasLists;
@@ -45,7 +45,7 @@ public class CustomAdapterProposta extends RecyclerView.Adapter {
 
         myViewHolder.PropostaID.setText(propostasLists.get(position).getId().toString());
         myViewHolder.PropostaPrestador.setText(propostasLists.get(position).getId_Prestador().getPrimeiroNome());
-        myViewHolder.PropostaDesc.setText(propostasLists.get(position).getObservacao().toString());
+        myViewHolder.PropostaDesc.setText(propostasLists.get(position).getObservacao());
         myViewHolder.PropostaValor.setText("Valor proposto: R$"+propostasLists.get(position).getValor().toString());
         myViewHolder.position = position;
         myViewHolder.id = propostasLists.get(position).getId();
@@ -60,7 +60,7 @@ public class CustomAdapterProposta extends RecyclerView.Adapter {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private Proposta proposta = new Proposta();
+        private final Proposta proposta = new Proposta();
         public int position;
         public Long id, idCliente, idPrestador;
         TextView PropostaID;

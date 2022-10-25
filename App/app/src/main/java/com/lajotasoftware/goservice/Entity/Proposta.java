@@ -17,7 +17,7 @@ public class Proposta {
         this.status = proposta.getStatus();
         this.id_Prestador = proposta.getId_Prestador();
         this.id_SolicitaServico = proposta.getId_SolicitaServico();
-    };
+    }
 
     public Long getId() {
         return id;

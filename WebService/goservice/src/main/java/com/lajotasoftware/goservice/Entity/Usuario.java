@@ -219,7 +219,7 @@ public class Usuario {
     }
 
     public void setSenha(String senha) {
-        if(senha.length()>=10){
+        if(senha.length()>=5){
             this.senha = senha;
         }else{
             throw new Error("Senha Inválida!");

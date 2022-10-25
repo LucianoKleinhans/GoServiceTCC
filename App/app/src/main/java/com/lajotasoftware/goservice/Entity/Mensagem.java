@@ -17,7 +17,7 @@ public class Mensagem {
         this.id_Prestador = mensagem.getId_Prestador();
         this.id_Proposta = mensagem.getId_Proposta();
         this.sendBy = mensagem.getSendBy();
-    };
+    }
 
     public Long getId() {
         return id;

@@ -55,7 +55,7 @@ public class Cadastro extends AppCompatActivity {
     List<SubCategoria> subCategorias = new ArrayList<>();
 
     Dialog dialog;
-    private Function function = new Function();
+    private final Function function = new Function();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +112,7 @@ public class Cadastro extends AppCompatActivity {
             usuario.setEmail(email);
 
             if (username.length()>=5){
-                if (password.length()>=10){
+                if (password.length()>=5){
                     if (Objects.equals(password, confirmPassword)){
                         if (Objects.equals(email, confirmEmail)){
                             progressBarCadLogin.setVisibility(View.VISIBLE);
@@ -273,7 +273,7 @@ public class Cadastro extends AppCompatActivity {
                         inputEditTextSenhaConfirm.setText("");
                     }
                 }else{
-                    Toast.makeText(Cadastro.this, "Tamanho da Senha do Usuário deve ser maior ou igual a 10", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Cadastro.this, "Senha deve possuir ao menos 5 caractes", Toast.LENGTH_SHORT).show();
                 }
             }else{
                 Toast.makeText(Cadastro.this, "Tamanho do Nome de Usuário deve ser maior ou igual a 5", Toast.LENGTH_SHORT).show();
@@ -287,7 +287,7 @@ public class Cadastro extends AppCompatActivity {
     }
 
     private void initializeComponentsCadastro() {
-        uf = (Spinner) findViewById(R.id.spinner_uf);
+        uf = findViewById(R.id.spinner_uf);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.uf, android.R.layout.simple_spinner_item);
         uf.setAdapter(adapter);
 
@@ -325,13 +325,13 @@ public class Cadastro extends AppCompatActivity {
                         inputEditTextPrimeiroNome.setText(user.getPrimeiroNome());
                         inputEditTextSegundoNome.setText(user.getSegundoNome());
                         if (user.getCpf()!=null){
-                            inputEditTextCPF.setText(function.imprimeCPF(user.getCpf()));
+                            inputEditTextCPF.setText(Function.imprimeCPF(user.getCpf()));
                         }
                         if (user.getCnpj()!=null){
-                            inputEditTextCNPJ.setText(function.imprimeCNPJ(user.getCnpj()));
+                            inputEditTextCNPJ.setText(Function.imprimeCNPJ(user.getCnpj()));
                         }
                         if (user.getTelefone()!=null){
-                            inputEditTextTelefone.setText(function.imprimeTelefone(user.getTelefone()));
+                            inputEditTextTelefone.setText(Function.imprimeTelefone(user.getTelefone()));
                         }
                         //inputEditTextEmail.setText(user.getEmail());
                         inputEditTextSite.setText(user.getSite());
@@ -510,8 +510,8 @@ public class Cadastro extends AppCompatActivity {
         MaterialButton btn_cancelar_servico = findViewById(R.id.btnCancelarCadServico);
 
         if (status.equals("CADASTRO_SERVICO")) {
-            categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
-            sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
+            categoria_servico = findViewById(R.id.spinner_categoria);
+            sub_categoria_servico = findViewById(R.id.spinner_sub_categoria);
             RetrofitService retrofitServiceCategoria = new RetrofitService();
             api = retrofitServiceCategoria.getRetrofit().create(API.class);
             api.getAllCategoria().enqueue(new Callback<List<Categoria>>() {
@@ -583,8 +583,8 @@ public class Cadastro extends AppCompatActivity {
         }
         if (status.equals("EDITAR_SERVICO")) {
 
-            categoria_servico = (Spinner) findViewById(R.id.spinner_categoria);
-            sub_categoria_servico = (Spinner) findViewById(R.id.spinner_sub_categoria);
+            categoria_servico = findViewById(R.id.spinner_categoria);
+            sub_categoria_servico = findViewById(R.id.spinner_sub_categoria);
             RetrofitService retrofitEditService = new RetrofitService();
             api = retrofitEditService.getRetrofit().create(API.class);
             api.getServicoById(idServico).enqueue(new Callback<Servico>() {

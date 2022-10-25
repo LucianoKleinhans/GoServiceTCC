@@ -22,7 +22,8 @@ import java.util.Random;
 public class UserService {
     @Autowired
     DAOUsuario daoUsuario;
-
+    @Autowired
+    DAOProposta daoProposta;
     @Autowired
     DAOSolicitaServico daoSolicitaServico;
     private String senha, senhaBanco, senhaBancoRecuperacao, login, novaSenha, codConfirmacao;
@@ -242,11 +243,46 @@ public class UserService {
 
     public void setValorProposto(Long id, Double valor) {
         Double menorValor = daoSolicitaServico.getMenorValorProposto(id);
-        if (menorValor > valor) {
-            daoSolicitaServico.setMenorvalorProposto(id, valor);
+        if (menorValor!=null) {
+            if (menorValor > valor) {
+                daoSolicitaServico.setMenorvalorProposto(id, valor);
+            } else {
+                daoSolicitaServico.setMenorvalorProposto(id, menorValor);
+            }
         }else{
-            daoSolicitaServico.setMenorvalorProposto(id, menorValor);
+            daoSolicitaServico.setMenorvalorProposto(id, valor);
         }
+    }
 
+    public Return getPropostaFeita(Long idPrestador, Long idSolicitacao) {
+        Proposta proposta = daoProposta.getPropostaJaFeita(idPrestador,idSolicitacao);
+        Return ret = new Return();
+        if (proposta != null){
+            ret.setStatusCode(200);
+            ret.setStatus("PROPOSTA JA CRIADA");
+            ret.setText("Já possui uma proposta sua feita para essa solicitção!");
+        }else {
+            ret.setStatusCode(100);
+            ret.setStatus("PROPOSTA NAO CRIADA");
+            ret.setText("Não possui nenhuma proposta sua feita para essa solicitção!");
+        }
+        return ret;
+    }
+
+    public void notificaCliente(Proposta proposta) {
+        try {
+            String emailCliente = proposta.getId_Cliente().getEmail();
+
+            emailService.sendEmail(
+                    emailCliente,
+                    "GoService - Nova Proposta Recebida!",
+                    "Olá, " + proposta.getId_Cliente().getPrimeiroNome() + "\n Você recebeu uma nova proposta de " + proposta.getId_Prestador().getLogin() +
+                            "Para a solicitação de nome: " + proposta.getId_SolicitaServico().getNomeServico() + "\n\nDetalhes da proposta" +
+                            "\n - Usuario : " + proposta.getId_Prestador().getLogin() +
+                            "\n - Proposta : " + proposta.getObservacao() +
+                            "\n - Valor Proposto : " + proposta.getValor());
+        } catch (Exception e){
+            System.out.println("Erro ao enviar e-mail");
+        }
     }
 }

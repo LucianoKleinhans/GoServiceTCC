@@ -2,6 +2,7 @@ package com.lajotasoftware.goservice.Controller;
 
 import com.lajotasoftware.goservice.DAO.DAOProposta;
 import com.lajotasoftware.goservice.Entity.Proposta;
+import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.Services.UserService;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ public class PropostaController {
 
     @PostMapping("/proposta/create")
     public Proposta salvarProposta(@RequestBody Proposta proposta){
+        userService.notificaCliente(proposta);
         userService.setValorProposto(proposta.getId_SolicitaServico().getId(), proposta.getValor());
         return repository.save(proposta);
     }
@@ -73,5 +75,11 @@ public class PropostaController {
     public Proposta getPropostaSolicitacaoServico(@PathVariable("idSolicitaServico") Long idSolicitaServico,
                                                   @PathVariable("idPrestador") Long idPrestador){
         return repository.getPropostaSolicitacaoServico(idSolicitaServico,idPrestador);
+    }
+
+    @PostMapping(value = "/proposta/card/propostajafeita/{idprestador}/{idsolicitacao}")
+    public Return getPropostaJaFeita(@PathVariable("idprestador") Long idPrestador,
+                                     @PathVariable("idsolicitacao") Long idSolicitacao){
+        return userService.getPropostaFeita(idPrestador, idSolicitacao);
     }
 }

@@ -10,7 +10,7 @@ public class SubCategoria {
         this.id = subCategoria.getId();
         this.nome = subCategoria.getNome();
         this.idCategoriaServico = subCategoria.getIdCategoriaServico();
-    };
+    }
 
     public Long getId() {
         return id;

@@ -66,7 +66,6 @@ public class Servicos extends AppCompatActivity implements CustomAdapterServiceP
         progressBarServicos = findViewById(R.id.progressBarServicos);
         progressBarServicos.setVisibility(View.VISIBLE);
         listarServicos();
-        progressBarServicos.setVisibility(View.GONE);
     }
 
     private void listarServicos() {
@@ -93,12 +92,14 @@ public class Servicos extends AppCompatActivity implements CustomAdapterServiceP
                     recyclerView.setLayoutManager(linearLayoutManager);
                     customAdapter = new CustomAdapterServicePerfilPrestador(Servicos.this, servicos, Servicos.this);
                     recyclerView.setAdapter(customAdapter);
+                    progressBarServicos.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Servico>> call, Throwable t) {
                 Toast.makeText(Servicos.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
+                progressBarServicos.setVisibility(View.GONE);
             }
         });
     }

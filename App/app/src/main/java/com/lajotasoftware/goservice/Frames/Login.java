@@ -85,7 +85,7 @@ public class Login extends AppCompatActivity {
             usuario.setLogin(loginUsuario);
             usuario.setSenha(loginSenha);
             if (usuario.getLogin().length()>=5){
-                if (usuario.getSenha().length()>=10){
+                if (usuario.getSenha().length()>=5){
                     if (!(usuario.getLogin().equals("") || usuario.getSenha().equals(""))) {
                         progressBarLogin.setVisibility(View.VISIBLE);
                         btnEntrar.setEnabled(false);
@@ -122,7 +122,7 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this, "Login ou Senha Inválido!", Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(Login.this, "Tamanho da Senha do Usuário deve ser maior ou igual a 10", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Senha deve possuir ao menos 5 caractes", Toast.LENGTH_SHORT).show();
                 }
             }else{
                 Toast.makeText(Login.this, "Tamanho do Nome de Usuário deve ser maior ou igual a 5", Toast.LENGTH_SHORT).show();
