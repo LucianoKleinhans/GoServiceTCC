@@ -13,6 +13,22 @@ public class Pedido {
     private Usuario id_Prestador;
     private SolicitaServico id_ServicoSolicitado;
     private Servico id_Servico;
+    private Proposta id_Proposta;
+
+    public void setPedido(Pedido pedido) {
+        this.id = pedido.getId();
+        this.status = pedido.getStatus();
+        this.avaliacaoPrestador = pedido.getAvaliacaoPrestador();
+        this.avaliacaoCliente = pedido.getAvaliacaoCliente();
+        this.servicoSolicitado = pedido.getServicoSolicitado();
+        this.dataEmissao = pedido.getDataEmissao();
+        this.dataFinalizacao = pedido.getDataFinalizacao();
+        this.id_Cliente = pedido.getId_Cliente();
+        this.id_Prestador = pedido.getId_Prestador();
+        this.id_ServicoSolicitado = pedido.getId_ServicoSolicitado();
+        this.id_Servico = pedido.getId_Servico();
+        this.id_Proposta = pedido.getId_Proposta();
+    }
 
     public Long getId() {
         return id;
@@ -102,4 +118,11 @@ public class Pedido {
         this.id_Servico = id_Servico;
     }
 
+    public Proposta getId_Proposta() {
+        return id_Proposta;
+    }
+
+    public void setId_Proposta(Proposta id_Proposta) {
+        this.id_Proposta = id_Proposta;
+    }
 }

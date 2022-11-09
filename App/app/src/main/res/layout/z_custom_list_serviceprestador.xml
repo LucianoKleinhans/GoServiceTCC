@@ -14,6 +14,33 @@
     android:layout_marginBottom="5dp"
     android:padding="5dp">
 
+    <TextView
+        android:id="@+id/ttvNomePrestador2"
+        android:layout_width="100dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:textAlignment="textEnd"
+        android:textColor="#d5d5d5"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RatingBar
+        android:id="@+id/ratingBarPefilPrestador3"
+        style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:isIndicator="true"
+        android:theme="@style/RatingBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ttvNomePrestador2"
+        tools:ignore="SpeakableTextPresentCheck" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSolicitaServico"
         android:layout_width="0dp"
@@ -58,7 +85,7 @@
         android:text="Servico"
         android:textColor="#d5d5d5"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ttvNomePrestador2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

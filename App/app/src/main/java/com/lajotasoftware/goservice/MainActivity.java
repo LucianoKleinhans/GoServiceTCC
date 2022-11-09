@@ -22,6 +22,7 @@ import com.lajotasoftware.goservice.Frames.Prestadores;
 
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lajotasoftware.goservice.Frames.Perfil;
@@ -141,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle parametros = new Bundle();
         parametros.putLong("id_usuario", idUsuario);
         parametros.putString("status_usuario", "DEFAUT");
-        parametros.putBoolean("pretador", user.getPrestador());
+        parametros.putBoolean("prestador", user.getPrestador());
         it.putExtras(parametros);
         startActivity(it);
     }
@@ -284,5 +285,85 @@ public class MainActivity extends AppCompatActivity {
         });
         dialog.show();
         ttvTextEmailAlterSenha.setText("Um codigo de confirmacao foi enviado para o \n E-mail: "+user.getEmail()+"\n Coloque-o abaixo para prosseguir!");
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void info_cards(View view) {
+        dialog.setContentView(R.layout.z_custom_alertdialog_information);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        MaterialTextView infoTitle = dialog.findViewById(R.id.ttvInfoTitle);
+        MaterialTextView infoDesc = dialog.findViewById(R.id.ttvInfoDesc);
+        MaterialButton btnConfirmaInfo = dialog.findViewById(R.id.btnConfirmaInfo);
+
+        infoTitle.setText("Cartões");
+        infoDesc.setText("Cartões");
+
+        btnConfirmaInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.hide();
+            }
+        });
+        dialog.show();
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void info_prestadores(View view) {
+        dialog.setContentView(R.layout.z_custom_alertdialog_information);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        MaterialTextView infoTitle = dialog.findViewById(R.id.ttvInfoTitle);
+        MaterialTextView infoDesc = dialog.findViewById(R.id.ttvInfoDesc);
+        MaterialButton btnConfirmaInfo = dialog.findViewById(R.id.btnConfirmaInfo);
+
+        infoTitle.setText("Prestadores");
+        infoDesc.setText("Prestadores");
+
+        btnConfirmaInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.hide();
+            }
+        });
+        dialog.show();
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void info_servicos(View view) {
+        dialog.setContentView(R.layout.z_custom_alertdialog_information);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        MaterialTextView infoTitle = dialog.findViewById(R.id.ttvInfoTitle);
+        MaterialTextView infoDesc = dialog.findViewById(R.id.ttvInfoDesc);
+        MaterialButton btnConfirmaInfo = dialog.findViewById(R.id.btnConfirmaInfo);
+
+        infoTitle.setText("Serviços");
+        infoDesc.setText("Serviços");
+
+        btnConfirmaInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.hide();
+            }
+        });
+        dialog.show();
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void info_pedidos(View view) {
+        dialog.setContentView(R.layout.z_custom_alertdialog_information);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        MaterialTextView infoTitle = dialog.findViewById(R.id.ttvInfoTitle);
+        MaterialTextView infoDesc = dialog.findViewById(R.id.ttvInfoDesc);
+        MaterialButton btnConfirmaInfo = dialog.findViewById(R.id.btnConfirmaInfo);
+
+        infoTitle.setText("Pedidos");
+        infoDesc.setText("Pedidos");
+
+        btnConfirmaInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.hide();
+            }
+        });
+        dialog.show();
     }
 }

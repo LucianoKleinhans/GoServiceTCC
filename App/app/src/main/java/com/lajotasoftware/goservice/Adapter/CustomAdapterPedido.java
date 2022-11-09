@@ -2,7 +2,6 @@ package com.lajotasoftware.goservice.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.button.MaterialButton;
 import com.lajotasoftware.goservice.Entity.Pedido;
-import com.lajotasoftware.goservice.Frames.Card;
 import com.lajotasoftware.goservice.R;
 
 import java.util.List;
@@ -26,12 +23,14 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
     Context context;
     private final OnPedidoListener mOnPedidoListener;
     String parametro;
+    Long idUser;
 
-    public CustomAdapterPedido(Context context, List<Pedido> pedidosList, OnPedidoListener mOnPedidoListener, String parametro) {
+    public CustomAdapterPedido(Context context, List<Pedido> pedidosList, OnPedidoListener mOnPedidoListener, String parametro, Long idUsuario) {
         this.pedidosList = pedidosList;
         this.context = context;
         this.mOnPedidoListener = mOnPedidoListener;
         this.parametro = parametro;
+        this.idUser = idUsuario;
     }
 
     @NonNull
@@ -46,16 +45,49 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         ViewHolder myViewHolder = (ViewHolder) holder;
-        myViewHolder.idPedido.setText(pedidosList.get(position).getId().toString());
-        myViewHolder.clientePedido.setText(pedidosList.get(position).getId_Cliente().getPrimeiroNome());
-        myViewHolder.servicoPedido.setText(pedidosList.get(position).getId_Servico().getNome());
-        myViewHolder.valorServicoPedido.setText("Valor: R$"+pedidosList.get(position).getId_Servico().getValor().toString());
-        myViewHolder.position = position;
-        myViewHolder.id = pedidosList.get(position).getId();
-        myViewHolder.idCliente = pedidosList.get(position).getId_Cliente().getId();
-        myViewHolder.idPrestador = pedidosList.get(position).getId_Prestador().getId();
-        myViewHolder.statusPedido.setText("Status: "+pedidosList.get(position).getStatus());
-        myViewHolder.ratingBarPedidoCliente.setRating(pedidosList.get(position).getId_Cliente().getAvaliacaoCliente().floatValue());
+        String nome = "UserUknown's";
+
+        if (parametro.equals("ENVIADAS")) {
+            nome = pedidosList.get(position).getId_Prestador().getPrimeiroNome();
+        }else if (parametro.equals("RECEBIDAS")) {
+            nome = pedidosList.get(position).getId_Cliente().getPrimeiroNome();
+        }else if (parametro.equals("PROGRESSO")) {
+            if (pedidosList.get(position).getId_Cliente().getId() == idUser){
+                nome = pedidosList.get(position).getId_Prestador().getPrimeiroNome();
+            }else{
+                nome = pedidosList.get(position).getId_Cliente().getPrimeiroNome();
+            }
+        }else if (parametro.equals("FINALIZADO")) {
+            if (pedidosList.get(position).getId_Cliente().getId() == idUser){
+                nome = pedidosList.get(position).getId_Prestador().getPrimeiroNome();
+            }else {
+                nome = pedidosList.get(position).getId_Cliente().getPrimeiroNome();
+            }
+        }
+
+        if(pedidosList.get(position).getServicoSolicitado()){
+            myViewHolder.idPedido.setText(pedidosList.get(position).getId().toString());
+            myViewHolder.clientePedido.setText(nome);
+            myViewHolder.servicoPedido.setText(pedidosList.get(position).getId_Proposta().getObservacao());
+            myViewHolder.valorServicoPedido.setText("Valor: R$"+pedidosList.get(position).getId_Proposta().getValor().toString());
+            myViewHolder.position = position;
+            myViewHolder.id = pedidosList.get(position).getId();
+            myViewHolder.idCliente = pedidosList.get(position).getId_Cliente().getId();
+            myViewHolder.idPrestador = pedidosList.get(position).getId_Prestador().getId();
+            myViewHolder.ratingBarPedidoCliente.setRating(pedidosList.get(position).getId_Cliente().getAvaliacaoCliente().floatValue());
+            myViewHolder.statusPedido.setText("Status: "+pedidosList.get(position).getStatus());
+        }else{
+            myViewHolder.idPedido.setText(pedidosList.get(position).getId().toString());
+            myViewHolder.clientePedido.setText(nome);
+            myViewHolder.servicoPedido.setText(pedidosList.get(position).getId_Servico().getNome());
+            myViewHolder.valorServicoPedido.setText("Valor: R$"+pedidosList.get(position).getId_Servico().getValor().toString());
+            myViewHolder.position = position;
+            myViewHolder.id = pedidosList.get(position).getId();
+            myViewHolder.idCliente = pedidosList.get(position).getId_Cliente().getId();
+            myViewHolder.idPrestador = pedidosList.get(position).getId_Prestador().getId();
+            myViewHolder.ratingBarPedidoCliente.setRating(pedidosList.get(position).getId_Cliente().getAvaliacaoCliente().floatValue());
+            myViewHolder.statusPedido.setText("Status: "+pedidosList.get(position).getStatus());
+        }
     }
 
     @Override

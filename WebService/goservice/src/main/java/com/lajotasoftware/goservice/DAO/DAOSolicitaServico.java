@@ -33,4 +33,9 @@ public interface DAOSolicitaServico extends JpaRepository<SolicitaServico, Long>
     @Modifying
     @Transactional
     void setMenorvalorProposto(Long id, Double valor_proposto);
+
+    @Query(value = "update solicita_servico set status = ?2 where id = ?1", nativeQuery = true)
+    @Modifying
+    @Transactional
+    void setStatusCardServico(Long id, String status);
 }

@@ -1,13 +1,10 @@
 package com.lajotasoftware.goservice.Services;
 
-import com.lajotasoftware.goservice.DAO.DAOProposta;
-import com.lajotasoftware.goservice.DAO.DAOSolicitaServico;
-import com.lajotasoftware.goservice.DAO.DAOUsuario;
-import com.lajotasoftware.goservice.Entity.Proposta;
-import com.lajotasoftware.goservice.Entity.Return;
-import com.lajotasoftware.goservice.Entity.Usuario;
+import com.lajotasoftware.goservice.DAO.*;
+import com.lajotasoftware.goservice.Entity.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,6 +23,11 @@ public class UserService {
     DAOProposta daoProposta;
     @Autowired
     DAOSolicitaServico daoSolicitaServico;
+    @Autowired
+    DAOPedido daoPedido;
+    @Autowired
+    DAOServico daoServico;
+
     private String senha, senhaBanco, senhaBancoRecuperacao, login, novaSenha, codConfirmacao;
     private Usuario user = new Usuario();
     private Return ret = new Return();
@@ -243,6 +245,9 @@ public class UserService {
 
     public void setValorProposto(Long id, Double valor) {
         Double menorValor = daoSolicitaServico.getMenorValorProposto(id);
+        if (valor == null){
+            valor = daoSolicitaServico.getById(id).getValor();
+        }
         if (menorValor!=null) {
             if (menorValor > valor) {
                 daoSolicitaServico.setMenorvalorProposto(id, valor);
@@ -271,18 +276,92 @@ public class UserService {
 
     public void notificaCliente(Proposta proposta) {
         try {
-            String emailCliente = proposta.getId_Cliente().getEmail();
+            Proposta prop = daoProposta.getById(proposta.getId());
+            Usuario cliente = daoUsuario.getById(proposta.getId_Cliente().getId());
+            Usuario prestador = daoUsuario.getById(proposta.getId_Prestador().getId());
 
             emailService.sendEmail(
-                    emailCliente,
+                    cliente.getEmail(),
                     "GoService - Nova Proposta Recebida!",
-                    "Olá, " + proposta.getId_Cliente().getPrimeiroNome() + "\n Você recebeu uma nova proposta de " + proposta.getId_Prestador().getLogin() +
-                            "Para a solicitação de nome: " + proposta.getId_SolicitaServico().getNomeServico() + "\n\nDetalhes da proposta" +
-                            "\n - Usuario : " + proposta.getId_Prestador().getLogin() +
-                            "\n - Proposta : " + proposta.getObservacao() +
-                            "\n - Valor Proposto : " + proposta.getValor());
+                    "Olá, " + cliente.getPrimeiroNome() + "\n Você recebeu uma nova proposta de " + prestador.getLogin() +
+                            "Para a solicitação de nome: " + prop.getId_SolicitaServico().getNomeServico() + "\n\nDetalhes da proposta" +
+                            "\n - Usuario : " + prestador.getLogin() +
+                            "\n - Proposta : " + prop.getObservacao() +
+                            "\n - Valor Proposto : " + prop.getValor());
         } catch (Exception e){
             System.out.println("Erro ao enviar e-mail");
         }
+    }
+
+    public Return setStatusProposta(Long idProposta, String status) {
+        Return ret = new Return();
+        Proposta proposta = daoProposta.getPropostaById(idProposta);
+        if (status.equals("ACEITA")){
+            daoProposta.setStatusProposta(idProposta, status);
+            ret.setStatusCode(200);
+            ret.setStatus("PROPOSTA ACEITA");
+            ret.setText("Proposta Aceita!");
+            Pedido pedido = new Pedido();
+            pedido.setId_Cliente(proposta.getId_Cliente());
+            pedido.setId_Prestador(proposta.getId_Prestador());
+            pedido.setId_ServicoSolicitado(proposta.getId_SolicitaServico());
+            pedido.setServicoSolicitado(true);
+            pedido.setStatus("ACEITO");
+            pedido.setId_Proposta(proposta);
+            daoPedido.save(pedido);
+        }else if (status.equals("RECUSADA")) {
+            daoProposta.setStatusProposta(idProposta, status);
+            ret.setStatusCode(200);
+            ret.setStatus("PROPOSTA RECUSADA");
+            ret.setText("Proposta Recusada!");
+        }
+        return ret;
+    }
+
+    public void notificaPedido (Pedido pedido){
+        Usuario cliente = daoUsuario.getById(pedido.getId_Cliente().getId());
+        Usuario prestador = daoUsuario.getById(pedido.getId_Prestador().getId());
+
+        try {
+            String emailCliente = pedido.getId_Prestador().getEmail();
+            if (pedido.getServicoSolicitado()){
+                Proposta proposta = daoProposta.getPropostaById(pedido.getId_Proposta().getId());
+                emailService.sendEmail(
+                        emailCliente,
+                        "GoService - Novo Pedido!",
+                        "Olá, " + prestador.getPrimeiroNome() + "\n A proposta feita para a solicitação de serviço de " + cliente.getPrimeiroNome() + "foi aceita"+
+                                "\n\nDetalhes da proposta" +
+                                "\n - Usuario : " + cliente.getPrimeiroNome() +
+                                "\n - Proposta : " + proposta.getObservacao() +
+                                "\n - Valor Proposto : " + proposta.getValor());
+            }else{
+                Servico servico = daoServico.getServicoByID(pedido.getId_Servico().getId());
+                emailService.sendEmail(
+                        emailCliente,
+                        "GoService - Novo Pedido!",
+                        "Olá, " + prestador.getPrimeiroNome() + "\n Existe um novo pedido de seu serviço! " +
+                                "\n\nDetalhes do Pedido" +
+                                "\n - Usuario : " + cliente.getPrimeiroNome() +
+                                "\n - Serviço Solicitado : " + servico.getNome() +
+                                "\n - Valor do Serviço : " + servico.getValor());
+            }
+        } catch (Exception e){
+            System.out.println("Erro ao enviar e-mail");
+        }
+    }
+
+    public Return pedidoVerificaSeExiste(Long idCliente, Long idServico) {
+        Return ret = new Return();
+        List<Pedido> pedidos = daoPedido.verificaSeExiste(idCliente, idServico);
+        if (pedidos.size()>0){
+            ret.setStatusCode(200);
+            ret.setStatus("PEDIDO JA CRIADA");
+            ret.setText("Já possui um pedido seu para esse serviço!");
+        }else {
+            ret.setStatusCode(100);
+            ret.setStatus("PEDIDO NAO CRIADO");
+            ret.setText("Não possui nenhuma pedido seu para esse serviço!");
+        }
+        return ret;
     }
 }

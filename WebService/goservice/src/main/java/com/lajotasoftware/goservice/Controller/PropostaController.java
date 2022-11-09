@@ -34,9 +34,10 @@ public class PropostaController {
 
     @PostMapping("/proposta/create")
     public Proposta salvarProposta(@RequestBody Proposta proposta){
+        proposta = repository.save(proposta);
         userService.notificaCliente(proposta);
         userService.setValorProposto(proposta.getId_SolicitaServico().getId(), proposta.getValor());
-        return repository.save(proposta);
+        return proposta;
     }
 
     @DeleteMapping("/proposta/{id}")
@@ -47,7 +48,9 @@ public class PropostaController {
     @PutMapping(value = "/proposta/update/{id}")
     public ResponseEntity update(@PathVariable("id") long id,
                                  @RequestBody Proposta proposta) {
-        userService.setValorProposto(proposta.getId_SolicitaServico().getId(), proposta.getValor());
+        if (proposta.getStatus().equals("ABERTO")){
+            userService.setValorProposto(proposta.getId_SolicitaServico().getId(), proposta.getValor());
+        }
         return repository.findById(id)
                 .map(record -> {
                     if(proposta.getId_Prestador()!=null){record.setId_Prestador(proposta.getId_Prestador());}
@@ -81,5 +84,11 @@ public class PropostaController {
     public Return getPropostaJaFeita(@PathVariable("idprestador") Long idPrestador,
                                      @PathVariable("idsolicitacao") Long idSolicitacao){
         return userService.getPropostaFeita(idPrestador, idSolicitacao);
+    }
+
+    @PostMapping(value = "/proposta/card/statusProposta/{idproposta}/{status}")
+    public Return setStatusProposta(@PathVariable("idproposta") Long idProposta,
+                                    @PathVariable("status") String status){
+        return userService.setStatusProposta(idProposta, status);
     }
 }

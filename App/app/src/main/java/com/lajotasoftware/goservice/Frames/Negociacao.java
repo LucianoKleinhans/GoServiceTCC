@@ -24,6 +24,7 @@ import com.lajotasoftware.goservice.Adapter.CustomAdapterMensagem;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterMensagem.ViewHolder;
 import com.lajotasoftware.goservice.Entity.Mensagem;
 import com.lajotasoftware.goservice.Entity.Proposta;
+import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.R;
@@ -316,6 +317,17 @@ public class Negociacao extends AppCompatActivity {
 
             }
         });
+        api.setStatusProposta(idProposta,"ACEITA").enqueue(new Callback<Return>() {
+            @Override
+            public void onResponse(Call<Return> call, Response<Return> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Return> call, Throwable t) {
+
+            }
+        });
     }
 
     public void alterarPropostaMensagem(View view) {
@@ -357,6 +369,8 @@ public class Negociacao extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<Proposta> call, Response<Proposta> response) {
                                 Toast.makeText(Negociacao.this, "Proposta Atualizada com Sucesso!", Toast.LENGTH_SHORT).show();
+                                Date date = new Date();
+                                Long timeMilli = date.getTime();
                                 Mensagem mensagem = new Mensagem();
                                 Proposta proposta = new Proposta();
                                 Usuario prestador = new Usuario();
@@ -371,6 +385,7 @@ public class Negociacao extends AppCompatActivity {
                                 mensagem.setId_Cliente(cliente);
                                 mensagem.setId_Prestador(prestador);
                                 mensagem.setSendBy(usuario);
+                                mensagem.setDataHoraMsg(timeMilli);
                                 RetrofitService retrofitService = new RetrofitService();
                                 api = retrofitService.getRetrofit().create(API.class);
                                 api.createMensagem(mensagem).enqueue(new Callback<Mensagem>() {

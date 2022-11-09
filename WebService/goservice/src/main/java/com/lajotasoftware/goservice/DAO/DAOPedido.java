@@ -10,21 +10,26 @@ import java.util.List;
 @Repository
 public interface DAOPedido extends JpaRepository<Pedido, Long> {
 
-    @Query(value = "select * from pedido p where p.id_prestador_id = ?1 and p.servico_solicitado = true and p.status = 'ABERTO'", nativeQuery = true)
+    @Query(value = "select * from pedido p where p.id_prestador_id = ?1 and p.servico_solicitado = false and p.status = 'ABERTO'", nativeQuery = true)
     List<Pedido> getPedidosPrestador(Long id);
 
-    @Query(value = "select * from pedido p where p.id_cliente_id = ?1 and p.servico_solicitado = true and p.status = 'ABERTO'", nativeQuery = true)
+    @Query(value = "select * from pedido p where p.id_cliente_id = ?1 and p.servico_solicitado = false and p.status = 'ABERTO'", nativeQuery = true)
     List<Pedido> getPedidosCliente(Long id);
 
-    @Query(value = "select * from pedido p where (p.id_cliente_id = ?1 or p.id_prestador_id = ?1) and p.servico_solicitado = true and p.status = 'ACEITO'", nativeQuery = true)
+//    @Query(value = "select * from pedido p where (p.id_cliente_id = ?1 or p.id_prestador_id = ?1) and p.servico_solicitado = false and p.status = 'ACEITO'", nativeQuery = true)
+//    List<Pedido> getPedidosEmProgresso(Long id);
+
+    @Query(value = "select * from pedido p where (p.id_cliente_id = ?1 or p.id_prestador_id = ?1) and p.status = 'ACEITO'", nativeQuery = true)
     List<Pedido> getPedidosEmProgresso(Long id);
 
-    @Query(value = "select * from pedido p where (p.id_cliente_id = ?1 or p.id_prestador_id = ?1) and p.servico_solicitado = true and (p.status = 'RECUSADO' or p.status = 'FINALIZADO' or p.status = 'CANCELADO')", nativeQuery = true)
+    @Query(value = "select * from pedido p where (p.id_cliente_id = ?1 or p.id_prestador_id = ?1) and (p.status = 'RECUSADO' or p.status = 'FINALIZADO' or p.status = 'CANCELADO')", nativeQuery = true)
     List<Pedido> getPedidosFinalizados(Long id);
 
     @Query(value = "select * from pedido p where p.id = ?1", nativeQuery = true)
     Pedido getPedidoId(Long id);
 
+    @Query(value = "select * from pedido p where p.id_cliente_id = ?1 and p.id_servico_id = ?2", nativeQuery = true)
+    List<Pedido> verificaSeExiste(Long idCliente, Long idServico);
     /*
     @Query(value = "select * from pedido p where p.id_cliente_id = ?1 and p.servico_solicitado = true and p.status = 'ACEITO'", nativeQuery = true)
     List<Pedido> getPedidosEmProgressoCliente(Long id);

@@ -17,6 +17,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterPrestadores;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterServicePerfilPrestador;
 import com.lajotasoftware.goservice.Entity.Pedido;
+import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.MainActivity;
@@ -177,7 +178,7 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
                     }
                     LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getApplicationContext());
                     recyclerViewServicePrestador.setLayoutManager(linearLayoutManager2);
-                    customAdapterServicePerfilPrestador = new CustomAdapterServicePerfilPrestador(Prestadores.this, servicosPrestador, Prestadores.this);
+                    customAdapterServicePerfilPrestador = new CustomAdapterServicePerfilPrestador(Prestadores.this, servicosPrestador, Prestadores.this, "PRESTADORES");
                     recyclerViewServicePrestador.setAdapter(customAdapterServicePerfilPrestador);
                 }
             }
@@ -198,31 +199,46 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
                 .setPositiveButton("Sim",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int idd) {
-                                pedido = new Pedido();
-                                cliente = new Usuario();
-                                servico = new Servico();
-                                cliente.setId(idUsuario);
-                                servico.setId(id);
-                                pedido.setId_Cliente(cliente);
-                                pedido.setId_Prestador(prestador);
-                                pedido.setDataEmissao(date.getTime());
-                                pedido.setId_Servico(servico);
-                                pedido.setServicoSolicitado(true);
-                                pedido.setStatus("ABERTO");
                                 RetrofitService retrofitService = new RetrofitService();
                                 api = retrofitService.getRetrofit().create(API.class);
-                                api.criarPedido(pedido).enqueue(new Callback<Pedido>() {
+                                api.verificaSeExiste(idUsuario, id).enqueue(new Callback<Return>() {
                                     @Override
-                                    public void onResponse(Call<Pedido> call, Response<Pedido> response) {
-                                        Toast.makeText(Prestadores.this,"Serviço solicitado!", Toast.LENGTH_SHORT).show();
+                                    public void onResponse(Call<Return> call, Response<Return> response) {
+                                        if (response.body().getStatusCode() == 100){
+                                            pedido = new Pedido();
+                                            cliente = new Usuario();
+                                            prestador = new Usuario();
+                                            servico = new Servico();
+                                            cliente.setId(idUsuario);
+                                            prestador.setId(idPrestador);
+                                            servico.setId(id);
+                                            pedido.setId_Cliente(cliente);
+                                            pedido.setId_Prestador(prestador);
+                                            pedido.setDataEmissao(date.getTime());
+                                            pedido.setId_Servico(servico);
+                                            pedido.setServicoSolicitado(false);
+                                            pedido.setStatus("ABERTO");
+                                            api.criarPedido(pedido).enqueue(new Callback<Pedido>() {
+                                                @Override
+                                                public void onResponse(Call<Pedido> call, Response<Pedido> response) {
+                                                    Toast.makeText(Prestadores.this,"Serviço solicitado!", Toast.LENGTH_SHORT).show();
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<Pedido> call, Throwable t) {
+                                                    Toast.makeText(Prestadores.this,"Não foi possivel solicitar esse serviço!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        }else{
+                                            Toast.makeText(Prestadores.this, "Já possui um pedido seu para esse serviço!", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
 
                                     @Override
-                                    public void onFailure(Call<Pedido> call, Throwable t) {
-                                        Toast.makeText(Prestadores.this,"Não foi possivel solicitar esse serviço!", Toast.LENGTH_SHORT).show();
+                                    public void onFailure(Call<Return> call, Throwable t) {
+
                                     }
                                 });
-
                             }
                         })
                 .setNegativeButton("Não", new DialogInterface.OnClickListener() {
@@ -247,6 +263,7 @@ public class Prestadores extends AppCompatActivity implements CustomAdapterPrest
         parametros.putLong("id_usuario", idUsuario);
         it.putExtras(parametros);
         startActivity(it);
+        finish();
     }
     public void onBackPressed () {
         if (status.equals("VISUALIZAR_PRESTADOR")){

@@ -189,7 +189,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String emailEsqueciSenha = String.valueOf(edtEmailEsqueciSenha.getText());
-                if (emailEsqueciSenha!=null) {
+                if (emailEsqueciSenha!=null && !emailEsqueciSenha.equals("")) {
                     progressBarEsqueciSenha.setVisibility(View.VISIBLE);
                     edtEmailEsqueciSenha.setEnabled(false);
                     btnConfirmaEsqueciSenha.setEnabled(false);
@@ -213,6 +213,8 @@ public class Login extends AppCompatActivity {
 
                         }
                     });
+                }else{
+                    Toast.makeText(Login.this, "É necessário informar um E-mail!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

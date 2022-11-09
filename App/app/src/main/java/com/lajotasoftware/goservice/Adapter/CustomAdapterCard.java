@@ -108,7 +108,7 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
                 itemView.findViewById(R.id.btnFazerProposta).setVisibility(View.INVISIBLE);
                 itemView.findViewById(R.id.btnVizualizarProposta).setVisibility(View.VISIBLE);
             }else if (parametro.equals("CARDS_PROPOSTAS_FINALIZADAS")) {
-                itemView.findViewById(R.id.btnVisualizarCardServico).setVisibility(View.VISIBLE);
+                itemView.findViewById(R.id.btnVisualizarCardServico).setVisibility(View.INVISIBLE);
                 itemView.findViewById(R.id.btnRemoverServico).setVisibility(View.INVISIBLE);
                 itemView.findViewById(R.id.btnEditarServico).setVisibility(View.INVISIBLE);
                 itemView.findViewById(R.id.btnFazerProposta).setVisibility(View.INVISIBLE);

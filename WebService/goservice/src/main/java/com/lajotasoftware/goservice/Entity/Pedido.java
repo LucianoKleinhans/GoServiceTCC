@@ -32,6 +32,9 @@ public class Pedido {
     @ManyToOne
     private Servico id_Servico;
 
+    @OneToOne
+    private Proposta id_Proposta;
+
     public void setId(Long id) {
         if (id != null) {
             this.id = id;
@@ -99,6 +102,12 @@ public class Pedido {
     public void setId_Servico(Servico id_Servico) {
         if (id_Servico != null) {
             this.id_Servico = id_Servico;
+        }
+    }
+
+    public void setId_Proposta(Proposta id_Proposta) {
+        if (id_Proposta != null) {
+            this.id_Proposta = id_Proposta;
         }
     }
 }

@@ -31,7 +31,8 @@ public class EmailService {
         log.info("Email enviado com sucesso!");
     }
 
-    /*public void enviarEmailComAnexo(String para, String titulo, String conteudo, String arquivo) throws MessagingException {
+    /*
+    public void enviarEmailComAnexo(String para, String titulo, String conteudo, String arquivo) throws MessagingException {
         log.info("Enviando email com anexo");
         var mensagem = javaMailSender.createMimeMessage();
 
@@ -45,5 +46,6 @@ public class EmailService {
 
         javaMailSender.send(mensagem);
         log.info("Email com anexo enviado com sucesso.");
-    }*/
+    }
+    */
 }

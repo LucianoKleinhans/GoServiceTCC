@@ -79,6 +79,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         status = parametros.getString("status");
         setContentView(R.layout.solicitacoes);
         if (status.equals("PROPOSTA_ACEITA")){
+            Toast.makeText(this, "Card finalizado, enviado para pedidos em progresso!", Toast.LENGTH_SHORT).show();
             negociacaoDireta(idProposta);
         } else if (status.equals("PEDIDOS")){
             initializeComponents();
@@ -106,6 +107,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         btnFinalizado.setBackgroundColor(Color.parseColor("#153246"));
         retrofitService = new RetrofitService();
         progressBarPedidos.setVisibility(View.VISIBLE);
+        pedidos.clear();
         api = retrofitService.getRetrofit().create(API.class);
         api.getPedidosCliente(idUsuario).enqueue(new Callback<List<Pedido>>() {
             @Override
@@ -114,66 +116,17 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 if (response.body()!=null) {
                     aux = response.body().size();
                 }
-                pedidos.clear();
                 recyclerView.getRecycledViewPool().clear();
                 if (aux > 0) {
-                    for (int i = 1; i <= aux; i++) {
+                    for (int i = 0; i < aux; i++) {
                         pedido = new Pedido();
-                        pedido.setId(response.body().get(i - 1).getId());
-                        pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
-                        pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
-                        pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
-                        pedido.setStatus(response.body().get(i - 1).getStatus());
-                        pedidos.add(pedido);
-                    }
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-                    recyclerView.setLayoutManager(linearLayoutManager);
-                    customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro);
-                    recyclerView.setAdapter(customAdapter);
-                }
-                progressBarPedidos.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call<List<Pedido>> call, Throwable t) {
-                Toast.makeText(Pedidos.this, "Sem Sucesso ao carregar lista de pedidos!", Toast.LENGTH_SHORT).show();
-                progressBarPedidos.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void btnListaPedidoEnviada(View view) {
-        parametro = "ENVIADAS";
-
-        btnEnviadas.setBackgroundColor(Color.parseColor("#204c6a"));
-        btnRecebidas.setBackgroundColor(Color.parseColor("#153246"));
-        btnEmProgresso.setBackgroundColor(Color.parseColor("#153246"));
-        btnFinalizado.setBackgroundColor(Color.parseColor("#153246"));
-        retrofitService = new RetrofitService();
-        progressBarPedidos.setVisibility(View.VISIBLE);
-        api = retrofitService.getRetrofit().create(API.class);
-        api.getPedidosCliente(idUsuario).enqueue(new Callback<List<Pedido>>() {
-            @Override
-            public void onResponse(Call<List<Pedido>> call, Response<List<Pedido>> response) {
-                int aux = 0;
-                if (response.body()!=null) {
-                    aux = response.body().size();
-                }
-                pedidos.clear();
-                if (aux > 0) {
-                    for (int i = 1; i <= aux; i++) {
-                        pedido = new Pedido();
-                        pedido.setId(response.body().get(i - 1).getId());
-                        pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
-                        pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
-                        pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
-                        pedido.setStatus(response.body().get(i - 1).getStatus());
+                        pedido.setPedido(response.body().get(i));
                         pedidos.add(pedido);
                     }
                 }
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(linearLayoutManager);
-                customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro);
+                customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro, idUsuario);
                 recyclerView.setAdapter(customAdapter);
                 progressBarPedidos.setVisibility(View.GONE);
             }
@@ -186,6 +139,47 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         });
     }
 
+    public void btnListaPedidoEnviada(View view) {
+        lista();
+//        parametro = "ENVIADAS";
+//
+//        btnEnviadas.setBackgroundColor(Color.parseColor("#204c6a"));
+//        btnRecebidas.setBackgroundColor(Color.parseColor("#153246"));
+//        btnEmProgresso.setBackgroundColor(Color.parseColor("#153246"));
+//        btnFinalizado.setBackgroundColor(Color.parseColor("#153246"));
+//        retrofitService = new RetrofitService();
+//        progressBarPedidos.setVisibility(View.VISIBLE);
+//        api = retrofitService.getRetrofit().create(API.class);
+//        api.getPedidosCliente(idUsuario).enqueue(new Callback<List<Pedido>>() {
+//            @Override
+//            public void onResponse(Call<List<Pedido>> call, Response<List<Pedido>> response) {
+//                int aux = 0;
+//                if (response.body()!=null) {
+//                    aux = response.body().size();
+//                }
+//                pedidos.clear();
+//                if (aux > 0) {
+//                    for (int i = 0; i < aux; i++) {
+//                        pedido = new Pedido();
+//                        pedido.setPedido(response.body().get(i));
+//                        pedidos.add(pedido);
+//                    }
+//                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+//                    recyclerView.setLayoutManager(linearLayoutManager);
+//                    customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro);
+//                    recyclerView.setAdapter(customAdapter);
+//                }
+//                progressBarPedidos.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Pedido>> call, Throwable t) {
+//                Toast.makeText(Pedidos.this, "Sem Sucesso ao carregar lista de pedidos!", Toast.LENGTH_SHORT).show();
+//                progressBarPedidos.setVisibility(View.GONE);
+//            }
+//        });
+    }
+
     public void btnListaPedidoRecebidas(View view) {
         parametro = "RECEBIDAS";
 
@@ -195,6 +189,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         btnFinalizado.setBackgroundColor(Color.parseColor("#153246"));
         progressBarPedidos.setVisibility(View.VISIBLE);
         retrofitService = new RetrofitService();
+        pedidos.clear();
         api = retrofitService.getRetrofit().create(API.class);
         api.getPedidosPrestador(idUsuario).enqueue(new Callback<List<Pedido>>() {
             @Override
@@ -203,21 +198,16 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 if (response.body()!=null) {
                     aux = response.body().size();
                 }
-                pedidos.clear();
                 if (aux > 0) {
-                    for (int i = 1; i <= aux; i++) {
+                    for (int i = 0; i < aux; i++) {
                         pedido = new Pedido();
-                        pedido.setId(response.body().get(i - 1).getId());
-                        pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
-                        pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
-                        pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
-                        pedido.setStatus(response.body().get(i - 1).getStatus());
+                        pedido.setPedido(response.body().get(i));
                         pedidos.add(pedido);
                     }
                 }
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(linearLayoutManager);
-                customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro);
+                customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro, idUsuario);
                 recyclerView.setAdapter(customAdapter);
                 progressBarPedidos.setVisibility(View.GONE);
             }
@@ -238,6 +228,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         btnEmProgresso.setBackgroundColor(Color.parseColor("#204c6a"));
         btnFinalizado.setBackgroundColor(Color.parseColor("#153246"));
         progressBarPedidos.setVisibility(View.VISIBLE);
+        pedidos.clear();
         retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
         api.getPedidosEmProgresso(idUsuario).enqueue(new Callback<List<Pedido>>() {
@@ -247,21 +238,16 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 if (response.body()!=null) {
                     aux = response.body().size();
                 }
-                pedidos.clear();
                 if (aux > 0) {
-                    for (int i = 1; i <= aux; i++) {
+                    for (int i = 0; i < aux; i++) {
                         pedido = new Pedido();
-                        pedido.setId(response.body().get(i - 1).getId());
-                        pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
-                        pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
-                        pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
-                        pedido.setStatus(response.body().get(i - 1).getStatus());
+                        pedido.setPedido(response.body().get(i));
                         pedidos.add(pedido);
                     }
                 }
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(linearLayoutManager);
-                customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro);
+                customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro, idUsuario);
                 recyclerView.setAdapter(customAdapter);
                 progressBarPedidos.setVisibility(View.GONE);
             }
@@ -282,6 +268,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         btnEmProgresso.setBackgroundColor(Color.parseColor("#153246"));
         btnFinalizado.setBackgroundColor(Color.parseColor("#204c6a"));
         progressBarPedidos.setVisibility(View.VISIBLE);
+        pedidos.clear();
         retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
         api.getPedidosFinalizados(idUsuario).enqueue(new Callback<List<Pedido>>() {
@@ -291,21 +278,16 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                 if (response.body()!=null) {
                     aux = response.body().size();
                 }
-                pedidos.clear();
                 if (aux > 0) {
-                    for (int i = 1; i <= aux; i++) {
+                    for (int i = 0; i < aux; i++) {
                         pedido = new Pedido();
-                        pedido.setId(response.body().get(i - 1).getId());
-                        pedido.setId_Cliente(response.body().get(i - 1).getId_Cliente());
-                        pedido.setId_Servico(response.body().get(i - 1).getId_Servico());
-                        pedido.setId_Prestador(response.body().get(i - 1).getId_Prestador());
-                        pedido.setStatus(response.body().get(i - 1).getStatus());
+                        pedido.setPedido(response.body().get(i));
                         pedidos.add(pedido);
                     }
                 }
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerView.setLayoutManager(linearLayoutManager);
-                customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro);
+                customAdapter = new CustomAdapterPedido(Pedidos.this, pedidos, Pedidos.this, parametro, idUsuario);
                 recyclerView.setAdapter(customAdapter);
                 progressBarPedidos.setVisibility(View.GONE);
             }
@@ -397,6 +379,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         btnConfirma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialog.hide();
                 avaliacao = (double) starBar.getRating();
                 AlertDialog.Builder alertDialogBuilder= new AlertDialog.Builder(Pedidos.this);
                 alertDialogBuilder.setTitle("Avaliação");
@@ -446,6 +429,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         parametros.putLong("id_usuario", idUsuario);
         it.putExtras(parametros);
         startActivity(it);
+        finish();
     }
 
     private void negociacaoDireta(Long id) {
@@ -484,31 +468,56 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
             });
         } else {
             api.getPedidoById(id).enqueue(new Callback<Pedido>() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onResponse(Call<Pedido> call, Response<Pedido> response) {
                     if (response.body()!=null) {
                         nomeCliente = "";
                         nomePrestador = "";
-                        if (idUsuario.equals(response.body().getId_Cliente().getId())){
-                            ttvCliente.setText(response.body().getId_Prestador().getPrimeiroNome());
-                            ttvClienteUF.setText(response.body().getId_Prestador().getUf());
-                            ttvClienteEmail.setText(response.body().getId_Prestador().getEmail());
-                            ttvClienteTelefone.setText(response.body().getId_Prestador().getTelefone());
-                            ttvClientesite.setText(response.body().getId_Prestador().getSite());
-                            ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
-                            ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
-                            ttvClienteServicoValor.setText("Valor: R$"+response.body().getId_Servico().getValor().toString());
-                            nomeCliente = response.body().getId_Cliente().getPrimeiroNome();
-                        }else{
-                            ttvCliente.setText(response.body().getId_Cliente().getPrimeiroNome());
-                            ttvClienteUF.setText(response.body().getId_Cliente().getUf());
-                            ttvClienteEmail.setText(response.body().getId_Cliente().getEmail());
-                            ttvClienteTelefone.setText(response.body().getId_Cliente().getTelefone());
-                            ttvClientesite.setText(response.body().getId_Cliente().getSite());
-                            ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
-                            ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
-                            ttvClienteServicoValor.setText("Valor: R$"+response.body().getId_Servico().getValor().toString());
-                            nomePrestador = response.body().getId_Prestador().getPrimeiroNome();
+                        if (response.body().getServicoSolicitado()){
+                            if (idUsuario.equals(response.body().getId_Cliente().getId())) {
+                                ttvCliente.setText(response.body().getId_Prestador().getPrimeiroNome());
+                                ttvClienteUF.setText(response.body().getId_Prestador().getUf());
+                                ttvClienteEmail.setText(response.body().getId_Prestador().getEmail());
+                                ttvClienteTelefone.setText(response.body().getId_Prestador().getTelefone());
+                                ttvClientesite.setText(response.body().getId_Prestador().getSite());
+                                ttvClienteServicoNome.setText("Proposta");
+                                ttvClienteServicoDesc.setText(response.body().getId_Proposta().getObservacao());
+                                ttvClienteServicoValor.setText("Valor: R$" + response.body().getId_Proposta().getValor().toString());
+                                nomeCliente = response.body().getId_Cliente().getPrimeiroNome();
+                            } else {
+                                ttvCliente.setText(response.body().getId_Cliente().getPrimeiroNome());
+                                ttvClienteUF.setText(response.body().getId_Cliente().getUf());
+                                ttvClienteEmail.setText(response.body().getId_Cliente().getEmail());
+                                ttvClienteTelefone.setText(response.body().getId_Cliente().getTelefone());
+                                ttvClientesite.setText(response.body().getId_Cliente().getSite());
+                                ttvClienteServicoNome.setText("Proposta");
+                                ttvClienteServicoDesc.setText(response.body().getId_Proposta().getObservacao());
+                                ttvClienteServicoValor.setText("Valor: R$" + response.body().getId_Proposta().getValor().toString());
+                                nomePrestador = response.body().getId_Prestador().getPrimeiroNome();
+                            }
+                        }else {
+                            if (idUsuario.equals(response.body().getId_Cliente().getId())) {
+                                ttvCliente.setText(response.body().getId_Prestador().getPrimeiroNome());
+                                ttvClienteUF.setText(response.body().getId_Prestador().getUf());
+                                ttvClienteEmail.setText(response.body().getId_Prestador().getEmail());
+                                ttvClienteTelefone.setText(response.body().getId_Prestador().getTelefone());
+                                ttvClientesite.setText(response.body().getId_Prestador().getSite());
+                                ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
+                                ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
+                                ttvClienteServicoValor.setText("Valor: R$" + response.body().getId_Servico().getValor().toString());
+                                nomeCliente = response.body().getId_Cliente().getPrimeiroNome();
+                            } else {
+                                ttvCliente.setText(response.body().getId_Cliente().getPrimeiroNome());
+                                ttvClienteUF.setText(response.body().getId_Cliente().getUf());
+                                ttvClienteEmail.setText(response.body().getId_Cliente().getEmail());
+                                ttvClienteTelefone.setText(response.body().getId_Cliente().getTelefone());
+                                ttvClientesite.setText(response.body().getId_Cliente().getSite());
+                                ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
+                                ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
+                                ttvClienteServicoValor.setText("Valor: R$" + response.body().getId_Servico().getValor().toString());
+                                nomePrestador = response.body().getId_Prestador().getPrimeiroNome();
+                            }
                         }
                     }
                 }
@@ -592,5 +601,14 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
             startActivity(it);
         });
 
+    }
+
+    public void btn_perfil_solcitacao_to_main(View view) {
+        Intent it = new Intent(this, MainActivity.class);
+        Bundle parametros = new Bundle();
+        parametros.putLong("id_usuario", idUsuario);
+        it.putExtras(parametros);
+        startActivity(it);
+        finish();
     }
 }

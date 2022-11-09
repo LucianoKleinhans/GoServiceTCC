@@ -2,8 +2,11 @@ package com.lajotasoftware.goservice.Controller;
 
 import com.lajotasoftware.goservice.DAO.DAOPedido;
 import com.lajotasoftware.goservice.Entity.Pedido;
+import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.Usuario;
+import com.lajotasoftware.goservice.Services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,9 @@ public class PedidoController {
 
     DAOPedido repository;
 
+    @Autowired
+    UserService userService;
+
     @PostMapping("/pedidos")
     public List<Pedido> getAllPedidos(){
         return repository.findAll();
@@ -29,6 +35,7 @@ public class PedidoController {
 
     @PostMapping("/pedido")
     public Pedido salvarPedido(@RequestBody Pedido pedido){
+        userService.notificaPedido(pedido);
         return repository.save(pedido);
     }
 
@@ -53,6 +60,7 @@ public class PedidoController {
                     if(pedido.getServicoSolicitado()!=null){record.setServicoSolicitado(pedido.getServicoSolicitado());}
                     if(pedido.getDataEmissao()!=null){record.setDataEmissao(pedido.getDataEmissao());}
                     if(pedido.getDataFinalizacao()!=null){record.setDataFinalizacao(pedido.getDataFinalizacao());}
+                    if(pedido.getId_Proposta()!=null){record.setId_Proposta(pedido.getId_Proposta());}
                     Pedido updated = repository.save(record);
                     return ResponseEntity.ok().body(updated);
                 }).orElse(ResponseEntity.notFound().build());
@@ -78,6 +86,11 @@ public class PedidoController {
         return repository.getPedidosFinalizados(id);
     }
 
+    @PostMapping("/pedido/verificaseexiste/{idCliente}/{idServico}")
+    public Return verificaSeExiste(@PathVariable Long idCliente,
+                                   @PathVariable Long idServico){
+        return userService.pedidoVerificaSeExiste(idCliente, idServico);
+    }
     /*
     @PostMapping("/pedidosprogressocliente/{id}")
     public List<Pedido> getPedidosEmProgressoCliente(@PathVariable Long id){

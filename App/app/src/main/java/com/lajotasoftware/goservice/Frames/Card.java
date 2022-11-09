@@ -82,7 +82,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         idUsuario = parametros.getLong("id_usuario");
         if (status.equals("DEFAUT")) {
             setContentView(R.layout.cards_servico);
-            prestadorTF = parametros.getBoolean("pretador");
+            prestadorTF = parametros.getBoolean("prestador");
             initializeComponents();
         }
         if (status.equals("CRIAR_CARTAO")) {
@@ -433,7 +433,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                                         @Override
                                         public void onResponse(Call<Proposta> call, Response<Proposta> response) {
                                             Toast.makeText(Card.this, "Proposta Criada com Sucesso!", Toast.LENGTH_SHORT).show();
-                                            onBackPressed();
+                                            dialog.hide();
                                         }
 
                                         @Override
@@ -857,6 +857,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         parametros.putLong("id_usuario", idUsuario);
         it.putExtras(parametros);
         startActivity(it);
+        finish();
     }
 
     private int getIndex(Spinner spinner, String myString) {
@@ -884,7 +885,10 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
     @Override
     public void onPropostaAceitarClick(int adapterPosition, Long id, Long idCliente, Long idPrest) {
         proposta = new Proposta();
+        SolicitaServico solicitaServico = new SolicitaServico();
+        solicitaServico.setId(idCardServico);
         proposta.setStatus("ACEITO");
+        proposta.setId_SolicitaServico(solicitaServico);
         idPropostaAceita = id;
         idPrestador = idPrest;
         RetrofitService retrofitService = new RetrofitService();
@@ -982,6 +986,17 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
 
             @Override
             public void onFailure(Call<Proposta> call, Throwable t) {
+
+            }
+        });
+        api.setStatusProposta(id,"ACEITA").enqueue(new Callback<Return>() {
+            @Override
+            public void onResponse(Call<Return> call, Response<Return> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<Return> call, Throwable t) {
 
             }
         });

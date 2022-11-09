@@ -15,19 +15,6 @@
     android:padding="5dp">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnRecusaPedido"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:backgroundTint="#750709"
-        android:text="Recusar "
-        android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@+id/btnAceitaPedido"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPedido" />
-
-    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAceitaPedido"
         android:layout_width="0dp"
         android:layout_height="48dp"
@@ -140,6 +127,19 @@
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btnVisualizarPedido"
+        app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPedido" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRecusaPedido"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="#750709"
+        android:text="Recusar"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/btnAceitaPedido"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ttvValorServicoPedido" />
 
     <TextView

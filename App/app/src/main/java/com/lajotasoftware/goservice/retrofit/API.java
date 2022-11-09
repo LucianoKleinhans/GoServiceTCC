@@ -100,8 +100,15 @@ public interface API {
     //@DELETE("/cardservico/delete/{id}")
     //Call<SolicitaServico> deleteCardServico(@Path("id")Long id);
 
+    @POST("/cardservico/cardsprogresso/{id}")
+    Call<List<SolicitaServico>> getCardsServicoProgresso(@Path("id") Long id);
+
     @POST("/cardservico/cardsfinalizados/{id}")
     Call<List<SolicitaServico>> getCardsServicoFinalizados(@Path("id") Long id);
+
+//    @POST("/cardservico/setstatus/{id}/{status}")
+//    Call<Return> setStatusCardsServico(@Path("id") long id,
+//                                       @Path("Status") String status);
 
     /*-----------------View Prestadores-----------------*/
 
@@ -132,6 +139,10 @@ public interface API {
 
     @PUT("/pedido/udpate/{id}")
     Call<Pedido> updatePedido(@Path("id") Long id, @Body Pedido pedido);
+
+    @POST("/pedido/verificaseexiste/{idCliente}/{idServico}")
+    Call<Return> verificaSeExiste(@Path("idCliente") Long idCliente,
+                                  @Path("idServico") Long idServico);
 
     /*-------------------------Categoria/SubCategoria-----------------------------*/
 
@@ -164,8 +175,11 @@ public interface API {
 
     @POST("/proposta/card/propostajafeita/{idprestador}/{idsolicitacao}")
     Call<Return> getPropostaJaFeita(@Path("idprestador") Long idPrestador,
-                                      @Path("idsolicitacao") Long idSolicitacao);
+                                    @Path("idsolicitacao") Long idSolicitacao);
 
+    @POST("/proposta/card/statusProposta/{idproposta}/{status}")
+    Call<Return> setStatusProposta(@Path("idproposta") Long idProposta,
+                                   @Path("status") String status);
     /*------------------------------------------Mensagem------------------------------------------*/
 
     @POST("/mensagem/proposta/{id}")
