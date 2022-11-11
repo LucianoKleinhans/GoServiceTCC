@@ -5,7 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,9 +19,11 @@ import com.google.android.material.button.MaterialButton;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterPedido;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterService;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterServicePerfilPrestador;
+import com.lajotasoftware.goservice.Entity.Categoria;
 import com.lajotasoftware.goservice.Entity.Pedido;
 import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.Servico;
+import com.lajotasoftware.goservice.Entity.SubCategoria;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.MainActivity;
 import com.lajotasoftware.goservice.R;
@@ -37,6 +42,8 @@ public class Servicos extends AppCompatActivity implements CustomAdapterServiceP
 
     private Long idUsuario;
 
+    Long idCategoria, idSubCategoria;
+
     Intent it;
 
     CustomAdapterServicePerfilPrestador customAdapter;
@@ -52,6 +59,11 @@ public class Servicos extends AppCompatActivity implements CustomAdapterServiceP
     Date date = new Date();
     ProgressBar progressBarServicos;
 
+    Categoria categoria;
+    SubCategoria subCategoria;
+    List<Categoria> categorias = new ArrayList<>();
+    List<SubCategoria> subCategorias = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +78,79 @@ public class Servicos extends AppCompatActivity implements CustomAdapterServiceP
         recyclerView = findViewById(R.id.listaServicos);
         progressBarServicos = findViewById(R.id.progressBarServicos);
         progressBarServicos.setVisibility(View.VISIBLE);
+        Spinner spinnerCategoriaServico = findViewById(R.id.spinner_categoria_servicos);
+        Spinner spinnerSubCategoriaServico = findViewById(R.id.spinner_sub_categoria_servicos);
+        RetrofitService retrofitServiceCategoria = new RetrofitService();
+        api = retrofitServiceCategoria.getRetrofit().create(API.class);
+        api.getAllCategoria().enqueue(new Callback<List<Categoria>>() {
+            @Override
+            public void onResponse(Call<List<Categoria>> call, Response<List<Categoria>> response) {
+                int aux = 0;
+                if (response.body() != null) {
+                    aux = response.body().size();
+                }
+                if (aux > 0) {
+                    categorias.clear();
+                    for (int i = 1; i <= aux; i++) {
+                        categoria = new Categoria();
+                        categoria.setCategoria(response.body().get(i - 1));
+                        categorias.add(categoria);
+                    }
+                    ArrayAdapter<Categoria> adapter = new ArrayAdapter<Categoria>(getApplicationContext(), android.R.layout.simple_spinner_item, categorias);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerCategoriaServico.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Categoria>> call, Throwable t) {
+
+            }
+        });
+        spinnerCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                idCategoria = Long.valueOf(i) + 1;
+                RetrofitService retrofitServiceSubCategoria = new RetrofitService();
+                api = retrofitServiceSubCategoria.getRetrofit().create(API.class);
+                api.getSubCategoria(idCategoria).enqueue(new Callback<List<SubCategoria>>() {
+                    @Override
+                    public void onResponse(Call<List<SubCategoria>> call, Response<List<SubCategoria>> response) {
+                        int aux = 0;
+                        if (response.body() != null) {
+                            aux = response.body().size();
+                        }
+                        if (aux > 0) {
+                            subCategorias.clear();
+                            for (int i = 1; i <= aux; i++) {
+                                subCategoria = new SubCategoria();
+                                subCategoria.setSubCategoria(response.body().get(i - 1));
+                                subCategorias.add(subCategoria);
+                            }
+                            ArrayAdapter<SubCategoria> adapter = new ArrayAdapter<SubCategoria>(getApplicationContext(), android.R.layout.simple_spinner_item, subCategorias);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinnerSubCategoriaServico.setAdapter(adapter);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<SubCategoria>> call, Throwable t) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        spinnerSubCategoriaServico.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+        }),m,m,mm,m,m,m,m;
         listarServicos();
     }
 
@@ -169,5 +254,9 @@ public class Servicos extends AppCompatActivity implements CustomAdapterServiceP
                 });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public void buscarPorCategoria(View view) {
+
     }
 }
