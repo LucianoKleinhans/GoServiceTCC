@@ -28,6 +28,12 @@ public class UserService {
     @Autowired
     DAOServico daoServico;
 
+    @Autowired
+    DAOCategoria daoCategoria;
+
+    @Autowired
+    DAOSubCategoria daoSubCategoria;
+
     private String senha, senhaBanco, senhaBancoRecuperacao, login, novaSenha, codConfirmacao;
     private Usuario user = new Usuario();
     private Return ret = new Return();
@@ -363,5 +369,18 @@ public class UserService {
             ret.setText("Não possui nenhuma pedido seu para esse serviço!");
         }
         return ret;
+    }
+
+    public List<Servico> getServicoByCategoria(Long idCategoria, Long idSubCategoria) {
+        List<Servico> servicos;
+        Categoria categoria = daoCategoria.getById(idCategoria);
+        SubCategoria subCategoria = daoSubCategoria.getById(idSubCategoria);
+        if (subCategoria.getNome().equals("Geral")){
+            servicos = daoServico.getServicosCategoria2(idCategoria);
+        } else {
+            servicos =  daoServico.getServicosCategoria1(idCategoria, idSubCategoria);
+        }
+        return servicos;
+
     }
 }

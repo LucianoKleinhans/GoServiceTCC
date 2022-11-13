@@ -2,7 +2,9 @@ package com.lajotasoftware.goservice.Controller;
 
 import com.lajotasoftware.goservice.DAO.DAOServico;
 import com.lajotasoftware.goservice.Entity.Servico;
+import com.lajotasoftware.goservice.Services.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ public class ServicoController {
 
     DAOServico repository;
 
+    @Autowired
+    UserService userService;
     @GetMapping("/servico")
     public List<Servico> getAllServico(){
         return repository.findAll();
@@ -71,5 +75,11 @@ public class ServicoController {
     @PostMapping("/servico/lista/{id}")
     public List<Servico> getAllServicos(@PathVariable Long id){
         return repository.getAllServicos(id);
+    }
+
+    @PostMapping("/servico/lista/categoria/{idCategoria}/{idSubCategoria}")
+    public List<Servico> getAllServicosByCategoria(@PathVariable Long idCategoria,
+                                                   @PathVariable Long idSubCategoria) {
+        return userService.getServicoByCategoria(idCategoria, idSubCategoria);
     }
 }

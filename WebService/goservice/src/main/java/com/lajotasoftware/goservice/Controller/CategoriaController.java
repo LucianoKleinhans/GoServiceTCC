@@ -45,4 +45,5 @@ public class CategoriaController {
     public List<SubCategoria> getSubCategoriaByCategoria(@PathVariable Long id){
         return repositorySubCategoria.findSubCategoriaByCategoria(id);
     }
+
 }

@@ -145,12 +145,19 @@ public class Servicos extends AppCompatActivity implements CustomAdapterServiceP
 
             }
         });
-        spinnerSubCategoriaServico.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    spinnerSubCategoriaServico.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            String subCat = adapterView.getSelectedItem().toString();
+            int pos = subCat.indexOf("-");
+            idSubCategoria = Long.valueOf(String.copyValueOf(subCat.toCharArray(), 0, pos - 1));
+        }
 
-            }
-        }),m,m,mm,m,m,m,m;
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
+        }
+    });
         listarServicos();
     }
 
@@ -174,8 +181,8 @@ public class Servicos extends AppCompatActivity implements CustomAdapterServiceP
                     recyclerView.setLayoutManager(linearLayoutManager);
                     customAdapter = new CustomAdapterServicePerfilPrestador(Servicos.this, servicos, Servicos.this, "SERVICOS");
                     recyclerView.setAdapter(customAdapter);
-                    progressBarServicos.setVisibility(View.GONE);
                 }
+                progressBarServicos.setVisibility(View.GONE);
             }
 
             @Override
@@ -257,6 +264,40 @@ public class Servicos extends AppCompatActivity implements CustomAdapterServiceP
     }
 
     public void buscarPorCategoria(View view) {
+        progressBarServicos.setVisibility(View.VISIBLE);
+        servicos.clear();
+        RetrofitService retrofitServiceCategoria = new RetrofitService();
+        api = retrofitServiceCategoria.getRetrofit().create(API.class);
+        api.getAllServicosByCategoria(idCategoria, idSubCategoria).enqueue(new Callback<List<Servico>>() {
+            @Override
+            public void onResponse(Call<List<Servico>> call, Response<List<Servico>> response) {
+                int aux = 0;
+                    if (response.body() != null) {
+                    aux = response.body().size();
+                }
+                if (aux > 0) {
+                    for (int i = 1; i <= aux; i++) {
+                        Servico servico = new Servico();
+                        servico.setServico(response.body().get(i -1));
+                        servicos.add(servico);
+                    }
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+                    recyclerView.setLayoutManager(linearLayoutManager);
+                    customAdapter = new CustomAdapterServicePerfilPrestador(Servicos.this, servicos, Servicos.this, "SERVICOS");
+                    recyclerView.setAdapter(customAdapter);
+                }else{
+                    Toast.makeText(Servicos.this, "Nenhum serviço encontrado!", Toast.LENGTH_SHORT).show();
+                    listarServicos();
+                }
+                progressBarServicos.setVisibility(View.GONE);
+            }
 
+            @Override
+            public void onFailure(Call<List<Servico>> call, Throwable t) {
+                Toast.makeText(Servicos.this, "Sem Sucesso ao carregar lista de serviço!", Toast.LENGTH_SHORT).show();
+                progressBarServicos.setVisibility(View.GONE);
+                listarServicos();
+            }
+        });
     }
 }

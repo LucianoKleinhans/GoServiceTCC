@@ -19,6 +19,12 @@ public interface DAOServico extends JpaRepository<Servico, Long> {
     @Query(value = "select * from servico s where id_prestador_id != ?1 and s.excluido is not true", nativeQuery = true)
     List<Servico> getAllServicos(Long id);
 
+    @Query(value = "select * from servico s where s.id_categoria_id = ?1 and s.id_sub_categoria_id = ?2  and s.excluido is not true", nativeQuery = true)
+    List<Servico> getServicosCategoria1(Long idCategoria, Long idSubCategoria);
+
+    @Query(value = "select * from servico s where s.id_categoria_id = ?1 and s.excluido is not true", nativeQuery = true)
+    List<Servico> getServicosCategoria2(Long idCategoria);
+
     /*@Query(value =
             "INSERT INTO public.servico (nome,obs_servico,valor,id_prestador_id,id_categoria_id,id_sub_categoria_id) " +
             "VALUES (?1,?2,?3,?4,?5,?6)", nativeQuery = true)

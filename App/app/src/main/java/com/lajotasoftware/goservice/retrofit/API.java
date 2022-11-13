@@ -81,6 +81,10 @@ public interface API {
     @POST("/servico/lista/{id}")
     Call<List<Servico>> getAllServicos(@Path("id") Long id);
 
+    @POST("/servico/lista/categoria/{idCategoria}/{idSubCategoria}")
+    Call<List<Servico>> getAllServicosByCategoria(@Path("idCategoria") Long idCategoria,
+                                                   @Path("idSubCategoria") Long idSubCategoria);
+
     /*-----------------Crud Card Serviço-----------------*/
     @POST("/cardservico/create")
     Call<SolicitaServico> createNewCardService(@Body SolicitaServico solcitaServico);
