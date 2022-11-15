@@ -289,6 +289,8 @@ public class Negociacao extends AppCompatActivity {
     }
 
     public void aceitarPropostaMensagem(View view) {
+        Date date = new Date();
+        Long timeMilli = date.getTime();
         idProposta = Long.parseLong((String) ttvidPropostaMensagem.getText());
         mensagem = new Mensagem();
         proposta = new Proposta();
@@ -304,6 +306,7 @@ public class Negociacao extends AppCompatActivity {
         mensagem.setId_Cliente(cliente);
         mensagem.setId_Prestador(prestador);
         mensagem.setSendBy(usuario);
+        mensagem.setDataHoraMsg(timeMilli);
         retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
         api.createMensagem(mensagem).enqueue(new Callback<Mensagem>() {
@@ -314,6 +317,111 @@ public class Negociacao extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Mensagem> call, Throwable t) {
+
+            }
+        });
+
+        proposta = new Proposta();
+        SolicitaServico solicitaServico = new SolicitaServico();
+        solicitaServico.setId(idCardServico);
+        proposta.setStatus("ACEITO");
+        proposta.setId_SolicitaServico(solicitaServico);
+        Long idPropostaAceita = idProposta;
+        RetrofitService retrofitService = new RetrofitService();
+        retrofitService.getRetrofit().create(API.class);
+        api.updateProposta(idProposta, proposta).enqueue(new Callback<Proposta>() {
+            @Override
+            public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                Toast.makeText(Negociacao.this, "Proposta Aceita!", Toast.LENGTH_SHORT).show();
+                RetrofitService retrofitService = new RetrofitService();
+                retrofitService.getRetrofit().create(API.class);
+                api.getPropostasRecebidas(idCardServico).enqueue(new Callback<List<Proposta>>() {
+                    @Override
+                    public void onResponse(Call<List<Proposta>> call, Response<List<Proposta>> response) {
+                        int aux = 0;
+                        Long idPro;
+                        if (response.body() != null) {
+                            aux = response.body().size();
+                        }
+                        if (aux > 0) {
+                            //propostas.clear();
+                            for (int i = 1; i <= aux; i++) {
+                                if (!response.body().get(i - 1).getId().equals(idPropostaAceita)){
+                                    proposta = new Proposta();
+                                    proposta.setStatus("RECUSADO");
+                                    idPro = response.body().get(i - 1).getId();
+                                    RetrofitService retrofitService = new RetrofitService();
+                                    retrofitService.getRetrofit().create(API.class);
+                                    api.updateProposta(idPro, proposta).enqueue(new Callback<Proposta>() {
+                                        @Override
+                                        public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Proposta> call, Throwable t) {
+
+                                        }
+                                    });
+                                }
+                            }
+                            RetrofitService retrofitService = new RetrofitService();
+                            retrofitService.getRetrofit().create(API.class);
+                            SolicitaServico card = new SolicitaServico();
+                            card.setStatus("FINALIZADO");
+                            api.updateCardServico(idCardServico,card).enqueue(new Callback<SolicitaServico>() {
+                                @Override
+                                public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
+                                    Intent it = new Intent(Negociacao.this, Pedidos.class);
+                                    Bundle parametros = new Bundle();
+                                    parametros.putLong("id_usuario", idUsuario);
+                                    parametros.putLong("id_proposta", idPropostaAceita);
+                                    parametros.putLong("id_prestador", idPrestador);
+                                    parametros.putString("status", "PROPOSTA_ACEITA");
+                                    it.putExtras(parametros);
+                                    startActivity(it);
+                                }
+
+                                @Override
+                                public void onFailure(Call<SolicitaServico> call, Throwable t) {
+
+                                }
+                            });
+                        } else {
+                            RetrofitService retrofitService = new RetrofitService();
+                            retrofitService.getRetrofit().create(API.class);
+                            SolicitaServico card = new SolicitaServico();
+                            card.setStatus("FINALIZADO");
+                            api.updateCardServico(idCardServico,card).enqueue(new Callback<SolicitaServico>() {
+                                @Override
+                                public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
+                                    Intent it = new Intent(Negociacao.this, Pedidos.class);
+                                    Bundle parametros = new Bundle();
+                                    parametros.putLong("id_usuario", idUsuario);
+                                    parametros.putLong("id_proposta", idPropostaAceita);
+                                    parametros.putLong("id_prestador", idPrestador);
+                                    parametros.putString("status", "PROPOSTA_ACEITA");
+                                    it.putExtras(parametros);
+                                    startActivity(it);
+                                }
+
+                                @Override
+                                public void onFailure(Call<SolicitaServico> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Proposta>> call, Throwable t) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<Proposta> call, Throwable t) {
 
             }
         });

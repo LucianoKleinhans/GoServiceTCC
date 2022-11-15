@@ -400,9 +400,11 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                     dialog.setContentView(R.layout.z_custom_alertdialog_proposta);
                     dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+                    ProgressBar progressBarFazerProposta = dialog.findViewById(R.id.progressBarCards2);
                     MaterialButton btnConfirma = dialog.findViewById(R.id.btnConfirmaProposta);
                     TextInputEditText edtDescProposta = dialog.findViewById(R.id.edtDescricaoProposta);
                     TextInputEditText edtValorProposta = dialog.findViewById(R.id.edtValorProposta);
+
 
                     idPrestador = idUsuario;
 
@@ -427,18 +429,22 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                                     proposta.setValor(Double.valueOf(edtValorProposta.getText().toString()));
                                     proposta.setStatus("ABERTO");
 
+                                    progressBarFazerProposta.setVisibility(View.VISIBLE);
                                     RetrofitService retrofitService = new RetrofitService();
                                     retrofitService.getRetrofit().create(API.class);
                                     api.criarProposta(proposta).enqueue(new Callback<Proposta>() {
                                         @Override
                                         public void onResponse(Call<Proposta> call, Response<Proposta> response) {
                                             Toast.makeText(Card.this, "Proposta Criada com Sucesso!", Toast.LENGTH_SHORT).show();
+                                            progressBarFazerProposta.setVisibility(View.GONE);
                                             dialog.hide();
                                         }
 
                                         @Override
                                         public void onFailure(Call<Proposta> call, Throwable t) {
-
+                                            progressBarFazerProposta.setVisibility(View.GONE);
+                                            Toast.makeText(Card.this, "Falha ao Criar Proposta, tente novamente!", Toast.LENGTH_SHORT).show();
+                                            dialog.hide();
                                         }
                                     });
                                 } else {

@@ -283,6 +283,7 @@ public class UserService {
     public void notificaCliente(Proposta proposta) {
         try {
             Proposta prop = daoProposta.getById(proposta.getId());
+            SolicitaServico solicitaServico = daoSolicitaServico.getById(proposta.getId_SolicitaServico().getId());
             Usuario cliente = daoUsuario.getById(proposta.getId_Cliente().getId());
             Usuario prestador = daoUsuario.getById(proposta.getId_Prestador().getId());
 
@@ -290,7 +291,7 @@ public class UserService {
                     cliente.getEmail(),
                     "GoService - Nova Proposta Recebida!",
                     "Olá, " + cliente.getPrimeiroNome() + "\n Você recebeu uma nova proposta de " + prestador.getLogin() +
-                            "Para a solicitação de nome: " + prop.getId_SolicitaServico().getNomeServico() + "\n\nDetalhes da proposta" +
+                            " Para a solicitação de nome: " + solicitaServico.getNomeServico() + "\n\nDetalhes da proposta" +
                             "\n - Usuario : " + prestador.getLogin() +
                             "\n - Proposta : " + prop.getObservacao() +
                             "\n - Valor Proposto : " + prop.getValor());
