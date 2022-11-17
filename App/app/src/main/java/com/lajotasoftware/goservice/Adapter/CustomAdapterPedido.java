@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.lajotasoftware.goservice.Entity.Pedido;
 import com.lajotasoftware.goservice.R;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class CustomAdapterPedido extends RecyclerView.Adapter {
@@ -69,7 +70,7 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
             myViewHolder.idPedido.setText(pedidosList.get(position).getId().toString());
             myViewHolder.clientePedido.setText(nome);
             myViewHolder.servicoPedido.setText(pedidosList.get(position).getId_Proposta().getObservacao());
-            myViewHolder.valorServicoPedido.setText("Valor: R$"+pedidosList.get(position).getId_Proposta().getValor().toString());
+            myViewHolder.valorServicoPedido.setText("Valor: "+ NumberFormat.getCurrencyInstance().format(pedidosList.get(position).getId_Proposta().getValor()));
             myViewHolder.position = position;
             myViewHolder.id = pedidosList.get(position).getId();
             myViewHolder.idCliente = pedidosList.get(position).getId_Cliente().getId();
@@ -80,7 +81,7 @@ public class CustomAdapterPedido extends RecyclerView.Adapter {
             myViewHolder.idPedido.setText(pedidosList.get(position).getId().toString());
             myViewHolder.clientePedido.setText(nome);
             myViewHolder.servicoPedido.setText(pedidosList.get(position).getId_Servico().getNome());
-            myViewHolder.valorServicoPedido.setText("Valor: R$"+pedidosList.get(position).getId_Servico().getValor().toString());
+            myViewHolder.valorServicoPedido.setText("Valor: "+NumberFormat.getCurrencyInstance().format(pedidosList.get(position).getId_Servico().getValor()));
             myViewHolder.position = position;
             myViewHolder.id = pedidosList.get(position).getId();
             myViewHolder.idCliente = pedidosList.get(position).getId_Cliente().getId();

@@ -16,6 +16,7 @@ import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Frames.Card;
 import com.lajotasoftware.goservice.R;
 
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,7 +51,7 @@ public class CustomAdapterServicePerfilPrestador extends RecyclerView.Adapter {
         myViewHolder.ServicoPrestador.setText(servicosLists.get(position).getId_Prestador().getId().toString());
         myViewHolder.ServicoNome.setText(servicosLists.get(position).getNome());
         myViewHolder.ServicoDesc.setText(servicosLists.get(position).getObsServico());
-        myViewHolder.ServicoValor.setText("Valor: R$"+servicosLists.get(position).getValor().toString());
+        myViewHolder.ServicoValor.setText("Valor: "+ NumberFormat.getCurrencyInstance().format((servicosLists.get(position).getValor())));
         myViewHolder.position = position;
         myViewHolder.id = servicosLists.get(position).getId();
         myViewHolder.idPrestador = servicosLists.get(position).getId_Prestador().getId();

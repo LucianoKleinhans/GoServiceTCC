@@ -151,11 +151,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:fadingEdge="horizontal|vertical"
-        android:onClick="btnSelectAvatarPerfil"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_logogoservice" />
+<!--    android:onClick="btnSelectAvatarPerfil"-->
 
     <ImageButton
         android:id="@+id/imageButton2"
@@ -209,8 +209,9 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:backgroundTint="#00000000"
-        android:scaleType="center"
         android:onClick="btnSelectAvatarPerfil"
+        android:scaleType="center"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/avatarPerfil"
         app:layout_constraintEnd_toEndOf="@+id/avatarPerfil"
         app:srcCompat="@drawable/ic_edit_pencil" />

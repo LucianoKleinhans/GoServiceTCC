@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -31,6 +33,7 @@ import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.API;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,6 +75,7 @@ public class Negociacao extends AppCompatActivity {
 
     Intent it;
     Dialog dialog;
+    Double valorPropostaServico;
 
     List<Mensagem> mensagens = new ArrayList<>();
 
@@ -143,7 +147,7 @@ public class Negociacao extends AppCompatActivity {
                         public void onResponse(Call<Proposta> call, Response<Proposta> response) {
                             assert response.body() != null;
                             ttvidPropostaMensagem.setText(response.body().getId().toString());
-                            ttvValorPropostaMensagem.setText("Valor: R$"+response.body().getValor().toString());
+                            ttvValorPropostaMensagem.setText("Valor: "+NumberFormat.getCurrencyInstance().format(response.body().getValor()));
                             ttvDescPropostaMensagem.setText(response.body().getObservacao());
                             progressBarNegociacao.setVisibility(View.GONE);
                         }
@@ -180,11 +184,12 @@ public class Negociacao extends AppCompatActivity {
                     retrofitService = new RetrofitService();
                     api = retrofitService.getRetrofit().create(API.class);
                     api.getPropostaByID(idProposta).enqueue(new Callback<Proposta>() {
+                        @SuppressLint("SetTextI18n")
                         @Override
                         public void onResponse(Call<Proposta> call, Response<Proposta> response) {
                             assert response.body() != null;
                             ttvidPropostaMensagem.setText(response.body().getId().toString());
-                            ttvValorPropostaMensagem.setText("Valor: R$"+response.body().getValor().toString());
+                            ttvValorPropostaMensagem.setText("Valor: "+NumberFormat.getCurrencyInstance().format(response.body().getValor()));
                             ttvDescPropostaMensagem.setText(response.body().getObservacao());
                             progressBarNegociacao.setVisibility(View.GONE);
                         }
@@ -448,75 +453,122 @@ public class Negociacao extends AppCompatActivity {
         MaterialButton btnConfirma = dialog.findViewById(R.id.btnConfirmaProposta);
         TextInputEditText edtDescProposta = dialog.findViewById(R.id.edtDescricaoProposta);
         TextInputEditText edtValorProposta = dialog.findViewById(R.id.edtValorProposta);
+        ProgressBar progressBarAlteraProposta = dialog.findViewById(R.id.progressBarCards2);
+        progressBarAlteraProposta.setVisibility(View.GONE);
+
+        edtValorProposta.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            private String current = "";
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                edtValorProposta.removeTextChangedListener(this);
+
+                String cleanString = s.toString().replaceAll("[R$.,  ]", "");
+                double parsed = Double.parseDouble(cleanString);
+
+                String formatted = NumberFormat.getCurrencyInstance().format((parsed / 100));
+                StringBuilder stringBuilder = new StringBuilder(cleanString);
+
+                if (cleanString.length() == 1) {
+                    cleanString = formatted.replaceAll("[R$.,  ]", "");
+                }
+
+                cleanString = String.valueOf(stringBuilder.insert(cleanString.length() - 2, '.'));
+                valorPropostaServico = Double.parseDouble(cleanString);
+
+                current = formatted;
+                edtValorProposta.setText(formatted);
+                edtValorProposta.setSelection(formatted.length());
+
+                edtValorProposta.addTextChangedListener(this);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         btnConfirma.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!edtDescProposta.toString().equals("")) {
                     if (!edtValorProposta.toString().equals("")) {
-                        Proposta proposta = new Proposta();
-                        Usuario prestador = new Usuario();
-                        Usuario cliente = new Usuario();
-                        SolicitaServico card = new SolicitaServico();
+                        if (valorPropostaServico > 0 ) {
+                            progressBarAlteraProposta.setVisibility(View.VISIBLE);
+                            Proposta proposta = new Proposta();
+                            Usuario prestador = new Usuario();
+                            Usuario cliente = new Usuario();
+                            SolicitaServico card = new SolicitaServico();
 
-                        prestador.setId(idPrestador);
-                        cliente.setId(idCliente);
-                        card.setId(idCardServico);
+                            prestador.setId(idPrestador);
+                            cliente.setId(idCliente);
+                            card.setId(idCardServico);
 
-                        proposta.setId(idProposta);
-                        proposta.setId_Prestador(prestador);
-                        proposta.setId_Cliente(cliente);
-                        proposta.setId_SolicitaServico(card);
-                        proposta.setObservacao(edtDescProposta.getText().toString());
-                        proposta.setValor(Double.valueOf(edtValorProposta.getText().toString()));
-                        proposta.setStatus("ABERTO");
+                            proposta.setId(idProposta);
+                            proposta.setId_Prestador(prestador);
+                            proposta.setId_Cliente(cliente);
+                            proposta.setId_SolicitaServico(card);
+                            proposta.setObservacao(edtDescProposta.getText().toString());
+                            proposta.setValor(valorPropostaServico);
+                            proposta.setStatus("ABERTO");
 
-                        RetrofitService retrofitService = new RetrofitService();
-                        retrofitService.getRetrofit().create(API.class);
-                        api.updateProposta(idProposta,proposta).enqueue(new Callback<Proposta>() {
-                            @Override
-                            public void onResponse(Call<Proposta> call, Response<Proposta> response) {
-                                Toast.makeText(Negociacao.this, "Proposta Atualizada com Sucesso!", Toast.LENGTH_SHORT).show();
-                                Date date = new Date();
-                                Long timeMilli = date.getTime();
-                                Mensagem mensagem = new Mensagem();
-                                Proposta proposta = new Proposta();
-                                Usuario prestador = new Usuario();
-                                Usuario cliente = new Usuario();
-                                Usuario usuario = new Usuario();
-                                proposta.setId(idProposta);
-                                cliente.setId(idCliente);
-                                prestador.setId(idPrestador);
-                                usuario.setId(idUsuario);
-                                mensagem.setMensagem("Proposta Atualizada!");
-                                mensagem.setId_Proposta(proposta);
-                                mensagem.setId_Cliente(cliente);
-                                mensagem.setId_Prestador(prestador);
-                                mensagem.setSendBy(usuario);
-                                mensagem.setDataHoraMsg(timeMilli);
-                                RetrofitService retrofitService = new RetrofitService();
-                                api = retrofitService.getRetrofit().create(API.class);
-                                api.createMensagem(mensagem).enqueue(new Callback<Mensagem>() {
-                                    @Override
-                                    public void onResponse(Call<Mensagem> call, Response<Mensagem> response) {
-                                        listarMensagem();
-                                        atualizarProposta();
-                                    }
+                            RetrofitService retrofitService = new RetrofitService();
+                            retrofitService.getRetrofit().create(API.class);
+                            api.updateProposta(idProposta, proposta).enqueue(new Callback<Proposta>() {
+                                @Override
+                                public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                                    Toast.makeText(Negociacao.this, "Proposta Atualizada com Sucesso!", Toast.LENGTH_SHORT).show();
+                                    Date date = new Date();
+                                    Long timeMilli = date.getTime();
+                                    Mensagem mensagem = new Mensagem();
+                                    Proposta proposta = new Proposta();
+                                    Usuario prestador = new Usuario();
+                                    Usuario cliente = new Usuario();
+                                    Usuario usuario = new Usuario();
+                                    proposta.setId(idProposta);
+                                    cliente.setId(idCliente);
+                                    prestador.setId(idPrestador);
+                                    usuario.setId(idUsuario);
+                                    mensagem.setMensagem("Proposta Atualizada!");
+                                    mensagem.setId_Proposta(proposta);
+                                    mensagem.setId_Cliente(cliente);
+                                    mensagem.setId_Prestador(prestador);
+                                    mensagem.setSendBy(usuario);
+                                    mensagem.setDataHoraMsg(timeMilli);
+                                    RetrofitService retrofitService = new RetrofitService();
+                                    api = retrofitService.getRetrofit().create(API.class);
+                                    api.createMensagem(mensagem).enqueue(new Callback<Mensagem>() {
+                                        @Override
+                                        public void onResponse(Call<Mensagem> call, Response<Mensagem> response) {
+                                            progressBarAlteraProposta.setVisibility(View.GONE);
+                                            listarMensagem();
+                                            atualizarProposta();
+                                        }
 
-                                    @Override
-                                    public void onFailure(Call<Mensagem> call, Throwable t) {
-                                        Toast.makeText(Negociacao.this, "Falha ao atualizar a proposta!", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                                dialog.hide();
-                            }
+                                        @Override
+                                        public void onFailure(Call<Mensagem> call, Throwable t) {
+                                            Toast.makeText(Negociacao.this, "Falha ao atualizar a proposta!", Toast.LENGTH_SHORT).show();
+                                            progressBarAlteraProposta.setVisibility(View.GONE);
+                                        }
+                                    });
+                                    dialog.hide();
+                                }
 
-                            @Override
-                            public void onFailure(Call<Proposta> call, Throwable t) {
-                                Toast.makeText(Negociacao.this, "Falha ao atualizar a proposta!", Toast.LENGTH_SHORT).show();
-                                dialog.hide();
-                            }
-                        });
+                                @Override
+                                public void onFailure(Call<Proposta> call, Throwable t) {
+                                    Toast.makeText(Negociacao.this, "Falha ao atualizar a proposta!", Toast.LENGTH_SHORT).show();
+                                    progressBarAlteraProposta.setVisibility(View.GONE);
+                                    dialog.hide();
+                                }
+                            });
+                        } else {
+                            Toast.makeText(Negociacao.this, "Valor da proposta deve ser maior que 0!", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         Toast.makeText(Negociacao.this, "Valor da proposta é obrigatório!", Toast.LENGTH_SHORT).show();
                     }
@@ -541,7 +593,7 @@ public class Negociacao extends AppCompatActivity {
             public void onResponse(Call<Proposta> call, Response<Proposta> response) {
                 assert response.body() != null;
                 ttvidPropostaMensagem.setText(response.body().getId().toString());
-                ttvValorPropostaMensagem.setText("Valor: R$"+response.body().getValor().toString());
+                ttvValorPropostaMensagem.setText("Valor: "+NumberFormat.getCurrencyInstance().format(response.body().getValor()));
                 ttvDescPropostaMensagem.setText(response.body().getObservacao());
                 progressBarNegociacao.setVisibility(View.GONE);
             }

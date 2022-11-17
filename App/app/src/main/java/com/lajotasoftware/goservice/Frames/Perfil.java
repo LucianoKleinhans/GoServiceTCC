@@ -91,12 +91,14 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
         MaterialTextView textViewEmailUsuario = findViewById(R.id.ttvEmailPerfilUser);
         MaterialTextView textViewSiteUsuario = findViewById(R.id.ttvSitePerfilUser);
         MaterialTextView textViewBioUsuario = findViewById(R.id.textView6);
+        MaterialTextView textViewAvaliacaoPrestador = findViewById(R.id.textView7);
         RatingBar ratingBarPefilPrestador = findViewById(R.id.ratingBarPefilPrestador);
         RatingBar ratingBarPefilCliente = findViewById(R.id.ratingBarPefilCliente);
         progressBarPerfilUsuario = findViewById(R.id.progressBarPerfilUsuario);
         progressBarPerfilUsuario.setVisibility(View.GONE);
         //layout
         View rectangleServico = findViewById(R.id.myRectangleView24);
+        View rectangleAvaliacaoPrestador = findViewById(R.id.myRectangleView36);
         View btnAddServicos = findViewById(R.id.btnServicos);
 
         listServicosPrestador = findViewById(R.id.listServicosPrestador);
@@ -119,12 +121,18 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                         listServicosPrestador.setVisibility(View.VISIBLE);
                         btnAddServicos.setVisibility(View.VISIBLE);
                         rectangleServico.setVisibility(View.VISIBLE);
+                        ratingBarPefilPrestador.setRating(user.getAvaliacaoPrestador().floatValue());
+                        ratingBarPefilCliente.setRating(user.getAvaliacaoCliente().floatValue());
                         listaServico();
                     } else {
                         //btnTornarUserPrestador.setVisibility(View.VISIBLE);
+                        textViewAvaliacaoPrestador.setVisibility(View.INVISIBLE);
+                        rectangleAvaliacaoPrestador.setVisibility(View.INVISIBLE);
+                        ratingBarPefilPrestador.setVisibility(View.INVISIBLE);
                         listServicosPrestador.setVisibility(View.INVISIBLE);
                         btnAddServicos.setVisibility(View.INVISIBLE);
                         rectangleServico.setVisibility(View.INVISIBLE);
+                        ratingBarPefilCliente.setRating(user.getAvaliacaoCliente().floatValue());
                     }
                     textViewNomeUsuario.setText(user.getPrimeiroNome());
                     if(user.getCidade() != null){
@@ -138,9 +146,6 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                     }else{textViewSiteUsuario.setText("Site:" + user.getSite());}
                     textViewBioUsuario.setText(user.getBio());
                     bio = user.getBio();
-
-                    ratingBarPefilPrestador.setRating(user.getAvaliacaoPrestador().floatValue());
-                    ratingBarPefilCliente.setRating(user.getAvaliacaoCliente().floatValue());
                     progressBarPerfilUsuario.setVisibility(View.GONE);
                 }
             }
@@ -395,6 +400,8 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                                                 Usuario user = new Usuario();
                                                 assert response.body() != null;
                                                 user.setUsuario(response.body());
+                                                onBackPressed();
+                                                dialog.cancel();
                                             } else {
                                                 Toast.makeText(Perfil.this, "Falha ao salvar! \n Tente novamente.", Toast.LENGTH_SHORT).show();
                                             }
@@ -415,8 +422,6 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                     });
             AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
-            setContentView(R.layout.perfil_usuario);
-            initializeComponents();
         });
     }
 

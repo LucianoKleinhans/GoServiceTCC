@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -36,6 +38,7 @@ import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
 import com.lajotasoftware.goservice.retrofit.API;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +50,9 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
 
     Long idUsuario, idPrestador, idCardServico, idCategoria, idSubCategoria, idPropostaAceita;
     String status, parametro;
-    int auxiliar = 0;
+    int auxiliar = 0, auxCard;
     Boolean prestadorTF;
+    Double valorServico, valorPropostaServico;
 
     API api;
     Categoria categoria;
@@ -387,7 +391,6 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
 
     @Override
     public void onCardFazerPropostaClick(int position, Long id, Long idCliente) {
-
         RetrofitService retrofitService = new RetrofitService();
         retrofitService.getRetrofit().create(API.class);
         api.getPropostaJaFeita(idUsuario, id).enqueue(new Callback<Return>() {
@@ -404,7 +407,44 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                     MaterialButton btnConfirma = dialog.findViewById(R.id.btnConfirmaProposta);
                     TextInputEditText edtDescProposta = dialog.findViewById(R.id.edtDescricaoProposta);
                     TextInputEditText edtValorProposta = dialog.findViewById(R.id.edtValorProposta);
+                    progressBarFazerProposta.setVisibility(View.GONE);
 
+                    edtValorProposta.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        private String current = "";
+                        @Override
+                        public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                            edtValorProposta.removeTextChangedListener(this);
+
+                            String cleanString = s.toString().replaceAll("[R$.,  ]", "");
+                            double parsed = Double.parseDouble(cleanString);
+
+                            String formatted = NumberFormat.getCurrencyInstance().format((parsed / 100));
+                            StringBuilder stringBuilder = new StringBuilder(cleanString);
+
+                            if (cleanString.length() == 1) {
+                                cleanString = formatted.replaceAll("[R$.,  ]", "");
+                            }
+
+                            cleanString = String.valueOf(stringBuilder.insert(cleanString.length() - 2, '.'));
+                            valorPropostaServico = Double.parseDouble(cleanString);
+
+                            current = formatted;
+                            edtValorProposta.setText(formatted);
+                            edtValorProposta.setSelection(formatted.length());
+
+                            edtValorProposta.addTextChangedListener(this);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                        }
+                    });
 
                     idPrestador = idUsuario;
 
@@ -413,40 +453,44 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                         public void onClick(View view) {
                             if (!edtDescProposta.getText().toString().equals("")) {
                                 if (!edtValorProposta.getText().toString().equals("")) {
-                                    Proposta proposta = new Proposta();
-                                    Usuario prestador = new Usuario();
-                                    Usuario cliente = new Usuario();
-                                    SolicitaServico card = new SolicitaServico();
+                                    if(valorPropostaServico > 0) {
+                                        Proposta proposta = new Proposta();
+                                        Usuario prestador = new Usuario();
+                                        Usuario cliente = new Usuario();
+                                        SolicitaServico card = new SolicitaServico();
 
-                                    prestador.setId(idPrestador);
-                                    cliente.setId(idCliente);
-                                    card.setId(id);
+                                        prestador.setId(idPrestador);
+                                        cliente.setId(idCliente);
+                                        card.setId(id);
 
-                                    proposta.setId_Prestador(prestador);
-                                    proposta.setId_Cliente(cliente);
-                                    proposta.setId_SolicitaServico(card);
-                                    proposta.setObservacao(edtDescProposta.getText().toString());
-                                    proposta.setValor(Double.valueOf(edtValorProposta.getText().toString()));
-                                    proposta.setStatus("ABERTO");
+                                        proposta.setId_Prestador(prestador);
+                                        proposta.setId_Cliente(cliente);
+                                        proposta.setId_SolicitaServico(card);
+                                        proposta.setObservacao(edtDescProposta.getText().toString());
+                                        proposta.setValor(valorPropostaServico);
+                                        proposta.setStatus("ABERTO");
 
-                                    progressBarFazerProposta.setVisibility(View.VISIBLE);
-                                    RetrofitService retrofitService = new RetrofitService();
-                                    retrofitService.getRetrofit().create(API.class);
-                                    api.criarProposta(proposta).enqueue(new Callback<Proposta>() {
-                                        @Override
-                                        public void onResponse(Call<Proposta> call, Response<Proposta> response) {
-                                            Toast.makeText(Card.this, "Proposta Criada com Sucesso!", Toast.LENGTH_SHORT).show();
-                                            progressBarFazerProposta.setVisibility(View.GONE);
-                                            dialog.hide();
-                                        }
+                                        progressBarFazerProposta.setVisibility(View.VISIBLE);
+                                        RetrofitService retrofitService = new RetrofitService();
+                                        retrofitService.getRetrofit().create(API.class);
+                                        api.criarProposta(proposta).enqueue(new Callback<Proposta>() {
+                                            @Override
+                                            public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+                                                Toast.makeText(Card.this, "Proposta Criada com Sucesso!", Toast.LENGTH_SHORT).show();
+                                                progressBarFazerProposta.setVisibility(View.GONE);
+                                                dialog.hide();
+                                            }
 
-                                        @Override
-                                        public void onFailure(Call<Proposta> call, Throwable t) {
-                                            progressBarFazerProposta.setVisibility(View.GONE);
-                                            Toast.makeText(Card.this, "Falha ao Criar Proposta, tente novamente!", Toast.LENGTH_SHORT).show();
-                                            dialog.hide();
-                                        }
-                                    });
+                                            @Override
+                                            public void onFailure(Call<Proposta> call, Throwable t) {
+                                                progressBarFazerProposta.setVisibility(View.GONE);
+                                                Toast.makeText(Card.this, "Falha ao Criar Proposta, tente novamente!", Toast.LENGTH_SHORT).show();
+                                                dialog.hide();
+                                            }
+                                        });
+                                    } else {
+                                        Toast.makeText(Card.this, "Valor da proposta deve ser maior que 0!", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     Toast.makeText(Card.this, "Valor da proposta é obrigatório!", Toast.LENGTH_SHORT).show();
                                 }
@@ -541,6 +585,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
         MaterialButton btn_cancelar_cardservico = findViewById(R.id.btnCancelarCadServico);
 
         if (status.equals("CRIAR_CARTAO")) {
+            auxCard = 1;
             categoria_servico = findViewById(R.id.spinner_categoria);
             sub_categoria_servico = findViewById(R.id.spinner_sub_categoria);
             RetrofitService retrofitServiceCategoria = new RetrofitService();
@@ -613,6 +658,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
             });
         }
         if (status.equals("EDITAR_CARTAO")) {
+            auxCard = 2;
             categoria_servico = findViewById(R.id.spinner_categoria);
             sub_categoria_servico = findViewById(R.id.spinner_sub_categoria);
             RetrofitService retrofitEditService = new RetrofitService();
@@ -760,15 +806,51 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
 
             }
         });
-        btn_gravar_cardservico.setOnClickListener(view -> {
-            Double valorServico = null;
-            String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
+        inputEditTextValorServico.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int i, int i1, int i2) {
 
-            if(inputEditTextValorServico.getText().toString().equals("")){
-                valorServico = 0.0;
-            }else{
-                valorServico = Double.parseDouble(inputEditTextValorServico.getText().toString());
             }
+
+            private String current = "";
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                if(!s.toString().equals(current)){
+                    if ( auxCard == 1 ) {
+                        inputEditTextValorServico.removeTextChangedListener(this);
+
+                        String cleanString = s.toString().replaceAll("[R$.,  ]", "");
+                        double parsed = Double.parseDouble(cleanString);
+
+                        String formatted = NumberFormat.getCurrencyInstance().format((parsed / 100));
+                        StringBuilder stringBuilder = new StringBuilder(cleanString);
+
+                        if (cleanString.length() == 1) {
+                            cleanString = formatted.replaceAll("[R$.,  ]", "");
+                        }
+
+                        cleanString = String.valueOf(stringBuilder.insert(cleanString.length() - 2, '.'));
+                        valorServico = Double.parseDouble(cleanString);
+
+                        current = formatted;
+                        inputEditTextValorServico.setText(formatted);
+                        inputEditTextValorServico.setSelection(formatted.length());
+
+                        inputEditTextValorServico.addTextChangedListener(this);
+                    } else {
+                        auxCard = 1;
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        btn_gravar_cardservico.setOnClickListener(view -> {
+
+            String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
             String descServico = String.valueOf(inputEditTextDescricaoServico.getText());
             if (!nomeServico.equals("") && nomeServico.length() >= 5) {
                 if (valorServico >= 0 && valorServico < 100000) {
@@ -835,10 +917,10 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                         Toast.makeText(Card.this, "Campo observação é obrigatório!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(Card.this, "Valor inválido!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Card.this, "Valor é obrigatório!", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(Card.this, "Nome invalido!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Card.this, "Nome é obrigatório!", Toast.LENGTH_SHORT).show();
             }
         });
 

@@ -16,6 +16,7 @@ import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Frames.Card;
 import com.lajotasoftware.goservice.R;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class CustomAdapterProposta extends RecyclerView.Adapter {
@@ -46,7 +47,7 @@ public class CustomAdapterProposta extends RecyclerView.Adapter {
         myViewHolder.PropostaID.setText(propostasLists.get(position).getId().toString());
         myViewHolder.PropostaPrestador.setText(propostasLists.get(position).getId_Prestador().getPrimeiroNome());
         myViewHolder.PropostaDesc.setText(propostasLists.get(position).getObservacao());
-        myViewHolder.PropostaValor.setText("Valor proposto: R$"+propostasLists.get(position).getValor().toString());
+        myViewHolder.PropostaValor.setText("Valor proposto: "+ NumberFormat.getCurrencyInstance().format(propostasLists.get(position).getValor()));
         myViewHolder.position = position;
         myViewHolder.id = propostasLists.get(position).getId();
         myViewHolder.idCliente = propostasLists.get(position).getId_Cliente().getId();

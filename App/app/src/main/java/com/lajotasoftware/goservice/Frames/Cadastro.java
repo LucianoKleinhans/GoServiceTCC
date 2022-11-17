@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,6 +33,7 @@ import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
 import com.lajotasoftware.goservice.retrofit.API;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -47,12 +50,13 @@ public class Cadastro extends AppCompatActivity {
     Intent it;
     Spinner uf, categoria_servico, sub_categoria_servico;
     API api;
-    int auxiliar = 0;
+    int auxiliar = 0, auxValor;
     Servico serv;
     Categoria categoria;
     SubCategoria subCategoria;
     List<Categoria> categorias = new ArrayList<>();
     List<SubCategoria> subCategorias = new ArrayList<>();
+    Double valorServico = null;
 
     Dialog dialog;
     private final Function function = new Function();
@@ -510,6 +514,7 @@ public class Cadastro extends AppCompatActivity {
         MaterialButton btn_cancelar_servico = findViewById(R.id.btnCancelarCadServico);
 
         if (status.equals("CADASTRO_SERVICO")) {
+            auxValor = 1;
             categoria_servico = findViewById(R.id.spinner_categoria);
             sub_categoria_servico = findViewById(R.id.spinner_sub_categoria);
             RetrofitService retrofitServiceCategoria = new RetrofitService();
@@ -582,7 +587,7 @@ public class Cadastro extends AppCompatActivity {
             });
         }
         if (status.equals("EDITAR_SERVICO")) {
-
+            auxValor = 2;
             categoria_servico = findViewById(R.id.spinner_categoria);
             sub_categoria_servico = findViewById(R.id.spinner_sub_categoria);
             RetrofitService retrofitEditService = new RetrofitService();
@@ -597,7 +602,7 @@ public class Cadastro extends AppCompatActivity {
                         idServico = serv.getId();
                         inputEditTextNomeServico.setText(serv.getNome());
                         inputEditTextDescricaoServico.setText(serv.getObsServico());
-                        inputEditTextValorServico.setText(serv.getValor().toString());
+                        inputEditTextValorServico.setText(NumberFormat.getCurrencyInstance().format((serv.getValor())));
 
                         RetrofitService retrofitServiceCategoria = new RetrofitService();
                         api = retrofitServiceCategoria.getRetrofit().create(API.class);
@@ -730,16 +735,54 @@ public class Cadastro extends AppCompatActivity {
 
             }
         });
-        btn_gravar_servico.setOnClickListener(view -> {
-            Double valorServico = null;
-            String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
-            if ((inputEditTextValorServico.getText()!=null) && (!inputEditTextValorServico.getText().equals(""))){
-                valorServico = Double.parseDouble(inputEditTextValorServico.getText().toString());
+        inputEditTextValorServico.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int i, int i1, int i2) {
+
             }
+
+            private String current = "";
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                if(!s.toString().equals(current)){
+                    if ( auxValor == 1 ) {
+                        inputEditTextValorServico.removeTextChangedListener(this);
+
+                        String cleanString = s.toString().replaceAll("[R$.,  ]", "");
+                        double parsed = Double.parseDouble(cleanString);
+
+                        String formatted = NumberFormat.getCurrencyInstance().format((parsed / 100));
+                        StringBuilder stringBuilder = new StringBuilder(cleanString);
+
+                        if (cleanString.length() == 1) {
+                            cleanString = formatted.replaceAll("[R$.,  ]", "");
+                        }
+
+                        cleanString = String.valueOf(stringBuilder.insert(cleanString.length() - 2, '.'));
+                        valorServico = Double.parseDouble(cleanString);
+
+                        current = formatted;
+                        inputEditTextValorServico.setText(formatted);
+                        inputEditTextValorServico.setSelection(formatted.length());
+
+                        inputEditTextValorServico.addTextChangedListener(this);
+                    } else {
+                        auxValor = 1;
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        btn_gravar_servico.setOnClickListener(view -> {
+            String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
             String descServico = String.valueOf(inputEditTextDescricaoServico.getText());
             if (!nomeServico.equals("") && nomeServico.length() >= 5) {
                 if (valorServico > 0 && valorServico < 100000 && valorServico!=null) {
-                    if (!descServico.equals("") && descServico.length() > 15) {
+                    if (!descServico.equals("") && descServico.length() >= 10) {
                         Servico servico = new Servico();
                         categoria = new Categoria();
                         subCategoria = new SubCategoria();
@@ -795,13 +838,13 @@ public class Cadastro extends AppCompatActivity {
                             });
                         }
                     } else {
-                        Toast.makeText(Cadastro.this, "Observação vazio!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Cadastro.this, "Descrição deve possuir \nno minimo 10 Caracteres!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(Cadastro.this, "Valor vazio!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Cadastro.this, "Valor é obigatório", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(Cadastro.this, "Nome invalido!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Cadastro.this, "Nome do serviço deve possuir \nno minimo 5 Caracteres!", Toast.LENGTH_SHORT).show();
             }
         });
         btn_cancelar_servico.setOnClickListener(view -> {

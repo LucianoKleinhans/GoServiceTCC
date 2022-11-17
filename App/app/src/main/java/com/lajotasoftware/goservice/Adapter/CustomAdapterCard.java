@@ -15,6 +15,7 @@ import com.lajotasoftware.goservice.Entity.SolicitaServico;
 import com.lajotasoftware.goservice.Frames.Card;
 import com.lajotasoftware.goservice.R;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 public class CustomAdapterCard extends RecyclerView.Adapter {
@@ -48,11 +49,11 @@ public class CustomAdapterCard extends RecyclerView.Adapter {
         myViewHolder.CardServicoId.setText(cardLists.get(position).getId().toString());
         myViewHolder.CardServicoNome.setText(cardLists.get(position).getNomeServico());
         myViewHolder.CardServicoDesc.setText(cardLists.get(position).getDescricaoSolicitacao());
-        myViewHolder.CardServicoValor.setText("Valor: R$"+cardLists.get(position).getValor().toString());
+        myViewHolder.CardServicoValor.setText("Valor: "+ NumberFormat.getCurrencyInstance().format(cardLists.get(position).getValor()));
         if (cardLists.get(position).getValorProposto() == 0){
             myViewHolder.CardServicoValorAtual.setText("Sem Propostas!");
         } else {
-            myViewHolder.CardServicoValorAtual.setText("Valor atual: R$"+cardLists.get(position).getValorProposto().toString());
+            myViewHolder.CardServicoValorAtual.setText("Valor atual: "+NumberFormat.getCurrencyInstance().format(cardLists.get(position).getValorProposto()));
         }
         myViewHolder.position = position;
         myViewHolder.id = cardLists.get(position).getId();

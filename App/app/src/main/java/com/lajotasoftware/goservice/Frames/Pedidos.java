@@ -35,6 +35,7 @@ import com.lajotasoftware.goservice.R;
 import com.lajotasoftware.goservice.retrofit.API;
 import com.lajotasoftware.goservice.retrofit.RetrofitService;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -457,7 +458,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                     ttvClientesite.setText(response.body().getId_Prestador().getSite());
                     ttvClienteServicoNome.setText(response.body().getId_SolicitaServico().getNomeServico());
                     ttvClienteServicoDesc.setText(response.body().getObservacao());
-                    ttvClienteServicoValor.setText("Valor: R$"+response.body().getValor());
+                    ttvClienteServicoValor.setText("Valor: "+ NumberFormat.getCurrencyInstance().format(response.body().getValor()));
                     nomeCliente = response.body().getId_Cliente().getPrimeiroNome();
                 }
 
@@ -483,7 +484,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                                 ttvClientesite.setText(response.body().getId_Prestador().getSite());
                                 ttvClienteServicoNome.setText("Proposta");
                                 ttvClienteServicoDesc.setText(response.body().getId_Proposta().getObservacao());
-                                ttvClienteServicoValor.setText("Valor: R$" + response.body().getId_Proposta().getValor().toString());
+                                ttvClienteServicoValor.setText("Valor: " + NumberFormat.getCurrencyInstance().format(response.body().getId_Proposta().getValor()));
                                 nomeCliente = response.body().getId_Cliente().getPrimeiroNome();
                             } else {
                                 ttvCliente.setText(response.body().getId_Cliente().getPrimeiroNome());
@@ -493,7 +494,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                                 ttvClientesite.setText(response.body().getId_Cliente().getSite());
                                 ttvClienteServicoNome.setText("Proposta");
                                 ttvClienteServicoDesc.setText(response.body().getId_Proposta().getObservacao());
-                                ttvClienteServicoValor.setText("Valor: R$" + response.body().getId_Proposta().getValor().toString());
+                                ttvClienteServicoValor.setText("Valor: " + NumberFormat.getCurrencyInstance().format(response.body().getId_Proposta().getValor()));
                                 nomePrestador = response.body().getId_Prestador().getPrimeiroNome();
                             }
                         }else {
@@ -505,7 +506,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                                 ttvClientesite.setText(response.body().getId_Prestador().getSite());
                                 ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
                                 ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
-                                ttvClienteServicoValor.setText("Valor: R$" + response.body().getId_Servico().getValor().toString());
+                                ttvClienteServicoValor.setText("Valor: " + NumberFormat.getCurrencyInstance().format(response.body().getId_Servico().getValor()));
                                 nomeCliente = response.body().getId_Cliente().getPrimeiroNome();
                             } else {
                                 ttvCliente.setText(response.body().getId_Cliente().getPrimeiroNome());
@@ -515,7 +516,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                                 ttvClientesite.setText(response.body().getId_Cliente().getSite());
                                 ttvClienteServicoNome.setText(response.body().getId_Servico().getNome());
                                 ttvClienteServicoDesc.setText(response.body().getId_Servico().getObsServico());
-                                ttvClienteServicoValor.setText("Valor: R$" + response.body().getId_Servico().getValor().toString());
+                                ttvClienteServicoValor.setText("Valor: " + NumberFormat.getCurrencyInstance().format(response.body().getId_Servico().getValor()));
                                 nomePrestador = response.body().getId_Prestador().getPrimeiroNome();
                             }
                         }
