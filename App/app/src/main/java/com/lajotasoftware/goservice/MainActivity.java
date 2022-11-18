@@ -295,8 +295,10 @@ public class MainActivity extends AppCompatActivity {
         MaterialTextView infoDesc = dialog.findViewById(R.id.ttvInfoDesc);
         MaterialButton btnConfirmaInfo = dialog.findViewById(R.id.btnConfirmaInfo);
 
-        infoTitle.setText("Cartões");
-        infoDesc.setText("Cartões");
+        infoTitle.setText("Cards");
+        infoDesc.setText("Cards ou Cartões é o local onde voce poderá criar solcitações de serviço personalizadas que prestadores poderão enviar propostas e negociar com você as condições do serviço! \n" +
+                "\n* Apenas para Prestadores " +
+                "\n - Visualizar cards criados por outros usuários e realizar proposta.");
 
         btnConfirmaInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -316,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton btnConfirmaInfo = dialog.findViewById(R.id.btnConfirmaInfo);
 
         infoTitle.setText("Prestadores");
-        infoDesc.setText("Prestadores");
+        infoDesc.setText("É o local onde são listado todos os prestadores cadastrados na plataforma ordenado por ranking, você pode estar visualiazando o perfil deles e também solicitar um serviço.");
 
         btnConfirmaInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -336,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton btnConfirmaInfo = dialog.findViewById(R.id.btnConfirmaInfo);
 
         infoTitle.setText("Serviços");
-        infoDesc.setText("Serviços");
+        infoDesc.setText("É o local onde é listado todos os serviços disponibilizados pelos prestadores na plataforma para você poder pesquisar e solicitar, podendo filtrar por categoria e subcategoria");
 
         btnConfirmaInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -356,7 +358,8 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton btnConfirmaInfo = dialog.findViewById(R.id.btnConfirmaInfo);
 
         infoTitle.setText("Pedidos");
-        infoDesc.setText("Pedidos");
+        infoDesc.setText("Os pedidos são criados após ser aceito uma proposta dentro de Cards ou da solicitação de um serviço." +
+                         "\nDentro de pedidos, vai ser possivel visualizar os pedidos de serviço que foram enviados, os pedidos recebidos, os que estão em progresso (Aguardando a finalização e avaliação) e os finalizaos.");
 
         btnConfirmaInfo.setOnClickListener(new View.OnClickListener() {
             @Override
