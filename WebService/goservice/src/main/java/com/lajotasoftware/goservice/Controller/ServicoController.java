@@ -77,9 +77,10 @@ public class ServicoController {
         return repository.getAllServicos(id);
     }
 
-    @PostMapping("/servico/lista/categoria/{idCategoria}/{idSubCategoria}")
+    @PostMapping("/servico/lista/categoria/{idCategoria}/{idSubCategoria}/{idPrestador}")
     public List<Servico> getAllServicosByCategoria(@PathVariable Long idCategoria,
-                                                   @PathVariable Long idSubCategoria) {
-        return userService.getServicoByCategoria(idCategoria, idSubCategoria);
+                                                   @PathVariable Long idSubCategoria,
+                                                   @PathVariable Long idPrestador) {
+        return userService.getServicoByCategoria(idCategoria, idSubCategoria, idPrestador);
     }
 }

@@ -27,6 +27,7 @@ import com.google.android.material.textview.MaterialTextView;
 import com.lajotasoftware.goservice.Adapter.CustomAdapterPedido;
 import com.lajotasoftware.goservice.Entity.Pedido;
 import com.lajotasoftware.goservice.Entity.Proposta;
+import com.lajotasoftware.goservice.Entity.Return;
 import com.lajotasoftware.goservice.Entity.Servico;
 import com.lajotasoftware.goservice.Entity.Usuario;
 import com.lajotasoftware.goservice.Functions.Function;
@@ -305,19 +306,17 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
     public void AceitaPedido(int position, Long id) {
         retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
-        pedido = new Pedido();
-        pedido.setStatus("ACEITO");
         idPedido = id;
-        api.updatePedido(id,pedido).enqueue(new Callback<Pedido>() {
+        api.setStatusPedido(id,"ACEITO").enqueue(new Callback<Return>() {
             @Override
-            public void onResponse(Call<Pedido> call, Response<Pedido> response) {
+            public void onResponse(Call<Return> call, Response<Return> response) {
                 Toast.makeText(Pedidos.this, "Pedido Aceito!", Toast.LENGTH_SHORT).show();
                 negociacaoDireta(idPedido);
                 lista();
             }
 
             @Override
-            public void onFailure(Call<Pedido> call, Throwable t) {
+            public void onFailure(Call<Return> call, Throwable t) {
                 Toast.makeText(Pedidos.this, "Falha ao aceitar pedido!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -327,17 +326,15 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
     public void RecusaPedido(int position, Long id) {
         retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
-        pedido = new Pedido();
-        pedido.setStatus("RECUSADO");
-        api.updatePedido(id,pedido).enqueue(new Callback<Pedido>() {
+        api.setStatusPedido(id,"RECUSADO").enqueue(new Callback<Return>() {
             @Override
-            public void onResponse(Call<Pedido> call, Response<Pedido> response) {
+            public void onResponse(Call<Return> call, Response<Return> response) {
                 Toast.makeText(Pedidos.this, "Pedido Recusado!", Toast.LENGTH_SHORT).show();
                 lista();
             }
 
             @Override
-            public void onFailure(Call<Pedido> call, Throwable t) {
+            public void onFailure(Call<Return> call, Throwable t) {
                 Toast.makeText(Pedidos.this, "Falha ao Recusar Pedido!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -347,17 +344,15 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
     public void CancelaPedido(int position, Long id) {
         retrofitService = new RetrofitService();
         api = retrofitService.getRetrofit().create(API.class);
-        pedido = new Pedido();
-        pedido.setStatus("CANCELADO");
-        api.updatePedido(id,pedido).enqueue(new Callback<Pedido>() {
+        api.setStatusPedido(id,"CANCELADO").enqueue(new Callback<Return>() {
             @Override
-            public void onResponse(Call<Pedido> call, Response<Pedido> response) {
+            public void onResponse(Call<Return> call, Response<Return> response) {
                 Toast.makeText(Pedidos.this, "Pedido Cancelado!", Toast.LENGTH_SHORT).show();
                 lista();
             }
 
             @Override
-            public void onFailure(Call<Pedido> call, Throwable t) {
+            public void onFailure(Call<Return> call, Throwable t) {
                 Toast.makeText(Pedidos.this, "Falha ao Recusar Pedido!", Toast.LENGTH_SHORT).show();
             }
         });

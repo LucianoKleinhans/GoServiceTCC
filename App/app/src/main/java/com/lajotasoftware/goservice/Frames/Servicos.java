@@ -268,7 +268,7 @@ public class Servicos extends AppCompatActivity implements CustomAdapterServiceP
         servicos.clear();
         RetrofitService retrofitServiceCategoria = new RetrofitService();
         api = retrofitServiceCategoria.getRetrofit().create(API.class);
-        api.getAllServicosByCategoria(idCategoria, idSubCategoria).enqueue(new Callback<List<Servico>>() {
+        api.getAllServicosByCategoria(idCategoria, idSubCategoria, idUsuario).enqueue(new Callback<List<Servico>>() {
             @Override
             public void onResponse(Call<List<Servico>> call, Response<List<Servico>> response) {
                 int aux = 0;

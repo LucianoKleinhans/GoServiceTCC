@@ -91,6 +91,13 @@ public class PedidoController {
                                    @PathVariable Long idServico){
         return userService.pedidoVerificaSeExiste(idCliente, idServico);
     }
+
+    @PostMapping(value = "/pedido/status/statusPedido/{idPedido}/{status}")
+    public Return setStatusPedido(@PathVariable("idPedido") Long idPedido,
+                                    @PathVariable("status") String status){
+        return userService.setStatusPedido(idPedido, status);
+    }
+
     /*
     @PostMapping("/pedidosprogressocliente/{id}")
     public List<Pedido> getPedidosEmProgressoCliente(@PathVariable Long id){

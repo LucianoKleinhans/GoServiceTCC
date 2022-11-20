@@ -381,7 +381,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
             alertDialogBuilder
                     .setMessage("Clique sim para se tornar Prestador!")
                     .setCancelable(false)
-                    .setPositiveButton("Yes",
+                    .setPositiveButton("Sim",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     RetrofitService retrofitService = new RetrofitService();
@@ -414,7 +414,7 @@ public class Perfil extends AppCompatActivity implements CustomAdapterService.On
                                     });
                                 }
                             })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Não", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
 
                             dialog.cancel();

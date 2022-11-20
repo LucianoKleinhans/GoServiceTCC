@@ -603,6 +603,7 @@ public class Cadastro extends AppCompatActivity {
                         inputEditTextNomeServico.setText(serv.getNome());
                         inputEditTextDescricaoServico.setText(serv.getObsServico());
                         inputEditTextValorServico.setText(NumberFormat.getCurrencyInstance().format((serv.getValor())));
+                        valorServico = serv.getValor();
 
                         RetrofitService retrofitServiceCategoria = new RetrofitService();
                         api = retrofitServiceCategoria.getRetrofit().create(API.class);

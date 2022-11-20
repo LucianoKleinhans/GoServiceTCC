@@ -316,6 +316,7 @@ public class UserService {
             pedido.setStatus("ACEITO");
             pedido.setId_Proposta(proposta);
             daoPedido.save(pedido);
+            notificaPedido(pedido);
         }else if (status.equals("RECUSADA")) {
             daoProposta.setStatusProposta(idProposta, status);
             ret.setStatusCode(200);
@@ -325,26 +326,79 @@ public class UserService {
         return ret;
     }
 
+    public Return setStatusPedido(Long idPedido, String status) {
+        Return ret = new Return();
+        Pedido pedido = daoPedido.getPedidoId(idPedido);
+        if (status.equals("ACEITO")){
+            daoPedido.setStatusPedido(idPedido, status);
+            ret.setStatusCode(200);
+            ret.setStatus("PEDIDO ACEITO");
+            ret.setText("Pedido Aceito!");
+
+            Usuario cliente = daoUsuario.getById(pedido.getId_Cliente().getId());
+            Usuario prestador = daoUsuario.getById(pedido.getId_Prestador().getId());
+            Servico servico = daoServico.getById(pedido.getId_Servico().getId());
+
+            emailService.sendEmail(
+                    cliente.getEmail(),
+                    "GoService - Pedido Aceito",
+                    "Olá, " + cliente.getPrimeiroNome() + "\n A solicitação de serviço feita para " + prestador.getPrimeiroNome() + " foi aceita!"+
+                            "\n\nDetalhes do Pedido" +
+                            "\n - Prestador : " + cliente.getPrimeiroNome() +
+                            "\n - Servico : " + servico.getNome() +
+                            "\n - Valor do Serviço : " + servico.getValor()
+            );
+
+        } else if(status.equals("RECUSADO")){
+            daoPedido.setStatusPedido(idPedido, status);
+            ret.setStatusCode(500);
+            ret.setStatus("PEDIDO RECUSADO");
+            ret.setText("Pedido Recusado!");
+
+            Usuario cliente = daoUsuario.getById(pedido.getId_Cliente().getId());
+            Usuario prestador = daoUsuario.getById(pedido.getId_Prestador().getId());
+            Servico servico = daoServico.getById(pedido.getId_Servico().getId());
+
+            emailService.sendEmail(
+                    cliente.getEmail(),
+                    "GoService - Pedido Recusado",
+                    "Olá, " + cliente.getPrimeiroNome() + "\n A solicitação de serviço feita para " + prestador.getPrimeiroNome() + " foi recusada!"+
+                            "\n\nDetalhes do Pedido" +
+                            "\n - Prestador : " + cliente.getPrimeiroNome() +
+                            "\n - Servico : " + servico.getNome() +
+                            "\n - Valor do Serviço : " + servico.getValor()
+            );
+        } else if (status.equals("CANCELADO")){
+            daoPedido.setStatusPedido(idPedido, status);
+            ret.setStatusCode(501);
+            ret.setStatus("PEDIDO CANCELADO");
+            ret.setText("Pedido Cancelado!");
+        }
+        return ret;
+    }
+
     public void notificaPedido (Pedido pedido){
         Usuario cliente = daoUsuario.getById(pedido.getId_Cliente().getId());
         Usuario prestador = daoUsuario.getById(pedido.getId_Prestador().getId());
+        String email_endereco;
 
         try {
-            String emailCliente = pedido.getId_Prestador().getEmail();
             if (pedido.getServicoSolicitado()){
+                email_endereco = prestador.getEmail();
                 Proposta proposta = daoProposta.getPropostaById(pedido.getId_Proposta().getId());
                 emailService.sendEmail(
-                        emailCliente,
+                        email_endereco,
                         "GoService - Novo Pedido!",
-                        "Olá, " + prestador.getPrimeiroNome() + "\n A proposta feita para a solicitação de serviço de " + cliente.getPrimeiroNome() + "foi aceita"+
+                        "Olá, " + prestador.getPrimeiroNome() + "\n A proposta feita para a solicitação de serviço de " + cliente.getPrimeiroNome() + " foi aceita"+
                                 "\n\nDetalhes da proposta" +
                                 "\n - Usuario : " + cliente.getPrimeiroNome() +
                                 "\n - Proposta : " + proposta.getObservacao() +
                                 "\n - Valor Proposto : " + proposta.getValor());
             }else{
+                email_endereco = prestador.getEmail();
                 Servico servico = daoServico.getServicoByID(pedido.getId_Servico().getId());
                 emailService.sendEmail(
-                        emailCliente,
+                        email_endereco,
                         "GoService - Novo Pedido!",
                         "Olá, " + prestador.getPrimeiroNome() + "\n Existe um novo pedido de seu serviço! " +
                                 "\n\nDetalhes do Pedido" +
@@ -372,16 +426,17 @@ public class UserService {
         return ret;
     }
 
-    public List<Servico> getServicoByCategoria(Long idCategoria, Long idSubCategoria) {
+    public List<Servico> getServicoByCategoria(Long idCategoria, Long idSubCategoria, Long idPrestador) {
         List<Servico> servicos;
         Categoria categoria = daoCategoria.getById(idCategoria);
         SubCategoria subCategoria = daoSubCategoria.getById(idSubCategoria);
         if (subCategoria.getNome().equals("Geral")){
-            servicos = daoServico.getServicosCategoria2(idCategoria);
+            servicos = daoServico.getServicosCategoria2(idCategoria, idPrestador);
         } else {
-            servicos =  daoServico.getServicosCategoria1(idCategoria, idSubCategoria);
+            servicos =  daoServico.getServicosCategoria1(idCategoria, idSubCategoria, idPrestador);
         }
         return servicos;
 
     }
+
 }

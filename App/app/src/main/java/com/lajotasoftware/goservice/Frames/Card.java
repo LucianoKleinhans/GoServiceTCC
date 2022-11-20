@@ -52,7 +52,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
     String status, parametro;
     int auxiliar = 0, auxCard;
     Boolean prestadorTF;
-    Double valorServico, valorPropostaServico;
+    Double valorCardServico, valorPropostaServico, valorPropostoCardServico;
 
     API api;
     Categoria categoria;
@@ -418,26 +418,32 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                         private String current = "";
                         @Override
                         public void onTextChanged(CharSequence s, int i, int i1, int i2) {
-                            edtValorProposta.removeTextChangedListener(this);
+                            if(!s.toString().equals(current)){
+                                if ( auxCard == 1 ) {
+                                    edtValorProposta.removeTextChangedListener(this);
 
-                            String cleanString = s.toString().replaceAll("[R$.,  ]", "");
-                            double parsed = Double.parseDouble(cleanString);
+                                    String cleanString = s.toString().replaceAll("[R$.,  ]", "");
+                                    double parsed = Double.parseDouble(cleanString);
 
-                            String formatted = NumberFormat.getCurrencyInstance().format((parsed / 100));
-                            StringBuilder stringBuilder = new StringBuilder(cleanString);
+                                    String formatted = NumberFormat.getCurrencyInstance().format((parsed / 100));
+                                    StringBuilder stringBuilder = new StringBuilder(cleanString);
 
-                            if (cleanString.length() == 1) {
-                                cleanString = formatted.replaceAll("[R$.,  ]", "");
+                                    if (cleanString.length() == 1) {
+                                        cleanString = formatted.replaceAll("[R$.,  ]", "");
+                                    }
+
+                                    cleanString = String.valueOf(stringBuilder.insert(cleanString.length() - 2, '.'));
+                                    valorPropostaServico = Double.parseDouble(cleanString);
+
+                                    current = formatted;
+                                    edtValorProposta.setText(formatted);
+                                    edtValorProposta.setSelection(formatted.length());
+
+                                    edtValorProposta.addTextChangedListener(this);
+                                } else {
+                                    auxCard = 1;
+                                }
                             }
-
-                            cleanString = String.valueOf(stringBuilder.insert(cleanString.length() - 2, '.'));
-                            valorPropostaServico = Double.parseDouble(cleanString);
-
-                            current = formatted;
-                            edtValorProposta.setText(formatted);
-                            edtValorProposta.setSelection(formatted.length());
-
-                            edtValorProposta.addTextChangedListener(this);
                         }
 
                         @Override
@@ -673,8 +679,9 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                         idCardServico = card.getId();
                         inputEditTextNomeServico.setText(card.getNomeServico());
                         inputEditTextDescricaoServico.setText(card.getDescricaoSolicitacao());
-                        inputEditTextValorServico.setText(card.getValor().toString());
-
+                        inputEditTextValorServico.setText(NumberFormat.getCurrencyInstance().format(card.getValor()));
+                        valorCardServico = card.getValor();
+                        valorPropostoCardServico = card.getValorProposto();
                         RetrofitService retrofitServiceCategoria = new RetrofitService();
                         api = retrofitServiceCategoria.getRetrofit().create(API.class);
                         api.getAllCategoria().enqueue(new Callback<List<Categoria>>() {
@@ -830,7 +837,7 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                         }
 
                         cleanString = String.valueOf(stringBuilder.insert(cleanString.length() - 2, '.'));
-                        valorServico = Double.parseDouble(cleanString);
+                        valorCardServico = Double.parseDouble(cleanString);
 
                         current = formatted;
                         inputEditTextValorServico.setText(formatted);
@@ -853,17 +860,17 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
             String nomeServico = String.valueOf(inputEditTextNomeServico.getText());
             String descServico = String.valueOf(inputEditTextDescricaoServico.getText());
             if (!nomeServico.equals("") && nomeServico.length() >= 5) {
-                if (valorServico >= 0 && valorServico < 100000) {
+                if (valorCardServico != null && valorCardServico >= 0 && valorCardServico < 100000) {
                     if (!descServico.equals("") && descServico.length() > 0) {
                         SolicitaServico cardServico = new SolicitaServico();
                         categoria = new Categoria();
                         subCategoria = new SubCategoria();
                         categoria.setId(idCategoria);
                         subCategoria.setId(idSubCategoria);
-                        cardServico.setValor(valorServico);
+                        cardServico.setValor(valorCardServico);
                         cardServico.setValorProposto(0.0);
-                        if (status.equals("EDITAR_CARTAO")) {
-                            //cardServico.setValorProposto();
+                        if (status.equals("EDITAR_CARTAO") && valorPropostoCardServico != null) {
+                            cardServico.setValorProposto(valorPropostoCardServico);
                         }
                         cardServico.setNomeServico(nomeServico);
                         cardServico.setDescricaoSolicitacao(descServico);

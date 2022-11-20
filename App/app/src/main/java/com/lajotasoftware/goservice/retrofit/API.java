@@ -81,9 +81,10 @@ public interface API {
     @POST("/servico/lista/{id}")
     Call<List<Servico>> getAllServicos(@Path("id") Long id);
 
-    @POST("/servico/lista/categoria/{idCategoria}/{idSubCategoria}")
+    @POST("/servico/lista/categoria/{idCategoria}/{idSubCategoria}/{idPrestador}")
     Call<List<Servico>> getAllServicosByCategoria(@Path("idCategoria") Long idCategoria,
-                                                   @Path("idSubCategoria") Long idSubCategoria);
+                                                  @Path("idSubCategoria") Long idSubCategoria,
+                                                  @Path("idPrestador") Long idPrestador);
 
     /*-----------------Crud Card Serviço-----------------*/
     @POST("/cardservico/create")
@@ -143,6 +144,10 @@ public interface API {
 
     @PUT("/pedido/udpate/{id}")
     Call<Pedido> updatePedido(@Path("id") Long id, @Body Pedido pedido);
+
+    @POST("/pedido/status/statusPedido/{idPedido}/{status}")
+    Call<Return> setStatusPedido(@Path("idPedido") Long idPedido,
+                                   @Path("status") String status);
 
     @POST("/pedido/verificaseexiste/{idCliente}/{idServico}")
     Call<Return> verificaSeExiste(@Path("idCliente") Long idCliente,
