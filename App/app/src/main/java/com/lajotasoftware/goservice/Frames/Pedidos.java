@@ -444,10 +444,11 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
         api = retrofitService.getRetrofit().create(API.class);
         if (status.equals("PROPOSTA_ACEITA")){
             api.getPropostaByID(id).enqueue(new Callback<Proposta>() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onResponse(Call<Proposta> call, Response<Proposta> response) {
                     ttvCliente.setText(response.body().getId_Prestador().getPrimeiroNome());
-                    ttvClienteUF.setText(response.body().getId_Prestador().getUf());
+                    ttvClienteUF.setText(response.body().getId_Prestador().getCidade() + " - " +response.body().getId_Prestador().getUf());
                     ttvClienteEmail.setText(response.body().getId_Prestador().getEmail());
                     ttvClienteTelefone.setText(response.body().getId_Prestador().getTelefone());
                     ttvClientesite.setText(response.body().getId_Prestador().getSite());
@@ -473,7 +474,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                         if (response.body().getServicoSolicitado()){
                             if (idUsuario.equals(response.body().getId_Cliente().getId())) {
                                 ttvCliente.setText(response.body().getId_Prestador().getPrimeiroNome());
-                                ttvClienteUF.setText(response.body().getId_Prestador().getUf());
+                                ttvClienteUF.setText(response.body().getId_Prestador().getCidade() + " - " + response.body().getId_Prestador().getUf());
                                 ttvClienteEmail.setText(response.body().getId_Prestador().getEmail());
                                 ttvClienteTelefone.setText(response.body().getId_Prestador().getTelefone());
                                 ttvClientesite.setText(response.body().getId_Prestador().getSite());
@@ -483,7 +484,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                                 nomeCliente = response.body().getId_Cliente().getPrimeiroNome();
                             } else {
                                 ttvCliente.setText(response.body().getId_Cliente().getPrimeiroNome());
-                                ttvClienteUF.setText(response.body().getId_Cliente().getUf());
+                                ttvClienteUF.setText(response.body().getId_Cliente().getCidade() + " - " + response.body().getId_Cliente().getUf());
                                 ttvClienteEmail.setText(response.body().getId_Cliente().getEmail());
                                 ttvClienteTelefone.setText(response.body().getId_Cliente().getTelefone());
                                 ttvClientesite.setText(response.body().getId_Cliente().getSite());
@@ -495,7 +496,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                         }else {
                             if (idUsuario.equals(response.body().getId_Cliente().getId())) {
                                 ttvCliente.setText(response.body().getId_Prestador().getPrimeiroNome());
-                                ttvClienteUF.setText(response.body().getId_Prestador().getUf());
+                                ttvClienteUF.setText(response.body().getId_Prestador().getCidade() + " - " + response.body().getId_Prestador().getUf());
                                 ttvClienteEmail.setText(response.body().getId_Prestador().getEmail());
                                 ttvClienteTelefone.setText(response.body().getId_Prestador().getTelefone());
                                 ttvClientesite.setText(response.body().getId_Prestador().getSite());
@@ -505,7 +506,7 @@ public class Pedidos extends AppCompatActivity implements CustomAdapterPedido.On
                                 nomeCliente = response.body().getId_Cliente().getPrimeiroNome();
                             } else {
                                 ttvCliente.setText(response.body().getId_Cliente().getPrimeiroNome());
-                                ttvClienteUF.setText(response.body().getId_Cliente().getUf());
+                                ttvClienteUF.setText(response.body().getId_Cliente().getCidade() + " - " + response.body().getId_Cliente().getUf());
                                 ttvClienteEmail.setText(response.body().getId_Cliente().getEmail());
                                 ttvClienteTelefone.setText(response.body().getId_Cliente().getTelefone());
                                 ttvClientesite.setText(response.body().getId_Cliente().getSite());

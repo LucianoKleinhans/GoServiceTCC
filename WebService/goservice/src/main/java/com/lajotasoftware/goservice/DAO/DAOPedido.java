@@ -30,7 +30,7 @@ public interface DAOPedido extends JpaRepository<Pedido, Long> {
     @Query(value = "select * from pedido p where p.id = ?1", nativeQuery = true)
     Pedido getPedidoId(Long id);
 
-    @Query(value = "select * from pedido p where p.id_cliente_id = ?1 and p.id_servico_id = ?2", nativeQuery = true)
+    @Query(value = "select * from pedido p where (p.id_cliente_id = ?1 and p.id_servico_id = ?2) and p.status = 'ABERTO'", nativeQuery = true)
     List<Pedido> verificaSeExiste(Long idCliente, Long idServico);
 
     @Query(value = "update pedido set status = ?2 where id = ?1", nativeQuery = true)
