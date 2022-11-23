@@ -361,6 +361,40 @@ public class Card extends AppCompatActivity implements CustomAdapterCard.OnCardL
                                     public void onResponse(Call<SolicitaServico> call, Response<SolicitaServico> response) {
                                         Toast.makeText(Card.this, "Card de serviço excluído com sucesso!", Toast.LENGTH_SHORT).show();
                                         listarCards();
+                                        usuarioAPI.getPropostasRecebidas(id).enqueue(new Callback<List<Proposta>>() {
+                                            @Override
+                                            public void onResponse(Call<List<Proposta>> call, Response<List<Proposta>> response) {
+                                                int aux = 0;
+                                                if (response.body() != null) {
+                                                    aux = response.body().size();
+                                                }
+                                                if (aux > 0) {
+                                                    for (int i = 0; i < aux; i++) {
+                                                        proposta = new Proposta();
+                                                        proposta.setStatus("RECUSADO");
+                                                        RetrofitService retrofitService = new RetrofitService();
+                                                        retrofitService.getRetrofit().create(API.class);
+                                                        api.updateProposta(response.body().get(i).getId(), proposta).enqueue(new Callback<Proposta>() {
+                                                            @Override
+                                                            public void onResponse(Call<Proposta> call, Response<Proposta> response) {
+
+                                                            }
+
+                                                            @Override
+                                                            public void onFailure(Call<Proposta> call, Throwable t) {
+
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<List<Proposta>> call, Throwable t) {
+
+                                            }
+                                        });
+
                                     }
 
                                     @Override
